@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto',  'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -10,4 +10,116 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/* Apply custom scrollbar styles */
+body::-webkit-scrollbar {
+  width: 0px; /* Set scrollbar width */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background for track */
+}
+
+
+
+/* Apply styles for Firefox */
+html {
+  scrollbar-width: 0px; /* Thin scrollbar */
+  
+}
+html::-webkit-scrollbar {
+  width: 0px; 
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent; /* Transparent background for track */
+}
+
+
+/* Apply styles for Firefox */
+html {
+  scrollbar-width: 0px; /* Thin scrollbar */
+  scrollbar-color: linear-gradient(to bottom, blue, purple) transparent;
+}
+
+/* Apply border-top to the table */
+.dt-container{
+  /* border-top: 2px solid rgb(96 165 250 ); Top border color */
+  border-radius: 5px;
+}
+
+
+/* Style the table rows */
+table.dataTable tbody tr {
+  background-color: #F0F0F0FF; /* Gray background for odd rows (e.g., gray-200) */
+  font-size: 14px;
+}
+
+/* Style even rows */
+table.dataTable tbody tr:nth-child(even) {
+  background-color: white; /* White background for even rows */
+}
+
+/* Minimize padding inside table cells */
+table.dataTable td, table.dataTable th {
+  padding: 2px 4px; /* Reduce the padding to minimize the row height */
+}
+table.dataTable>tbody>tr>th, table.dataTable>tbody>tr>td {
+  padding: 3px 4px;
+  text-align: left;
+  font-size: 14px;
+}
+/* Optional: Hover effect on rows */
+table.dataTable tbody tr:hover {
+  background-color: #F3F3F3FF; /* Light blue on hover for better interactivity */
+}
+/* Style the 'entries per page' and 'Search' container */
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_filter {
+  background-color: #f1f5f9;  /* Light gray background */
+  padding: 8px 12px;           /* Padding for spacing */
+  border-radius: 5px;          /* Optional: Rounded corners */
+  margin-bottom: 10px;         /* Optional: Space below the container */
+}
+
+/* Style the 'Search' input box */
+.dataTables_wrapper .dataTables_filter input {
+  padding: 6px 10px;           /* Padding inside the input */
+  font-size: 14px;              /* Font size */
+  border-radius: 4px;           /* Rounded corners for the input */
+  border: 1px solid #ccc;      /* Border color for the input */
+}
+
+/* Style the 'entries per page' dropdown */
+.dataTables_wrapper .dataTables_length select {
+  padding: 6px 10px;           /* Padding inside the select dropdown */
+  font-size: 14px;              /* Font size */
+  border-radius: 4px;           /* Rounded corners for the dropdown */
+  border: 1px solid #ccc;      /* Border color for the select */
+}
+.colorr {
+  /* color: #991b1b; */
+  color: #4b565f;
+}
+
+.colorr:hover {
+  color: #991b1b;
+}
+ table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date{
+  text-align: left;
+}
+table.dataTable th.dt-type-numeric{
+  text-align: center;
+}
+.dropdownmenu{
+  border-bottom: 1px solid #eff0e7;
+    font-size: 14px;
+    padding: 10px;
+    color: #777;
+    text-align: left;
+    border-radius: 5px;
+}
+.dropdownmenu:hover{
+  background-color: #dddddd;
+  color: #444;
 }

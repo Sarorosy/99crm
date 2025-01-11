@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Roboto',  'Oxygen',
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -11,39 +11,46 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
 /* Apply custom scrollbar styles */
 body::-webkit-scrollbar {
-  width: 0px; /* Set scrollbar width */
+  width: 0px;
+  /* Set scrollbar width */
 }
 
 body::-webkit-scrollbar-track {
-  background: transparent; /* Transparent background for track */
+  background: transparent;
+  /* Transparent background for track */
 }
 
 
 
 /* Apply styles for Firefox */
 html {
-  scrollbar-width: 0px; /* Thin scrollbar */
-  
+  scrollbar-width: 0px;
+  /* Thin scrollbar */
+
 }
+
 html::-webkit-scrollbar {
-  width: 0px; 
+  width: 0px;
 }
 
 html::-webkit-scrollbar-track {
-  background: transparent; /* Transparent background for track */
+  background: transparent;
+  /* Transparent background for track */
 }
 
 
 /* Apply styles for Firefox */
 html {
-  scrollbar-width: 0px; /* Thin scrollbar */
+  scrollbar-width: 0px;
+  /* Thin scrollbar */
   scrollbar-color: linear-gradient(to bottom, blue, purple) transparent;
 }
 
 /* Apply border-top to the table */
-.dt-container{
+.dt-container {
   /* border-top: 2px solid rgb(96 165 250 ); Top border color */
   border-radius: 5px;
 }
@@ -51,52 +58,74 @@ html {
 
 /* Style the table rows */
 table.dataTable tbody tr {
-  background-color: #F0F0F0FF; /* Gray background for odd rows (e.g., gray-200) */
-  font-size: 14px;
+  background-color: #F0F0F0FF;
+  /* Gray background for odd rows (e.g., gray-200) */
+  /* font-size: 14px; */
 }
 
 /* Style even rows */
 table.dataTable tbody tr:nth-child(even) {
-  background-color: white; /* White background for even rows */
+  background-color: white;
+  /* White background for even rows */
 }
 
 /* Minimize padding inside table cells */
-table.dataTable td, table.dataTable th {
-  padding: 2px 4px; /* Reduce the padding to minimize the row height */
+table.dataTable td,
+table.dataTable th {
+  padding: 2px 4px;
+  /* Reduce the padding to minimize the row height */
 }
-table.dataTable>tbody>tr>th, table.dataTable>tbody>tr>td {
+
+table.dataTable>tbody>tr>th,
+table.dataTable>tbody>tr>td {
   padding: 3px 4px;
   text-align: left;
-  font-size: 14px;
+  /* font-size: 14px; */
 }
+
 /* Optional: Hover effect on rows */
 table.dataTable tbody tr:hover {
-  background-color: #F3F3F3FF; /* Light blue on hover for better interactivity */
+  background-color: #F3F3F3FF;
+  /* Light blue on hover for better interactivity */
 }
+
 /* Style the 'entries per page' and 'Search' container */
 .dataTables_wrapper .dataTables_info,
 .dataTables_wrapper .dataTables_filter {
-  background-color: #f1f5f9;  /* Light gray background */
-  padding: 8px 12px;           /* Padding for spacing */
-  border-radius: 5px;          /* Optional: Rounded corners */
-  margin-bottom: 10px;         /* Optional: Space below the container */
+  background-color: #f1f5f9;
+  /* Light gray background */
+  padding: 8px 12px;
+  /* Padding for spacing */
+  border-radius: 5px;
+  /* Optional: Rounded corners */
+  margin-bottom: 10px;
+  /* Optional: Space below the container */
 }
 
 /* Style the 'Search' input box */
 .dataTables_wrapper .dataTables_filter input {
-  padding: 6px 10px;           /* Padding inside the input */
-  font-size: 14px;              /* Font size */
-  border-radius: 4px;           /* Rounded corners for the input */
-  border: 1px solid #ccc;      /* Border color for the input */
+  padding: 6px 10px;
+  /* Padding inside the input */
+  font-size: 14px;
+  /* Font size */
+  border-radius: 4px;
+  /* Rounded corners for the input */
+  border: 1px solid #ccc;
+  /* Border color for the input */
 }
 
 /* Style the 'entries per page' dropdown */
 .dataTables_wrapper .dataTables_length select {
-  padding: 6px 10px;           /* Padding inside the select dropdown */
-  font-size: 14px;              /* Font size */
-  border-radius: 4px;           /* Rounded corners for the dropdown */
-  border: 1px solid #ccc;      /* Border color for the select */
+  padding: 6px 10px;
+  /* Padding inside the select dropdown */
+  font-size: 14px;
+  /* Font size */
+  border-radius: 4px;
+  /* Rounded corners for the dropdown */
+  border: 1px solid #ccc;
+  /* Border color for the select */
 }
+
 .colorr {
   /* color: #991b1b; */
   color: #4b565f;
@@ -105,21 +134,264 @@ table.dataTable tbody tr:hover {
 .colorr:hover {
   color: #991b1b;
 }
- table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date{
+
+table.dataTable th.dt-type-date,
+table.dataTable td.dt-type-numeric,
+table.dataTable td.dt-type-date {
   text-align: left;
 }
-table.dataTable th.dt-type-numeric{
-  text-align: center;
+
+table.dataTable th.dt-type-numeric {
+  text-align: left;
 }
-.dropdownmenu{
+
+.dropdownmenu {
   border-bottom: 1px solid #eff0e7;
-    font-size: 14px;
-    padding: 10px;
-    color: #777;
-    text-align: left;
-    border-radius: 5px;
+  font-size: 14px;
+  padding: 10px;
+  color: #777;
+  text-align: left;
+  border-radius: 5px;
 }
-.dropdownmenu:hover{
+
+.dropdownmenu:hover {
   background-color: #dddddd;
   color: #444;
 }
+
+table.dataTable {
+  font-size: 12px;
+}
+
+.dt-length,
+.dt-search {
+  font-size: 12px;
+}
+
+.bg-blue-500 {
+  background-color: #0A5EB0 !important;
+}
+
+.btn-warning {
+  background-color: #F4CE14 !important;
+}
+
+.bg-red-500 {
+  background-color: #B8001F !important;
+}
+
+.bg-blue-500,
+.btn-warning,
+.bg-red-500,
+.bg-teal-500,
+.bg-gray-500 {
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+.bg-teal-500 svg {
+  height: 14px;
+  width: 14px;
+  margin-right: 8px;
+}
+
+.dt-layout-row{
+  font-size: 12px;
+}
+
+table.dataTable thead > tr > th.dt-orderable-asc, table.dataTable thead > tr > th.dt-orderable-desc{
+  padding: 10px 5px !important;
+}
+
+.DataTables_Table_0_length {
+  font-size: 12px;
+  outline: none;
+  width: 46px;
+  height: 25px;
+  padding: 0 !important;
+}
+
+.ut span{
+  margin-left: 10px;
+}
+
+.ut{
+  display: flex;
+}
+
+table.dataTable>tbody>tr>td{
+  padding: 7px;
+}
+
+.bg-green-100{
+  font-size: 10px;
+}
+
+.bg-green-100:hover{
+  background-color: rgb(206 243 219);
+}
+
+.box-primary {
+  font-size: 12px;
+}
+
+.box-primary label{
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.box-primary .form-control{
+  height: 2rem;
+  font-size: 12px;
+}
+
+.error{
+  color: #FF2929;
+  margin-left: 3px;
+}
+
+.wmu{
+  width: 10rem;
+}
+
+.cent{
+  margin: 0 auto;
+}
+
+.cent .col-md-6{
+  padding: 0 5px;
+}
+
+.pdn{
+  padding:0
+}
+
+.rad{
+  padding:0
+}
+
+.rad label{
+  margin-left: 5px;
+}
+
+.rad input{
+  margin-left: 5px;
+}
+
+.btn-success{
+  padding:5px 7px !important;
+  font-size:12px;
+}
+
+.add select{
+  font-size:12px;
+}
+
+.add label{
+  font-size:12px;
+}
+
+.add input{
+  font-size:12px;
+}
+
+.selection span{
+  width: auto;
+}
+
+.select2-container {
+  width: -webkit-fill-available !important;
+}
+
+.mulabel label{
+  margin-right: 10px;
+  font-size:12px;
+}
+
+.top-2 {
+  top: 0.3rem !important;
+}
+
+/* table.dataTable>thead>tr>th{
+  background-color: #f7f7f7;
+} */
+
+.table td {
+  border-color: #dee2e6;
+}
+
+.fsm{
+  font-size: 12px;
+  font-weight: 400;
+  color: #383838;
+}
+
+.sslist {
+  width: 10rem;
+}
+
+.buton button{
+   height: 27px;
+   margin-top: 4px;
+   font-size: 12px;
+}
+
+.select2-container--default .select2-selection--multiple.select2-selection--clearable{
+  padding-bottom:2.5px
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+  font-size: 12px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+  font-size: 12px;
+}
+
+.select2-container .select2-search--inline .select2-search__field{
+  margin-top: 0 !important;
+  font-size: 12px !important;
+}
+
+.select2-dropdown{
+  font-size: 12px !important;
+}
+
+.list-disc li{
+  font-size: 12px !important;
+}
+
+.mce-content-body p{
+  font-size: 12px !important;
+}
+
+.rep input{
+  font-size: 12px;
+}
+
+.select2-container{
+  margin-top: 0%;
+}
+
+.qhpage input{
+  font-size: 12px;
+}
+
+.qhpage select{
+  font-size: 12px;
+}
+
+/* 
+.qhpage .selection{
+  line-height: 29px;
+} */
+
+.sm\:w-auto {
+  width: 14.8rem !important;
+}
+
+.last{
+  display: flex;
+  justify-content: end;
+}
+

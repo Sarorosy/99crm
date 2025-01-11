@@ -212,7 +212,7 @@ const ManageUser = () => {
       render: function(data, type, row) {
         if (row.user_type == 'user') {
           return `
-            <div>
+            <div class="ut">
               ${row.user_type} 
               <br />
               <span style="color: gray; font-size: 12px;">${row.crmRoleType} </span>
@@ -294,34 +294,34 @@ const ManageUser = () => {
         <h1 className=" text-xl font-bold">Users List</h1>
         <div className='flex items-center'>
           <button
-            className="bg-blue-500 hover:bg-blue-600 text-white py-1 px-2 rounded flex items-center"
+            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
             onClick={toggleStatistics}
             style={{ marginRight: "8px" }}
           >
-            <ChartLine className="mr-2" />
+            <ChartLine className="mr-2" size={14}/>
             {statisticsVisible ? 'Hide Stats' : 'Show Stats'}
           </button>
           <button
             onClick={handleDelete}
             className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
           >
-            <Trash2 className='mr-3'/>Delete
+            <Trash2 className='mr-2' size={14}/>Delete
           </button>
           <ExportButton selectedUsers={selectedUsers} users={users}  clearSelectedUsers={clearSelectedUsers}/>
           <button
            // onClick={() => navigate('/manageuser/adduser/')}
            onClick={toggleAddUserVisibility}
-            className="text-white py-1 px-2 rounded bg-blue-500 hover:bg-blue-600 flex items-center mr-3"
+            className="text-white py-1 px-2 rounded btn btn-warning flex items-center mr-3"
             style={{ marginRight: "8px" }}
           >
-            <PlusCircle className="mr-2" />
+            <PlusCircle className="mr-2"  size={14}/>
             Add User
           </button>
           <button
             onClick={handleRefresh}
             className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
           >
-            <RefreshCw className="mr-2" />
+            <RefreshCw className="mr-2"  size={14}/>
             Refresh
           </button>
         </div>
@@ -331,21 +331,21 @@ const ManageUser = () => {
       {loading ? (
         <CustomLoader />
       ) : (
-        <div className='p-2 shadow-xl rounded border-t-2 border-blue-400'>
+        <div className='px-3 py-2 shadow-xl rounded border-t-2 border-blue-400 bg-white'>
 
           {statisticsVisible && (
             <div className="px-4 py-2 mb-4 bg-gray-100 shadow-md rounded flex justify-evenly">
               {Object.keys(userStats).map(userType => (
-                <div key={userType} className="mb-4 p-4 bg-white shadow rounded">
-                  <h3 className="text-lg font-semibold text-center text-blue-400">{userType}</h3>
+                <div key={userType} className="p-3 bg-white shadow rounded sslist">
+                  <h3 className="text-sm font-semibold text-left text-blue-400">{userType}</h3>
                   <div className="flex flex-col font-light">
-                    <div>
+                    <div className='fsm'>
                       <strong>Total:</strong> {(userStats[userType]?.active || 0) + (userStats[userType]?.inactive || 0)}
                     </div>
-                    <div>
+                    <div className='fsm'>
                       <strong>Active:</strong> {userStats[userType]?.active || 0}
                     </div>
-                    <div>
+                    <div className='fsm'>
                       <strong>Inactive:</strong> {userStats[userType]?.inactive || 0}
                     </div>
 
@@ -396,9 +396,6 @@ const ManageUser = () => {
         onConfirm={onConfirmDelete}
       />
     )}
-
-
-    
       
       <AnimatePresence>
       {isAddingUser && <AddUser onClose={toggleAddUserVisibility} after={handleRefresh}/>}

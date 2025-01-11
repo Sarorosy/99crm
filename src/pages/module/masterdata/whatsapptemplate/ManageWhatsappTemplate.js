@@ -333,20 +333,20 @@ const ManageWhatsappTemplate = () => {
         <div className='bg-gray-100 p-2'>
             <div className="my-3 flex justify-between ">
                 <h1 className="text-2xl font-bold">Whatsapp Templates</h1>
-                <div className='flex '>
+                <div className='flex buton'>
                     <button
                         onClick={handleDelete}
-                        className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-2 flex items-center"
+                        className="bg-red-500 text-white rounded hover:bg-red-600 mr-2 flex items-center"
                     >
-                        <Trash2 className="mr-3" />
+                        <Trash2 className="mr-2" size={14}/>
                         Delete
                     </button>
 
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
+                        className="bg-gray-500 text-white rounded hover:bg-gray-600 flex items-center"
                     >
-                        <RefreshCw className="mr-3" />
+                        <RefreshCw className="mr-2" size={14}/>
                         Refresh
                     </button>
                 </div>
@@ -355,7 +355,7 @@ const ManageWhatsappTemplate = () => {
                 <CustomLoader />
             ) : (
                 <div className='w-full flex space-x-2 items-start justify-evenly'>
-                    <div className='bg-white shadow-xl px-2 w-[70%] rounded border-t-2 border-blue-400'>
+                    <div className='bg-white shadow-xl px-3 w-[70%] rounded border-t-2 border-blue-400'>
                         <DataTable
                             data={settings}
                             columns={columns}
@@ -370,7 +370,7 @@ const ManageWhatsappTemplate = () => {
                             }}
                         />
                     </div>
-                    <div className="w-[30%] p-4 border-t-2 border-blue-400 bg-white shadow-xl rounded">
+                    <div className="w-[30%] p-4 border-t-2 border-blue-400 bg-white shadow-xl rounded add">
                         <h2 className="text-xl font-semibold mb-4">{(selectedTemplate && selectedTemplate != null) ? 'Edit Template' : 'Add template'} </h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
@@ -428,9 +428,12 @@ const ManageWhatsappTemplate = () => {
                                 />
                             </div>
                             
-                            <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
+                            <div className='text-end'>
+                            <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded">
                                {(selectedTemplate && selectedTemplate != null) ? 'Update Template' : 'Add template'}
                             </button>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>

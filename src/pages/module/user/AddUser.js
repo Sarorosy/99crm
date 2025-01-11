@@ -435,18 +435,18 @@ const AddUser = ({ onClose, after }) => {
                 <CircleX className='colorr' size={32} />
             </button>
             <div className="content-wrapper">
-                <section className="content-header my-2">
+                <section className="content-header my-2 text-center">
                     <h1 className='text-2xl font-semibold'>Add New User</h1>
                 </section>
 
                 <section className="content">
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-6 cent add">
                             <div className="box box-primary">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
                                     <div className="box-body">
-                                        <div className="w-full my-2 flex items-center justify-between space-x-3 mb-4">
-                                            <div className="w-1/2">
+                                        <div className="my-2 flex items-center justify-between mb-4">
+                                            <div className='col-md-6'>
                                                 <label>Name<span className="error">*</span></label>
                                                 <input
                                                     type="text"
@@ -456,8 +456,8 @@ const AddUser = ({ onClose, after }) => {
                                                     onChange={handleFormDataChange}
                                                 />
                                             </div>
-                                            <div className="w-1/2">
-                                                <div className='pt-4'>
+                                            <div className='col-md-6'>
+                                                <div className='pt-3'>
                                                     <label>Username<span className="error">*</span></label>
                                                     <input
                                                         type="text"
@@ -470,7 +470,9 @@ const AddUser = ({ onClose, after }) => {
                                                 </div>
                                                 {usernameStatus && <span className='mt-5'>{usernameStatus}</span>}
                                             </div>
-                                            <div className="w-1/2">
+                                        </div>
+                                        <div className="my-2 flex items-center justify-between mb-4">
+                                            <div className='col-md-6'>
                                                 <label>Password<span className="error">*</span></label>
                                                 <div className="relative">
                                                     <input
@@ -493,10 +495,10 @@ const AddUser = ({ onClose, after }) => {
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div className="w-1/2">
+                                            <div className='col-md-6'>
                                                 <label>Category</label>
-                                                <div className="row p-1 mx-1 rounded border">
-                                                    <div className="col-sm-6">
+                                                <div className="col-md-12 p-1 rounded border d-flex">
+                                                    <div className="col-sm-6 rad">
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -508,7 +510,7 @@ const AddUser = ({ onClose, after }) => {
                                                         />
                                                         <label htmlFor="category1">PhD</label>
                                                     </div>
-                                                    <div className="col-sm-6">
+                                                    <div className="col-sm-6 rad">
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -525,8 +527,8 @@ const AddUser = ({ onClose, after }) => {
                                             </div>
                                         </div>
 
-                                        <div className="w-full my-2 flex items-center justify-between space-x-3">
-                                            <div className="w-1/2">
+                                        <div className="my-2 flex items-center justify-between">
+                                            <div className='col-md-6'>
                                                 <label>Confirm Password<span className="error">*</span></label>
                                                 <input
                                                     type={showPassword ? "text" : "password"}
@@ -536,7 +538,7 @@ const AddUser = ({ onClose, after }) => {
                                                     onChange={handleFormDataChange}
                                                 />
                                             </div>
-                                            <div className="w-1/2">
+                                            <div className='col-md-6'>
                                                 <label>Email ID<span className="error">*</span></label>
                                                 <input
                                                     type="text"
@@ -546,7 +548,10 @@ const AddUser = ({ onClose, after }) => {
                                                     onChange={handleFormDataChange}
                                                 />
                                             </div>
-                                            <div className="w-1/2">
+                                        </div>
+
+                                        <div className="my-2 flex items-center justify-between">
+                                            <div className='col-md-6'>
                                                 <label>Mobile No.<span className="error">*</span></label>
                                                 <input
                                                     type="text"
@@ -556,7 +561,7 @@ const AddUser = ({ onClose, after }) => {
                                                     onChange={handleFormDataChange}
                                                 />
                                             </div>
-                                            <div className="w-1/2">
+                                            <div className='col-md-6'>
                                                 <label>User Type<span className="error">*</span></label>
                                                 <select
                                                     name="user_type"
@@ -577,10 +582,9 @@ const AddUser = ({ onClose, after }) => {
                                             </div>
                                         </div>
 
-
                                         {formData.user_type === 'sub-admin' && (
                                             <div className="row form-group">
-                                                <div className="col-sm-3">
+                                                <div className="col-sm-6">
                                                     <label>Select Access Type</label>
                                                     <select
                                                         name="access_type"
@@ -598,7 +602,7 @@ const AddUser = ({ onClose, after }) => {
                                         )}
 
 
-                                        <div className="w-full my-2 flex items-center justify-start space-x-4">
+                                        <div className="my-2 flex items-center justify-start space-x-4">
                                             {/* Select Team Section */}
                                             <div
                                                 className="w-1/2 mx-2"
@@ -680,8 +684,7 @@ const AddUser = ({ onClose, after }) => {
                                             </div>
 
                                             {formData.user_type === 'Campaign Manager' && (
-                                                <div className="w-full">
-                                                    <div className="col-sm-3">
+                                                    <div className="col-sm-6">
                                                         <label>Campaign Type</label>
                                                         <select
                                                             name="campaign_type"
@@ -695,7 +698,6 @@ const AddUser = ({ onClose, after }) => {
                                                             <option value="Both">Both</option>
                                                         </select>
                                                     </div>
-                                                </div>
                                             )}
                                         </div>
 
@@ -703,7 +705,9 @@ const AddUser = ({ onClose, after }) => {
                                         <div className="w-full mt-3" style={{
                                             display: (formData.user_type === 'user') ? 'block' : 'none',
                                         }}>
-                                            <div className='flex items-start justify-between space-x-2 '>
+                                            <div className='space-x-2 '>
+
+                                                <div className='flex my-2'>
                                                 <div className="w-1/2 mx-1">
                                                     <label>Profile Name</label>
                                                     <input
@@ -732,6 +736,9 @@ const AddUser = ({ onClose, after }) => {
                                                         ))}
                                                     </select>
                                                 </div>
+                                                </div>
+
+                                                <div className='flex my-2'>
                                                 <div className="w-1/2 mx-1">
                                                     <label>Website Email</label>
                                                     <input
@@ -742,6 +749,7 @@ const AddUser = ({ onClose, after }) => {
                                                         onChange={handleFormDataChange}
                                                     />
                                                 </div>
+
                                                 <div className="w-1/2 mx-1">
                                                     <label className="font-medium text-gray-700">Signature</label>
                                                     <Editor
@@ -757,16 +765,16 @@ const AddUser = ({ onClose, after }) => {
                                                         onEditorChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
                                                     />
                                                 </div>
+                                                </div>
                                             </div>
                                         </div>
 
-
                                     </div>
-                                    <div className="flex justify-start mt-4">
+                                    <div className="flex justify-end mt-4">
                                         <button
                                             type="submit"
                                             onClick={handleSubmit}
-                                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                            className="px-4 py-2 btn btn-success text-white rounded"
                                         >
                                             Submit
                                         </button>

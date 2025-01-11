@@ -57,7 +57,7 @@ const Header = () => {
 
   return (
     <header className="bg-blue-400 text-white">
-      <div className="mx-auto w-full flex justify-between items-center px-4">
+      <div className="mx-auto w-full flex justify-between items-center px-5">
         {/* Logo and Navigation Links */}
         <div className="flex items-center">
           <h1 className="text-xl font-bold mr-6 bg-[#f39c12] py-3 px-2">Query Management</h1>

@@ -94,17 +94,18 @@ const AddTeam = ({onClose, afterSave}) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <h2 className="text-xl font-semibold mb-4">Add New Team</h2>
+            <h2 className="text-xl text-center font-semibold mb-4">Add New Team</h2>
             <button
         onClick={onClose}
         className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
       >
         <CircleX size={32} />
       </button>
+      <div className='col-md-6 cent add'>
             <form onSubmit={handleSubmit} className='space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl'>
-                <div className="flex w-full px-4 space-x-3 justify-center">
+                <div className="flex w-full justify-center">
                     {/* Team Name Field */}
-                    <div className="form-group w-1/2 mx-2">
+                    <div className="form-group w-1/2 mx-1">
                         <label htmlFor="team_name" className="block text-sm font-medium text-gray-700 mb-2">Team Name</label>
                         <input
                             type="text"
@@ -118,7 +119,7 @@ const AddTeam = ({onClose, afterSave}) => {
                     </div>
 
                     {/* Manager Name Field */}
-                    <div className="form-group w-1/2 mx-2">
+                    <div className="form-group w-1/2 mx-1">
                         <label htmlFor="manager_name" className="block text-sm font-medium text-gray-700 mb-2">Manager Name(s)</label>
                         <select
                             id="manager_name"
@@ -135,16 +136,16 @@ const AddTeam = ({onClose, afterSave}) => {
                         </select>
                     </div>
                 </div>
-                <div className='w-full flex '>
+                <div className='text-end'>
                     <button
                         type="submit"
-                        className="mt-4 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="mt-3 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         Add Team
                     </button>
                 </div>
 
-            </form>
+            </form></div>
             <ToastContainer />
         </motion.div>
     );

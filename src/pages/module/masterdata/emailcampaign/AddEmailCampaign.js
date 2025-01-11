@@ -133,7 +133,7 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
         >
             <ToastContainer />
             <div className='mx-auto w-2/3 relative'>
-                <h2 className="text-xl font-bold mb-6 text-left ">Add Email Campaign</h2>
+                <h2 className="text-xl font-bold mb-6 text-center ">Add Email Campaign</h2>
                 <button
                     onClick={onClose}
                     className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
@@ -142,6 +142,7 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                 </button>
             </div>
 
+<div className='col-md-7 cent add'>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
                 {/* Email Campaign Subject */}
                 <div>
@@ -246,14 +247,16 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                 </div>
 
                 {/* Submit Button */}
+                <div className='text-end'>
                 <button
                     type="submit"
                     disabled={posting}
-                    className="w-full bg-blue-500 text-white font-medium py-2 px-4 rounded-lg mt-6 hover:bg-blue-600 focus:outline-none"
+                    className="bg-blue-500 text-white font-medium rounded mt-2 hover:bg-blue-600 focus:outline-none"
                 >
                     {posting ? <CustomLoader /> : 'Save Campaign'}
-                </button>
-            </form>
+                </button></div>
+
+            </form></div>
         </motion.div>
     );
 };

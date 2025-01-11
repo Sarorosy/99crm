@@ -197,7 +197,7 @@ const QuoteHistory = () => {
     };
 
     return (
-        <div className="container bg-gray-100 w-full">
+        <div className="container bg-gray-100 w-full add">
             <h1 className='text-xl font-bold'>Generated Price Quote</h1>
 
             {/* Filter Section */}
@@ -252,13 +252,13 @@ const QuoteHistory = () => {
                         <option value="5">Paid</option>
                     </select>
                 </div>
-                <div className="w-1/2 flex items-center space-x-2 mt-1">
+                <div className="w-1/2 flex items-center space-x-2 ">
                     <label>&nbsp;</label>
                     <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchFilteredQuotes}>
                         Apply Filters
                     </button>
                     <button className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300" onClick={resetFilters}>
-                        <RefreshCcw />
+                        <RefreshCcw size={15}/>
                     </button>
 
                 </div>

@@ -466,9 +466,6 @@ const UserQuery = () => {
     };
 
 
-
-
-
     useEffect(() => {
         fetchTeamUsers('', '', '');
         fetchQueries();
@@ -762,17 +759,18 @@ const UserQuery = () => {
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between'>
+                <div className='flex w-full justify-between px-4'>
                     <h1 className="text-2xl font-bold">Query History</h1>
+                    <div className='buton'>
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center w-36"
+                        className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
                     >
-                        <RefreshCw className="mr-3" />
+                        <RefreshCw className="mr-2" size={14} />
                         Refresh
-                    </button>
+                    </button></div>
                 </div>
-                <div className="w-full flex flex-wrap gap-2 p-4" id="filterDiv">
+                <div className="w-full flex flex-wrap gap-2 px-4 pt-2 qhpage" id="filterDiv">
                     {/* Team Selection */}
                     {userType != "user" && userType != "Operations Manager" && (
                         <select
@@ -821,46 +819,7 @@ const UserQuery = () => {
                         value={refId}
                         onChange={(e) => setRefId(e.target.value)}
                     />
-
-                    {/* Website Selection */}
-                    <select
-                        name="website"
-                        id="website"
-                        className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        multiple
-                        value={selectedWebsites}
-                        // onChange={(e) =>
-                        //     setSelectedWebsites(Array.from(e.target.selectedOptions, (option) => option.value))
-                        // }
-                        ref={websiteRef}
-                    >
-                        <option value="">Select Website</option>
-                        {websites.map((website) => (
-                            <option key={website.id} value={website.id}>
-                                {website.website}
-                            </option>
-                        ))}
-                    </select>
-
-                    {/* Tags Selection */}
-                    <select
-                        name="tags"
-                        id="tags"
-                        className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        multiple
-                        value={selectedTags}
-                        // onChange={(e) =>
-                        //     setSelectedTags(Array.from(e.target.selectedOptions, (option) => option.value))
-                        // }
-                        ref={tagsRef}
-                    >
-                        <option value="">Select Tags</option>
-                        {tags.map((tag) => (
-                            <option key={tag.id} value={tag.id}>
-                                {tag.tag_name}
-                            </option>
-                        ))}
-                    </select>
+            
 
                     {/* Status Selection */}
                     <select
@@ -1029,36 +988,83 @@ const UserQuery = () => {
                             ))}
                         </select>
                     )}
+
+                </div>
+            </div>
+
+            <div class="col-md-12 px-4 py-0">
+            <div className='row'>
+                    <div className='col-md-6'>
+                        {/* Website Selection */}
+                    <select
+                        name="website"
+                        id="website"
+                        className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        multiple
+                        value={selectedWebsites}
+                        // onChange={(e) =>
+                        //     setSelectedWebsites(Array.from(e.target.selectedOptions, (option) => option.value))
+                        // }
+                        ref={websiteRef}
+                    >
+                        <option value="">Select Website</option>
+                        {websites.map((website) => (
+                            <option key={website.id} value={website.id}>
+                                {website.website}
+                            </option>
+                        ))}
+                    </select>
+                    </div>
+                    <div className='col-md-6'>
+                         {/* Tags Selection */}
+                    <select
+                        name="tags"
+                        id="tags"
+                        className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        multiple
+                        value={selectedTags}
+                        // onChange={(e) =>
+                        //     setSelectedTags(Array.from(e.target.selectedOptions, (option) => option.value))
+                        // }
+                        ref={tagsRef}
+                    >
+                        <option value="">Select Tags</option>
+                        {tags.map((tag) => (
+                            <option key={tag.id} value={tag.id}>
+                                {tag.tag_name}
+                            </option>
+                        ))}
+                    </select>
+                    </div>
+                    </div>
+
+                    <div className='buton last mb-4 mt-2'>
                     <button
                         onClick={handleSubmit}
-                        className="bg-[#f39c12] text-white py-1 px-2 rounded hover:bg-[#dd8c0a] flex items-center w-36"
+                        className="bg-[#f39c12] text-white rounded hover:bg-[#dd8c0a] flex items-center py-1 px-2 mr-2"
                     >
-                        <SearchIcon className="mr-3" />
+                        <SearchIcon className="mr-2" size={14} />
                         Search
                     </button>
                     <button
                         onClick={resetFilters}
-                        className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-400 flex items-center w-36 "
+                        className="bg-red-500 text-white rounded hover:bg-red-400 flex items-center py-1 px-2"
                     >
                         Reset Filters
                     </button>
-
-                </div>
-
-
-
-
+                    </div>
             </div>
+
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end'>
+                <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+                    <div className='w-full flex items-center justify-end buton'>
                     <button
                         onClick={handleAddQuery}
-                        className="bg-[#f39c12] text-white py-1 px-2 rounded hover:bg-orange-400 flex items-center w-36 "
+                        className="bg-[#f39c12] text-white rounded hover:bg-orange-400 flex items-center py-1 px-2"
                     >
-                      <Plus className='mr-3' />  Add query
+                      <Plus className='mr-2' size={14}/>  Add query
                     </button>
                     </div>
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>

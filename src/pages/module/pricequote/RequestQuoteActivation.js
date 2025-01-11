@@ -224,7 +224,7 @@ const RequestQuoteActivation = () => {
             <h1 className='text-xl font-bold'>Generated Price Quote</h1>
 
             {/* Filter Section */}
-            <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded">
+            <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded add">
                 <div className="w-1/2">
                     <input
                         id="filterDate"
@@ -281,7 +281,7 @@ const RequestQuoteActivation = () => {
                         Apply Filters
                     </button>
                     <button className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300" onClick={resetFilters}>
-                        <RefreshCcw />
+                        <RefreshCcw size={15}/>
                     </button>
 
                 </div>

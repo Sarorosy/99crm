@@ -56,7 +56,7 @@ const AddBoxTag = ({ onClose, afterSave }) => {
         >
 
             <div className='mx-auto w-2/3 relative'>
-                <h2 className="text-xl font-bold mb-6 text-left ">Add Box Tag</h2>
+                <h2 className="text-xl font-bold mb-6 text-center">Add Box Tag</h2>
                 <button
                     onClick={onClose}
                     className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
@@ -64,7 +64,7 @@ const AddBoxTag = ({ onClose, afterSave }) => {
                     <CircleX size={32} />
                 </button></div>
 
-
+<div className='col-md-7 cent add'>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
                 {/* Tag Name */}
                 <div>
@@ -84,16 +84,16 @@ const AddBoxTag = ({ onClose, afterSave }) => {
                 
 
                 {/* Submit Button */}
-                <div className="text-center">
+                <div className="text-end">
                     <button
                         type="submit"
                         disabled={posting}
-                        className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                        className="px-3 py-1 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors"
                     >
                         {posting ? 'Saving...' : 'Save'}
                     </button>
                 </div>
-            </form>
+            </form></div>
 
             {posting && (
                 <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex justify-center items-center z-50">

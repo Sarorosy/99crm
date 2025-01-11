@@ -212,7 +212,7 @@ const [endDate, setEndDate] = useState(null); // Store end date
 
     return (
         <div>
-            <div className="my-3 flex justify-between w-2/3 mx-auto">
+            <div className="my-3 flex justify-between w-2/3 mx-auto rep">
                 <h1 className="text-2xl font-bold">Reports</h1>
                 <div className="w-1/2">
                     <input
@@ -224,13 +224,13 @@ const [endDate, setEndDate] = useState(null); // Store end date
                         readOnly // Make the input read-only as it's controlled by daterangepicker
                     />
                 </div>
-                <div className='flex '>
+                <div className='flex buton'>
                     
                     <button
                         onClick={handleRefresh}
                         className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
                     >
-                        <RefreshCw className="mr-3" />
+                        <RefreshCw className="mr-2" size={14}/>
                         Refresh
                     </button>
                 </div>

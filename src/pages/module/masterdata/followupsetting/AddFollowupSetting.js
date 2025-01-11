@@ -78,7 +78,7 @@ const AddFollowupSetting = ({onClose, afterSave}) => {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3, ease: 'easeInOut' }}
-      className="fixed top-0 right-0 h-full w-full bg-white shadow-lg z-50 overflow-y-auto p-6"
+      className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
     >
       <button
         onClick={onClose}
@@ -87,12 +87,13 @@ const AddFollowupSetting = ({onClose, afterSave}) => {
         <CircleX size={32} />
       </button>
 
-      <h2 className="text-xl font-bold mb-6 text-left">Add Follow-Up Setting</h2>
+      <h2 className="text-xl font-bold mb-6 text-center">Add Follow-Up Setting</h2>
 
-      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400">
+<div className='col-md-6 cent add'>
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 bg-white border-t-2 rounded border-blue-400">
         {/* Priority Name */}
-        <div className='flex items-start justify-evenly space-x-3'>
-        <div className='w-1/2'>
+        <div>
+        <div className='my-4'>
           <label htmlFor="priorityName" className="block text-gray-700 font-medium mb-2">
             Priority Name *
           </label>
@@ -107,7 +108,7 @@ const AddFollowupSetting = ({onClose, afterSave}) => {
         </div>
 
         {/* Dynamic Groups */}
-        <div className='w-1/2'>
+        <div>
           <label className="block text-gray-700 font-medium mb-2">Follow-Up Settings *</label>
           {settings.map((group, index) => (
             <div key={index} className="flex items-center space-x-4 mb-2">
@@ -157,16 +158,17 @@ const AddFollowupSetting = ({onClose, afterSave}) => {
         </div>
         </div>
         {/* Submit Button */}
-        <div className="text-center">
+        <div className="text-end">
           <button
             type="submit"
             disabled={posting}
-            className="px-2 py-1 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            className="px-2 py-1 bg-teal-500 text-white font-medium rounded-lg hover:bg-teal-600 transition-colors"
           >
             {posting ? 'Saving...' : 'Save'}
           </button>
         </div>
-      </form>
+      </form></div>
+
       {posting && (
         <div className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white px-6 py-3 rounded-lg shadow-lg text-center">

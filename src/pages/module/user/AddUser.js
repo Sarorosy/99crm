@@ -445,7 +445,7 @@ const AddUser = ({ onClose, after }) => {
                             <div className="box box-primary">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
                                     <div className="box-body">
-                                        <div className="my-2 flex items-center justify-between mb-4">
+                                        <div className="my-2 flex items-center justify-between mb-3">
                                             <div className='col-md-6'>
                                                 <label>Name<span className="error">*</span></label>
                                                 <input
@@ -471,7 +471,7 @@ const AddUser = ({ onClose, after }) => {
                                                 {usernameStatus && <span className='mt-5'>{usernameStatus}</span>}
                                             </div>
                                         </div>
-                                        <div className="my-2 flex items-center justify-between mb-4">
+                                        <div className="my-2 flex items-center justify-between mb-3">
                                             <div className='col-md-6'>
                                                 <label>Password<span className="error">*</span></label>
                                                 <div className="relative">
@@ -497,8 +497,8 @@ const AddUser = ({ onClose, after }) => {
                                             </div>
                                             <div className='col-md-6'>
                                                 <label>Category</label>
-                                                <div className="col-md-12 p-1 rounded border d-flex">
-                                                    <div className="col-sm-6 rad">
+                                                <div className="col-md-12 p-1 d-flex">
+                                                    <div className="col-sm-3 rad">
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -510,7 +510,7 @@ const AddUser = ({ onClose, after }) => {
                                                         />
                                                         <label htmlFor="category1">PhD</label>
                                                     </div>
-                                                    <div className="col-sm-6 rad">
+                                                    <div className="col-sm-3 rad">
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -602,7 +602,7 @@ const AddUser = ({ onClose, after }) => {
                                         )}
 
 
-                                        <div className="my-2 flex items-center justify-start space-x-4">
+                                        <div className="my-2 flex items-center justify-start">
                                             {/* Select Team Section */}
                                             <div
                                                 className="w-1/2 mx-2"
@@ -618,7 +618,7 @@ const AddUser = ({ onClose, after }) => {
                                                         ? 'block' : 'none'
                                                 }}
                                             >
-                                                <div className="flex flex-col space-y-2">
+                                                <div className="flex flex-col">
                                                     <label className="font-medium text-gray-700">Select Team</label>
                                                     <select
                                                         name="team_id"
@@ -738,8 +738,8 @@ const AddUser = ({ onClose, after }) => {
                                                 </div>
                                                 </div>
 
-                                                <div className='flex my-2'>
-                                                <div className="w-1/2 mx-1">
+                                                
+                                                <div>
                                                     <label>Website Email</label>
                                                     <input
                                                         type="text"
@@ -750,7 +750,7 @@ const AddUser = ({ onClose, after }) => {
                                                     />
                                                 </div>
 
-                                                <div className="w-1/2 mx-1">
+                                                <div>
                                                     <label className="font-medium text-gray-700">Signature</label>
                                                     <Editor
                                                         apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
@@ -764,7 +764,6 @@ const AddUser = ({ onClose, after }) => {
                                                         }}
                                                         onEditorChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
                                                     />
-                                                </div>
                                                 </div>
                                             </div>
                                         </div>

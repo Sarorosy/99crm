@@ -133,11 +133,11 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
                 <CircleX size={32} />
             </button>
             {loading ? (<CustomLoader />) : (
-                <div className='col-md-6 cent add'>
+                <div className='col-md-4 cent add'>
             <form onSubmit={handleSubmit} className='space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl'>
-                <div className="flex w-full space-x-3 justify-center">
+                <div className="w-full">
                     {/* Team Name Field */}
-                    <div className="form-group w-1/2">
+                    <div className="form-group mb-3">
                         <label htmlFor="team_name" className="block text-sm font-medium text-gray-700 mb-2">Team Name</label>
                         <input
                             type="text"
@@ -151,7 +151,7 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
                     </div>
 
                     {/* Manager Name Field */}
-                    <div className="form-group w-1/2">
+                    <div className="form-group">
                         <label htmlFor="manager_name" className="block text-sm font-medium text-gray-700 mb-2">Manager Name(s)</label>
                         <select
                             id="manager_name"

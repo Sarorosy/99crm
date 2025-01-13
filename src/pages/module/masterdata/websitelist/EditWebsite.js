@@ -178,7 +178,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <h2 className="text-xl font-semibold mb-4">Edit Website</h2>
+            <h2 className="text-xl font-semibold mb-4 text-center">Edit Website</h2>
             <button
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
@@ -186,10 +186,12 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                 <CircleX size={32} />
             </button>
             {loading ? (<CustomLoader />) : (
+
+                <div className='col-md-7 cent add'>
                 <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl">
-                    <div className="flex w-full px-4 space-x-3 justify-center">
+                    <div className="flex w-full space-x-3 justify-center">
                         {/* Website Name Field */}
-                        <div className="form-group w-1/2 mx-2">
+                        <div className="form-group w-1/2">
                             <label htmlFor="website_name" className="block text-sm font-medium text-gray-700 mb-2">
                                 Website Name
                             </label>
@@ -202,7 +204,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                 disabled
                             />
                         </div>
-                        <div className="form-group w-1/2 mx-2">
+                        <div className="form-group w-1/2">
                             <label htmlFor="website_name" className="block text-sm font-medium text-gray-700 mb-2">
                                 Display Name
                             </label>
@@ -214,9 +216,10 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                 onChange={(e) => setDisplayName(e.target.value)}
                             />
                         </div>
-
+                    </div>
+                    <div className="flex w-full space-x-3 justify-center">
                         {/* Manager Name Field */}
-                        <div className="form-group w-1/2 mx-2">
+                        <div className="form-group w-1/2 hs">
                             <label htmlFor="company_id" className="block text-sm font-medium text-gray-700 mb-2">
                                 Company
                             </label>
@@ -234,11 +237,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                 ))}
                             </select>
                         </div>
-                    </div>
-
-                    {/* Additional Fields */}
-                    <div className="flex w-full px-4 space-x-3 justify-center">
-                        <div className="form-group w-1/3 mx-2">
+                        <div className="form-group w-1/2">
                             <label htmlFor="sender_id" className="block text-sm font-medium text-gray-700 mb-2">
                                 Sender ID
                             </label>
@@ -250,6 +249,11 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                 onChange={(e) => setSenderId(e.target.value)}
                             />
                         </div>
+                    </div>
+
+                    {/* Additional Fields */}
+                    <div className="flex w-full space-x-3 justify-center">
+                        
                         {/* Color Code Field */}
                         <div className="form-group w-1/3 mx-2">
                             <label htmlFor="color_code" className="block text-sm font-medium text-gray-700 mb-2">
@@ -264,19 +268,18 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                             />
                         </div>
 
-
                         {/* PHD Planner Field */}
-                        <div className="form-group w-1/3 mx-2 flex items-center">
-                            <label htmlFor="phd_planner" className="block text-sm font-medium text-gray-700 mb-2">
-                                Check PhD Planner
-                            </label>
-                            <input
+                        <div className="form-group w-1/3 mx-2 flex items-center cbl">
+                        <input
                                 type="checkbox"
                                 id="phd_planner"
                                 className="ml-2"
                                 checked={phdPlanner == 1}
                                 onChange={(e) => setPhdPlanner(e.target.checked ? 1 : 0)}
                             />
+                            <label htmlFor="phd_planner" className="block text-sm font-medium text-gray-700 mb-2">
+                                Check PhD Planner
+                            </label>
                         </div>
 
                         {/* Logo Upload Field */}
@@ -295,7 +298,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                             />
                         </div>
                         {logo && (
-                            <div className="form-group w-1/3 mx-2">
+                            <div className="form-group w-1/3 mx-2 logimg">
                                 <img
                                     src={logo instanceof File ? URL.createObjectURL(logo) : `https://99crm.phdconsulting.in/public/images/logos/${logo}`}
                                     alt="Website Logo"
@@ -307,10 +310,11 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
 
                     </div>
 
-                    <div className="mt-4">
+                    <div className='w-full flex space-x-2 items-center mt-4'>
+                    <div>
                         <h3 className="text-lg font-semibold">Payment Information</h3>
                         {(paymentData.length === 0 ? [{}] : paymentData).map((payment, index) => (
-                            <div key={index} className="flex items-center justify-start space-x-4">
+                            <div key={index} className="flex items-center justify-start space-x-4 my-2">
                                 <div className="w-1/3">
                                     <select
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:outline-none"
@@ -335,7 +339,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                     </select>
                                 </div>
 
-                                <div className="w-1/3">
+                                <div className="w-full">
                                     <select
                                         className="w-full px-3 py-2 border border-gray-300 rounded-md"
                                         value={payment.payment_url || ''}
@@ -385,7 +389,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                     <button
                                         type="button"
                                         onClick={handleAddPaymentField}
-                                        className="ml-4 p-2 bg-green-500 text-white rounded hover:bg-green-600"
+                                        className="ml-4 plus"
                                     >
                                         +
                                     </button>
@@ -393,7 +397,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                     <button
                                         type="button"
                                         onClick={() => handleRemovePaymentField(index)}
-                                        className="ml-4 p-2 bg-red-500 text-white rounded hover:bg-red-600"
+                                        className="ml-4 minus"
                                     >
                                         -
                                     </button>
@@ -402,6 +406,8 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                         ))}
 
                     </div>
+                    </div>
+
                     <div className='w-full flex space-x-2 items-center mt-4'>
                         <div className="w-1/2 mx-1">
                             <label className="font-medium text-gray-700">Mail Content (With Coupon) </label>
@@ -436,15 +442,15 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="w-full flex">
+                    <div className="text-end buton">
                         <button
                             type="submit"
-                            className="mt-4 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-3 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             Update Website
                         </button>
                     </div>
-                </form>
+                </form></div>
 
             )}
             <ToastContainer />

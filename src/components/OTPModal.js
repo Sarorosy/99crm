@@ -105,18 +105,19 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
         {error && <div className="text-red-500 text-sm text-center mb-4">{error}</div>}
         <form onSubmit={handleOTPSubmit} className="space-y-4">
           <div>
-            <label htmlFor="otp" className="block text-sm font-medium text-gray-600">OTP</label>
+            {/* <label htmlFor="otp" className="block text-sm font-medium text-gray-600">OTP</label> */}
             <input
               type="text"
               id="otp"
+              placeholder='OTP'
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
             />
           </div>
-          <div className='flex items-center justify-center w-full'>
-          <button disabled={isLoading} type="submit" className="w-1/2 mx-auto bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600">{isLoading ? (
+          <div className='flex items-center justify-center w-full buton'>
+          <button disabled={isLoading} type="submit" className="mx-auto bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">{isLoading ? (
                <ScaleLoader
                color="#ffffff" 
                height={15}      

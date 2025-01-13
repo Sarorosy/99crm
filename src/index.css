@@ -138,11 +138,11 @@ table.dataTable tbody tr:hover {
 table.dataTable th.dt-type-date,
 table.dataTable td.dt-type-numeric,
 table.dataTable td.dt-type-date {
-  text-align: left;
+  text-align: left !important;
 }
 
 table.dataTable th.dt-type-numeric {
-  text-align: left;
+  text-align: left !important;
 }
 
 .dropdownmenu {
@@ -395,3 +395,33 @@ table.dataTable>tbody>tr>td{
   justify-content: end;
 }
 
+.plus{
+padding: 7px;
+}
+
+.minus{
+padding: 10px;
+}
+
+.wwidth{
+  width: auto;
+}
+
+.logimg{
+  padding: 25px 10px 0 10px;
+}
+
+.cbl label{
+  margin: 10px 0 0 5px;
+}
+
+.hs .select2-container--default .select2-selection--single {
+  background-color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  height: 2.2rem;
+}
+
+.hs .select2-container--default .select2-selection--single .select2-selection__clear {
+ margin-top: 2px;
+}

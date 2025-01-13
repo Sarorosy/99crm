@@ -72,7 +72,7 @@ const ManageWebsite = () => {
             data: null,
             orderable: false,
             render: (data, type, row, meta) => {
-                return `<div style="text-align: center;">${meta.row + 1}</div>`;
+                return `<div style="text-align: left;">${meta.row + 1}</div>`;
             },
         },
         {
@@ -198,13 +198,13 @@ const ManageWebsite = () => {
             <ToastContainer />
             <div className="my-3 flex justify-between">
                 <h1 className="text-2xl font-bold">Websites</h1>
-                <div className='flex '>
+                <div className='flex buton'>
 
                     <button
                         onClick={handleRefresh}
                         className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
                     >
-                        <RefreshCw className="mr-3" />
+                        <RefreshCw className="mr-2" size={14}/>
                         Refresh
                     </button>
                 </div>

@@ -212,9 +212,10 @@ const [endDate, setEndDate] = useState(null); // Store end date
 
     return (
         <div>
-            <div className="my-3 flex justify-between w-2/3 mx-auto rep">
-                <h1 className="text-2xl font-bold">Reports</h1>
-                <div className="w-1/2">
+            <div className="my-3 flex w-2/3 mx-auto rep">
+            <div className='col-md-7 flex'>
+                <h1 className="text-2xl font-bold">Reports &nbsp;</h1>
+                <div className="w-1/2 datereports">
                     <input
                         id="filterDate"
                         type="text"
@@ -223,7 +224,8 @@ const [endDate, setEndDate] = useState(null); // Store end date
                         value={filterDate}
                         readOnly // Make the input read-only as it's controlled by daterangepicker
                     />
-                </div>
+                </div></div>
+                <div className='col-md-5 flex justify-end'>
                 <div className='flex buton'>
                     
                     <button
@@ -233,7 +235,7 @@ const [endDate, setEndDate] = useState(null); // Store end date
                         <RefreshCw className="mr-2" size={14}/>
                         Refresh
                     </button>
-                </div>
+                </div></div>
             </div>
             {loading ? (
                 <CustomLoader />

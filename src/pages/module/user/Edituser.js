@@ -583,7 +583,7 @@ const EditUser = ({ id, onClose, after }) => {
                             <div className="box box-primary">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
                                     <div className="box-body">
-                                        <div className="my-2 flex items-center justify-between mb-4">
+                                        <div className="my-2 flex items-center justify-between mb-3">
                                             <div class="col-md-6">
                                                 <label>Name<span className="error">*</span></label>
                                                 <input
@@ -609,7 +609,7 @@ const EditUser = ({ id, onClose, after }) => {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="my-2 flex items-center justify-between mb-4">
+                                        <div className="my-2 flex items-center justify-between mb-3">
                                             <div class="col-md-6">
                                                 <label>Password<span className="error">*</span></label>
                                                 <div className="relative">
@@ -635,8 +635,8 @@ const EditUser = ({ id, onClose, after }) => {
                                             </div>
                                             <div class="col-md-6">
                                                 <label>Category</label>
-                                                <div className="row p-1 mx-1 rounded border">
-                                                    <div className="col-sm-6">
+                                                <div className="row px-1 py-1">
+                                                    <div className="col-sm-3">
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -645,10 +645,10 @@ const EditUser = ({ id, onClose, after }) => {
                                                             value="PhD"
                                                             checked={formData.category === 'PhD'}
                                                             onChange={handleFormDataChange}
-                                                        />
+                                                        /> &nbsp;
                                                         <label htmlFor="category1">PhD</label>
                                                     </div>
-                                                    <div className="col-sm-6">
+                                                    <div className="col-sm-3">
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -657,7 +657,7 @@ const EditUser = ({ id, onClose, after }) => {
                                                             value="Sales"
                                                             checked={formData.category === 'Sales'}
                                                             onChange={handleFormDataChange}
-                                                        />
+                                                        /> &nbsp;
                                                         <label htmlFor="category2">Sales</label>
                                                     </div>
                                                 </div>
@@ -734,7 +734,7 @@ const EditUser = ({ id, onClose, after }) => {
                                         
 
 
-                                        <div className="w-full my-2 flex items-center justify-start space-x-4">
+                                        <div className="w-full my-2">
                                             {/* Select Team Section */}
                                             <div
                                                 className="col-md-12"
@@ -796,11 +796,9 @@ const EditUser = ({ id, onClose, after }) => {
                                                 </div>
                                             </div>
 
-
-
                                             {formData.user_type === 'Campaign Manager' && (
-                                                <div className="w-full">
-                                                    <div className="col-sm-3">
+                                                <div className="w-full my-2">
+                                                    <div className="col-sm-12">
                                                         <label>Campaign Type</label>
                                                         <select
                                                             name="campaign_type"
@@ -817,9 +815,11 @@ const EditUser = ({ id, onClose, after }) => {
                                                 </div>
                                             )}
                                         </div>
-                                        <div className="w-full mx-2 my-5" style={{ display: formData.user_type === 'user' ? 'block' : 'none' }}>
-                                            <div className='flex items-center justify-between space-x-2'>
-                                                <div className="w-1/2 flex flex-col mx-1">
+                                        
+                                        <div className="w-full my-2" style={{ display: formData.user_type === 'user' ? 'block' : 'none' }}>
+                                            <div className='flex items-center justify-between my-2'>
+                                                <div className='col-md-6'>
+                                                <div className="">
                                                     <label>Operations Manager</label>
                                                     <select
                                                         name="manager_id"
@@ -835,7 +835,9 @@ const EditUser = ({ id, onClose, after }) => {
                                                         ))}
                                                     </select>
                                                 </div>
-                                                <div className="w-1/2 flex flex-col mx-1">
+                                                </div>
+                                                <div className='col-md-6'>
+                                                <div className="">
                                                     <label>Backup User</label>
                                                     <select
                                                         name="backup_user"
@@ -852,6 +854,9 @@ const EditUser = ({ id, onClose, after }) => {
                                                         ))}
                                                     </select>
                                                 </div>
+                                                </div>                                                                                          
+                                            </div>
+                                            <div className='flex items-center justify-between my-2'>                                                                                                                                            
                                                 <div className="w-1/2 flex flex-col mx-1">
                                                     <label>Current Status</label>
                                                     <select
@@ -866,14 +871,6 @@ const EditUser = ({ id, onClose, after }) => {
 
                                                     </select>
                                                 </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div className="w-full mt-3" style={{
-                                            display: (formData.user_type === 'user') ? 'block' : 'none',
-                                        }}>
-                                            <div className='flex items-start justify-between space-x-2 '>
                                                 <div className="w-1/2 mx-1">
                                                     <label>Profile Name</label>
                                                     <input
@@ -884,6 +881,9 @@ const EditUser = ({ id, onClose, after }) => {
                                                         onChange={handleFormDataChange}
                                                     />
                                                 </div>
+                                            </div>
+                                            <div className='flex items-start justify-between my-2'>
+                                                
 
                                                 <div className="w-1/2 mx-1">
                                                     <label>Select Website</label>
@@ -912,7 +912,8 @@ const EditUser = ({ id, onClose, after }) => {
                                                         onChange={handleFormDataChange}
                                                     />
                                                 </div>
-                                                <div className="w-1/2 mx-1">
+                                            </div>
+                                                <div className="mx-1">
                                                     <label className="font-medium text-gray-700">Signature</label>
                                                     <Editor
                                                         apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
@@ -927,7 +928,13 @@ const EditUser = ({ id, onClose, after }) => {
                                                         onEditorChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
                                                     />
                                                 </div>
-                                            </div>
+                                        </div>
+
+
+                                        <div className="w-full mt-3" style={{
+                                            display: (formData.user_type === 'user') ? 'block' : 'none',
+                                        }}>
+                                            
                                         </div>
                                         {formData.user_type === 'sub-admin' && (
                                             <div className='mulabel my-2 space-y-1'>
@@ -947,7 +954,7 @@ const EditUser = ({ id, onClose, after }) => {
 
                                         {/* User Checkboxes */}
                                         {formData.user_type === 'user' && (
-                                            <>
+                                            <div className='mulabel my-2 space-y-1'>
                                                 <label>
                                                     <input
                                                         type="checkbox"
@@ -1014,7 +1021,7 @@ const EditUser = ({ id, onClose, after }) => {
                                                         onChange={handleCheckboxChange}
                                                     /> Disable Claim Box Query
                                                 </label>
-                                            </>
+                                            </div>
                                         )}
 
                                     </div>

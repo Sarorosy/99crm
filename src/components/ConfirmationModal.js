@@ -13,15 +13,15 @@ export const ConfirmationModal = ({ context, isReversible, onClose, onConfirm })
               This action is irreversible!
             </p>
           ) : ""}
-          <div className="mt-6 flex justify-around">
+          <div className="mt-3 flex justify-center buton">
             <button
-              className="px-2 py-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded"
+              className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded mr-2"
               onClick={onClose}
             >
               Cancel
             </button>
             <button
-              className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white font-semibold rounded"
+              className="px-2 py-1 text-white font-semibold rounded bg-teal-500 hover:bg-teal-600"
               onClick={onConfirm}
             >
               Confirm

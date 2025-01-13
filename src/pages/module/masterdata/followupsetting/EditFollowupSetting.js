@@ -124,7 +124,7 @@ const EditFollowupSetting = ({ onClose, afterSave, settingId }) => {
 
             <h2 className="text-xl font-bold mb-6 text-center">Edit Follow-Up Setting</h2>
             { loading ? (<CustomLoader />) : (
-                <div className='col-md-6 cent add'>
+                <div className='col-md-4 cent add'>
             <form onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white">
                 {/* Priority Name */}
                 <div className=''>

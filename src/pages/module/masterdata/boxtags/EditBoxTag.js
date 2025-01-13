@@ -86,12 +86,13 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
                     <CircleX size={32} />
                 </button>
 
-                <h2 className="text-xl font-bold mb-6 text-left">Edit Box Tag</h2>
+                <h2 className="text-xl font-bold mb-6 text-center">Edit Box Tag</h2>
             </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <form onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
+                <div className='col-md-5 cent add'>
+      <form onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
                     <div>
                         <label htmlFor="tagName" className="block text-gray-700 font-medium mb-2">
                             Tag Name *
@@ -107,16 +108,17 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
                     </div>
                    
 
-                    <div className="text-center">
+                    <div className="text-end buton">
                         <button
                             type="submit"
                             disabled={posting}
-                            className="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                            className="px-4 py-1 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
                         >
                             {posting ? 'Saving...' : 'Save'}
                         </button>
                     </div>
                 </form>
+                </div>          
             )}
             <ToastContainer />
         </motion.div>

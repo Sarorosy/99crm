@@ -145,7 +145,7 @@ const Header = () => {
           </button>
           {userMenuOpen && (
             <div className="absolute right-0 bg-white text-black shadow-md mt-3 border p-2 w-52">
-              <button onClick={() => handleNavigation('/changepassword')} className="block rounded px-4 py-1  dropdownmenu">Change Password</button>
+              <button onClick={() => handleNavigation('/changepassword')} className="block rounded px-4 py-2 w-full dropdownmenu">Change Password</button>
               <button
                 onClick={handleLogout}
                 className="block w-full px-4 py-2 text-left hover:bg-red-400 rounded hover:text-white dropdownmenu"

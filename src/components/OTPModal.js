@@ -94,14 +94,14 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative otpform">
         <button
           className="absolute top-2 right-2 text-gray-400 hover:text-red-600"
           onClick={closeModal}
         >
           <CircleX />
         </button>
-        <h2 className="text-2xl font-semibold text-center mb-4">Enter OTP</h2>
+        <h2 className="font-semibold text-center mb-4">Enter OTP</h2>
         {error && <div className="text-red-500 text-sm text-center mb-4">{error}</div>}
         <form onSubmit={handleOTPSubmit} className="space-y-4">
           <div>
@@ -116,8 +116,8 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
               required
             />
           </div>
-          <div className='flex items-center justify-center w-full buton'>
-          <button disabled={isLoading} type="submit" className="mx-auto bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600">{isLoading ? (
+          <div className='flex items-center justify-end w-full buton'>
+          <button disabled={isLoading} type="submit" className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600">{isLoading ? (
                <ScaleLoader
                color="#ffffff" 
                height={15}      

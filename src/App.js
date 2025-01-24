@@ -21,6 +21,12 @@ import RequestQuoteActivation from './pages/module/pricequote/RequestQuoteActiva
 import ManageEmailCampaign from './pages/module/masterdata/emailcampaign/ManageEmailCampaign';
 import UserQuery from './pages/managequery/UserQuery';
 import AddQuery from './pages/managequery/AddQuery';
+import AddBoxQuery from './pages/managequery/AddBoxQuery';
+import ImportQuery from './pages/managequery/ImportQuery';
+import BoxQuery from './pages/managequery/BoxQuery';
+import RemainderQuery from './pages/managequery/RemainderQuery';
+import CampHistory from './pages/managequery/CampHistory';
+import DeadQuery from './pages/managequery/DeadQuery';
 
 const App = () => {
   
@@ -45,9 +51,9 @@ const App = () => {
     setIsAuthenticated(false); // Update the authentication state
     
   };
-
+//basename='/Saravanan/99crm'
   return (
-    <Router>
+    <Router basename='/Saravanan/99crm'>
       <Routes>
         {/* Public route */}
         <Route path="/login" element={<Login />} />
@@ -81,6 +87,12 @@ const App = () => {
 
           <Route path="/queryhistory" element={<UserQuery />} />
           <Route path="/addquery" element={<AddQuery />} />
+          <Route path="/addboxquery" element={<AddBoxQuery />} />
+          <Route path="/import-query" element={<ImportQuery />} />
+          <Route path="/boxquery" element={<BoxQuery />} />
+          <Route path="/reminder-query" element={<RemainderQuery />} />
+          <Route path="/camp-history" element={<CampHistory />} />
+          <Route path="/dead-query" element={<DeadQuery />} />
         </Route>
 
         {/* Fallback route */}

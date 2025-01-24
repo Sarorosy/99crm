@@ -52,7 +52,7 @@ const ManageUser = () => {
       setLoading(true);
       const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/users');
       setUsers(response.data.data);
-
+      computeUserStatistics(response.data.data);
       // Store users data in sessionStorage
       sessionStorage.setItem('usersData', JSON.stringify(response.data.data));
     } catch (error) {
@@ -128,7 +128,7 @@ const ManageUser = () => {
     } else {
       // If no cache, fetch from API
       fetchUsers();
-      computeUserStatistics(users);
+      
     }
   }, []);
 

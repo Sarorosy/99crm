@@ -5,17 +5,15 @@ import { Editor } from '@tinymce/tinymce-react';
 import $ from 'jquery'; // Import jQuery for Select2 initialization
 import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
-import AddQuerySideDetails from "./AddQuerySideDetails";
 
 
-const AddQuery = () => {
+const AddBoxQuery = () => {
 
     const entryType = sessionStorage.getItem('category') || '';
     const currentDate = new Date();
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
 
     const initialFormData = {
-        specific_query_type: "",
         query_code: "",
         name: "",
         email_id: "",
@@ -29,6 +27,7 @@ const AddQuery = () => {
         company_name: "",
         area_of_study: "",
         tags: [],
+        boxtags: [],
         team: '',
         allocated_to: '',
         profile_id: '',
@@ -63,6 +62,7 @@ const AddQuery = () => {
         company_name: "",
         area_of_study: "",
         tags: [],
+        boxtags:[],
         team: '',
         allocated_to: '',
         profile_id: '',
@@ -77,7 +77,7 @@ const AddQuery = () => {
         paragraph_format: "",
         line_format: "",
         ifCampTag: false,
-        withoutemail: false,
+        genericQuery: false,
         upload_file: [],
         creater_id: sessionStorage.getItem('id'),
         creater_name: sessionStorage.getItem('name')
@@ -87,6 +87,7 @@ const AddQuery = () => {
     const [states, setStates] = useState([]);
     const [cities, setCities] = useState([]);
     const [tags, setTags] = useState([]);
+    const [boxtags, setBoxTags] = useState([]);
     const [querybefore30, setQueryBefore30] = useState([]);
     const [teams, setTeams] = useState([]);
     const [users, setUsers] = useState([]);
@@ -122,10 +123,10 @@ const AddQuery = () => {
 
         fetchLocations();
         fetchTags();
+        fetchBoxTags();
         fetchCompanies();
         fetchServices();
         fetchQueryBefore30();
-        fetchTeams();
         fetchPriorities();
     }, []);
     const locationRef = useRef(null);
@@ -134,6 +135,7 @@ const AddQuery = () => {
     const websiteRef = useRef(null);
     const serviceRef = useRef(null);
     const tagsRef = useRef(null);
+    const boxtagsRef = useRef(null);
 
     useEffect(() => {
         // Initialize select2 for Select Location
@@ -150,40 +152,7 @@ const AddQuery = () => {
         };
     }, [countries]);
 
-    useEffect(() => {
-        // Initialize select2 for Select Location
-        $(stateRef.current).select2({
-            placeholder: "Select State",
-            allowClear: true,
-        }).on('change', handleStateChange);
-
-        return () => {
-            // Destroy select2 and cleanup when component unmounts
-            if (stateRef.current) {
-                $(stateRef.current).select2('destroy').off('change', handleStateChange);
-            }
-        };
-    }, [states]);
-
-    useEffect(() => {
-        // Initialize select2 for Select City
-        $(cityRef.current).select2({
-            placeholder: "Select City",
-            allowClear: true,
-        }).on('change', handleCityChange);
-
-        return () => {
-            // Destroy select2 and cleanup when component unmounts
-            if (cityRef.current) {
-                $(cityRef.current).select2('destroy').off('change', handleCityChange);
-            }
-        };
-    }, [cities]);
-
-    const handleCityChange = (e) => {
-        const selectedCity = $(e.target).val(); // Get selected city
-        setFormData({ ...formData, city: selectedCity }); // Update form data with selected city
-    };
+    
 
     useEffect(() => {
         // Initialize select2 for Select City
@@ -251,6 +220,29 @@ const AddQuery = () => {
             }
         };
     }, [tags]);
+    useEffect(() => {
+        // Initialize select2 for Select Team
+        $(boxtagsRef.current).select2({
+            placeholder: "Select Box Tags",
+            allowClear: true,
+            multiple: true,
+        }).on('change', (e) => {
+            const selectedValues = $(e.target).val(); // Use select2's value retrieval method
+            console.log("Selected tags:", selectedValues);
+            setFormData((prevData) => ({
+                ...prevData,
+                boxtags: selectedValues || [], // Ensure it's an array
+            }));
+        });
+
+
+        return () => {
+            // Destroy select2 when the component unmounts
+            if (boxtagsRef.current) {
+                $(boxtagsRef.current).select2('destroy');
+            }
+        };
+    }, [boxtags]);
 
 
     const fetchLocations = async () => {
@@ -275,6 +267,19 @@ const AddQuery = () => {
                 setTags(data.data);
             } else {
                 console.error('Failed to fetch companies');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    const fetchBoxTags = async () => {
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/getallboxtags");
+            const data = await response.json();
+            if (data.status) {
+                setBoxTags(data.data);
+            } else {
+                console.error('Failed to fetch box tags');
             }
         } catch (err) {
             console.error(err);
@@ -376,7 +381,7 @@ const AddQuery = () => {
         const { name, type, checked, value } = e.target;
         setFormData((prevState) => ({
             ...prevState,
-            [name]: type === "checkbox" ? !prevState.withoutemail : value, // Toggle the checkbox value
+            [name]: type === "checkbox" ? !prevState.genericQuery : value, // Toggle the checkbox value
         }));
     };
 
@@ -580,18 +585,13 @@ const AddQuery = () => {
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
-        // Validate required fields one by one and show individual toasts
-        if (!formData.specific_query_type) {
-            toast.error("Please select a specific query type!");
-            return;
-        }
 
         if (!formData.name) {
             toast.error("Please enter the client's name!");
             return;
         }
 
-        if (!formData.withoutemail) {
+        if (!formData.genericQuery) {
             if (!formData.email_id) {
                 toast.error("Please provide an email ID!");
                 return;
@@ -601,25 +601,30 @@ const AddQuery = () => {
                 toast.error("Please provide an email domain!");
                 return;
             }
-        }
 
-        if (!formData.company_id) {
-            toast.error("Please provide the company name!");
-            return;
-        }
-
-        if (!formData.website) {
-            toast.error("Please provide the company website!");
-            return;
-        }
-
-        if (!formData.requirement) {
-            toast.error("Please specify the requirement!");
-            return;
+            if (!formData.company_id) {
+                toast.error("Please provide the company name!");
+                return;
+            }
+    
+            if (!formData.website) {
+                toast.error("Please provide the company website!");
+                return;
+            }
         }
 
         if (!formData.priority) {
             toast.error("Please select a priority level!");
+            return;
+        }
+
+        if (!formData.requirement) {
+            toast.error("Please specify the Service!");
+            return;
+        }
+
+        if (!formData.requirement_line) {
+            toast.error("Please select a Requirement!");
             return;
         }
 
@@ -646,7 +651,7 @@ const AddQuery = () => {
         }
 
         // Construct the API URL
-        const apiUrl = "https://99crm.phdconsulting.in/api/addquery";
+        const apiUrl = "https://99crm.phdconsulting.in/api/addboxquery";
 
         try {
             const response = await fetch(apiUrl, {
@@ -674,9 +679,9 @@ const AddQuery = () => {
             }
 
             const data = await response.json();
-            toast.success("Query submitted successfully!");
+            toast.success("Box Query submitted successfully!");
 
-            setFormData(initialFormData); 
+            setFormData(initialFormData);
 
         } catch (error) {
             console.error("Error submitting query:", error);
@@ -688,33 +693,21 @@ const AddQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-2xl font-semibold'>Add New Query</h1>
-            
+            <h1 className='text-2xl font-semibold'>Add New Box Query</h1>
+
             <div className="flex w-full items-start justify-between space-x-2">
                 <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
                             <div dangerouslySetInnerHTML={{ __html: errorData }} />
                         </div>
-                    ) }
+                    )}
 
-                    <div className="row form-group">
-                        <div className="col-sm-3 withoutemail">
-                            <label htmlFor="specific_query_type">Query type<span className="error">*</span></label>
-                            <select
-                                className="form-control"
-                                name="specific_query_type"
-                                id="specific_query_type"
-                                value={formData.specific_query_type}
-                                onChange={handleChange}
+                    
 
-                            >
-                                <option value="">Select Query type</option>
-                                <option value="USER_SPECIFIC">USER SPECIFIC</option>
-                                <option value="DATA_SPECIFIC">DATA SPECIFIC</option>
-                            </select>
-                        </div>
-                        <div className="col-sm-3">
+                    {/* Conditional Client Email Inputs */}
+                    <div className="row form-group space-y-5 items-start flex">
+                    <div className="col-sm-3">
                             <label htmlFor="query_code">Query Code<span className="error">*</span></label>
                             <select
                                 name="query_code"
@@ -732,29 +725,6 @@ const AddQuery = () => {
                             </select>
                         </div>
                         <div className="col-sm-3">
-                            <div className="form-group" style={{ marginTop: "22px" }}>
-                                <input
-                                    type="checkbox"
-                                    name="withoutemail"
-                                    id="withoutemail"
-                                    checked={formData.withoutemail}
-                                    onChange={(e) => {
-                                        setFormData({
-                                            ...formData,
-                                            withoutemail: e.target.checked
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="withoutemail"> Add Without Email</label>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    {/* Conditional Client Email Inputs */}
-                    <div className="row form-group">
-                        <div className="col-sm-3">
                             <label htmlFor="name">Client Name<span className="error">*</span></label>
                             <input
                                 type="text"
@@ -765,52 +735,50 @@ const AddQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        {!formData.withoutemail && (
-                            <>
-                                <div className="col-sm-3">
-                                    <label htmlFor="email_id">Client Email ID<span className="error">*</span></label>
-                                    <input
-                                        type="text"
-                                        name="email_id"
-                                        id="email_id"
-                                        value={formData.email_id}
-                                        className="form-control"
-                                        onChange={handleEmailIdChange}
 
-                                    />
-                                </div>
-                                <div className="col-sm-3">
-                                    <label htmlFor="email_domain">Email Domain</label>
-                                    <select
-                                        className="form-control"
-                                        name="email_domain"
-                                        id="email_domain"
-                                        value={formData.email_domain}
-                                        onChange={handleChange}
-                                    >
-                                        <option value="">Select Domain</option>
-                                        <option value="gmail.com">gmail.com</option>
-                                        <option value="yahoo.com">yahoo.com</option>
-                                        <option value="hotmail.com">hotmail.com</option>
-                                        <option value="yahoo.co.in">yahoo.co.in</option>
-                                        <option value="rediffmail.com">rediffmail.com</option>
-                                        <option value="other">other</option>
-                                    </select>
-                                </div>
-                                <div className="col-sm-3">
-                                    <label htmlFor="alt_email_id">Alternate Email ID</label>
-                                    <input
-                                        type="email"
-                                        name="alt_email_id"
-                                        id="alt_email_id"
-                                        value={formData.alt_email_id}
-                                        className="form-control"
-                                        onChange={handleChange}
-                                    />
-                                </div>
+                        <div className="col-sm-3">
+                            <label htmlFor="email_id">Client Email ID<span className="error">*</span></label>
+                            <input
+                                type="text"
+                                name="email_id"
+                                id="email_id"
+                                value={formData.email_id}
+                                className="form-control"
+                                onChange={handleEmailIdChange}
 
-                            </>
-                        )}
+                            />
+                        </div>
+                        <div className="col-sm-3">
+                            <label htmlFor="email_domain">Email Domain</label>
+                            <select
+                                className="form-control"
+                                name="email_domain"
+                                id="email_domain"
+                                value={formData.email_domain}
+                                onChange={handleChange}
+                            >
+                                <option value="">Select Domain</option>
+                                <option value="gmail.com">gmail.com</option>
+                                <option value="yahoo.com">yahoo.com</option>
+                                <option value="hotmail.com">hotmail.com</option>
+                                <option value="yahoo.co.in">yahoo.co.in</option>
+                                <option value="rediffmail.com">rediffmail.com</option>
+                                <option value="other">other</option>
+                            </select>
+                        </div>
+                        <div className="col-sm-3">
+                            <label htmlFor="alt_email_id">Alternate Email ID</label>
+                            <input
+                                type="email"
+                                name="alt_email_id"
+                                id="alt_email_id"
+                                value={formData.alt_email_id}
+                                className="form-control"
+                                onChange={handleChange}
+                            />
+                        </div>
+
+
 
                         <div className="col-sm-3">
                             <label htmlFor="phone">Contact No.</label>
@@ -866,77 +834,71 @@ const AddQuery = () => {
                         </div>
 
                         <div className="col-sm-3">
-                            <label htmlFor="state">State</label>
-                            <select
-                                name="state"
-                                id="state"
-                                className="form-control select2"
-                                value={formData.state}
-                                //onChange={handleStateChange}
-                                ref={stateRef}
-                            >
-                                <option value="">Select State</option>
-                                {states && states != null && states != '' && states.map((state) => (
-                                    <option key={state.id} value={state.id}>
-                                        {state.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="col-sm-3">
                             <label htmlFor="city">City</label>
-                            <select
+                            <input
+                                type="text"
                                 name="city"
                                 id="city"
-                                className="form-control select2"
                                 value={formData.city}
-                                ref={cityRef}
-                            // onChange={handleChange}
-                            >
-                                <option value="">Select City</option>
-                                {cities && cities != null && cities != '' && cities.map((city) => (
-                                    <option key={city.id} value={city.name}>
-                                        {city.name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-
-                        <div className="col-sm-3">
-                            <label htmlFor="company_id">Company</label>
-                            <select
-                                name="company_id"
-                                id="company_id"
                                 className="form-control"
-                                value={formData.company_id}
-                                onChange={handleCompanyChange}
-                            >
-                                <option value="">Select Company</option>
-                                {companies.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                        {company.company_name}
-                                    </option>
-                                ))}
-                            </select>
+                                onChange={handleChange}
+                            />
                         </div>
-
                         <div className="col-sm-3">
-                            <label htmlFor="website">Website</label>
-                            <select
-                                name="website"
-                                id="website"
-                                className="form-control select2"
-                                value={formData.website}
-                                ref={websiteRef}
-                            >
-                                <option value="">Please Select</option>
-                                {websites.map((website) => (
-                                    <option key={website.id} value={website.id}>
-                                        {website.website}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="form-group" style={{ marginTop: "22px" }}>
+                                <input
+                                    type="checkbox"
+                                    name="genericQuery"
+                                    id="genericQuery"
+                                    checked={formData.genericQuery}
+                                    onChange={(e) => {
+                                        setFormData({
+                                            ...formData,
+                                            genericQuery: e.target.checked
+                                        });
+                                    }}
+                                />
+                                <label htmlFor="genericQuery">Generic Query</label>
+                            </div>
                         </div>
+                        {!formData.genericQuery && (
+                            <>
+                                <div className="col-sm-3">
+                                    <label htmlFor="company_id">Company</label>
+                                    <select
+                                        name="company_id"
+                                        id="company_id"
+                                        className="form-control"
+                                        value={formData.company_id}
+                                        onChange={handleCompanyChange}
+                                    >
+                                        <option value="">Select Company</option>
+                                        {companies.map((company) => (
+                                            <option key={company.id} value={company.id}>
+                                                {company.company_name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+
+                                <div className="col-sm-3">
+                                    <label htmlFor="website">Website</label>
+                                    <select
+                                        name="website"
+                                        id="website"
+                                        className="form-control select2"
+                                        value={formData.website}
+                                        ref={websiteRef}
+                                    >
+                                        <option value="">Please Select</option>
+                                        {websites.map((website) => (
+                                            <option key={website.id} value={website.id}>
+                                                {website.website}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </>)}
 
                         <div className="col-sm-3">
                             <label htmlFor="requirement">Service</label>
@@ -974,75 +936,24 @@ const AddQuery = () => {
                             </select>
                         </div>
                         <div className="col-sm-3">
-                            <label htmlFor="referred_by">Referred By</label>
+                            <label htmlFor="boxtags">Box Tags</label>
                             <select
-                                name="referred_by"
-                                id="referred_by"
-                                className="form-control select2"
-                                value={formData.referred_by}
-                                onChange={handleChange}
+                                className="form-control"
+                                name="boxtags"
+                                id="boxtags"
+                                multiple
+                                value={formData.boxtags} // Multiple selected values
+                                ref={boxtagsRef}
                             >
-                                <option value="">Please Select</option>
-                                {querybefore30.map((query) => (
-                                    <option key={query.id} value={query.id}>
-                                        {query.name}
+                                {boxtags.map((tag) => (
+                                    <option key={tag.id} value={tag.id}>
+                                        {tag.box_tag_name}
                                     </option>
                                 ))}
                             </select>
                         </div>
-                        {formData.specific_query_type && formData.specific_query_type == "USER_SPECIFIC" && (<>
-                            <div className="col-sm-3">
-                                <label htmlFor="team">Team</label>
-                                <select
-                                    name="team"
-                                    id="team"
-                                    className="form-control select2"
-                                    value={formData.team}
-                                    onChange={handleTeamChange}
-                                >
-                                    <option value="">Select Team</option>
-                                    {teams && teams != null && teams != '' && teams.map((team) => (
-                                        <option key={team.id} value={team.id}>
-                                            {team.team_name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-sm-3">
-                                <label htmlFor="allocated_to">Allocated To</label>
-                                <select
-                                    name="allocated_to"
-                                    id="allocated_to"
-                                    className="form-control select2"
-                                    value={formData.allocated_to}
-                                    onChange={handleAllocatedChange}
-                                >
-                                    <option value="">Please Select</option>
-                                    {users.map((user) => (
-                                        <option key={user.id} value={user.id}>
-                                            {user.name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div className="col-sm-3">
-                                <label htmlFor="profile_id">Select Profile</label>
-                                <select
-                                    name="profile_id"
-                                    id="profile_id"
-                                    className="form-control select2"
-                                    value={formData.profile_id}
-                                    onChange={handleChange}
-                                >
-                                    <option value="">Please Select</option>
-                                    {profiles.map((profile) => (
-                                        <option key={profile.id} value={profile.id}>
-                                            {profile.profile_name}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
-                        </>)}
+                       
+                       
                         <div className="col-sm-3">
                             <label htmlFor="priority">Select Priority</label>
                             <select
@@ -1105,23 +1016,7 @@ const AddQuery = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className="col-sm-3">
-                            <div className="form-group" style={{ marginTop: "22px" }}>
-                                <input
-                                    type="checkbox"
-                                    name="ifCampTag"
-                                    id="ifCampTag"
-                                    checked={formData.ifCampTag}
-                                    onChange={(e) => {
-                                        setFormData({
-                                            ...formData,
-                                            ifCampTag: e.target.checked
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="ifCampTag"> Check If Camp Query</label>
-                            </div>
-                        </div>
+                        
                         <div className="col-sm-3">
                             <label htmlFor="requirement_line">Requirement</label>
                             <select
@@ -1178,13 +1073,10 @@ const AddQuery = () => {
                         </div>
                     </div>
                 </form>
-                <div className="w-1/4">
-                    <AddQuerySideDetails TodayCreatedQuery={1} />
-                </div>
             </div>
             <ToastContainer />
         </div>
     );
 };
 
-export default AddQuery;
+export default AddBoxQuery;

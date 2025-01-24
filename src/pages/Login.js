@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import OTPModal from '../components/OTPModal';
 import { Frown, Eye, EyeOff } from 'lucide-react';
 import { ScaleLoader } from 'react-spinners';
+import androidIcon from '../assets/android-chrome-192x192.png';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -86,9 +87,13 @@ const Login = () => {
 
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
+    <div className="flex justify-center items-center h-screen ">
+      <div className="ls max-w-md bg-white rounded-lg logform">
+        <div className='cent'>
+        <img src={androidIcon} alt="Android Icon" className='loginimg'/>
+<h5>99 CRM</h5>
+        </div>
+        
         {error && (
           <div className="text-red-500 text-sm text-center mb-4 bg-red-100 px-2 py-3 rounded flex items-center justify-center">
             {error} <Frown className="ml-2" />
@@ -120,17 +125,17 @@ const Login = () => {
                 required
               />
               <span
-                className="absolute top-3 right-3 cursor-pointer"
+                className="absolute right-3 cursor-pointer jeyes"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff  size={15}/> : <Eye size={15}/>}
               </span>
             </div>
           </div>
-          <div className='w-full mx-auto flex items-center justify-center buton'>
+          <div className='w-full mx-auto flex items-center justify-end buton'>
           <button
             type="submit"
-            className={`mx-auto bg-blue-500 text-white py-1 px-4 rounded-md hover:bg-blue-600 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`ml-auto bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={isLoading}
           >
             {isLoading ? (

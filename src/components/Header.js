@@ -81,14 +81,20 @@ const Header = () => {
                 <div className="absolute bg-white text-black shadow-md mt-3 border  p-2 w-60 ">
                   <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
                   
-                  <button onClick={() => handleNavigation('/boxquery')} className="block px-4 py-2  w-full dropdownmenu">Box Query</button>
+                  <button onClick={() => handleNavigation('/addquery')} className="block px-4 py-2  w-full dropdownmenu">Add Query</button>
+
+                  <button onClick={() => handleNavigation('/addboxquery')} className="block px-4 py-2  w-full dropdownmenu">Add Box Query</button>
                   
+                  <button onClick={() => handleNavigation('/import-query')} className="block px-4 py-2  w-full dropdownmenu">Import Query</button>
+
                   <button onClick={() => handleNavigation('/camp-history')} className="block px-4 py-2  w-full dropdownmenu">Camp History</button>
                   
                   <button onClick={() => handleNavigation('/ask-for-scope')} className="block px-4 py-2  w-full dropdownmenu">Ask for Scope</button>
                   
                   <button onClick={() => handleNavigation('/reminder-query')} className="block px-4 py-2  w-full dropdownmenu">Reminder Query</button>
                  
+                  <button onClick={() => handleNavigation('/boxquery')} className="block px-4 py-2  w-full dropdownmenu">Box Query</button>
+                  
                   <button onClick={() => handleNavigation('/dead-query')} className="block px-4 py-2  w-full dropdownmenu">Dead Query</button>
                   
                   <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu">User Data Specific Query</button>

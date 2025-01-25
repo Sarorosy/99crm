@@ -482,7 +482,7 @@ const RemainderQuery = () => {
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between px-4'>
+                <div className='flex w-full justify-between px-2'>
                     <h1 className="text-2xl font-bold">Remainder Query</h1>
                 </div>
                 <div
@@ -563,19 +563,19 @@ const RemainderQuery = () => {
                     </select>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-1 buton ">
+                    <div className="flex gap-1">
                         <button
                             onClick={handleSubmit}
-                            className="bg-[#f39c12]  text-white rounded hover:bg-[#dd8c0a] flex items-center py-1 px-2"
+                            className="btn btn-primary text-white rounded  flex items-center py-1 px-2 mr-2 "
                         >
                             <SearchIcon className="mr-2" size={14} />
                             Search
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="bg-red-500 text-white rounded hover:bg-red-400 flex items-center py-1 px-2"
+                            className="text-gray flex items-center py-1 px-2"
                         >
-                            Reset
+                            <RefreshCw className="mr-2" size={14} />
                         </button>
                     </div>
                 </div>
@@ -588,10 +588,10 @@ const RemainderQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end buton'>
+                    <div className='w-full flex items-center justify-end'>
                         {/* <button
                             onClick={handleDelete}
-                            className="bg-[#f32112] text-white rounded hover:bg-red-800 flex items-center py-1 px-2 mr-2"
+                            className="bg-[#f32112] text-white rounded hover:bg-red-800 flex items-center py-1 px-2"
                         >
                             <Trash2 className='mr-2' size={14} />  Delete
                         </button> */}

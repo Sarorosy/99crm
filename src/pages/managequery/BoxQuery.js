@@ -94,9 +94,9 @@ const BoxQuery = () => {
                 //$(tagsRef.current).select2('destroy');
             }
         };
-        
+
     }, [tags]);
-    
+
 
 
     useEffect(() => {
@@ -145,7 +145,7 @@ const BoxQuery = () => {
             if (response.status !== 200) {
                 throw new Error('Failed to fetch reports');
             }
-            
+
             setReports(response.data.queryData);
         } catch (error) {
             console.error('Error fetching reports:', error);
@@ -224,9 +224,9 @@ const BoxQuery = () => {
             setLoading(false);
         }
     };
-    
 
-    
+
+
 
 
 
@@ -237,7 +237,7 @@ const BoxQuery = () => {
         fetchTags();
     }, []);
 
-   
+
 
 
     const columns = [
@@ -291,20 +291,20 @@ const BoxQuery = () => {
             render: (data, type, row) => {
                 return `<div style="text-align: left;">${data ? data : 'Generic Query'}</div>`;
             },
-        },        
-        
+        },
+
         {
             title: 'Box Tags',
             orderable: false,
             data: 'box_tag_names',
             render: (data, type, row) => {
                 if (Array.isArray(data)) {
-                    return data.map(tag => `<span style="font-size:12px" class=" px-2 py-1 bg-gray-200 text-gray-800 rounded-full mr-1">${tag}</span>`).join(' ');
+                    return data.map(tag => `<span style="font-size:10px" class=" px-2 py-1 bg-gray-200 text-gray-800 rounded-full mr-1">${tag}</span>`).join(' ');
                 }
                 return `<div style="text-align: left;">No Tags</div>`;
             },
-        },        
-        
+        },
+
         {
             title: 'Created Date',
             orderable: false,
@@ -330,7 +330,7 @@ const BoxQuery = () => {
 
     const handleCheckboxClick = (event) => {
         const id = parseInt(event.target.dataset.id, 10); // Parse the ID to ensure it's a number
-    
+
         setSelectedQueries((prevSelectedQueries) => {
             if (event.target.checked) {
                 // Add the ID to the state if checked
@@ -340,8 +340,8 @@ const BoxQuery = () => {
                 return prevSelectedQueries.filter((selectedId) => selectedId != id);
             }
         });
-    
-         // State updates are asynchronous, so this may not reflect the latest value immediately
+
+        // State updates are asynchronous, so this may not reflect the latest value immediately
     };
 
     // Refresh button handler
@@ -431,7 +431,7 @@ const BoxQuery = () => {
             setReports(responseData.queryData);
         } catch (error) {
             console.error('Error fetching reports:', error);
-            
+
         } finally {
             setLoading(false);
         }
@@ -454,16 +454,16 @@ const BoxQuery = () => {
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between px-4'>
+                <div className='flex w-full justify-between px-1'>
                     <h1 className="text-2xl font-bold">Box Query</h1>
                 </div>
-                <div className="w-full flex items-center justify-center gap-2 px-4 pt-2 qhpage" id="filterDiv">
+                <div className="w-full flex items-top justify-center gap-2 pt-2 qhpage" id="filterDiv">
 
                     {/* Date Range Picker */}
                     <input
                         id="filterDate"
                         type="text"
-                        className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-control w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="From Date - To Date"
                         value={filterDate}
                         readOnly
@@ -474,7 +474,7 @@ const BoxQuery = () => {
                         type="text"
                         name="search_keywords"
                         id="search_keywords"
-                        className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-control w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                         placeholder="Enter Keywords Name or Email or Phone"
                         value={searchKeywords}
                         onChange={(e) => setSearchKeywords(e.target.value)}
@@ -485,7 +485,7 @@ const BoxQuery = () => {
                         <select
                             name="website"
                             id="website"
-                            className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="form-control w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             multiple
                             value={selectedWebsites}
 
@@ -504,7 +504,7 @@ const BoxQuery = () => {
                         <select
                             name="tags"
                             id="tags"
-                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="form-select select2 w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             multiple
                             value={selectedTags}
 
@@ -519,23 +519,21 @@ const BoxQuery = () => {
                         </select>
                     </div>
 
-                    <div className='buton last mb-4 mt-2'>
+                    <div className='last'>
                         <button
                             onClick={handleSubmit}
-                            className="bg-[#f39c12] text-white rounded hover:bg-[#dd8c0a] flex items-center py-1 px-2 mr-2"
+                            className="btn btn-primary text-white rounded  flex items-center py-1 px-2 mr-2 "
                         >
                             <SearchIcon className="mr-2" size={14} />
                             Search
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="bg-red-500 text-white rounded hover:bg-red-400 flex items-center py-1 px-2"
+                            className="text-gray flex items-center py-1 px-2"
                         >
-                            Reset
+                            <RefreshCw className="mr-2" size={14} />
                         </button>
                     </div>
-
-
                 </div>
             </div>
 
@@ -545,20 +543,20 @@ const BoxQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end buton'>
-                    <button
+                    <div className='w-full flex items-center justify-end mb-1'>
+                        <button
                             onClick={handleDelete}
-                            className="bg-[#f32112] text-white rounded hover:bg-red-800 flex items-center py-1 px-2 mr-2"
+                            className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                         >
                             <Trash2 className='mr-2' size={14} />  Delete
                         </button>
                         <button
                             onClick={handleAddQuery}
-                            className="bg-[#f39c12] text-white rounded hover:bg-orange-400 flex items-center py-1 px-2"
+                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
                         >
-                            <Plus className='mr-2' size={14} />  Add Box query
+                            <Plus className='mr-1' size={14} />  Add Box query
                         </button>
-                        
+
                     </div>
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
                         <DataTable
@@ -568,7 +566,7 @@ const BoxQuery = () => {
                                 pageLength: 50,
                                 ordering: false,
                                 createdRow: (row, data) => {
-                                    $(row).css('background-color', data.color_code || 'white');
+                                    // $(row).css('background-color', data.color_code || 'white');
                                     $(row).css('font-size', '12px !important');
                                     $(row).find('.checkbox').on('click', handleCheckboxClick);
                                 },

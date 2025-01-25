@@ -98,7 +98,7 @@ const ExportButton = ({ selectedUsers, users, clearSelectedUsers }) => {
     <div>
       <button
         onClick={handleExportClick}  // Show the confirmation modal
-        className="bg-teal-500 text-white py-1 px-2 rounded hover:bg-teal-600 mr-3 flex items-center"
+        className="bg-teal-500 text-white py-1 px-2 rounded hover:bg-teal-600 flex items-center"
       >
         <FileUp className="mr-3" /> Export 
       </button>

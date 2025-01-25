@@ -174,24 +174,24 @@ const ManageFollowupSetting = () => {
         <div>
             <div className="my-3 flex justify-between w-2/3 mx-auto">
                 <h1 className="text-2xl font-bold">Follow-up Settings</h1>
-                <div className='flex buton'>
+                <div className='flex'>
                     <button
                         onClick={handleDelete}
-                        className="bg-red-500 text-white rounded hover:bg-red-600 mr-2 flex items-center"
+                        className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
                         <Trash2 className="mr-2" size={14}/>
                         Delete
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}
-                        className="bg-blue-500 text-white rounded hover:bg-blue-600 mr-2 flex items-center"
+                        className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
                     >
                         <PlusCircle className="mr-2" size={14}/>
                         Add Priority
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white rounded hover:bg-gray-600 flex items-center"
+                        className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
                     >
                         <RefreshCw className="mr-2" size={14}/>
                         Refresh

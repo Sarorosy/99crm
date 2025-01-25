@@ -62,7 +62,7 @@ const AddBoxQuery = () => {
         company_name: "",
         area_of_study: "",
         tags: [],
-        boxtags:[],
+        boxtags: [],
         team: '',
         allocated_to: '',
         profile_id: '',
@@ -152,7 +152,7 @@ const AddBoxQuery = () => {
         };
     }, [countries]);
 
-    
+
 
     useEffect(() => {
         // Initialize select2 for Select City
@@ -606,7 +606,7 @@ const AddBoxQuery = () => {
                 toast.error("Please provide the company name!");
                 return;
             }
-    
+
             if (!formData.website) {
                 toast.error("Please provide the company website!");
                 return;
@@ -693,21 +693,21 @@ const AddBoxQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-2xl font-semibold'>Add New Box Query</h1>
+            <h1 className='text-2xl font-semibold text-center'>Add New Box Query</h1>
 
-            <div className="flex w-full items-start justify-between space-x-2">
-                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4" autoComplete="off">
+            <div className="flex w-full items-start justify-center space-x-2 mt-4 qhpage">
+                <form encType="multipart/form-data" className="space-y-4 px-4 py-3 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
                             <div dangerouslySetInnerHTML={{ __html: errorData }} />
                         </div>
                     )}
 
-                    
+
 
                     {/* Conditional Client Email Inputs */}
                     <div className="row form-group space-y-5 items-start flex">
-                    <div className="col-sm-3">
+                        <div className="col-sm-4 mtsaadbq">
                             <label htmlFor="query_code">Query Code<span className="error">*</span></label>
                             <select
                                 name="query_code"
@@ -724,7 +724,7 @@ const AddBoxQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="name">Client Name<span className="error">*</span></label>
                             <input
                                 type="text"
@@ -735,8 +735,7 @@ const AddBoxQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="email_id">Client Email ID<span className="error">*</span></label>
                             <input
                                 type="text"
@@ -748,7 +747,7 @@ const AddBoxQuery = () => {
 
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="email_domain">Email Domain</label>
                             <select
                                 className="form-control"
@@ -766,7 +765,7 @@ const AddBoxQuery = () => {
                                 <option value="other">other</option>
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="alt_email_id">Alternate Email ID</label>
                             <input
                                 type="email"
@@ -777,10 +776,7 @@ const AddBoxQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-
-
-
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="phone">Contact No.</label>
                             <input
                                 type="text"
@@ -791,7 +787,7 @@ const AddBoxQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="alt_contact_no">Alternate Contact Number</label>
                             <input
                                 type="text"
@@ -802,7 +798,7 @@ const AddBoxQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="area_of_study">Topic/Area of Study</label>
                             <input
                                 type="text"
@@ -813,8 +809,7 @@ const AddBoxQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="location">Location</label>
                             <select
                                 name="location"
@@ -832,8 +827,7 @@ const AddBoxQuery = () => {
                                 ))}
                             </select>
                         </div>
-
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="city">City</label>
                             <input
                                 type="text"
@@ -844,8 +838,8 @@ const AddBoxQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="col-sm-3">
-                            <div className="form-group" style={{ marginTop: "22px" }}>
+                        <div className="col-sm-4">
+                            <div className="form-group cbl" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
                                     name="genericQuery"
@@ -858,12 +852,15 @@ const AddBoxQuery = () => {
                                         });
                                     }}
                                 />
-                                <label htmlFor="genericQuery">Generic Query</label>
+                                <label htmlFor="genericQuery" style={{ marginLeft: "8px", marginTop:"0" }}>
+                                    Generic Query
+                                </label>
                             </div>
+
                         </div>
                         {!formData.genericQuery && (
                             <>
-                                <div className="col-sm-3">
+                                <div className="col-sm-4">
                                     <label htmlFor="company_id">Company</label>
                                     <select
                                         name="company_id"
@@ -881,7 +878,7 @@ const AddBoxQuery = () => {
                                     </select>
                                 </div>
 
-                                <div className="col-sm-3">
+                                <div className="col-sm-4">
                                     <label htmlFor="website">Website</label>
                                     <select
                                         name="website"
@@ -900,7 +897,7 @@ const AddBoxQuery = () => {
                                 </div>
                             </>)}
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="requirement">Service</label>
                             <select
                                 name="requirement"
@@ -918,7 +915,7 @@ const AddBoxQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="tags">Tags</label>
                             <select
                                 className="form-control"
@@ -935,7 +932,7 @@ const AddBoxQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="boxtags">Box Tags</label>
                             <select
                                 className="form-control"
@@ -952,9 +949,9 @@ const AddBoxQuery = () => {
                                 ))}
                             </select>
                         </div>
-                       
-                       
-                        <div className="col-sm-3">
+
+
+                        <div className="col-sm-4">
                             <label htmlFor="priority">Select Priority</label>
                             <select
                                 name="priority"
@@ -971,7 +968,7 @@ const AddBoxQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="academic_level">Academic Level</label>
                             <select
                                 className="form-control"
@@ -986,7 +983,7 @@ const AddBoxQuery = () => {
                                 <option value="Bachelors">Bachelors</option>
                             </select>
                         </div>
-                        <div className="col-sm-6 flex items-center flex-col">
+                        <div className="col-sm-4 flex items-center flex-col" style={{ marginTop: "43px" }}>
                             {fileInputs.map((input, index) => (
                                 <div className="row flex items-center" key={input.id} >
                                     <div className="w-3/4">
@@ -1016,8 +1013,8 @@ const AddBoxQuery = () => {
                                 </div>
                             ))}
                         </div>
-                        
-                        <div className="col-sm-3">
+
+                        <div className="col-sm-4">
                             <label htmlFor="requirement_line">Requirement</label>
                             <select
                                 className="form-control"
@@ -1062,11 +1059,11 @@ const AddBoxQuery = () => {
                             </div>
                         )}
 
-                        <div className="flex justify-start mt-4">
+                        <div className="flex justify-end mt-4">
                             <button
                                 type="submit"
                                 onClick={handleSubmit}
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
                             >
                                 Submit
                             </button>

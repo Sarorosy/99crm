@@ -57,26 +57,33 @@ const AddQuerySideDetails = ({ TodayCreatedQuery }) => {
                     <h3 className="font-bold  border-b pb-2 mb-4 flex items-center justify-between space-x-1 text-sm">Today Pending Task for Users <button className="bg-gray-100 rounded" onClick={fetchDetails}><RefreshCcw /></button></h3>
                     {loading ? (<CustomLoader />) : (
                         <>
-                            <table className="table-auto w-full border-collapse border border-gray-200">
-                                <thead>
-                                    <tr>
-                                        <th className="border border-gray-300 px-2 py-1 text-sm">User Name</th>
-                                        <th className="border border-gray-300 px-2 py-1 text-sm">Total Pending</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {todayTask.map((user, index) => (
-                                        <tr key={index}>
-                                            <td className="border border-gray-300 px-2 " style={{ fontSize: "13px" }}>{user.user_name}</td>
-                                            <td className="border border-gray-300 px-2 " style={{ fontSize: "13px" }}>{user.total_pending}</td>
-                                        </tr>
-                                    ))}
-                                    <tr className="font-bold text-red-500 text-md">
-                                        <td className="border border-gray-300 px-2 text-md">Total Pending Task</td>
-                                        <td className="border border-gray-300 px-2 text-md">{totalPendingTask}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div style={{ overflowY: 'auto', maxHeight: '18.5rem' }}>
+    <table className="table-auto w-full border-collapse border border-gray-200 iqt table-responsive">
+        <thead>
+            <tr>
+                <th className="border border-gray-300 px-2 py-1 text-sm">User Name</th>
+                <th className="border border-gray-300 px-2 py-1 text-sm">Total Pending</th>
+            </tr>
+        </thead>
+        <tbody>
+            {todayTask.map((user, index) => (
+                <tr key={index}>
+                    <td className="border border-gray-300 px-2" style={{ fontSize: '13px' }}>
+                        {user.user_name}
+                    </td>
+                    <td className="border border-gray-300 px-2" style={{ fontSize: '13px' }}>
+                        {user.total_pending}
+                    </td>
+                </tr>
+            ))}
+            <tr className="font-bold text-red-500 text-md">
+                <td className="border border-gray-300 px-2 text-sm">Total Pending Task</td>
+                <td className="border border-gray-300 px-2 text-md">{totalPendingTask}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
                         </>
                     )}
                 </div>

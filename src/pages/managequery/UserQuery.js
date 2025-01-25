@@ -17,7 +17,7 @@ import 'daterangepicker/daterangepicker.css'; // Import daterangepicker CSS
 import 'daterangepicker'; // Import daterangepicker JS
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-
+import QueryDetails from './QueryDetails';
 
 const UserQuery = () => {
     DataTable.use(DT);
@@ -53,6 +53,8 @@ const UserQuery = () => {
     const [callOptions, setCallOptions] = useState([]);
     const [whatsappOptions, setWhatsappOptions] = useState([]);
     const userType = sessionStorage.getItem('user_type');
+    const [selectedRefId, setSelectedRefId] = useState('');
+    const [detailsOpen, setDetailsOpen] = useState(false);
 
 
 
@@ -513,8 +515,13 @@ const UserQuery = () => {
             title: 'Ref No.',
             orderable: false,
             data: 'assign_id',
-            render: (data) => {
-                return `<div style="text-align: left;">${data}</div>`;
+            render: (data, type, row) => {
+                return `
+                    <div style="text-align: left; display: flex; align-items: center; gap: 10px;">
+                        <span class="view-btn">${data}</span>
+                        
+                    </div>
+                `;
             },
         },
         {
@@ -752,23 +759,29 @@ const UserQuery = () => {
         $(websiteRef.current).val(null).trigger('change');
         $(tagsRef.current).val(null).trigger('change');
     };
-    const handleAddQuery = () =>{
+    const handleAddQuery = () => {
         navigate('/addquery');
     }
-    
+
+    const handleViewButtonClick = (data) => {
+        setSelectedRefId(data.assign_id);
+        setDetailsOpen(true);
+        console.log(data.assign_id)
+    }
+
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
                 <div className='flex w-full justify-between px-4'>
                     <h1 className="text-2xl font-bold">Query History</h1>
                     <div className='buton'>
-                    <button
-                        onClick={handleRefresh}
-                        className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
-                    >
-                        <RefreshCw className="mr-2" size={14} />
-                        Refresh
-                    </button></div>
+                        <button
+                            onClick={handleRefresh}
+                            className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
+                        >
+                            <RefreshCw className="mr-2" size={14} />
+                            Refresh
+                        </button></div>
                 </div>
                 <div className="w-full flex flex-wrap gap-2 px-4 pt-2 qhpage" id="filterDiv">
                     {/* Team Selection */}
@@ -819,7 +832,7 @@ const UserQuery = () => {
                         value={refId}
                         onChange={(e) => setRefId(e.target.value)}
                     />
-            
+
 
                     {/* Status Selection */}
                     <select
@@ -993,52 +1006,52 @@ const UserQuery = () => {
             </div>
 
             <div class="col-md-12 px-4 py-0">
-            <div className='row'>
+                <div className='row'>
                     <div className='col-md-6'>
                         {/* Website Selection */}
-                    <select
-                        name="website"
-                        id="website"
-                        className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        multiple
-                        value={selectedWebsites}
-                        // onChange={(e) =>
-                        //     setSelectedWebsites(Array.from(e.target.selectedOptions, (option) => option.value))
-                        // }
-                        ref={websiteRef}
-                    >
-                        <option value="">Select Website</option>
-                        {websites.map((website) => (
-                            <option key={website.id} value={website.id}>
-                                {website.website}
-                            </option>
-                        ))}
-                    </select>
+                        <select
+                            name="website"
+                            id="website"
+                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            multiple
+                            value={selectedWebsites}
+                            // onChange={(e) =>
+                            //     setSelectedWebsites(Array.from(e.target.selectedOptions, (option) => option.value))
+                            // }
+                            ref={websiteRef}
+                        >
+                            <option value="">Select Website</option>
+                            {websites.map((website) => (
+                                <option key={website.id} value={website.id}>
+                                    {website.website}
+                                </option>
+                            ))}
+                        </select>
                     </div>
                     <div className='col-md-6'>
-                         {/* Tags Selection */}
-                    <select
-                        name="tags"
-                        id="tags"
-                        className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        multiple
-                        value={selectedTags}
-                        // onChange={(e) =>
-                        //     setSelectedTags(Array.from(e.target.selectedOptions, (option) => option.value))
-                        // }
-                        ref={tagsRef}
-                    >
-                        <option value="">Select Tags</option>
-                        {tags.map((tag) => (
-                            <option key={tag.id} value={tag.id}>
-                                {tag.tag_name}
-                            </option>
-                        ))}
-                    </select>
+                        {/* Tags Selection */}
+                        <select
+                            name="tags"
+                            id="tags"
+                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            multiple
+                            value={selectedTags}
+                            // onChange={(e) =>
+                            //     setSelectedTags(Array.from(e.target.selectedOptions, (option) => option.value))
+                            // }
+                            ref={tagsRef}
+                        >
+                            <option value="">Select Tags</option>
+                            {tags.map((tag) => (
+                                <option key={tag.id} value={tag.id}>
+                                    {tag.tag_name}
+                                </option>
+                            ))}
+                        </select>
                     </div>
-                    </div>
+                </div>
 
-                    <div className='buton last mb-4 mt-2'>
+                <div className='buton last mb-4 mt-2'>
                     <button
                         onClick={handleSubmit}
                         className="bg-[#f39c12] text-white rounded hover:bg-[#dd8c0a] flex items-center py-1 px-2 mr-2"
@@ -1052,7 +1065,7 @@ const UserQuery = () => {
                     >
                         Reset Filters
                     </button>
-                    </div>
+                </div>
             </div>
 
             {loading ? (
@@ -1060,12 +1073,12 @@ const UserQuery = () => {
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end buton'>
-                    <button
-                        onClick={handleAddQuery}
-                        className="bg-[#f39c12] text-white rounded hover:bg-orange-400 flex items-center py-1 px-2"
-                    >
-                      <Plus className='mr-2' size={14}/>  Add query
-                    </button>
+                        <button
+                            onClick={handleAddQuery}
+                            className="bg-[#f39c12] text-white rounded hover:bg-orange-400 flex items-center py-1 px-2"
+                        >
+                            <Plus className='mr-2' size={14} />  Add query
+                        </button>
                     </div>
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
                         <DataTable
@@ -1078,6 +1091,9 @@ const UserQuery = () => {
                                     $(row).css('background-color', data.color_code || 'white');
                                     $(row).css('font-size', '12px !important');
                                     $(row).find('.checkbox').on('click', handleCheckboxClick);
+                                    $(row).find('.view-btn').on('click', () => {
+                                        handleViewButtonClick(data);
+                                    });
                                 },
                             }}
                         />
@@ -1098,7 +1114,9 @@ const UserQuery = () => {
             )}
             <ToastContainer />
             <AnimatePresence>
-
+                {detailsOpen && (
+                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
+                )}
             </AnimatePresence>
             <Tooltip id="my-tooltip" />
         </div>

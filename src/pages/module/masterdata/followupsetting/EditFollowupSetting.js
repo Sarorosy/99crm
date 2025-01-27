@@ -117,7 +117,7 @@ const EditFollowupSetting = ({ onClose, afterSave, settingId }) => {
         >
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+                className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
             >
                 <CircleX size={32} />
             </button>
@@ -197,7 +197,7 @@ const EditFollowupSetting = ({ onClose, afterSave, settingId }) => {
                     <button
                         type="submit"
                         disabled={posting}
-                        className="px-2 py-1 bg-teal-500 text-white font-medium rounded hover:bg-teal-600 transition-colors"
+                        className="px-2 py-1 bg-teal-500 text-white font-medium rounded hover:bg-teal-600 transition-colors cremove"
                     >
                         {posting ? 'Saving...' : 'Save'}
                     </button>

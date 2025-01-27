@@ -238,10 +238,10 @@ const ManageUser = () => {
         const statusBg = data == 1 ? 'bg-green-100 border border-green-300' : 'bg-red-100 border border-red-300';
         return `
           <span
-            style="color:${statusColor}; cursor: pointer;"
-            class="status-toggle p-1 rounded ${statusBg}"
-            data-id="${row.id}"
-          >
+        style="color:${statusColor}; cursor: pointer; display: inline-block; text-align: center; width: 70%;"
+        class="status-toggle p-1 rounded ${statusBg}"
+        data-id="${row.id}"
+      >
             ${statusText}
           </span>
         `;
@@ -356,6 +356,7 @@ const ManageUser = () => {
               ))}
             </div>
           )}
+          <div className='useractinact'>
           <DataTable
             data={users}
             columns={columns}
@@ -385,6 +386,7 @@ const ManageUser = () => {
               },
             }}
           />
+          </div>
         </div>
       )}
       {isModalOpen && (
@@ -402,7 +404,6 @@ const ManageUser = () => {
       <AnimatePresence>
       {isAddingUser && <AddUser onClose={toggleAddUserVisibility} after={handleRefresh}/>}
       {isEditingUser && <EditUser onClose={toggleEditUserVisibility} after={handleRefresh} id={selectedUser}/>}
-
       </AnimatePresence>
     </div>
   );

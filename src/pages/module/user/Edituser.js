@@ -569,7 +569,7 @@ const EditUser = ({ id, onClose, after }) => {
                 <h1 className='text-2xl font-semibold text-center'>Edit User</h1>
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>

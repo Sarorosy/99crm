@@ -234,7 +234,7 @@ const ManageEmailCampaign = () => {
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}
-                        className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center"
+                        className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-3"
                     >
                         <PlusCircle className="mr-2" size={12} />
                         Add Email Campaign

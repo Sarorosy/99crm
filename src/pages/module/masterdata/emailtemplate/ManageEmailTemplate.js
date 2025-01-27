@@ -299,13 +299,13 @@ const ManageEmailTemplate = () => {
             orderable: false,
             render: (data, type, row) => `
             <div class="flex space-x-1">
-            <button class="copy-btn btn btn-sm mx-1" data-id="${row.id}">
+            <button class="copy-btn mx-1 fsm" data-id="${row.id}">
             <i class="far fa-clone hover:text-blue-400"></i>
         </button>
-        <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
+        <button class="edit-btn mx-1 fsm" data-id="${row.id}">
             <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
         </button>
-        <button class="delete-btn btn btn-sm mx-1" data-id="${row.id}">
+        <button class="delete-btn mx-1 fsm" data-id="${row.id}">
             <img src="https://99crm.phdconsulting.in/public/images/0.png" alt="edit" class="h-4 w-auto" />
         </button>
         </div>
@@ -519,8 +519,8 @@ const ManageEmailTemplate = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className='text-end'>
-                            <button type="submit" className="bg-blue-500 text-white rounded">
+                            <div className='flex justify-end mt-4'>
+                            <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded flex items-center">
                                {(selectedTemplate && selectedTemplate != null) ? 'Update Template' : 'Add template'}
                             </button></div>
                         </form>

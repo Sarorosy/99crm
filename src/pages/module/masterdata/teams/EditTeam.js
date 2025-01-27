@@ -128,7 +128,7 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
             <h2 className="text-xl font-semibold mb-4 text-center">Edit Team</h2>
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+                className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
             >
                 <CircleX size={32} />
             </button>

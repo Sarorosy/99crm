@@ -39,27 +39,6 @@ const QueryInformation = ({ refId }) => {
         fetchQueryDetails();
     }, []);
 
-    const fetchActivityHistory = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-
-            const response = await axios.post(
-                "https://99crm.phdconsulting.in/dashboard/api/get-activity-history",
-                { assign_id: refId }
-            );
-
-            if (response.data.status) {
-                setActivityData(response.data.activity);
-            } else {
-                setActivityData([]);
-            }
-        } catch (err) {
-            setError("Failed to fetch activity history");
-        } finally {
-            setLoading(false);
-        }
-    };
     
     if (loading) {
         return (

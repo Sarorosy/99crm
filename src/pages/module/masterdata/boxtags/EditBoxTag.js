@@ -81,7 +81,7 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
             <div className='mx-auto w-2/3 relative'>
                 <button
                     onClick={onClose}
-                    className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+                    className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
@@ -112,7 +112,7 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
                         <button
                             type="submit"
                             disabled={posting}
-                            className="px-4 py-1 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                            className="px-4 py-1 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors cremove"
                         >
                             {posting ? 'Saving...' : 'Save'}
                         </button>

@@ -101,15 +101,15 @@ const AddQuoteTemplate = ({onClose, afterSave}) => {
             <h2 className="text-xl font-semibold mb-4 text-center">Add Quote Template</h2>
             <button
         onClick={onClose}
-        className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+        className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
       >
         <CircleX size={32} />
       </button>
-      <div className='col-md-6 cent add'>
+      <div className='col-md-4 cent qhpage'>
             <form onSubmit={handleSubmit} className='space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl'>
-                <div className="flex w-full space-x-3 justify-center">
+                <div className="w-full space-x-3 justify-center">
                     {/* Team Name Field */}
-                    <div className="form-group w-1/2 mx-2">
+                    <div className="form-group mx-2 mb-4">
                         <label htmlFor="service_name" className="block text-sm font-medium text-gray-700 mb-2">Service Name</label>
                         <input
                             type="text"
@@ -123,7 +123,7 @@ const AddQuoteTemplate = ({onClose, afterSave}) => {
                     </div>
 
                     {/* Manager Name Field */}
-                    <div className="form-group w-1/2 mx-2">
+                    <div className="form-group mx-2">
                         <label htmlFor="website_id" className="block text-sm font-medium text-gray-700 mb-2">Website</label>
                         <select
                             id="website_id"
@@ -141,11 +141,11 @@ const AddQuoteTemplate = ({onClose, afterSave}) => {
                         </select>
                     </div>
                 </div>
-                <div className='text-end'>
+                <div className='text-end mr-2'>
                     <button
                         type="submit"
                         disabled={loading}
-                        className="mt-4 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="mt-1 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
                         {loading ? 'Submitting..' : "Submit"}
                     </button>

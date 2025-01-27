@@ -87,7 +87,7 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
             <div className='mx-auto w-2/3 relative'>
                 <button
                     onClick={onClose}
-                    className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+                    className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
@@ -176,7 +176,7 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
                         <button
                             type="submit"
                             disabled={posting}
-                            className="bg-blue-500 px-3 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+                            className="bg-blue-500 px-3 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors cremove"
                         >
                             {posting ? 'Saving...' : 'Save'}
                         </button>

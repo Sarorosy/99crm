@@ -173,7 +173,7 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
             <h2 className="text-xl text-center font-semibold mb-4">Campaign Details</h2>
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-1 text-gray-600 hover:text-red-600 transition-colors"
+                className="absolute top-4 right-4 p-1 text-gray-600 hover:text-red-600 transition-colors cremove"
             >
                 <CircleX size={28} />
             </button>

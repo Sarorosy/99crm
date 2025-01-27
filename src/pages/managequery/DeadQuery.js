@@ -450,17 +450,17 @@ const DeadQuery = () => {
                 </div>
                 <div className="flex items-center space-x-2 my-4 bg-white rounded gap-2 px-2 py-2 gap-2 qhpage" id="filterDiv">
 
-                    {/* Date Range Picker */}
-                    <input
-                        id="filterDate"
-                        type="text"
-                        className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="From Date - To Date"
-                        value={filterDate}
-                        readOnly
-                    />
+                        {/* Date Range Picker */}
+                        <input
+                            id="filterDate"
+                            type="text"
+                            className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            placeholder="From Date - To Date"
+                            value={filterDate}
+                            readOnly
+                        />
 
-                    <div className='col-md-3'>
+                    <div className='col-md-2'>
                         {/* Website Selection */}
                         <select
                             name="website"
@@ -479,7 +479,7 @@ const DeadQuery = () => {
                             ))}
                         </select>
                     </div>
-                    <div className='col-md-3'>
+                    <div className='col-md-2'>
                         <select
                             name="search_type"
                             id="search_type"
@@ -527,7 +527,7 @@ const DeadQuery = () => {
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end mb-2'>
-                    <button
+                        <button
                             onClick={handleDelete}
                             className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                         >
@@ -539,9 +539,9 @@ const DeadQuery = () => {
                         >
                             <Plus className='mr-2' size={14} />  Add Box query
                         </button>
-                        
+
                     </div>
-                    <div style={{overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem'}}>
+                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
                         <DataTable
                             data={reports}
                             columns={columns}

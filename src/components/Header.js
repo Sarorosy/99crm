@@ -89,8 +89,6 @@ const Header = () => {
 
                   <button onClick={() => handleNavigation('/camp-history')} className="block px-4 py-2  w-full dropdownmenu">Camp History</button>
                   
-                  <button onClick={() => handleNavigation('/ask-for-scope')} className="block px-4 py-2  w-full dropdownmenu">Ask for Scope</button>
-                  
                   <button onClick={() => handleNavigation('/reminder-query')} className="block px-4 py-2  w-full dropdownmenu">Reminder Query</button>
                  
                   <button onClick={() => handleNavigation('/boxquery')} className="block px-4 py-2  w-full dropdownmenu">Box Query</button>

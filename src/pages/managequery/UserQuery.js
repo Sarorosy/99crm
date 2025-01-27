@@ -518,8 +518,8 @@ const UserQuery = () => {
             render: (data, type, row) => {
                 return `
                     <div style="text-align: left; display: flex; align-items: center; gap: 10px;">
-                        <span class="view-btn">${data}</span>
-                        
+                        <span class="view-btn bg-blue-500 hover:bg-blue-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">${data}</span>
+                       
                     </div>
                 `;
             },

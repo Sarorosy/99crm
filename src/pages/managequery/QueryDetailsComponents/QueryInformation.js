@@ -120,7 +120,7 @@ const QueryInformation = ({ refId }) => {
 
     const fetchActivityHistory = async () => {
         try {
-            setHistoryLoading(true);
+            setLoading(true);
             setError(null);
 
             const response = await axios.post(
@@ -136,48 +136,10 @@ const QueryInformation = ({ refId }) => {
         } catch (err) {
             setError("Failed to fetch activity history");
         } finally {
-            setHistoryLoading(false);
+            setLoading(false);
         }
     };
-
-    const handleEdit = (field, value) => {
-        setEditingField(field);  // Set the field that is being edited
-        setUpdatedValue(value);  // Set the current value as the initial value for editing
-    };
-
-    const handleSubmit = async (field) => {
-
-        setError(null);
-        try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/updatefieldvalues", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    ref_id: refId,
-                    field: field,
-                    value: updatedValue,
-                    user_id: sessionStorage.getItem('id'),
-                    user_name: sessionStorage.getItem('name')
-                }),
-            });
-
-            const data = await response.json();
-            if (response.ok) {
-                console.log(`${field} updated successfully`);
-                setEditingField(null);  // Stop editing after success
-                fetchQueryDetails();
-                setEditingField("");
-            } else {
-                setError("Failed to update. Try again later.");
-            }
-        } catch (err) {
-            setError("An error occurred. Please try again.");
-        }
-
-    };
-
+    
     if (loading) {
         return (
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} className='col-md-5'>

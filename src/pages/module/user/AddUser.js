@@ -430,7 +430,7 @@ const AddUser = ({ onClose, after }) => {
         >
             <button
                 onClick={onClose}
-                className="text-white py-2 px-2 rounded-full absolute top-4 right-0 "
+                className="text-white py-2 px-2 rounded-full absolute top-4 right-0 cremove"
             >
                 <CircleX className='colorr' size={32} />
             </button>
@@ -442,9 +442,9 @@ const AddUser = ({ onClose, after }) => {
                 <section className="content">
                     <div className="row">
                         <div className="col-md-6 cent add">
-                            <div className="box box-primary">
+                            <div className="box">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
-                                    <div className="box-body">
+                                    <div className="box-body qhpage">
                                         <div className="my-2 flex items-center justify-between mb-3">
                                             <div className='col-md-6'>
                                                 <label>Name<span className="error">*</span></label>

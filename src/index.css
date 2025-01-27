@@ -103,7 +103,7 @@ table.dataTable>tbody>tr>td {
 
 /* Optional: Hover effect on rows */
 table.dataTable tbody tr:hover {
-  background-color: #F3F3F3FF;
+  /* background-color: #F3F3F3FF; */
   /* Light blue on hover for better interactivity */
 }
 
@@ -159,9 +159,17 @@ table.dataTable td.dt-type-date {
   text-align: left !important;
 }
 
-table.dataTable th.dt-type-numeric {
+/* table.dataTable th.dt-type-numeric {
   text-align: center !important;
-}
+} */
+
+/* table.dataTable th.dt-orderable-none {
+  text-align: center !important;
+} */
+
+/* table.dataTable th.dt-ordering-asc {
+  text-align: left !important;
+} */
 
 .dropdownmenu {
   border-bottom: 1px solid #eff0e7;
@@ -190,12 +198,26 @@ table.dataTable {
   background-color: #0A5EB0 !important;
 }
 
+.bg-blue-500:hover {
+  background-color: #1d7bd8 !important;
+}
+
 .btn-warning {
-  background-color: #F4CE14 !important;
+  background-color: #ebc300 !important;
+  border: #ebc300;
+}
+
+.btn-warning:hover {
+  background-color: #ffd609 !important;
+  border: #ffd609;
 }
 
 .bg-red-500 {
   background-color: #B8001F !important;
+}
+
+.bg-red-500:hover {
+  background-color: #e01638 !important;
 }
 
 .bg-blue-500,
@@ -247,8 +269,16 @@ table.dataTable>tbody>tr>td {
   font-size: 10px;
 }
 
+.bg-red-100 {
+  font-size: 10px;
+}
+
 .bg-green-100:hover {
   background-color: rgb(206 243 219);
+}
+
+.bg-red-100:hover {
+  background-color: #f5c2c2;
 }
 
 .box-primary {
@@ -305,9 +335,10 @@ table.dataTable>tbody>tr>td {
   border-radius: 4px !important;
 }
 
-/* .btn-success{
-  height:0;
-} */
+.btn-success:hover{
+  background-color: rgb(30, 168, 104);
+  border: 1px solid rgb(30, 168, 104);
+}
 
 .last button {
   max-height: 27px;
@@ -415,6 +446,10 @@ table.dataTable>tbody>tr>td {
   border-radius: 4px;
   margin-top: 0;
   padding: 2px 5px !important;
+}
+
+.qhpage span{
+  font-size: 12px;
 }
 
 .qhpage .select2-container--default .select2-selection--multiple {
@@ -638,7 +673,7 @@ div.dt-container select.dt-input {
   color: #02313a;
   position: -webkit-sticky;
   position: sticky;
-  top: 0;
+  top: 0 ;
   width: 100%;
 }
 
@@ -750,4 +785,3 @@ h1::selection,h2::selection,h3::selection,h4::selection,h5::selection,h6::select
 .sptid thead{
   top: -1px;
 }
-

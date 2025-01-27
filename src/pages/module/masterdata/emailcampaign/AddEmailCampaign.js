@@ -132,17 +132,15 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
             <ToastContainer />
-            <div className='mx-auto w-2/3 relative'>
-                <h2 className="text-xl font-bold mb-6 text-center ">Add Email Campaign</h2>
+                <h2 className="text-xl font-bold mb-6 text-center">Add Email Campaign</h2>
                 <button
                     onClick={onClose}
-                    className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors"
+                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
-            </div>
 
-<div className='col-md-7 cent add'>
+<div className='col-md-7 cent add qhpage'>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
                 {/* Email Campaign Subject */}
                 <div>
@@ -247,11 +245,11 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                 </div>
 
                 {/* Submit Button */}
-                <div className='text-end'>
+                <div className='flex justify-end mt-4'>
                 <button
                     type="submit"
                     disabled={posting}
-                    className="bg-blue-500 text-white font-medium rounded mt-2 hover:bg-blue-600 focus:outline-none"
+                    className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
                 >
                     {posting ? <CustomLoader /> : 'Save Campaign'}
                 </button></div>

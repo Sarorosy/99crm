@@ -985,8 +985,8 @@ const AddBoxQuery = () => {
                         </div>
                         <div className="col-sm-4 flex items-center flex-col" style={{ marginTop: "43px" }}>
                             {fileInputs.map((input, index) => (
-                                <div className="row flex items-center" key={input.id} >
-                                    <div className="w-3/4">
+                                <div className="row flex items-center mb-1" key={input.id} >
+                                    <div className="col-md-11">
                                         <input
                                             type="file"
                                             className="form-control"
@@ -995,16 +995,16 @@ const AddBoxQuery = () => {
                                             onChange={(e) => handleFileChange(e, index)}
                                         />
                                     </div>
-                                    <div className="w-1/4">
+                                    <div className="col-md-1">
                                         {index === 0 ? (
                                             <i
-                                                style={{ fontSize: "20px", cursor: "pointer" }}
+                                                style={{ fontSize: "14px", cursor: "pointer", color: "green", marginLeft:"-15px"  }}
                                                 className="fa fa-plus-circle"
                                                 onClick={handleAddFileInput}
                                             ></i>
                                         ) : (
                                             <i
-                                                style={{ fontSize: "20px", cursor: "pointer", color: "red" }}
+                                                style={{ fontSize: "14px", cursor: "pointer", color: "red", marginLeft:"-15px"  }}
                                                 className="fa fa-minus-circle"
                                                 onClick={() => handleRemoveFileInput(index)}
                                             ></i>

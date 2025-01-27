@@ -750,8 +750,6 @@ const AddQuery = () => {
                         </div>
                     </div>
 
-
-
                     {/* Conditional Client Email Inputs */}
                     <div className="row form-group mt-0 anq">
                         <div className="col-sm-4">
@@ -834,6 +832,7 @@ const AddQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
+
                         <div className="col-sm-4">
                             <label htmlFor="area_of_study">Topic/Area of Study</label>
                             <input
@@ -883,6 +882,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
+
                         <div className="col-sm-4">
                             <label htmlFor="city">City</label>
                             <select
@@ -973,6 +973,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
+
                         <div className="col-sm-4">
                             <label htmlFor="referred_by">Referred By</label>
                             <select
@@ -990,6 +991,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
+
                         {formData.specific_query_type && formData.specific_query_type == "USER_SPECIFIC" && (<>
                             <div className="col-sm-4">
                                 <label htmlFor="team">Team</label>
@@ -1060,6 +1062,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
+
                         <div className="col-sm-4">
                             <label htmlFor="academic_level">Academic Level</label>
                             <select
@@ -1075,10 +1078,11 @@ const AddQuery = () => {
                                 <option value="Bachelors">Bachelors</option>
                             </select>
                         </div>
+
                         <div className="col-sm-4 flex items-center flex-col" style={{ marginTop: "24px" }}>
                             {fileInputs.map((input, index) => (
-                                <div className="row flex items-center" key={input.id} >
-                                    <div className="w-3/4">
+                                <div className="row flex items-center mb-1" key={input.id} >
+                                    <div className="col-md-11">
                                         <input
                                             type="file"
                                             className="form-control"
@@ -1087,16 +1091,16 @@ const AddQuery = () => {
                                             onChange={(e) => handleFileChange(e, index)}
                                         />
                                     </div>
-                                    <div className="w-1/4">
+                                    <div className="col-md-1">
                                         {index === 0 ? (
                                             <i
-                                                style={{ fontSize: "20px", cursor: "pointer" }}
+                                                style={{ fontSize: "14px", cursor: "pointer" ,color: "green", marginLeft:"-15px" }}
                                                 className="fa fa-plus-circle"
                                                 onClick={handleAddFileInput}
                                             ></i>
                                         ) : (
                                             <i
-                                                style={{ fontSize: "20px", cursor: "pointer", color: "red" }}
+                                                style={{ fontSize: "14px", cursor: "pointer", color: "red" ,marginLeft:"-15px" }}
                                                 className="fa fa-minus-circle"
                                                 onClick={() => handleRemoveFileInput(index)}
                                             ></i>
@@ -1105,6 +1109,7 @@ const AddQuery = () => {
                                 </div>
                             ))}
                         </div>
+
                         <div className="col-sm-4">
                             <div className="form-group"  style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
@@ -1122,6 +1127,7 @@ const AddQuery = () => {
                                 <label htmlFor="ifCampTag" style={{ marginLeft: "8px", marginTop:"0" }}> Check If Camp Query</label>
                             </div>
                         </div>
+
                         <div className="col-sm-4">
                             <label htmlFor="requirement_line">Requirement</label>
                             <select
@@ -1136,6 +1142,7 @@ const AddQuery = () => {
                                 <option value="1">Line Format</option>
                             </select>
                         </div>
+                        
                         {formData.requirement_line && formData.requirement_line == 1 && (
                             <div className="col-sm-12 mt-3">
                                 <label className="font-medium text-gray-700">Line Format</label>

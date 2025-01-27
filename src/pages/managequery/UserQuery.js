@@ -164,7 +164,7 @@ const UserQuery = () => {
             const responseData = await response.json();
 
 
-            console.log(responseData.data)
+            
 
             setTeamUsers(responseData.data);  // Set the teamUsers state
 
@@ -469,8 +469,8 @@ const UserQuery = () => {
 
 
     useEffect(() => {
-        fetchTeamUsers('', '', '');
         fetchQueries();
+        fetchTeamUsers('', '', '');
         fetchTeams();
         fetchCategoryWebsites();
         fetchTags();
@@ -766,7 +766,6 @@ const UserQuery = () => {
     const handleViewButtonClick = (data) => {
         setSelectedRefId(data.assign_id);
         setDetailsOpen(true);
-        console.log(data.assign_id)
     }
 
     return (

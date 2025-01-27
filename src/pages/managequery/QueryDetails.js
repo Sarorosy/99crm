@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import QueryInformation from './QueryDetailsComponents/QueryInformation';
+import GeneratePriceQuote from './QueryDetailsComponents/GeneratePriceQuote';
+import ShowAttachedFiles from './QueryDetailsComponents/ShowAttachedFiles';
 
 const QueryDetails = ({ refId, onClose }) => {
     const [activeTab, setActiveTab] = useState(1);
@@ -14,9 +16,13 @@ const QueryDetails = ({ refId, onClose }) => {
                     <QueryInformation refId={refId} />
                 </div>;
             case 2:
-                return <div className="text-sm text-gray-700">Generate Price - Content</div>;
+                return <div className="text-sm text-gray-700">
+                    <GeneratePriceQuote refId={refId} />
+                </div>;
             case 3:
-                return <div className="text-sm text-gray-700">Attached Files - Content</div>;
+                return <div className="text-sm text-gray-700">
+                    <ShowAttachedFiles refId={refId}  />
+                </div>;
             case 4:
                 return <div className="text-sm text-gray-700">Internal Comments - Content</div>;
             case 5:

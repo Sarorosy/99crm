@@ -1,47 +1,126 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import flagImage from '../../../assets/flag_mark_red.png';
+import axios from 'axios';
+import { Hourglass, Settings } from 'lucide-react';
+import $ from 'jquery';
+import "select2/dist/css/select2.css";
+import "select2";
 
 const QueryInformation = ({ refId }) => {
     const [queryInfo, setQueryInfo] = useState(null);
+    const [allPriority, setAllPriority] = useState([]);
+    const [allTags, setAllTags] = useState([]);
+    const [queryFiles, setQueryFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [historyVisible, setHistoryVisible] = useState(false);
     const [activityData, setActivityData] = useState([]);
+    const [historyloading, setHistoryLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const selectRef = useRef(null);
 
-    useEffect(() => {
-        const fetchQueryDetails = async () => {
-            const id = sessionStorage.getItem('id');
-            const category = sessionStorage.getItem('category');
+    const [editingField, setEditingField] = useState(null); // To track which field is being edited
+    const [updatedValue, setUpdatedValue] = useState("");
 
-            const payload = {
-                query_id: refId,
-                category: category,
-                user_id: id
-            };
 
-            try {
-                const response = await fetch('https://99crm.phdconsulting.in/api/queryDetails', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
 
-                const data = await response.json();
-                setQueryInfo(data.queryInfo);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching query details:', error);
-                setLoading(false);
-            }
+    const fetchQueryDetails = async () => {
+        const id = sessionStorage.getItem('id');
+        const category = sessionStorage.getItem('category');
+
+        const payload = {
+            query_id: refId,
+            category: category,
+            user_id: id
         };
 
+        try {
+            const response = await fetch('https://99crm.phdconsulting.in/api/queryDetails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            setQueryInfo(data.queryInfo);
+            setQueryFiles(data.QueryFilesData);
+            setLoading(false);
+            setAllPriority(data.allpriority);
+
+
+        } catch (error) {
+            console.error('Error fetching query details:', error);
+            setLoading(false);
+        }
+    };
+    const fetchTags = async () => {
+        try {
+
+            const category = sessionStorage.getItem('category');  // Assuming 'id' is stored in sessionStorage
+            const user_type = sessionStorage.getItem('user_type');  // Assuming 'user_type' is stored in sessionStorage
+
+            let whereStr = '';
+            if (user_type != 'admin' && category) {
+                whereStr = `${category}`; // Example: "team_id IN (1, 2, 3)"
+            }
+
+            const payload = { whereStr }
+
+
+
+            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/tags', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.status !== 200) {
+                throw new Error('Failed to fetch tags');
+            }
+
+            setAllTags(response.data.data);
+        } catch (error) {
+            console.error('Error fetching teams:', error);
+        }
+    };
+
+
+    useEffect(() => {
+
         fetchQueryDetails();
+        fetchTags();
     }, []);
+    const initializeSelect2 = () => {
+        // Check if selectRef.current is initialized
+        if (selectRef.current && !$(selectRef.current).hasClass("select2-hidden-accessible")) {
+            $(selectRef.current).select2({
+                placeholder: "Select Tags",
+                allowClear: true,
+                multiple: true,
+            }).on("change", (e) => {
+                const selectedValues = $(e.target).val(); // Use Select2's value retrieval method
+                setUpdatedValue(selectedValues || []); // Update React state with selected values
+            });
+
+            // Set the initial value from queryInfo.tags
+            if (queryInfo.tags) {
+                const initialTags = queryInfo.tags.split(",");
+                $(selectRef.current).val(initialTags).trigger("change");
+            }
+        }
+    };
+
+    // Initialize Select2 directly after rendering
+    setTimeout(initializeSelect2, 0);
+
+    const handleChange = (e) => {
+        setUpdatedValue(Array.from(e.target.selectedOptions, (option) => option.value));
+    };
 
     const fetchActivityHistory = async () => {
         try {
-            setLoading(true);
+            setHistoryLoading(true);
             setError(null);
 
             const response = await axios.post(
@@ -57,10 +136,48 @@ const QueryInformation = ({ refId }) => {
         } catch (err) {
             setError("Failed to fetch activity history");
         } finally {
-            setLoading(false);
+            setHistoryLoading(false);
         }
     };
-    
+
+    const handleEdit = (field, value) => {
+        setEditingField(field);  // Set the field that is being edited
+        setUpdatedValue(value);  // Set the current value as the initial value for editing
+    };
+
+    const handleSubmit = async (field) => {
+
+        setError(null);
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/updatefieldvalues", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ref_id: refId,
+                    field: field,
+                    value: updatedValue,
+                    user_id: sessionStorage.getItem('id'),
+                    user_name: sessionStorage.getItem('name')
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log(`${field} updated successfully`);
+                setEditingField(null);  // Stop editing after success
+                fetchQueryDetails();
+                setEditingField("");
+            } else {
+                setError("Failed to update. Try again later.");
+            }
+        } catch (err) {
+            setError("An error occurred. Please try again.");
+        }
+
+    };
+
     if (loading) {
         return (
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} className='col-md-5'>
@@ -86,47 +203,169 @@ const QueryInformation = ({ refId }) => {
             </div>
         );
     }
-    
+
 
     if (!queryInfo) {
         return <div>No data available</div>;
     }
-
+    const handleButtonClick = () => {
+        setHistoryVisible(!historyVisible);
+        if (!historyVisible) {
+            fetchActivityHistory();
+        }
+    };
     return (
-        <div className="query-info-container bg-white col-md-5 px-8 py-2 rounded-lg shadow-lg">
+        <div className="query-info-container bg-white col-md-5 px-8 py-2 rounded-lg shadow-lg relative">
             <div className="query-detail space-y-4">
                 {[
-                    { label: "Ref. No.", value: queryInfo.assign_id },
-                    { label: "Referred By", value: queryInfo.referred_by },
-                    { label: "Profile", value: queryInfo.profile_name },
-                    { label: "Name", value: queryInfo.name },
-                    { label: "Email", value: queryInfo.email_id },
-                    { label: "Alternate Email ID", value: queryInfo.alt_email_id },
-                    { label: "Contact No.", value: queryInfo.phone },
-                    { label: "Alternate Contact No.", value: queryInfo.alt_contact_no },
-                    { label: "Address", value: queryInfo.complete_address || 'Not provided' },
-                    { label: "Topic/Area of Study", value: queryInfo.area_of_study },
-                    { label: "Service", value: queryInfo.service_name },
-                    { label: "Location", value: queryInfo.location },
-                    { label: "City", value: queryInfo.city },
-                    { label: "Company Name", value: queryInfo.company_name },
-                    { label: "Website", value: queryInfo.website_name },
-                    { label: "Allocated To", value: queryInfo.user_name },
-                    { label: "Manager Name", value: queryInfo.manager_name },
-                    { label: "Priority", value: queryInfo.assign_priority },
-                    { label: "Academic Level", value: queryInfo.academic_level },
-                    { label: "Follow Up Date", value: new Date(queryInfo.follow_up_date * 1000).toLocaleDateString() },
-                    { label: "Query Created Date", value: new Date(queryInfo.created_on * 1000).toLocaleString() },
-                ].map(({ label, value }, index) => (
+                    { label: "Ref. No.", value: queryInfo.assign_id, editable: false },
+                    { label: "Referred By", value: queryInfo.referred_by, editable: false },
+                    { label: "Profile", value: queryInfo.profile_name, editable: false },
+                    { label: "Name", value: queryInfo.name, editable: false },
+                    { label: "Email", value: queryInfo.email_id, editable: false },
+                    { label: "Alternate Email ID", value: queryInfo.alt_email_id, editfieldname: "alt_email_id", editable: (queryInfo.alt_email_id == '' || queryInfo.alt_email_id == null) ? true : false },
+                    { label: "Contact No.", value: queryInfo.phone, editable: false, editfieldname: "phone" },
+                    { label: "Alternate Contact No.", value: queryInfo.alt_contact_no, editable: queryInfo.alt_contact_no = '' ? true : false, editfieldname: "alt_contact_no" },
+                    { label: "Address", value: queryInfo.complete_address || 'Not provided', editable: (queryInfo.complete_address == "" || queryInfo.complete_address == null) ? true : false, editfieldname: "complete_address" },
+                    { label: "Topic/Area of Study", value: queryInfo.area_of_study, editable: false, editfieldname: "area_of_study" },
+                    { label: "Service", value: queryInfo.service_name, editable: false },
+                    { label: "Location", value: queryInfo.location, editable: false },
+                    { label: "City", value: queryInfo.city, editable: false },
+                    { label: "Company Name", value: queryInfo.company_name, editable: false },
+                    { label: "Website", value: queryInfo.website_name, editable: false, editfieldname: "website_name" },
+                    { label: "Allocated To", value: queryInfo.user_name, editable: false },
+                    { label: "Manager Name", value: queryInfo.manager_name, editable: false },
+                    { label: "Priority", value: queryInfo.assign_priority, editable: true, editfieldname: "assign_priority" },
+                    { label: "Academic Level", value: queryInfo.academic_level, editable: false },
+                    { label: "Follow Up Date", value: new Date(queryInfo.follow_up_date * 1000).toLocaleDateString(), editable: false },
+                    { label: "Query Created Date", value: new Date(queryInfo.created_on * 1000).toLocaleString(), editable: false },
+                ].map(({ label, value, editable, editfieldname }, index) => (
                     <div className="flex justify-between" key={index}>
                         <div className='w-1/2 text-left'>
                             <strong>{label}</strong>
                         </div>
-                        <div className='w-1/2 text-left'>
-                            <span>{value || "Not provided"}</span>
+                        <div className='w-1/2 text-left flex items-center'>
+                            {editingField === editfieldname ? (
+                                <>
+                                    {(editfieldname == "assign_priority") ? (
+                                        <select
+                                            value={updatedValue}
+                                            onChange={(e) => setUpdatedValue(e.target.value)}
+                                            className="border p-1 rounded"
+                                        >
+                                            {allPriority.map((priority) => (
+                                                <option key={priority.id} value={priority.priority}>
+                                                    {priority.priority}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : editfieldname === "tags" ? (
+                                        <select
+                                            multiple
+                                            value={updatedValue}
+                                            onChange={(e) =>
+                                                setUpdatedValue(
+                                                    Array.from(e.target.selectedOptions, (option) => option.value)
+                                                )
+                                            }
+                                            className="border p-1 rounded"
+                                        >
+                                            {allTags.map((tag) => (
+                                                <option key={tag.id} value={tag.name}>
+                                                    {tag.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={updatedValue}
+                                            onChange={(e) => setUpdatedValue(e.target.value)}
+                                            className="border p-1 rounded"
+                                        />
+                                    )}
+
+                                    <button
+                                        onClick={() => handleSubmit(editfieldname)}
+                                        className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
+                                        style={{ fontSize: "12px" }}
+                                    >
+                                        {loading ? "Submitting..." : "Submit"}
+                                    </button>
+                                </>
+                            ) : (
+                                <>
+                                    <span>{value || "Not provided"}</span>
+                                    {editable && (
+                                        <button
+                                            onClick={() => handleEdit(editfieldname, value)}
+                                            style={{
+                                                marginLeft: "8px",
+                                                border: "none",
+                                                background: "transparent",
+                                                cursor: "pointer",
+                                                color: "#0a5eb0",
+                                                fontSize: "16px",
+                                            }}
+                                            title={`Edit ${label}`}
+                                        >
+                                            <Settings size={18} />
+                                        </button>
+                                    )}
+                                </>
+                            )}
+                            {label === "Ref. No." && (
+                                <button
+                                    onClick={() => handleButtonClick()}
+                                    style={{
+                                        border: "none",
+                                        background: "transparent",
+                                        cursor: "pointer",
+                                        color: "#0a5eb0",
+                                        fontSize: "16px",
+                                    }}
+                                    title='Earlier Activity History'
+                                >
+                                    <Hourglass className='ml-2' size={18} />
+                                </button>
+                            )}
                         </div>
+                        {historyVisible && (
+                            <div
+                                className="absolute top-8 right-0 bg-white rounded-lg shadow-sm p-4 w-64 z-50 overflow-y-auto max-h-72 custom-scrollbar"
+                            >
+                                {historyloading && (
+                                    <div className="space-y-3 animate-pulse">
+                                        <div className="h-4 bg-gray-300 rounded"></div>
+                                        <div className="h-4 bg-gray-300 rounded"></div>
+                                        <div className="h-4 bg-gray-300 rounded"></div>
+                                    </div>
+                                )}
+
+                                {error && <p className="text-red-500 text-sm">{error}</p>}
+
+                                {!historyloading && !error && activityData.length === 0 && (
+                                    <p className="text-gray-500 text-sm">No activity found</p>
+                                )}
+
+                                {!historyloading &&
+                                    activityData.map((activity, index) => (
+                                        <div
+                                            key={index}
+                                            className="mb-3 border-b border-gray-200 pb-2 last:border-b-0"
+                                        >
+                                            <p className="font-semibold text-gray-800">{activity.user_name}</p>
+                                            <p className="text-gray-600 text-sm">{activity.message}</p>
+                                            <p className="text-gray-400 text-xs mt-1">{activity.action_date}</p>
+                                        </div>
+                                    ))}
+                            </div>
+                        )}
+
                     </div>
                 ))}
+
+
 
                 {/* Tags */}
                 <div className="flex justify-between">
@@ -134,17 +373,68 @@ const QueryInformation = ({ refId }) => {
                         <strong>Tags</strong>
                     </div>
                     <div className='w-1/2 text-left'>
-                        <ul className="space-y-1">
-                            {queryInfo.arrTags && queryInfo.arrTags.length > 0 ? (
-                                queryInfo.arrTags.map((tag, index) => (
-                                    <li key={index} className="text-blue-500">{tag}</li>
-                                ))
+                        <div >
+                            {editingField && editingField === "tags" ? (
+                                <div>
+                                    <select
+                                        ref={selectRef}
+                                        multiple
+                                        value={updatedValue}
+                                        style={{ visibility: editingField == "tags" ? "" : "hidden" }}
+                                        onChange={(e) =>
+                                            setUpdatedValue(
+                                                Array.from(e.target.selectedOptions, (option) => option.value)
+                                            )
+                                        }
+                                        className={`border p-1 rounded `}
+                                    >
+                                        {allTags.map((tag) => (
+                                            <option key={tag.id} value={tag.id}>
+                                                {tag.tag_name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        onClick={() => handleSubmit("tags")}
+                                        className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
+                                        style={{ fontSize: "12px" }}
+                                    >
+                                        {loading ? "Submitting..." : "Submit"}
+                                    </button>
+                                </div>
                             ) : (
-                                <p>No tags available</p>
+                                <>
+                                    <ul className="space-y-1" style={{ display: editingField === "tags" ? "none !important" : "block !important" }}>
+                                        {queryInfo.arrTags && queryInfo.arrTags.length > 0 ? (
+                                            queryInfo.arrTags.map((tag, index) => (
+                                                <li key={index} className="text-blue-500">{tag}</li>
+                                            ))
+                                        ) : (
+                                            <p>No tags available</p>
+                                        )}
+                                    </ul>
+                                    <button
+                                        onClick={() => handleEdit("tags", queryInfo.tags)}
+                                        style={{
+                                            marginLeft: "8px",
+                                            border: "none",
+                                            background: "transparent",
+                                            cursor: "pointer",
+                                            color: "#0a5eb0",
+                                            fontSize: "16px",
+
+                                        }}
+                                        title={`Edit Tags`}
+                                    >
+                                        <Settings size={18} />
+                                    </button>
+                                </>
                             )}
-                        </ul>
+                        </div>
+
                     </div>
                 </div>
+
 
                 {/* Requirement */}
                 <div className="flex justify-between">
@@ -189,11 +479,11 @@ const QueryInformation = ({ refId }) => {
                         <strong>Uploaded Files</strong>
                     </div>
                     <div className='w-1/2 text-left'>
-                        {queryInfo.files && queryInfo.files.length > 0 ? (
+                        {queryFiles && queryFiles.length > 0 ? (
                             <ul className="space-y-1">
-                                {queryInfo.files.map((file, index) => (
+                                {queryFiles.map((file, index) => (
                                     <li key={index}>
-                                        <a href={`https://99crm.phdconsulting.com/${file.file_path}`} target="_blank" rel="noopener noreferrer" className="text-blue-500">
+                                        <a href={`https://99crm.phdconsulting.in/${file.file_path}`} target="_blank" rel="noopener noreferrer" className="text-blue-500">
                                             {file.file_name}
                                         </a>
                                     </li>

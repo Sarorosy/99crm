@@ -12,22 +12,31 @@ code {
     monospace;
 }
 
-/* Apply custom scrollbar styles */
-body::-webkit-scrollbar {
-  width: 0px;
-  /* Set scrollbar width */
+/* Apply styles for Firefox */
+.custom-scrollbar {
+  scrollbar-width: 2px;
+  /* Thin scrollbar */
+
 }
 
-body::-webkit-scrollbar-track {
+.custom-scrollbar::-webkit-scrollbar {
+  width: 2px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
   background: transparent;
   /* Transparent background for track */
 }
 
 
-
 /* Apply styles for Firefox */
 html {
-  scrollbar-width: 0px;
+  scrollbar-width: 2px;
+  /* Thin scrollbar */
+  scrollbar-color: linear-gradient(to bottom, blue, purple) transparent;
+}
+html {
+  scrollbar-width: 2px;
   /* Thin scrollbar */
 
 }
@@ -47,6 +56,15 @@ html {
   scrollbar-width: 0px;
   /* Thin scrollbar */
   scrollbar-color: linear-gradient(to bottom, blue, purple) transparent;
+}
+body::-webkit-scrollbar {
+  width: 0px;
+  /* Set scrollbar width */
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+  /* Transparent background for track */
 }
 
 /* Apply border-top to the table */
@@ -732,3 +750,4 @@ h1::selection,h2::selection,h3::selection,h4::selection,h5::selection,h6::select
 .sptid thead{
   top: -1px;
 }
+

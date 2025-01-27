@@ -307,7 +307,9 @@ const ManageUser = () => {
           >
             <Trash2 className='mr-2' size={14}/>Delete
           </button>
+          <div className='mr-3'>
           <ExportButton selectedUsers={selectedUsers} users={users}  clearSelectedUsers={clearSelectedUsers}/>
+          </div>
           <button
            // onClick={() => navigate('/manageuser/adduser/')}
            onClick={toggleAddUserVisibility}

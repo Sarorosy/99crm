@@ -676,7 +676,7 @@ const AddQuery = () => {
             const data = await response.json();
             toast.success("Query submitted successfully!");
 
-            setFormData(initialFormData); 
+            setFormData(initialFormData);
 
         } catch (error) {
             console.error("Error submitting query:", error);
@@ -688,18 +688,18 @@ const AddQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-2xl font-semibold'>Add New Query</h1>
-            
-            <div className="flex w-full items-start justify-between space-x-2">
-                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4" autoComplete="off">
+            <h1 className='text-2xl font-semibold text-center'>Add New Query</h1>
+
+            <div className="flex w-full items-start justify-center space-x-2 mt-4 ">
+                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4 qhpage" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
                             <div dangerouslySetInnerHTML={{ __html: errorData }} />
                         </div>
-                    ) }
+                    )}
 
-                    <div className="row form-group">
-                        <div className="col-sm-3 withoutemail">
+                    <div className="row form-group anq">
+                        <div className="col-sm-4 withoutemail">
                             <label htmlFor="specific_query_type">Query type<span className="error">*</span></label>
                             <select
                                 className="form-control"
@@ -714,7 +714,7 @@ const AddQuery = () => {
                                 <option value="DATA_SPECIFIC">DATA SPECIFIC</option>
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="query_code">Query Code<span className="error">*</span></label>
                             <select
                                 name="query_code"
@@ -731,8 +731,8 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
-                            <div className="form-group" style={{ marginTop: "22px" }}>
+                        <div className="col-sm-4">
+                            <div className="form-group" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
                                     name="withoutemail"
@@ -745,7 +745,7 @@ const AddQuery = () => {
                                         });
                                     }}
                                 />
-                                <label htmlFor="withoutemail"> Add Without Email</label>
+                                <label htmlFor="withoutemail" style={{ marginLeft: "8px", marginTop: "0" }}> Add Without Email</label>
                             </div>
                         </div>
                     </div>
@@ -753,8 +753,8 @@ const AddQuery = () => {
 
 
                     {/* Conditional Client Email Inputs */}
-                    <div className="row form-group">
-                        <div className="col-sm-3">
+                    <div className="row form-group mt-0 anq">
+                        <div className="col-sm-4">
                             <label htmlFor="name">Client Name<span className="error">*</span></label>
                             <input
                                 type="text"
@@ -767,7 +767,7 @@ const AddQuery = () => {
                         </div>
                         {!formData.withoutemail && (
                             <>
-                                <div className="col-sm-3">
+                                <div className="col-sm-4">
                                     <label htmlFor="email_id">Client Email ID<span className="error">*</span></label>
                                     <input
                                         type="text"
@@ -779,7 +779,7 @@ const AddQuery = () => {
 
                                     />
                                 </div>
-                                <div className="col-sm-3">
+                                <div className="col-sm-4">
                                     <label htmlFor="email_domain">Email Domain</label>
                                     <select
                                         className="form-control"
@@ -797,7 +797,7 @@ const AddQuery = () => {
                                         <option value="other">other</option>
                                     </select>
                                 </div>
-                                <div className="col-sm-3">
+                                <div className="col-sm-4">
                                     <label htmlFor="alt_email_id">Alternate Email ID</label>
                                     <input
                                         type="email"
@@ -812,7 +812,7 @@ const AddQuery = () => {
                             </>
                         )}
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="phone">Contact No.</label>
                             <input
                                 type="text"
@@ -823,7 +823,7 @@ const AddQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="alt_contact_no">Alternate Contact Number</label>
                             <input
                                 type="text"
@@ -834,7 +834,7 @@ const AddQuery = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="area_of_study">Topic/Area of Study</label>
                             <input
                                 type="text"
@@ -846,7 +846,7 @@ const AddQuery = () => {
                             />
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="location">Location</label>
                             <select
                                 name="location"
@@ -865,7 +865,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="state">State</label>
                             <select
                                 name="state"
@@ -883,7 +883,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="city">City</label>
                             <select
                                 name="city"
@@ -902,7 +902,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="company_id">Company</label>
                             <select
                                 name="company_id"
@@ -920,7 +920,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="website">Website</label>
                             <select
                                 name="website"
@@ -938,7 +938,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="requirement">Service</label>
                             <select
                                 name="requirement"
@@ -956,7 +956,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="tags">Tags</label>
                             <select
                                 className="form-control"
@@ -973,7 +973,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="referred_by">Referred By</label>
                             <select
                                 name="referred_by"
@@ -991,7 +991,7 @@ const AddQuery = () => {
                             </select>
                         </div>
                         {formData.specific_query_type && formData.specific_query_type == "USER_SPECIFIC" && (<>
-                            <div className="col-sm-3">
+                            <div className="col-sm-4">
                                 <label htmlFor="team">Team</label>
                                 <select
                                     name="team"
@@ -1008,7 +1008,7 @@ const AddQuery = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="col-sm-3">
+                            <div className="col-sm-4">
                                 <label htmlFor="allocated_to">Allocated To</label>
                                 <select
                                     name="allocated_to"
@@ -1025,7 +1025,7 @@ const AddQuery = () => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="col-sm-3">
+                            <div className="col-sm-4">
                                 <label htmlFor="profile_id">Select Profile</label>
                                 <select
                                     name="profile_id"
@@ -1043,7 +1043,7 @@ const AddQuery = () => {
                                 </select>
                             </div>
                         </>)}
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="priority">Select Priority</label>
                             <select
                                 name="priority"
@@ -1060,7 +1060,7 @@ const AddQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="academic_level">Academic Level</label>
                             <select
                                 className="form-control"
@@ -1075,7 +1075,7 @@ const AddQuery = () => {
                                 <option value="Bachelors">Bachelors</option>
                             </select>
                         </div>
-                        <div className="col-sm-6 flex items-center flex-col">
+                        <div className="col-sm-4 flex items-center flex-col" style={{ marginTop: "24px" }}>
                             {fileInputs.map((input, index) => (
                                 <div className="row flex items-center" key={input.id} >
                                     <div className="w-3/4">
@@ -1105,8 +1105,8 @@ const AddQuery = () => {
                                 </div>
                             ))}
                         </div>
-                        <div className="col-sm-3">
-                            <div className="form-group" style={{ marginTop: "22px" }}>
+                        <div className="col-sm-4">
+                            <div className="form-group"  style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
                                     name="ifCampTag"
@@ -1119,10 +1119,10 @@ const AddQuery = () => {
                                         });
                                     }}
                                 />
-                                <label htmlFor="ifCampTag"> Check If Camp Query</label>
+                                <label htmlFor="ifCampTag" style={{ marginLeft: "8px", marginTop:"0" }}> Check If Camp Query</label>
                             </div>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-4">
                             <label htmlFor="requirement_line">Requirement</label>
                             <select
                                 className="form-control"
@@ -1167,11 +1167,11 @@ const AddQuery = () => {
                             </div>
                         )}
 
-                        <div className="flex justify-start mt-4">
+                        <div className="flex justify-end mt-4">
                             <button
                                 type="submit"
                                 onClick={handleSubmit}
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
                             >
                                 Submit
                             </button>

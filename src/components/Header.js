@@ -56,7 +56,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-blue-400 text-white">
+    <header className="bg-blue-400 navv text-white">
       <div className="mx-auto w-full flex justify-between items-center px-5">
         {/* Logo and Navigation Links */}
         <div className="flex items-center">

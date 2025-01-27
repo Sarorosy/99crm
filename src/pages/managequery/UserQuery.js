@@ -771,15 +771,15 @@ const UserQuery = () => {
 
     return (
         <div>
-            <div className="my-3 flex justify-between flex-col mx-auto">
+            <div className="my-3 flex justify-between flex-col mx-auto qhpage">
                 <div className='flex w-full justify-between px-4'>
                     <h1 className="text-2xl font-bold">Query History</h1>
-                    <div className='buton'>
+                    <div className='mdbut'>
                         <button
                             onClick={handleRefresh}
                             className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
                         >
-                            <RefreshCw className="mr-2" size={14} />
+                            <RefreshCw className="mr-2" size={12} />
                             Refresh
                         </button></div>
                 </div>
@@ -1051,17 +1051,17 @@ const UserQuery = () => {
                     </div>
                 </div>
 
-                <div className='buton last mb-4 mt-2'>
+                <div className='last mb-4 mt-2'>
                     <button
                         onClick={handleSubmit}
-                        className="bg-[#f39c12] text-white rounded hover:bg-[#dd8c0a] flex items-center py-1 px-2 mr-2"
+                        className="bg-blue-500 text-white py-1 px-2 rounded flex items-center mr-3"
                     >
-                        <SearchIcon className="mr-2" size={14} />
+                        <SearchIcon className="mr-2" size={12} />
                         Search
                     </button>
                     <button
                         onClick={resetFilters}
-                        className="bg-red-500 text-white rounded hover:bg-red-400 flex items-center py-1 px-2"
+                        className="btn btn-success text-white py-1 px-2 rounded flex items-center"
                     >
                         Reset Filters
                     </button>
@@ -1072,7 +1072,7 @@ const UserQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end buton'>
+                    <div className='w-full flex items-center justify-end buton mb-3'>
                         <button
                             onClick={handleAddQuery}
                             className="bg-[#f39c12] text-white rounded hover:bg-orange-400 flex items-center py-1 px-2"
@@ -1080,7 +1080,7 @@ const UserQuery = () => {
                             <Plus className='mr-2' size={14} />  Add query
                         </button>
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem' }}>
                         <DataTable
                             data={reports}
                             columns={columns}

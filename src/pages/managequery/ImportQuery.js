@@ -388,10 +388,10 @@ const ImportQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-2xl font-semibold'>Import Query</h1>
+            <h1 className='text-2xl font-semibold text-center mt-2'>Import Query</h1>
             
-            <div className="flex w-full items-start justify-between space-x-2">
-                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4" autoComplete="off">
+            <div className="flex w-full items-start justify-center space-x-2 mt-5 ">
+                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl iqw" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
                             <div dangerouslySetInnerHTML={{ __html: errorData }} />
@@ -401,9 +401,9 @@ const ImportQuery = () => {
                     
 
                     {/* Conditional Client Email Inputs */}
-                    <div className="row form-group">
+                    <div className="row form-group qhpage">
                        
-                        <div className="col-sm-3">
+                        <div className="col-sm-12">
                             <label htmlFor="location">Select Team</label>
                             <select
                                 name="team"
@@ -421,7 +421,7 @@ const ImportQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-3">
+                        <div className="col-sm-12 mt-3">
                             <label htmlFor="state">Allocated to</label>
                             <select
                                 name="allocated_to"
@@ -438,7 +438,7 @@ const ImportQuery = () => {
                                 ))}
                             </select>
                         </div>
-                        <div className="col-sm-3">
+                        <div className="col-sm-12 mt-3">
                             <label htmlFor="city">Profile</label>
                             <select
                                 name="profile_id"
@@ -455,14 +455,8 @@ const ImportQuery = () => {
                                     </option>
                                 ))}
                             </select>
-                        </div>
-
-                        
-                        
-
-                       
-                        
-                        <div className="col-sm-3">
+                        </div>                        
+                        <div className="col-sm-12 mt-3">
                             <label htmlFor="priority">Select Priority</label>
                             <select
                                 name="priority"
@@ -479,11 +473,10 @@ const ImportQuery = () => {
                                 ))}
                             </select>
                         </div>
-                       
-                        <div className="col-sm-6 flex items-center flex-col">
+                        <div className="col-sm-12 mt-4">
                             {fileInputs.map((input, index) => (
-                                <div className="row flex items-center" key={input.id} >
-                                    <div className="w-3/4">
+                                <div className="flex items-center" key={input.id} >
+                                    {/* <div className="w-3/4"> */}
                                         <input
                                             type="file"
                                             className="form-control"
@@ -491,7 +484,8 @@ const ImportQuery = () => {
                                             id={`import_csv_file${input.id}`}
                                             onChange={(e) => handleFileChange(e, index)}
                                         />
-                                    </div>
+                                    {/* </div> */}
+
                                     {/* <div className="w-1/4">
                                         {index === 0 ? (
                                             <i
@@ -511,19 +505,19 @@ const ImportQuery = () => {
                             ))}
                         </div>
                         
-                        <div className="flex justify-start mt-4">
+                        <div className="flex justify-end mt-4">
                             <button
                                 type="submit"
                                 onClick={handleSubmit}
                                 disabled={buttonDisabled}
-                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
                             >
                                 Submit
                             </button>
                         </div>
                     </div>
                 </form>
-                <div className="w-1/4">
+                <div>
                     <AddQuerySideDetails TodayCreatedQuery ={0}/>
                 </div>
             </div>

@@ -180,7 +180,7 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
 
             <div className="mb-6">
                 {campaignInfo ? (
-                    <div className="p-4 bg-white shadow-md rounded flex flex-wrap gap-2">
+                    <div className="py-2 px-3 shadow-md rounded flex flex-wrap bluec">
                         <div className="flex-1 ">
                             <p><strong>Camp Title:</strong> {campaignInfo.camp_title}</p>
                         </div>
@@ -206,7 +206,7 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
 
             <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
                 <h3 className="text-lg font-semibold">Query Data</h3>
-                <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem' }}>
                     <DataTable
                         data={queryData}
                         columns={columns}

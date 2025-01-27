@@ -182,27 +182,26 @@ const ManageTeams = () => {
         <div>
             <div className="my-3 flex justify-between w-2/3 mx-auto">
                 <h1 className="text-2xl font-bold">Teams</h1>
-                <div className='flex buton'>
+                <div className='flex mdbut'>
                     <button
                         onClick={handleDelete}
-                        className="bg-red-500 text-white rounded hover:bg-red-600 mr-2 flex items-center"
+                        className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-2" size={14}/>
+                        <Trash2 className="mr-2" size={12}/>
                         Delete
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}
-                        className="bg-blue-500 text-white rounded hover:bg-blue-600 mr-2 flex items-center"
+                        className="bg-blue-500 text-white rounded hover:bg-blue-600 mr-2 flex items-centerbg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center"
                     >
-                        <PlusCircle className="mr-2" size={14}/>
+                        <PlusCircle className="mr-2" size={12}/>
                         Add Team
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white rounded hover:bg-gray-600 flex items-center"
+                        className=" flex items-center"
                     >
-                        <RefreshCw className="mr-2" size={14}/>
-                        Refresh
+                        <RefreshCw className="mr-2" size={12}/>
                     </button>
                 </div>
             </div>

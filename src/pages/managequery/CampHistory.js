@@ -202,9 +202,9 @@ const CampHistory = () => {
             render: (data, type, row) => {
                 const count = data ? data.split(',').length : 0;
                 return `
-                    <div style="text-align: left;">
+                    <div style="text-align: center;">
                         <span 
-                            class="text-blue-500 bg-blue-100 p-1 rounded-full cursor-pointer count-span" 
+                            class="tqc p-1 rounded-full cursor-pointer count-span" 
                             data-id="${row.id}" 
                             count-span>
                             ${count}
@@ -318,23 +318,23 @@ const CampHistory = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end buton'>
+                    <div className='w-full flex items-center justify-end mb-1'>
                         <button
                             onClick={handleDelete}
-                            className="bg-[#f32112] text-white rounded hover:bg-red-800 flex items-center py-1 px-2 mr-2"
+                            className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                         >
                             <Trash2 className='mr-2' size={14} />  Delete
                         </button>
                         <button
                             onClick={fetchQueries}
-                            className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
+                            className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center"
                         >
                             <RefreshCw className="mr-2" size={14} />
                             Refresh
                         </button>
 
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem' }}>
                         <DataTable
                             data={reports}
                             columns={columns}

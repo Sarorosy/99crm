@@ -445,10 +445,10 @@ const DeadQuery = () => {
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between px-4'>
+                <div className='flex w-full justify-between px-2'>
                     <h1 className="text-2xl font-bold">Dead Query History</h1>
                 </div>
-                <div className="w-full flex items-center justify-center gap-2 px-4 pt-2 qhpage" id="filterDiv">
+                <div className="flex items-center space-x-2 my-4 bg-white rounded gap-2 px-2 py-2 gap-2 qhpage" id="filterDiv">
 
                     {/* Date Range Picker */}
                     <input
@@ -499,31 +499,20 @@ const DeadQuery = () => {
                             <option value="query.academic_level">Academic Level</option>
                         </select>
                     </div>
-                    {/* Keyword Search */}
-                    <div className='col-md-3'>
-                    <input
-                        type="text"
-                        name="search_keywords"
-                        id="search_keywords"
-                        className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="Enter Keywords Name or Email or Phone"
-                        value={searchKeywords}
-                        onChange={(e) => setSearchKeywords(e.target.value)}
-                    />
-                    </div>
-                    <div className='buton last mb-4 mt-2'>
+
+                    <div className='last ml-auto w-full'>
                         <button
                             onClick={handleSubmit}
-                            className="bg-[#f39c12] text-white rounded hover:bg-[#dd8c0a] flex items-center py-1 px-2 mr-2"
+                            className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center"
                         >
                             <SearchIcon className="mr-2" size={14} />
                             Search
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="bg-red-500 text-white rounded hover:bg-red-400 flex items-center py-1 px-2"
+                            className="text-gray flex items-center py-1 px-2"
                         >
-                            Reset
+                            <RefreshCw className="mr-2" size={14} />
                         </button>
                     </div>
 
@@ -537,17 +526,22 @@ const DeadQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end buton'>
-                        <button
+                    <div className='w-full flex items-center justify-end mb-2'>
+                    <button
                             onClick={handleDelete}
-                            className="bg-[#f32112] text-white rounded hover:bg-red-800 flex items-center py-1 px-2 mr-2"
+                            className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                         >
                             <Trash2 className='mr-2' size={14} />  Delete
                         </button>
+                        <button
+                            onClick={handleAddQuery}
+                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
+                        >
+                            <Plus className='mr-2' size={14} />  Add Box query
+                        </button>
                         
-
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                    <div style={{overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem'}}>
                         <DataTable
                             data={reports}
                             columns={columns}
@@ -555,7 +549,7 @@ const DeadQuery = () => {
                                 pageLength: 50,
                                 ordering: false,
                                 createdRow: (row, data) => {
-                                    $(row).css('background-color', data.color_code || 'white');
+                                    // $(row).css('background-color', data.color_code || 'white');
                                     $(row).css('font-size', '12px !important');
                                     $(row).find('.checkbox').on('click', handleCheckboxClick);
                                 },

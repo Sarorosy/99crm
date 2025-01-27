@@ -275,7 +275,7 @@ const RequestQuoteActivation = () => {
                         <option value="5">Paid</option>
                     </select>
                 </div>
-                <div className="w-1/2 flex items-center space-x-2 mt-1">
+                <div className="w-full flex items-center space-x-2 mt-1 ml-auto last">
                     <label>&nbsp;</label>
                     <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchFilteredQuotes}>
                         Apply Filters

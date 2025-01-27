@@ -204,7 +204,7 @@ const CampHistory = () => {
                 return `
                     <div style="text-align: center;">
                         <span 
-                            class="text-blue-500 bg-blue-100 p-1 rounded-full cursor-pointer count-span" 
+                            class="tqc p-1 rounded-full cursor-pointer count-span" 
                             data-id="${row.id}" 
                             count-span>
                             ${count}

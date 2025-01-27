@@ -1033,7 +1033,8 @@ video {
 
 .border-blue-400 {
   --tw-border-opacity: 1;
-  border-color: rgb(96 165 250 / var(--tw-border-opacity, 1));
+  /* border-color: rgb(96 165 250 / var(--tw-border-opacity, 1)); */
+  border-color: #66A6B3;
 }
 
 .border-gray-200 {

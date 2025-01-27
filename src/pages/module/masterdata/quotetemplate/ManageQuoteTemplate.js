@@ -176,21 +176,20 @@ const ManageQuoteTemplate = () => {
             <ToastContainer />
             <div className="my-3 flex justify-between">
                 <h1 className="text-2xl font-bold">Quote Templates</h1>
-                <div className='flex buton'>
+                <div className='flex mdbut'>
 
                     <button
                         onClick={toggleAddSettingVisibility}
-                        className="bg-blue-500 text-white rounded hover:bg-blue-600 mr-2 flex items-center"
+                        className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-2"
                     >
-                        <PlusCircle className="mr-2" size={14}/>
+                        <PlusCircle className="mr-2" size={12}/>
                         Add Template
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white rounded hover:bg-gray-600 flex items-center"
+                        className="flex items-center"
                     >
-                        <RefreshCw className="mr-2" size={14}/>
-                        Refresh
+                        <RefreshCw className="mr-2" size={12}/>
                     </button>
                 </div>
             </div>

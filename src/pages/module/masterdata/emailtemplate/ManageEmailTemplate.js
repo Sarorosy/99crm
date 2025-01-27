@@ -396,10 +396,10 @@ const ManageEmailTemplate = () => {
         <div className='bg-gray-100 p-2'>
             <div className="my-3 flex justify-between ">
                 <h1 className="text-2xl font-bold">Email Templates</h1>
-                <div className='flex buton'>
+                <div className='flex mdbut'>
                     <button
                         onClick={handleDelete}
-                        className="bg-red-500 text-white rounded hover:bg-red-600 mr-2 flex items-center"
+                        className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
                         <Trash2 className="mr-2" size={14}/>
                         Delete
@@ -407,7 +407,7 @@ const ManageEmailTemplate = () => {
 
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white rounded hover:bg-gray-600 flex items-center"
+                        className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
                     >
                         <RefreshCw className="mr-2" size={14}/>
                         Refresh

@@ -226,13 +226,13 @@ const [endDate, setEndDate] = useState(null); // Store end date
                     />
                 </div></div>
                 <div className='col-md-5 flex justify-end'>
-                <div className='flex buton'>
+                <div className='flex mdbut'>
                     
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
+                        className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
                     >
-                        <RefreshCw className="mr-2" size={14}/>
+                        <RefreshCw className="mr-2" size={12}/>
                         Refresh
                     </button>
                 </div></div>

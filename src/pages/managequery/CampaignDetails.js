@@ -180,7 +180,7 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
 
             <div className="mb-6">
                 {campaignInfo ? (
-                    <div className="py-2 px-3 shadow-md rounded flex flex-wrap gap-2 bluec">
+                    <div className="py-2 px-3 shadow-md rounded flex flex-wrap bluec">
                         <div className="flex-1 ">
                             <p><strong>Camp Title:</strong> {campaignInfo.camp_title}</p>
                         </div>

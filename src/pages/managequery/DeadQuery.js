@@ -17,7 +17,7 @@ import 'daterangepicker/daterangepicker.css'; // Import daterangepicker CSS
 import 'daterangepicker'; // Import daterangepicker JS
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-
+import flagImage from '../../assets/flag_mark_red.png';
 
 const DeadQuery = () => {
     DataTable.use(DT);
@@ -40,7 +40,7 @@ const DeadQuery = () => {
     const [searchTeamId, setSearchTeamId] = useState([]);
     const [searchKeywords, setSearchKeywords] = useState("");
     const [refId, setRefId] = useState("");
-    const [selectedWebsites, setSelectedWebsites] = useState([]);
+    const [selectedWebsites, setSelectedWebsites] = useState('');
     const [searchType, setSearchType] = useState('');
     const [updateStatus, setUpdateStatus] = useState("");
     const [iconFilter, setIconFilter] = useState("");
@@ -60,9 +60,8 @@ const DeadQuery = () => {
     useEffect(() => {
         // Initialize select2 for Select Team
         $(websiteRef.current).select2({
-            placeholder: "Select Website",
+            placeholder: "Select User",
             allowClear: true,
-            multiple: true,
         }).on('change', (e) => {
             const selectedValues = $(e.target).val(); // Use select2's value retrieval method
             setSelectedWebsites(selectedValues);
@@ -76,7 +75,7 @@ const DeadQuery = () => {
             }
         };
     }, [websites]);
-    
+
 
 
     useEffect(() => {
@@ -112,11 +111,11 @@ const DeadQuery = () => {
             setLoading(true);
 
             const payload = {
-                user_id: sessionStorage.getItem('id'),
+                client_user_id: sessionStorage.getItem('id'),
                 user_type: sessionStorage.getItem('user_type')
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loadboxquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/api/loaddeadquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -125,8 +124,8 @@ const DeadQuery = () => {
             if (response.status !== 200) {
                 throw new Error('Failed to fetch reports');
             }
-            
-            setReports(response.data.queryData);
+
+            setReports(response.data.QueryUsers);
         } catch (error) {
             console.error('Error fetching reports:', error);
             toast.error(error.message || 'Error fetching reports');
@@ -140,18 +139,17 @@ const DeadQuery = () => {
         try {
             setLoading(true);
 
-            const category = sessionStorage.getItem('category');  // Assuming 'id' is stored in sessionStorage
+            const team_ids = sessionStorage.getItem('team_id');  // Assuming 'id' is stored in sessionStorage
             const user_type = sessionStorage.getItem('user_type');  // Assuming 'user_type' is stored in sessionStorage
 
-            let whereStr = '';
-            if (user_type != 'admin' && category) {
-                whereStr = `${category}`; // Example: "team_id IN (1, 2, 3)"
+
+
+            const payload = {
+                user_type, team_ids
             }
 
-            const payload = { whereStr }
 
-
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getallusersforpricequote', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -204,9 +202,9 @@ const DeadQuery = () => {
             setLoading(false);
         }
     };
-    
 
-    
+
+
 
 
 
@@ -217,7 +215,7 @@ const DeadQuery = () => {
         fetchTags();
     }, []);
 
-   
+
 
 
     const columns = [
@@ -241,7 +239,15 @@ const DeadQuery = () => {
             },
         },
         {
-            title: 'Name',
+            title: 'User Name',
+            orderable: false,
+            data: 'user_name',
+            render: (data) => {
+                return `<div style="text-align: left;">${data}</div>`;
+            },
+        },
+        {
+            title: 'Client Name',
             orderable: false,
             data: 'name',
             render: (data) => {
@@ -267,24 +273,28 @@ const DeadQuery = () => {
         {
             title: 'Website',
             orderable: false,
-            data: 'website',
+            data: 'website_name',
             render: (data, type, row) => {
                 return `<div style="text-align: left;">${data ? data : 'Generic Query'}</div>`;
             },
-        },        
-        
+        },
         {
-            title: 'Box Tags',
+            title: 'Flag Mark',
             orderable: false,
-            data: 'box_tag_names',
+            data: 'flag_mark',
             render: (data, type, row) => {
-                if (Array.isArray(data)) {
-                    return data.map(tag => `<span style="font-size:12px" class=" px-2 py-1 bg-gray-200 text-gray-800 rounded-full mr-1">${tag}</span>`).join(' ');
-                }
-                return `<div style="text-align: left;">No Tags</div>`;
+                return `<div style="text-align: left;">${data == 'on' ? `<img src="${flagImage}" />` : ''}</div>`;
             },
-        },        
-        
+        },
+        {
+            title: 'Status',
+            orderable: false,
+            data: 'statusInfo',
+            render: (data, type, row) => {
+                return `<div style="text-align: left;">${data}</div>`;
+            },
+        },
+
         {
             title: 'Created Date',
             orderable: false,
@@ -310,7 +320,7 @@ const DeadQuery = () => {
 
     const handleCheckboxClick = (event) => {
         const id = parseInt(event.target.dataset.id, 10); // Parse the ID to ensure it's a number
-    
+
         setSelectedQueries((prevSelectedQueries) => {
             if (event.target.checked) {
                 // Add the ID to the state if checked
@@ -320,8 +330,8 @@ const DeadQuery = () => {
                 return prevSelectedQueries.filter((selectedId) => selectedId != id);
             }
         });
-    
-         // State updates are asynchronous, so this may not reflect the latest value immediately
+
+        // State updates are asynchronous, so this may not reflect the latest value immediately
     };
 
     // Refresh button handler
@@ -346,12 +356,12 @@ const DeadQuery = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteboxquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deletedeadqueries', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ids: selectedQueries }),
+                body: JSON.stringify({ query_ids: selectedQueries }),
             });
 
 
@@ -387,15 +397,15 @@ const DeadQuery = () => {
 
             const payload = {
                 filter_date: filterDate,
-                website: selectedWebsites,
-                tags: searchType,
+                user_id: selectedWebsites,
+                search_type: searchType,
                 search_keywords: searchKeywords,
-                user_id: sessionStorage.getItem('id'),
-                user_type: sessionStorage.getItem('user_type')
-
+                client_user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                allocated_to: sessionStorage.getItem('allocated_to'),
             };
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/loadboxquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/api/loaddeadquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -408,10 +418,10 @@ const DeadQuery = () => {
             }
 
             const responseData = await response.json();
-            setReports(responseData.queryData);
+            setReports(responseData.QueryUsers);
         } catch (error) {
             console.error('Error fetching reports:', error);
-            
+
         } finally {
             setLoading(false);
         }
@@ -424,6 +434,7 @@ const DeadQuery = () => {
         setFilterDate('');
         setStartDate(null);
         setEndDate(null);
+
         $(websiteRef.current).val(null).trigger('change');
         $(tagsRef.current).val(null).trigger('change');
     };
@@ -437,7 +448,7 @@ const DeadQuery = () => {
                 <div className='flex w-full justify-between px-2'>
                     <h1 className="text-2xl font-bold">Dead Query History</h1>
                 </div>
-                <div className="w-full flex items-top justify-center gap-2 px-2 pt-2 qhpage" id="filterDiv">
+                <div className="flex items-center space-x-2 my-4 bg-white rounded gap-2 px-2 py-2 gap-2 qhpage" id="filterDiv">
 
                     {/* Date Range Picker */}
                     <input
@@ -449,32 +460,21 @@ const DeadQuery = () => {
                         readOnly
                     />
 
-                    {/* Keyword Search */}
-                    <input
-                        type="text"
-                        name="search_keywords"
-                        id="search_keywords"
-                        className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="Enter Keywords Name or Email or Phone"
-                        value={searchKeywords}
-                        onChange={(e) => setSearchKeywords(e.target.value)}
-                    />
-
                     <div className='col-md-3'>
                         {/* Website Selection */}
                         <select
                             name="website"
                             id="website"
                             className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            multiple
+
                             value={selectedWebsites}
-                            
+
                             ref={websiteRef}
                         >
-                            <option value="">Select Website</option>
+                            <option value="">Select User</option>
                             {websites.map((website) => (
                                 <option key={website.id} value={website.id}>
-                                    {website.website}
+                                    {website.name}
                                 </option>
                             ))}
                         </select>
@@ -483,7 +483,7 @@ const DeadQuery = () => {
                         <select
                             name="search_type"
                             id="search_type"
-                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            className="form-select select2 w-full py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             value={searchType}
                             onChange={(e) => setSearchType(e.target.value)}
                         >
@@ -500,10 +500,10 @@ const DeadQuery = () => {
                         </select>
                     </div>
 
-                    <div className='last'>
+                    <div className='last ml-auto w-full'>
                         <button
                             onClick={handleSubmit}
-                            className="btn btn-primary text-white rounded  flex items-center py-1 px-2 mr-2 "
+                            className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center"
                         >
                             <SearchIcon className="mr-2" size={14} />
                             Search
@@ -526,7 +526,7 @@ const DeadQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end mb-1'>
+                    <div className='w-full flex items-center justify-end mb-2'>
                     <button
                             onClick={handleDelete}
                             className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
@@ -541,7 +541,7 @@ const DeadQuery = () => {
                         </button>
                         
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
+                    <div style={{overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem'}}>
                         <DataTable
                             data={reports}
                             columns={columns}
@@ -549,7 +549,7 @@ const DeadQuery = () => {
                                 pageLength: 50,
                                 ordering: false,
                                 createdRow: (row, data) => {
-                                    $(row).css('background-color', data.color_code || 'white');
+                                    // $(row).css('background-color', data.color_code || 'white');
                                     $(row).css('font-size', '12px !important');
                                     $(row).find('.checkbox').on('click', handleCheckboxClick);
                                 },

@@ -839,7 +839,7 @@ const AddBoxQuery = () => {
                             />
                         </div>
                         <div className="col-sm-4">
-                            <div className="form-group cbl" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
+                            <div className="form-group" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
                                     name="genericQuery"

@@ -89,11 +89,9 @@ const Login = () => {
   return (
     <div className="flex justify-center items-center h-screen ">
       <div className="ls max-w-md bg-white rounded-lg logform">
-        <div className='cent'>
         <img src={androidIcon} alt="Android Icon" className='loginimg'/>
 <h5>99 CRM</h5>
-        </div>
-        
+       
         {error && (
           <div className="text-red-500 text-sm text-center mb-4 bg-red-100 px-2 py-3 rounded flex items-center justify-center">
             {error} <Frown className="ml-2" />

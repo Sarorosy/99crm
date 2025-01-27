@@ -486,7 +486,7 @@ const RemainderQuery = () => {
                     <h1 className="text-2xl font-bold">Remainder Query</h1>
                 </div>
                 <div
-                    className="w-full flex X items-center gap-2 px-2 pt-2 qhpage"
+                    className="flex items-center space-x-2 my-4 bg-white p-2 rounded gap-2 px-2 pt-2 qhpage"
                     id="filterDiv"
                 >
                     {/* Date Range Picker */}

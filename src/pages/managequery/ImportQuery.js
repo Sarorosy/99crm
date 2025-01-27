@@ -517,7 +517,7 @@ const ImportQuery = () => {
                         </div>
                     </div>
                 </form>
-                <div className="w-1/4">
+                <div>
                     <AddQuerySideDetails TodayCreatedQuery ={0}/>
                 </div>
             </div>

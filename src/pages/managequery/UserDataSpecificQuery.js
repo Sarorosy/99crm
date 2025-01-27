@@ -17,9 +17,9 @@ import 'daterangepicker/daterangepicker.css'; // Import daterangepicker CSS
 import 'daterangepicker'; // Import daterangepicker JS
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import flagImage from '../../assets/flag_mark_red.png';
 
-
-const BoxQuery = () => {
+const UserDataSpecificQuery = () => {
     DataTable.use(DT);
 
     const [tags, setTags] = useState([]);
@@ -40,8 +40,8 @@ const BoxQuery = () => {
     const [searchTeamId, setSearchTeamId] = useState([]);
     const [searchKeywords, setSearchKeywords] = useState("");
     const [refId, setRefId] = useState("");
-    const [selectedWebsites, setSelectedWebsites] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedWebsites, setSelectedWebsites] = useState('');
+    const [searchType, setSearchType] = useState('');
     const [updateStatus, setUpdateStatus] = useState("");
     const [iconFilter, setIconFilter] = useState("");
     const [transferType, setTransferType] = useState("");
@@ -60,9 +60,8 @@ const BoxQuery = () => {
     useEffect(() => {
         // Initialize select2 for Select Team
         $(websiteRef.current).select2({
-            placeholder: "Select Website",
+            placeholder: "Select User",
             allowClear: true,
-            multiple: true,
         }).on('change', (e) => {
             const selectedValues = $(e.target).val(); // Use select2's value retrieval method
             setSelectedWebsites(selectedValues);
@@ -76,26 +75,6 @@ const BoxQuery = () => {
             }
         };
     }, [websites]);
-    useEffect(() => {
-        // Initialize select2 for Select Team
-        $(tagsRef.current).select2({
-            placeholder: "Select Tags",
-            allowClear: true,
-            multiple: true,
-        }).on('change', (e) => {
-            const selectedValues = $(e.target).val(); // Use select2's value retrieval method
-            setSelectedTags(selectedValues);
-        });
-
-
-        return () => {
-            // Destroy select2 when the component unmounts
-            if (tagsRef.current) {
-                //$(tagsRef.current).select2('destroy');
-            }
-        };
-
-    }, [tags]);
 
 
 
@@ -131,12 +110,17 @@ const BoxQuery = () => {
         try {
             setLoading(true);
 
-            const payload = {
-                user_id: sessionStorage.getItem('id'),
-                user_type: sessionStorage.getItem('user_type')
-            };
+            const team_ids = sessionStorage.getItem('team_id');  // Assuming 'id' is stored in sessionStorage
+            const user_type = sessionStorage.getItem('user_type');  // Assuming 'user_type' is stored in sessionStorage
+            const user_id = sessionStorage.getItem('id');
+            const Website_id = sessionStorage.getItem('Website_id');
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loadboxquery', payload, {
+
+            const payload = {
+                user_type, team_ids, user_id,Website_id
+            }
+
+            const response = await axios.post('https://99crm.phdconsulting.in/api/loaduserdataspecificquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -146,7 +130,7 @@ const BoxQuery = () => {
                 throw new Error('Failed to fetch reports');
             }
 
-            setReports(response.data.queryData);
+            setReports(response.data.data);
         } catch (error) {
             console.error('Error fetching reports:', error);
             toast.error(error.message || 'Error fetching reports');
@@ -160,18 +144,18 @@ const BoxQuery = () => {
         try {
             setLoading(true);
 
-            const category = sessionStorage.getItem('category');  // Assuming 'id' is stored in sessionStorage
+            const team_ids = sessionStorage.getItem('team_id');  // Assuming 'id' is stored in sessionStorage
             const user_type = sessionStorage.getItem('user_type');  // Assuming 'user_type' is stored in sessionStorage
+            const user_id = sessionStorage.getItem('id');
+            const Website_id = sessionStorage.getItem('Website_id');
 
-            let whereStr = '';
-            if (user_type != 'admin' && category) {
-                whereStr = `${category}`; // Example: "team_id IN (1, 2, 3)"
+
+            const payload = {
+                user_type, team_ids, user_id,Website_id
             }
 
-            const payload = { whereStr }
 
-
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/api/loaduserdataspecificquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -233,8 +217,6 @@ const BoxQuery = () => {
 
     useEffect(() => {
         fetchQueries();
-        fetchCategoryWebsites();
-        fetchTags();
     }, []);
 
 
@@ -261,7 +243,15 @@ const BoxQuery = () => {
             },
         },
         {
-            title: 'Name',
+            title: 'User Name',
+            orderable: false,
+            data: 'user_name',
+            render: (data) => {
+                return `<div style="text-align: left;">${data}</div>`;
+            },
+        },
+        {
+            title: 'Client Name',
             orderable: false,
             data: 'name',
             render: (data) => {
@@ -287,22 +277,25 @@ const BoxQuery = () => {
         {
             title: 'Website',
             orderable: false,
-            data: 'website',
+            data: 'website_name',
             render: (data, type, row) => {
                 return `<div style="text-align: left;">${data ? data : 'Generic Query'}</div>`;
             },
         },
-
         {
-            title: 'Box Tags',
-            width: '30rem',
+            title: 'Flag Mark',
             orderable: false,
-            data: 'box_tag_names',
+            data: 'flag_mark',
             render: (data, type, row) => {
-                if (Array.isArray(data)) {
-                    return data.map(tag => `<span style="font-size:10px" class=" px-2 py-1 bg-gray-200 text-gray-800 rounded-full mr-1">${tag}</span>`).join(' ');
-                }
-                return `<div style="text-align: left;">No Tags</div>`;
+                return `<div style="text-align: left;">${data == 'on' ? `<img src="${flagImage}" />` : ''}</div>`;
+            },
+        },
+        {
+            title: 'Status',
+            orderable: false,
+            data: 'statusInfo',
+            render: (data, type, row) => {
+                return `<div style="text-align: left;">${data}</div>`;
             },
         },
 
@@ -367,12 +360,12 @@ const BoxQuery = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteboxquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deletedeadqueries', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ ids: selectedQueries }),
+                body: JSON.stringify({ query_ids: selectedQueries }),
             });
 
 
@@ -408,15 +401,15 @@ const BoxQuery = () => {
 
             const payload = {
                 filter_date: filterDate,
-                website: selectedWebsites,
-                tags: selectedTags,
+                user_id: selectedWebsites,
+                search_type: searchType,
                 search_keywords: searchKeywords,
-                user_id: sessionStorage.getItem('id'),
-                user_type: sessionStorage.getItem('user_type')
-
+                client_user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                allocated_to: sessionStorage.getItem('allocated_to'),
             };
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/loadboxquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/api/loaddeadquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -429,7 +422,7 @@ const BoxQuery = () => {
             }
 
             const responseData = await response.json();
-            setReports(responseData.queryData);
+            setReports(responseData.QueryUsers);
         } catch (error) {
             console.error('Error fetching reports:', error);
 
@@ -441,10 +434,11 @@ const BoxQuery = () => {
     const resetFilters = () => {
         setSearchKeywords('');
         setSelectedWebsites([]);
-        setSelectedTags([]);
+        setSearchType('');
         setFilterDate('');
         setStartDate(null);
         setEndDate(null);
+
         $(websiteRef.current).val(null).trigger('change');
         $(tagsRef.current).val(null).trigger('change');
     };
@@ -455,87 +449,10 @@ const BoxQuery = () => {
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between px-1'>
-                    <h1 className="text-2xl font-bold">Box Query</h1>
+                <div className='flex w-full justify-between px-4'>
+                    <h1 className="text-2xl font-bold">UserData Specific Query History</h1>
                 </div>
-                <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded gap-2 px-2 pt-2 qhpage" id="filterDiv">
-
-                    {/* Date Range Picker */}
-                    <input
-                        id="filterDate"
-                        type="text"
-                        className="form-control w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="From Date - To Date"
-                        value={filterDate}
-                        readOnly
-                    />
-
-                    {/* Keyword Search */}
-                    <input
-                        type="text"
-                        name="search_keywords"
-                        id="search_keywords"
-                        className="form-control w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                        placeholder="Enter Keywords Name or Email or Phone"
-                        value={searchKeywords}
-                        onChange={(e) => setSearchKeywords(e.target.value)}
-                    />
-
-                    <div className='col-md-3'>
-                        {/* Website Selection */}
-                        <select
-                            name="website"
-                            id="website"
-                            className="form-control w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            multiple
-                            value={selectedWebsites}
-
-                            ref={websiteRef}
-                        >
-                            <option value="">Select Website</option>
-                            {websites.map((website) => (
-                                <option key={website.id} value={website.id}>
-                                    {website.website}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className='col-md-3'>
-                        {/* Tags Selection */}
-                        <select
-                            name="tags"
-                            id="tags"
-                            className="form-select select2 w-full sm:w-auto py-2 px-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            multiple
-                            value={selectedTags}
-
-                            ref={tagsRef}
-                        >
-                            <option value="">Select Tags</option>
-                            {tags.map((tag) => (
-                                <option key={tag.id} value={tag.id}>
-                                    {tag.tag_name}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-
-                    <div className='last'>
-                        <button
-                            onClick={handleSubmit}
-                            className="btn btn-primary text-white rounded  flex items-center py-1 px-2 mr-2 "
-                        >
-                            <SearchIcon className="mr-2" size={14} />
-                            Search
-                        </button>
-                        <button
-                            onClick={resetFilters}
-                            className="text-gray flex items-center py-1 px-2"
-                        >
-                            <RefreshCw className="mr-2" size={14} />
-                        </button>
-                    </div>
-                </div>
+                
             </div>
 
 
@@ -544,19 +461,7 @@ const BoxQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end mb-1'>
-                        <button
-                            onClick={handleDelete}
-                            className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
-                        >
-                            <Trash2 className='mr-2' size={12} />  Delete
-                        </button>
-                        <button
-                            onClick={handleAddQuery}
-                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
-                        >
-                            <Plus className='mr-1' size={12} />  Add Box query
-                        </button>
+                    <div className='w-full flex items-center justify-end buton'>
 
                     </div>
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
@@ -567,7 +472,7 @@ const BoxQuery = () => {
                                 pageLength: 50,
                                 ordering: false,
                                 createdRow: (row, data) => {
-                                    // $(row).css('background-color', data.color_code || 'white');
+                                    $(row).css('background-color', data.color_code || 'white');
                                     $(row).css('font-size', '12px !important');
                                     $(row).find('.checkbox').on('click', handleCheckboxClick);
                                 },
@@ -597,4 +502,4 @@ const BoxQuery = () => {
     );
 };
 
-export default BoxQuery;
+export default UserDataSpecificQuery;

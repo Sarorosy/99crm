@@ -27,6 +27,7 @@ import BoxQuery from './pages/managequery/BoxQuery';
 import RemainderQuery from './pages/managequery/RemainderQuery';
 import CampHistory from './pages/managequery/CampHistory';
 import DeadQuery from './pages/managequery/DeadQuery';
+import UserDataSpecificQuery from './pages/managequery/UserDataSpecificQuery';
 
 const App = () => {
   
@@ -53,7 +54,7 @@ const App = () => {
   };
 //basename='/Saravanan/99crm'
   return (
-    <Router>
+    <Router >
       <Routes>
         {/* Public route */}
         <Route path="/login" element={<Login />} />
@@ -93,6 +94,7 @@ const App = () => {
           <Route path="/reminder-query" element={<RemainderQuery />} />
           <Route path="/camp-history" element={<CampHistory />} />
           <Route path="/dead-query" element={<DeadQuery />} />
+          <Route path="/userdataspecificquery" element={<UserDataSpecificQuery />} />
         </Route>
 
         {/* Fallback route */}

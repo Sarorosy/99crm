@@ -230,17 +230,16 @@ const ManageReports = () => {
 
                         <button
                             onClick={handleRefresh}
-                            className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
+                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                         >
-                            <RefreshCw className="mr-2" size={12} />
-                            Refresh
+                            <RefreshCw size={15} />
                         </button>
                     </div></div>
             </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 reportpage shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'27rem' }}>
+                <div className='bg-white p-2 reportpage shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '27rem' }}>
                     <DataTable
                         data={tags}
                         columns={columns}

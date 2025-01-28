@@ -22,7 +22,7 @@ const ManageWebsite = () => {
 
     const tableRef = useRef(null);
 
-    
+
     const toggleEditSettingVisibility = () => {
         setisEditingTemplate(!isEditingTemplate);
     };
@@ -127,14 +127,14 @@ const ManageWebsite = () => {
                 } catch (error) {
                     console.error('Error parsing payment data:', error);
                 }
-    
+
                 // Generate the list items from the parsed data
-                const listItems = paymentData.map(item => 
+                const listItems = paymentData.map(item =>
                     `<li class="text-sm text-gray-600">
                         ${item.currency_type} - ${item.payment_url}
                     </li>`
                 ).join('');
-    
+
                 // Return the formatted list inside a <ul>
                 return `<ul class="list-disc pl-2 py-3">${listItems}</ul>`;
             },
@@ -150,7 +150,7 @@ const ManageWebsite = () => {
             `,
         },
     ];
-    
+
 
 
     const handleRefresh = () => {
@@ -202,17 +202,16 @@ const ManageWebsite = () => {
 
                     <button
                         onClick={handleRefresh}
-                        className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12}/>
-                        Refresh
+                        <RefreshCw size={15} />
                     </button>
                 </div>
             </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 shadow-xl rounded border-t-2 border-blue-400'>
+                <div className='bg-white dtp-0 shadow-xl rounded border-t-2 border-blue-400' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '27rem' }}>
                     <DataTable
                         data={websites}
                         columns={columns}
@@ -243,7 +242,7 @@ const ManageWebsite = () => {
             )}
 
             <AnimatePresence>
-                
+
 
                 {isEditingTemplate && (
                     <motion.div

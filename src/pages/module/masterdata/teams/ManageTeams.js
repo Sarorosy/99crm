@@ -25,12 +25,8 @@ const ManageTeams = () => {
 
     const tableRef = useRef(null);
 
-    const toggleAddSettingVisibility = () => {
-        setisAddingTeam(!isAddingTeam);
-    };
-    const toggleEditSettingVisibility = () => {
-        setisEditingTeam(!isEditingTeam);
-    };
+    const toggleAddSettingVisibility = () => setisAddingTeam(!isAddingTeam);
+    const toggleEditSettingVisibility = () => setisEditingTeam(!isEditingTeam);
 
     const fetchteams = async () => {
         try {
@@ -141,19 +137,19 @@ const ManageTeams = () => {
                 if (!data || data.trim() === '') {
                     return '';  // Return an empty string if the data is empty
                 }
-        
+
                 // Split the data into user IDs
                 const userIds = data.split(',');
-        
+
                 // Create an array to hold the rendered tags
                 const tags = userIds.map(userId => {
                     return `<span class="bg-blue-400 text-white py-1 px-2 rounded-lg mr-2">${userId}</span>`;
                 });
-        
+
                 // Return the tags as a string
-                return `<div style="text-align: left;">${tags.join('')}</div>`;
+                return `<div style="text-align: left;"><small>${tags.join('')}</small></div>`;
             },
-        },        
+        },
         {
             title: 'Actions',
             data: null,
@@ -187,39 +183,39 @@ const ManageTeams = () => {
                         onClick={handleDelete}
                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-2" size={12}/>
+                        <Trash2 className="mr-2" size={12} />
                         Delete
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}
-                        className="bg-blue-500 text-white rounded hover:bg-blue-600 mr-2 flex items-centerbg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center"
+                        className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-3"
                     >
-                        <PlusCircle className="mr-2" size={12}/>
+                        <PlusCircle className="mr-2" size={12} />
                         Add Team
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className=" flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12}/>
+                        <RefreshCw size={15} />
                     </button>
                 </div>
             </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 shadow-xl rounded border-t-2 border-blue-400 w-2/3 mx-auto'>
-                <DataTable
-                    data={settings}
-                    columns={columns}
-                    options={{ 
-                        pageLength: 50,
-                        createdRow: (row, data) => {
-                            $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
-                            $(row).find('.checkbox').on('click', handleCheckboxClick);
-                        },
-                    }}
-                />
+                <div className='bg-white dtp-0 shadow-xl rounded border-t-2 border-blue-400 w-2/3 mx-auto' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
+                    <DataTable
+                        data={settings}
+                        columns={columns}
+                        options={{
+                            pageLength: 50,
+                            createdRow: (row, data) => {
+                                $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
+                                $(row).find('.checkbox').on('click', handleCheckboxClick);
+                            },
+                        }}
+                    />
                 </div>
             )}
             {isModalOpen && (
@@ -236,16 +232,12 @@ const ManageTeams = () => {
             <ToastContainer />
             <AnimatePresence>
                 {isAddingTeam && (
-
                     <AddTeam
                         onClose={toggleAddSettingVisibility}
                         afterSave={handleRefresh}
-                        teamId={selectedTeam}
                     />
-
                 )}
-
-                {isEditingTeam && (
+                {isEditingTeam && selectedTeam && (
                     <motion.div
                         initial={{ opacity: 0, y: -20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -254,7 +246,7 @@ const ManageTeams = () => {
                         <EditTeam
                             onClose={toggleEditSettingVisibility}
                             afterSave={handleRefresh}
-                            teamId={selectedTeam}
+                            teamId={selectedTeam.id}
                         />
                     </motion.div>
                 )}

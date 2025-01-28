@@ -573,10 +573,11 @@ const RemainderQuery = () => {
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="text-gray flex items-center py-1 px-2"
+                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                         >
-                            <RefreshCw className="mr-2" size={14} />
+                            <RefreshCw size={15} />
                         </button>
+                        
                     </div>
                 </div>
 

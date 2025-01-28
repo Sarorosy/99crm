@@ -77,10 +77,10 @@ const CampHistory = () => {
 
     const handleMarkAsComplete = async (id, row) => {
         try {
-            
+
 
             const payload = {
-                camp_id : id 
+                camp_id: id
             };
 
             const response = await axios.post('https://99crm.phdconsulting.in/api/campaignstatuschange', payload, {
@@ -88,8 +88,8 @@ const CampHistory = () => {
                     'Content-Type': 'application/json',
                 }
             });
-            
-            
+
+
             if (response.status !== 200) {
                 throw new Error('Failed to fetch reports');
             }
@@ -101,8 +101,8 @@ const CampHistory = () => {
             }
         } catch (error) {
             console.error('Error fetching reports:', error);
-            
-        } 
+
+        }
     };
 
 
@@ -176,25 +176,25 @@ const CampHistory = () => {
             data: 'status',
             render: (data, type, row) => {
                 const userType = sessionStorage.getItem('user_type'); // Get user type from sessionStorage
-        
+
                 if (data == 1) {
                     return `<div style="text-align: left;">Completed</div>`;
                 } else {
                     return `
                         <div style="text-align: left;">
                             Pending <br/>
-                            ${userType === 'Campaign Manager' ? 
-                                `<button 
+                            ${userType === 'Campaign Manager' ?
+                            `<button 
                                     class="mark-completed-btn bg-blue-500 text-white rounded px-2 py-1 mt-2"
                                     data-id="${row.id}"
                                 >
                                     Mark as Completed
                                 </button>` : ''
-                            }
+                        }
                         </div>`;
                 }
             }
-        },        
+        },
         {
             title: 'Total Query',
             orderable: false,
@@ -327,14 +327,15 @@ const CampHistory = () => {
                         </button>
                         <button
                             onClick={fetchQueries}
-                            className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center"
+                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                         >
-                            <RefreshCw className="mr-2" size={14} />
-                            Refresh
+                            <RefreshCw size={15} />
                         </button>
 
+            
+
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem' }}>
+                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
                         <DataTable
                             data={reports}
                             columns={columns}
@@ -376,7 +377,7 @@ const CampHistory = () => {
                     onClose={() => setIsModalOpen(false)}
                 />
             )}
-           
+
             <AnimatePresence>
                 {detailsOpen && (
                     <CampaignDetails CampaignId={selectedCamp} onClose={() => { setDetailsOpen(!detailsOpen) }} />

@@ -71,28 +71,26 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
     };
 
     return (
-        <motion.div
+      <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className='mx-auto w-2/3 relative'>
+            <div className="bg-white p-6 rounded-lg shadow-xl max-w-md relative qhpage col-md-3">
                 <button
                     onClick={onClose}
-                    className="absolute top-0 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
                 <h2 className="text-xl font-bold mb-6 text-center">Edit Box Tag</h2>
-            </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='col-md-5 cent add'>
-      <form onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
+      <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label htmlFor="tagName" className="block text-gray-700 font-medium mb-2">
                             Tag Name *
@@ -108,18 +106,19 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
                     </div>
                    
 
-                    <div className="text-end buton">
+                    <div className="text-end">
                         <button
                             type="submit"
                             disabled={posting}
-                            className="px-4 py-1 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors cremove"
+                            className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             {posting ? 'Saving...' : 'Save'}
                         </button>
                     </div>
                 </form>
-                </div>          
             )}
+                        </div>
+
             <ToastContainer />
         </motion.div>
     );

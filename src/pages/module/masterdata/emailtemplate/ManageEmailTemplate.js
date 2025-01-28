@@ -89,20 +89,20 @@ const ManageEmailTemplate = () => {
             setWebsiteId(data.data.website_id);
             setMailSubject(data.data.mail_subject);
             setMailBody(data.data.mail_body);
-            const assignUserString = data.data.assign_user || ''; 
-            const assignedUserIds = assignUserString.split(',').map(id => id.trim()); 
+            const assignUserString = data.data.assign_user || '';
+            const assignedUserIds = assignUserString.split(',').map(id => id.trim());
             setAssignUsers(assignedUserIds);
 
-          
+
             if (selectAssignuserRef.current) {
-                $(selectAssignuserRef.current).val(assignedUserIds).trigger('change'); 
+                $(selectAssignuserRef.current).val(assignedUserIds).trigger('change');
             }
         } catch (error) {
             console.error('Error fetching template details:', error);
         }
     };
 
-    
+
 
 
 
@@ -164,7 +164,7 @@ const ManageEmailTemplate = () => {
     };
 
 
-    const handleSingleDeleteClick = (id)=>{
+    const handleSingleDeleteClick = (id) => {
         setselectedTemplate(id);
         setIssingleModalOpen(true);
     }
@@ -176,19 +176,19 @@ const ManageEmailTemplate = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to delete the email template');
             }
-    
+
             const data = await response.json();
-    
+
             if (data.status) {
                 toast.success('Email template deleted successfully!');
                 setTimeout(() => {
                     fetchEmailTemplates(); // Refresh the template list
                 }, 1000);
-    
+
                 // Clear the selected template after deletion
                 setselectedTemplate(null);
             } else {
@@ -325,7 +325,7 @@ const ManageEmailTemplate = () => {
         fetchEmailTemplates();
     };
 
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -371,7 +371,7 @@ const ManageEmailTemplate = () => {
                 } else {
                     toast.success('Email template added successfully');
                 }
-                fetchEmailTemplates(); 
+                fetchEmailTemplates();
                 setTemplateName('');
                 setTagId('');
                 setWebsiteId('');
@@ -401,17 +401,17 @@ const ManageEmailTemplate = () => {
                         onClick={handleDelete}
                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-2" size={14}/>
+                        <Trash2 className="mr-2" size={14} />
                         Delete
                     </button>
 
                     <button
                         onClick={handleRefresh}
-                        className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={14}/>
-                        Refresh
+                        <RefreshCw size={15} />
                     </button>
+
                 </div>
             </div>
             {loading ? (
@@ -452,7 +452,7 @@ const ManageEmailTemplate = () => {
                                     className="w-full p-2 border rounded select2"
                                     value={tagId}
                                     onChange={(e) => setTagId(e.target.value)}
-                                    
+
                                 >
                                     <option value="">Select Tag</option>
                                     {tags.map(tag => (
@@ -520,9 +520,9 @@ const ManageEmailTemplate = () => {
                                 </select>
                             </div>
                             <div className='flex justify-end mt-4'>
-                            <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded flex items-center">
-                               {(selectedTemplate && selectedTemplate != null) ? 'Update Template' : 'Add template'}
-                            </button></div>
+                                <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded flex items-center">
+                                    {(selectedTemplate && selectedTemplate != null) ? 'Update Template' : 'Add template'}
+                                </button></div>
                         </form>
                     </div>
                 </div>

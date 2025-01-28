@@ -25,11 +25,11 @@ const ManageWhatsappTemplate = () => {
     const [companyId, setCompanyId] = useState('');
     const [templateSlug, setTemplateSlug] = useState('');
     const [description, setDescription] = useState('');
-    
+
 
     // State for dropdowns
     const [companies, setCompanies] = useState([]);
-    
+
 
     const selectAssignuserRef = useRef(null);
 
@@ -37,7 +37,7 @@ const ManageWhatsappTemplate = () => {
     const fetchCompanies = async () => {
         try {
             const companyResponse = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/companies');
-            
+
 
             if (!companyResponse.ok) {
                 throw new Error('Failed to fetch companies or websites or users');
@@ -81,7 +81,7 @@ const ManageWhatsappTemplate = () => {
             setCompanyId(data.data.company_id);
             setTemplateSlug(data.data.template_slug);
             setDescription(data.data.description);
-            
+
 
         } catch (error) {
             console.error('Error fetching template details:', error);
@@ -147,7 +147,7 @@ const ManageWhatsappTemplate = () => {
     };
 
 
-    const handleSingleDeleteClick = (id)=>{
+    const handleSingleDeleteClick = (id) => {
         setselectedTemplate(id);
         setIssingleModalOpen(true);
     }
@@ -159,19 +159,19 @@ const ManageWhatsappTemplate = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (!response.ok) {
                 throw new Error('Failed to delete the whatsapp template');
             }
-    
+
             const data = await response.json();
-    
+
             if (data.status) {
                 toast.success('whatsapp template deleted successfully!');
                 setTimeout(() => {
                     fetchWhatsappTemplates(); // Refresh the template list
                 }, 1000);
-    
+
                 // Clear the selected template after deletion
                 setselectedTemplate(null);
             } else {
@@ -234,7 +234,7 @@ const ManageWhatsappTemplate = () => {
                 return `<div style="text-align: left;">${data}</div>`;
             },
         },
-        
+
         {
             title: 'Actions',
             data: null,
@@ -267,7 +267,7 @@ const ManageWhatsappTemplate = () => {
         fetchWhatsappTemplates();
     };
 
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -279,7 +279,7 @@ const ManageWhatsappTemplate = () => {
                 company_id: companyId,
                 template_slug: templateSlug,
                 description: description,
-                
+
             };
 
             if (selectedTemplate) {
@@ -312,13 +312,13 @@ const ManageWhatsappTemplate = () => {
                 } else {
                     toast.success('whatsapp template added successfully');
                 }
-                fetchWhatsappTemplates(); 
+                fetchWhatsappTemplates();
                 setTemplateName('');
                 setCompanyId('');
                 setTemplateSlug('');
                 setDescription('');
                 setselectedTemplate(null);
-                
+
             } else {
                 toast.error(data.message || 'Operation failed');
             }
@@ -338,16 +338,15 @@ const ManageWhatsappTemplate = () => {
                         onClick={handleDelete}
                         className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-2" size={12}/>
+                        <Trash2 className="mr-2" size={12} />
                         Delete
                     </button>
 
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12}/>
-                        Refresh
+                        <RefreshCw size={15} />
                     </button>
                 </div>
             </div>
@@ -393,14 +392,14 @@ const ManageWhatsappTemplate = () => {
                                     required
                                 />
                             </div>
-                            
+
                             <div className="mb-3">
                                 <label className="block text-sm font-medium text-gray-700">Company</label>
                                 <select
                                     className="w-full p-2 border rounded select2"
                                     value={companyId}
                                     onChange={(e) => setCompanyId(e.target.value)}
-                                    
+
                                 >
                                     <option value="">Select Company</option>
                                     {companies.map(company => (
@@ -410,7 +409,7 @@ const ManageWhatsappTemplate = () => {
                                     ))}
                                 </select>
                             </div>
-                            
+
                             <div className="mb-3">
                                 <label className="block text-sm font-medium text-gray-700">Description</label>
 
@@ -427,13 +426,13 @@ const ManageWhatsappTemplate = () => {
                                     onEditorChange={(content) => setDescription(content)}
                                 />
                             </div>
-                            
+
                             <div className='text-end'>
-                            <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded">
-                               {(selectedTemplate && selectedTemplate != null) ? 'Update Template' : 'Add template'}
-                            </button>
+                                <button type="submit" className="bg-blue-500 text-white py-1 px-2 rounded">
+                                    {(selectedTemplate && selectedTemplate != null) ? 'Update Template' : 'Add template'}
+                                </button>
                             </div>
-                            
+
                         </form>
                     </div>
                 </div>

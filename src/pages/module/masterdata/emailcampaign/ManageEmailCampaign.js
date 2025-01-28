@@ -241,9 +241,9 @@ const ManageEmailCampaign = () => {
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12} />
+                        <RefreshCw size={15}/>
                     </button>
                 </div>
             </div>

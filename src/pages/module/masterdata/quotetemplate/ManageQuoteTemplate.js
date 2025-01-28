@@ -182,21 +182,21 @@ const ManageQuoteTemplate = () => {
                         onClick={toggleAddSettingVisibility}
                         className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-2"
                     >
-                        <PlusCircle className="mr-2" size={12}/>
+                        <PlusCircle className="mr-2" size={12} />
                         Add Template
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12}/>
+                        <RefreshCw size={15} />
                     </button>
                 </div>
             </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 reportpage shadow-xl rounded border-t-2 border-blue-400'  style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'27rem' }}>
+                <div className='bg-white p-2 reportpage shadow-xl rounded border-t-2 border-blue-400' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '27rem' }}>
                     <DataTable
                         data={templates}
                         columns={columns}

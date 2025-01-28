@@ -6,12 +6,12 @@ import $ from 'jquery';
 import "select2/dist/css/select2.css";
 import "select2";
 
-const QueryInformation = ({ refId }) => {
-    const [queryInfo, setQueryInfo] = useState(null);
-    const [allPriority, setAllPriority] = useState([]);
+const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority, fetchQueryDetails}) => {
+    
+    
+    
     const [allTags, setAllTags] = useState([]);
-    const [queryFiles, setQueryFiles] = useState([]);
-    const [loading, setLoading] = useState(true);
+   
     const [historyVisible, setHistoryVisible] = useState(false);
     const [activityData, setActivityData] = useState([]);
     const [historyloading, setHistoryLoading] = useState(false);
@@ -22,38 +22,6 @@ const QueryInformation = ({ refId }) => {
     const [updatedValue, setUpdatedValue] = useState("");
 
 
-
-    const fetchQueryDetails = async () => {
-        const id = sessionStorage.getItem('id');
-        const category = sessionStorage.getItem('category');
-
-        const payload = {
-            query_id: refId,
-            category: category,
-            user_id: id
-        };
-
-        try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/queryDetails', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const data = await response.json();
-            setQueryInfo(data.queryInfo);
-            setQueryFiles(data.QueryFilesData);
-            setLoading(false);
-            setAllPriority(data.allpriority);
-
-
-        } catch (error) {
-            console.error('Error fetching query details:', error);
-            setLoading(false);
-        }
-    };
     const fetchTags = async () => {
         try {
 
@@ -87,8 +55,6 @@ const QueryInformation = ({ refId }) => {
 
 
     useEffect(() => {
-
-        fetchQueryDetails();
         fetchTags();
     }, []);
     const initializeSelect2 = () => {
@@ -120,7 +86,7 @@ const QueryInformation = ({ refId }) => {
 
     const fetchActivityHistory = async () => {
         try {
-            setLoading(true);
+            setHistoryLoading(true);
             setError(null);
 
             const response = await axios.post(
@@ -136,9 +102,48 @@ const QueryInformation = ({ refId }) => {
         } catch (err) {
             setError("Failed to fetch activity history");
         } finally {
-            setLoading(false);
+            setHistoryLoading(false);
         }
     };
+
+    const handleEdit = (field, value) => {
+        setEditingField(field);  // Set the field that is being edited
+        setUpdatedValue(value);  // Set the current value as the initial value for editing
+    };
+
+    const handleSubmit = async (field) => {
+
+        setError(null);
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/updatefieldvalues", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    ref_id: refId,
+                    field: field,
+                    value: updatedValue,
+                    user_id: sessionStorage.getItem('id'),
+                    user_name: sessionStorage.getItem('name')
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                console.log(`${field} updated successfully`);
+                setEditingField(null);  // Stop editing after success
+                fetchQueryDetails();
+                setEditingField("");
+            } else {
+                setError("Failed to update. Try again later.");
+            }
+        } catch (err) {
+            setError("An error occurred. Please try again.");
+        }
+
+    };
+
     
     if (loading) {
         return (

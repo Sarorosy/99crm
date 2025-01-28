@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { RefreshCcw } from 'lucide-react';
+import { Frown, RefreshCcw } from 'lucide-react';
 
 const GeneratePriceQuote = ({ refId }) => {
     const [quoteData, setQuoteData] = useState([]);
@@ -54,14 +54,34 @@ const GeneratePriceQuote = ({ refId }) => {
     // Render quote details
     const renderQuoteDetails = () => {
         if (loading) {
-            return <p>Loading...</p>;
+            return <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} >
+            {Array.from({ length: 2 }).map((_, index) => (
+                <div
+                    key={index}
+                    style={{
+                        height: "100px",
+                        width: "100%",
+                        backgroundColor: "#e0e0e0",
+                        borderRadius: "4px",
+                        animation: "pulse 1.5s infinite"
+                    }}
+                ></div>
+            ))}
+            <style>{`
+                @keyframes pulse {
+                    0% { background-color: #e0e0e0; }
+                    50% { background-color: #f0f0f0; }
+                    100% { background-color: #e0e0e0; }
+                }
+            `}</style>
+        </div>;
         }
         if (quoteData.length === 0) {
-            return <p>No quote data available</p>;
+            return <p className='text-center bg-blue-100 px-2 py-2 flex items-center justify-center'>No quote data available <Frown className='' size={18} /></p>;
         }
 
         return (
-            <div className=" bg-gray-50 px-1 py-2 rounded-lg shadow-md col-md-3 " style={{fontSize: "11px"}}>
+            <div className=" bg-gray-50 px-1 py-2 rounded-lg shadow-md " style={{fontSize: "11px"}}>
                 <table className="table-auto w-[80%] border-collapse ">
                     <thead className="bg-blue-600 text-white space-x-0">
                         <tr>
@@ -172,18 +192,7 @@ const GeneratePriceQuote = ({ refId }) => {
     return (
         <div className="box-group col-md-5 overflow-hidden bg-white rounded-lg shadow-md" id="accordion">
             <div className="box">
-                <div className="box-header with-border bg-blue-600 text-white flex items-center justify-between px-2 py-2 rounded-t-lg">
-                    <h2 className=" text-lg font-semibold">
-                        <a href="#" className="hover:underline">Price Quote</a>
-                    </h2>
-                    <button
-                        className="btn btn-default text-white bg-gray-600 hover:bg-gray-700 p-1 rounded-full"
-                        onClick={fetchQuoteData}
-                        id="expandDiv">
-                        <RefreshCcw size={18} />
-                    </button>
-                </div>
-
+                
                 {/* Rendered Quote Details */}
                 <div className="px-1 pb-4">
                     {renderQuoteDetails()}
@@ -193,8 +202,7 @@ const GeneratePriceQuote = ({ refId }) => {
                 <div id="AddNewPriceDiv" className={`${quoteData.length === 0 ? 'block' : 'hidden'} flex mx-auto`}>
                     {/* Additional content or form for adding new price quotes */}
                     <div className="mt-4">
-                        <p className="text-sm text-gray-600">Add new price quote details here.</p>
-                        {/* Add form elements or any additional content */}
+                       
                     </div>
                 </div>
             </div>

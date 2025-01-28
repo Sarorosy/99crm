@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
-const ShowAttachedFiles = ({ refId }) => {
+const ShowAttachedFiles = ({ refId, crmId }) => {
     const [attachedFiles, setAttachedFiles] = useState([]);
     const [loading, setLoading] = useState(true);
     const [file, setFile] = useState(null); // State to store the file
@@ -48,7 +49,7 @@ const ShowAttachedFiles = ({ refId }) => {
         // Create a FormData object to send the file along with other data
         const formData = new FormData();
         formData.append("ref_id", refId);
-        formData.append("crm_id", sessionStorage.getItem("crm_id"));
+        formData.append("crm_id", crmId);
         formData.append("user_id", sessionStorage.getItem("id"));
         formData.append("attached_file", file); // Attach the selected file
 
@@ -64,9 +65,10 @@ const ShowAttachedFiles = ({ refId }) => {
             );
 
             if (response.data.status) {
-                alert("File uploaded successfully!");
-                // Optionally, refresh the attached files list after successful upload
+                toast.success("File uploaded successfully!");
+                setFile(null);
                 fetchAttachedFiles();
+                
             } else {
                 console.error("Error uploading file");
             }
@@ -78,15 +80,35 @@ const ShowAttachedFiles = ({ refId }) => {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} className="col-md-5">
+        {Array.from({ length: 2 }).map((_, index) => (
+            <div
+                key={index}
+                style={{
+                    height: "100px",
+                    width: "100%",
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: "4px",
+                    animation: "pulse 1.5s infinite"
+                }}
+            ></div>
+        ))}
+        <style>{`
+            @keyframes pulse {
+                0% { background-color: #e0e0e0; }
+                50% { background-color: #f0f0f0; }
+                100% { background-color: #e0e0e0; }
+            }
+        `}</style>
+    </div>;
     }
 
     return (
-        <div className="mt-6 px-4">
+        <div className="mt-6 px-4 col-md-5">
             {/* File upload form */}
             <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-4">Upload File</h3>
-                <form onSubmit={handleFileUpload} className="space-y-4">
+                <h3 className="text-lg font-semibold mb-2">Upload File</h3>
+                <form onSubmit={handleFileUpload} className="space-y-2">
                     <div className="flex items-center space-x-4">
                         <input
                             type="file"
@@ -96,7 +118,7 @@ const ShowAttachedFiles = ({ refId }) => {
                         <button
                             type="submit"
                             disabled={uploading}
-                            className="bg-blue-600 text-white py-2 px-6 rounded disabled:bg-gray-400"
+                            className="bg-blue-600 text-white py-1 px-2 rounded disabled:bg-gray-400"
                         >
                             {uploading ? "Uploading..." : "Upload"}
                         </button>
@@ -132,6 +154,7 @@ const ShowAttachedFiles = ({ refId }) => {
                     ))}
                 </ul>
             )}
+            <ToastContainer />
         </div>
     );
 };

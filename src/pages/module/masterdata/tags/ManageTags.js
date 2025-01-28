@@ -181,21 +181,21 @@ const ManageTags = () => {
                         onClick={handleDelete}
                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-2" size={12}/>
+                        <Trash2 className="mr-2" size={12} />
                         Delete
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}
                         className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-3"
                     >
-                        <PlusCircle className="mr-2" size={12}/>
+                        <PlusCircle className="mr-2" size={12} />
                         Add Tag
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12}/>
+                        <RefreshCw size={15} />
                     </button>
                 </div>
             </div>
@@ -203,17 +203,17 @@ const ManageTags = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-2 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto'>
-                <DataTable
-                    data={tags}
-                    columns={columns}
-                    options={{
-                        pageLength: 50,
-                        createdRow: (row, data) => {
-                            $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
-                            $(row).find('.checkbox').on('click', handleCheckboxClick);
-                        },
-                    }}
-                />
+                    <DataTable
+                        data={tags}
+                        columns={columns}
+                        options={{
+                            pageLength: 50,
+                            createdRow: (row, data) => {
+                                $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
+                                $(row).find('.checkbox').on('click', handleCheckboxClick);
+                            },
+                        }}
+                    />
                 </div>
             )}
             {isModalOpen && (

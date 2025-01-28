@@ -164,7 +164,7 @@ const UserQuery = () => {
             const responseData = await response.json();
 
 
-            
+
 
             setTeamUsers(responseData.data);  // Set the teamUsers state
 
@@ -776,11 +776,11 @@ const UserQuery = () => {
                     <div className='mdbut'>
                         <button
                             onClick={handleRefresh}
-                            className="bg-gray-500 text-white py-1 px-2 rounded hover:bg-gray-600 flex items-center"
+                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                         >
-                            <RefreshCw className="mr-2" size={12} />
-                            Refresh
-                        </button></div>
+                            <RefreshCw size={15} />
+                        </button>
+                    </div>
                 </div>
                 <div className="w-full flex flex-wrap gap-2 px-4 pt-2 qhpage" id="filterDiv">
                     {/* Team Selection */}
@@ -1079,7 +1079,7 @@ const UserQuery = () => {
                             <Plus className='mr-2' size={14} />  Add query
                         </button>
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem' }}>
+                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
                         <DataTable
                             data={reports}
                             columns={columns}

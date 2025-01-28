@@ -450,15 +450,15 @@ const DeadQuery = () => {
                 </div>
                 <div className="flex items-center space-x-2 my-4 bg-white rounded gap-2 px-2 py-2 gap-2 qhpage" id="filterDiv">
 
-                        {/* Date Range Picker */}
-                        <input
-                            id="filterDate"
-                            type="text"
-                            className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="From Date - To Date"
-                            value={filterDate}
-                            readOnly
-                        />
+                    {/* Date Range Picker */}
+                    <input
+                        id="filterDate"
+                        type="text"
+                        className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        placeholder="From Date - To Date"
+                        value={filterDate}
+                        readOnly
+                    />
 
                     <div className='col-md-2'>
                         {/* Website Selection */}
@@ -510,10 +510,11 @@ const DeadQuery = () => {
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="text-gray flex items-center py-1 px-2"
+                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                         >
-                            <RefreshCw className="mr-2" size={14} />
+                            <RefreshCw size={15} />
                         </button>
+
                     </div>
 
 

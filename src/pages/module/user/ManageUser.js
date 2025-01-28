@@ -83,11 +83,11 @@ const ManageUser = () => {
     }
     setIsModalOpen(true);
   };
-  
+
   const onConfirmDelete = async () => {
     setIsModalOpen(false);
     setIsDeleting(true); // Show the deleting modal
-  
+
     try {
       const response = await axios.post("https://99crm.phdconsulting.in/99crmwebapi/api/deleteusers", {
         user_ids: selectedUsers,
@@ -95,23 +95,23 @@ const ManageUser = () => {
       setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
       toast.success("Users deleted successfully!");
       setSelectedUsers([]);
-      setTimeout(()=>{
+      setTimeout(() => {
         handleRefresh();
       }, 1000)
-      
+
     } catch (error) {
       toast.error("Failed to delete users.");
     } finally {
       setIsDeleting(false); // Hide the deleting modal
       setSelectedUsers([]);
 
-    // Uncheck all checkboxes in the DOM
+      // Uncheck all checkboxes in the DOM
       document.querySelectorAll(".checkbox").forEach((checkbox) => {
         checkbox.checked = false;
       });
     }
   };
-  
+
 
 
 
@@ -128,7 +128,7 @@ const ManageUser = () => {
     } else {
       // If no cache, fetch from API
       fetchUsers();
-      
+
     }
   }, []);
 
@@ -141,7 +141,7 @@ const ManageUser = () => {
   const toggleStatistics = () => {
     setStatisticsVisible(!statisticsVisible);
   };
-  
+
 
   // Handle Edit button click
   const handleEditButtonClick = (user) => {
@@ -149,14 +149,14 @@ const ManageUser = () => {
     setIsEditingUser(true);
   };
 
-  
+
 
 
   // Function to handle checkbox click
   const handleCheckboxClick = (event, setSelectedUsers) => {
     const userId = $(event.target).data('id'); // Correctly get data-id from checkbox
     console.log('User ID:', userId);
-  
+
     if ($(event.target).is(':checked')) {
       setSelectedUsers((prev) => {
         const updatedSelectedUsers = [...prev, userId];
@@ -177,7 +177,7 @@ const ManageUser = () => {
     {
       title: 'Sel',
       data: 'id',
-      width:'50px',
+      width: '50px',
       orderable: false,
       render: (data) => {
         const isChecked = selectedUsers.includes(data.id);
@@ -192,7 +192,7 @@ const ManageUser = () => {
           </div>
         `;
       },
-    },    
+    },
     {
       title: 'Sr No.',
       data: null,
@@ -200,16 +200,16 @@ const ManageUser = () => {
       width: '40px',
       render: (data, type, row, meta) => meta.row + 1, // Serial number
     },
-    { title: 'Name', data: 'name', width: '130px',orderable: false, },
-    { title: 'Username', data: 'username',orderable: false, },
-    { title: 'Email', data: 'email_id' ,orderable: false,},
-    { title: 'Password', data: 'password', width: '100px',orderable: false, },
+    { title: 'Name', data: 'name', width: '130px', orderable: false, },
+    { title: 'Username', data: 'username', orderable: false, },
+    { title: 'Email', data: 'email_id', orderable: false, },
+    { title: 'Password', data: 'password', width: '100px', orderable: false, },
     {
       title: 'User Type',
       data: null, // Use null because we are customizing the content
       width: '150px',
       orderable: false,
-      render: function(data, type, row) {
+      render: function (data, type, row) {
         if (row.user_type == 'user') {
           return `
             <div class="ut">
@@ -247,7 +247,7 @@ const ManageUser = () => {
         `;
       },
     },
-    
+
     {
       title: 'Current Status',
       data: 'current_status',
@@ -282,7 +282,7 @@ const ManageUser = () => {
       },
     },
   ];
-  
+
   const clearSelectedUsers = (newSelectedUsers) => {
     setSelectedUsers([]);  // Clear selected users
   };
@@ -298,33 +298,33 @@ const ManageUser = () => {
             onClick={toggleStatistics}
             style={{ marginRight: "8px" }}
           >
-            <ChartLine className="mr-2" size={14}/>
+            <ChartLine className="mr-2" size={14} />
             {statisticsVisible ? 'Hide Stats' : 'Show Stats'}
           </button>
           <button
             onClick={handleDelete}
             className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
           >
-            <Trash2 className='mr-2' size={14}/>Delete
+            <Trash2 className='mr-2' size={14} />Delete
           </button>
           <div className='mr-3'>
-          <ExportButton selectedUsers={selectedUsers} users={users}  clearSelectedUsers={clearSelectedUsers}/>
+            <ExportButton selectedUsers={selectedUsers} users={users} clearSelectedUsers={clearSelectedUsers} />
           </div>
           <button
-           // onClick={() => navigate('/manageuser/adduser/')}
-           onClick={toggleAddUserVisibility}
+            // onClick={() => navigate('/manageuser/adduser/')}
+            onClick={toggleAddUserVisibility}
             className="text-white py-1 px-2 rounded btn btn-warning flex items-center mr-3"
             style={{ marginRight: "8px" }}
           >
-            <PlusCircle className="mr-2"  size={14}/>
+            <PlusCircle className="mr-2" size={14} />
             Add User
           </button>
+
           <button
             onClick={handleRefresh}
-            className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center "
+            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
           >
-            <RefreshCw className="mr-2"  size={14}/>
-            Refresh
+            <RefreshCw size={15} />
           </button>
         </div>
       </div>
@@ -357,53 +357,53 @@ const ManageUser = () => {
             </div>
           )}
           <div className='useractinact'>
-          <DataTable
-            data={users}
-            columns={columns}
-            options={{
-              searching: true,
-              paging: true,
-              ordering: true,
-              createdRow: (row, data, dataIndex) => {
-                $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
-                $(row).find('.checkbox').on('click', (event) =>
-                  handleCheckboxClick(event, setSelectedUsers)
-                );
-                $(row).find('.status-toggle').on('click', async (event) => {
-                  const userId = $(event.target).data('id');
-                  try {
-                    const response = await axios.post(
-                      'https://99crm.phdconsulting.in/99crmwebapi/api/togglestatus',
-                      { id: userId }
-                    );
-                    toast.success(`Status updated successfully!`);
-                    handleRefresh(); // Refresh data to reflect changes
-                  } catch (error) {
-                    console.error('Error toggling status:', error);
-                    toast.error('Failed to update status.');
-                  }
-                });
-              },
-            }}
-          />
+            <DataTable
+              data={users}
+              columns={columns}
+              options={{
+                searching: true,
+                paging: true,
+                ordering: true,
+                createdRow: (row, data, dataIndex) => {
+                  $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
+                  $(row).find('.checkbox').on('click', (event) =>
+                    handleCheckboxClick(event, setSelectedUsers)
+                  );
+                  $(row).find('.status-toggle').on('click', async (event) => {
+                    const userId = $(event.target).data('id');
+                    try {
+                      const response = await axios.post(
+                        'https://99crm.phdconsulting.in/99crmwebapi/api/togglestatus',
+                        { id: userId }
+                      );
+                      toast.success(`Status updated successfully!`);
+                      handleRefresh(); // Refresh data to reflect changes
+                    } catch (error) {
+                      console.error('Error toggling status:', error);
+                      toast.error('Failed to update status.');
+                    }
+                  });
+                },
+              }}
+            />
           </div>
         </div>
       )}
       {isModalOpen && (
-      <ConfirmationModal
-        context={{
-          title: "Confirm Deletion",
-          message: `Are you sure you want to delete ${selectedUsers.length} user(s)?`,
-        }}
-        isReversible={false}
-        onClose={() => setIsModalOpen(false)}
-        onConfirm={onConfirmDelete}
-      />
-    )}
-      
+        <ConfirmationModal
+          context={{
+            title: "Confirm Deletion",
+            message: `Are you sure you want to delete ${selectedUsers.length} user(s)?`,
+          }}
+          isReversible={false}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={onConfirmDelete}
+        />
+      )}
+
       <AnimatePresence>
-      {isAddingUser && <AddUser onClose={toggleAddUserVisibility} after={handleRefresh}/>}
-      {isEditingUser && <EditUser onClose={toggleEditUserVisibility} after={handleRefresh} id={selectedUser}/>}
+        {isAddingUser && <AddUser onClose={toggleAddUserVisibility} after={handleRefresh} />}
+        {isEditingUser && <EditUser onClose={toggleEditUserVisibility} after={handleRefresh} id={selectedUser} />}
       </AnimatePresence>
     </div>
   );

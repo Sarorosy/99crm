@@ -187,7 +187,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
             </button>
             {loading ? (<CustomLoader />) : (
 
-                <div className='col-md-7 cent add'>
+                <div className='col-md-7 cent qhpage'>
                 <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl">
                     <div className="flex w-full space-x-3 justify-center">
                         {/* Website Name Field */}
@@ -219,7 +219,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                     </div>
                     <div className="flex w-full space-x-3 justify-center">
                         {/* Manager Name Field */}
-                        <div className="form-group w-1/2 hs">
+                        <div className="form-group w-1/2">
                             <label htmlFor="company_id" className="block text-sm font-medium text-gray-700 mb-2">
                                 Company
                             </label>
@@ -269,7 +269,8 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                         </div>
 
                         {/* PHD Planner Field */}
-                        <div className="form-group w-1/3 mx-2 flex items-center cbl">
+                        <div className="form-group w-1/3 mx-2 flex items-top cbl">
+                        <div className=''  style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
                         <input
                                 type="checkbox"
                                 id="phd_planner"
@@ -277,9 +278,10 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                 checked={phdPlanner == 1}
                                 onChange={(e) => setPhdPlanner(e.target.checked ? 1 : 0)}
                             />
-                            <label htmlFor="phd_planner" className="block text-sm font-medium text-gray-700 mb-2">
+                            <label htmlFor="phd_planner" className="block text-sm font-medium text-gray-700 mb-2" style={{ marginLeft: "8px", marginTop:"10px" }}>
                                 Check PhD Planner
                             </label>
+                        </div>
                         </div>
 
                         {/* Logo Upload Field */}
@@ -290,7 +292,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                             <input
                                 type="file"
                                 id="logo"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                className="w-full uploadlogo border border-gray-300 rounded-md shadow-sm"
                                 onChange={(e) => {
                                     const file = e.target.files[0];
                                     setLogo(file);
@@ -442,7 +444,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                     </div>
 
                     {/* Submit Button */}
-                    <div className="text-end buton">
+                    <div className="text-end ">
                         <button
                             type="submit"
                             className="mt-3 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"

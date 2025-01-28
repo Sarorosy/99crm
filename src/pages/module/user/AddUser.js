@@ -445,33 +445,32 @@ const AddUser = ({ onClose, after }) => {
                             <div className="box">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
                                     <div className="box-body qhpage">
-                                        <div className="my-2 flex items-center justify-between mb-3">
+                                        <div className="my-2 flex items-center justify-between mb-2">
                                             <div className='col-md-6'>
-                                                <label>Name<span className="error">*</span></label>
-                                                <input
-                                                    type="text"
-                                                    name="name"
-                                                    className="form-control"
-                                                    value={formData.name}
-                                                    onChange={handleFormDataChange}
-                                                />
-                                            </div>
-                                            <div className='col-md-6'>
-                                                <div className='pt-3'>
-                                                    <label>Username<span className="error">*</span></label>
+                                                <div className='mtminus1'>
+                                                    <label>Name<span className="error">*</span></label>
                                                     <input
                                                         type="text"
-                                                        name="username"
+                                                        name="name"
                                                         className="form-control"
-                                                        value={formData.username}
+                                                        value={formData.name}
                                                         onChange={handleFormDataChange}
-                                                        onKeyUp={handleUsernameCheck}
-                                                    />
-                                                </div>
+                                                    /></div>
+                                            </div>
+                                            <div className='col-md-6'>
+                                                <label>Username<span className="error">*</span></label>
+                                                <input
+                                                    type="text"
+                                                    name="username"
+                                                    className="form-control"
+                                                    value={formData.username}
+                                                    onChange={handleFormDataChange}
+                                                    onKeyUp={handleUsernameCheck}
+                                                />
                                                 {usernameStatus && <span className='mt-5'>{usernameStatus}</span>}
                                             </div>
                                         </div>
-                                        <div className="my-2 flex items-center justify-between mb-3">
+                                        <div className="my-2 flex items-center justify-between mb-2">
                                             <div className='col-md-6'>
                                                 <label>Password<span className="error">*</span></label>
                                                 <div className="relative">
@@ -488,9 +487,9 @@ const AddUser = ({ onClose, after }) => {
                                                         className="absolute right-2 top-2"
                                                     >
                                                         {showPassword ? (
-                                                            <EyeOff />
+                                                            <EyeOff size={14}/>
                                                         ) : (
-                                                            <Eye />
+                                                            <Eye  size={14}/>
                                                         )}
                                                     </button>
                                                 </div>
@@ -498,7 +497,8 @@ const AddUser = ({ onClose, after }) => {
                                             <div className='col-md-6'>
                                                 <label>Category</label>
                                                 <div className="col-md-12 p-1 d-flex">
-                                                    <div className="col-sm-3 rad">
+                                                    <div className="col-sm-3">
+                                                        <div className=''  style={{ marginTop: "0px", display: "flex", alignItems: "center" }}>
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -508,9 +508,11 @@ const AddUser = ({ onClose, after }) => {
                                                             checked={formData.category === 'PhD'}
                                                             onChange={handleFormDataChange}
                                                         />
-                                                        <label htmlFor="category1">PhD</label>
+                                                        <label htmlFor="category1" style={{ marginLeft: "8px", marginTop:"0" }}>PhD</label>
+                                                        </div>
                                                     </div>
-                                                    <div className="col-sm-3 rad">
+                                                    <div className="col-sm-3">
+                                                        <div className='' style={{ marginTop: "0px", display: "flex", alignItems: "center" }}>
                                                         <input
                                                             type="radio"
                                                             name="category"
@@ -520,7 +522,7 @@ const AddUser = ({ onClose, after }) => {
                                                             checked={formData.category === 'Sales'}
                                                             onChange={handleFormDataChange}
                                                         />
-                                                        <label htmlFor="category2">Sales</label>
+                                                        <label htmlFor="category2" style={{ marginLeft: "8px", marginTop:"0" }}>Sales</label></div>
                                                     </div>
                                                 </div>
                                                 <div id="categoryError" className="error"></div>
@@ -619,11 +621,11 @@ const AddUser = ({ onClose, after }) => {
                                                 }}
                                             >
                                                 <div className="flex flex-col">
-                                                    <label className="font-medium text-gray-700">Select Team</label>
+                                                    <label className="font-medium text-gray-700 mb-2">Select Team</label>
                                                     <select
                                                         name="team_id"
                                                         multiple
-                                                        className="form-control p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                        className="form-control p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 "
                                                         value={formData.team_id}
                                                         ref={selectTeamRef}
                                                     >
@@ -684,20 +686,20 @@ const AddUser = ({ onClose, after }) => {
                                             </div>
 
                                             {formData.user_type === 'Campaign Manager' && (
-                                                    <div className="col-sm-6">
-                                                        <label>Campaign Type</label>
-                                                        <select
-                                                            name="campaign_type"
-                                                            className="form-control"
-                                                            value={formData.campaign_type}
-                                                            onChange={handleFormDataChange}
-                                                        >
-                                                            <option value="">Select Campaign Type</option>
-                                                            <option value="Email-Whatsapp">Email/Whatsapp</option>
-                                                            <option value="Calling">Calling</option>
-                                                            <option value="Both">Both</option>
-                                                        </select>
-                                                    </div>
+                                                <div className="col-sm-6">
+                                                    <label>Campaign Type</label>
+                                                    <select
+                                                        name="campaign_type"
+                                                        className="form-control"
+                                                        value={formData.campaign_type}
+                                                        onChange={handleFormDataChange}
+                                                    >
+                                                        <option value="">Select Campaign Type</option>
+                                                        <option value="Email-Whatsapp">Email/Whatsapp</option>
+                                                        <option value="Calling">Calling</option>
+                                                        <option value="Both">Both</option>
+                                                    </select>
+                                                </div>
                                             )}
                                         </div>
 
@@ -708,37 +710,37 @@ const AddUser = ({ onClose, after }) => {
                                             <div className='space-x-2 '>
 
                                                 <div className='flex my-2'>
-                                                <div className="w-1/2 mx-1">
-                                                    <label>Profile Name</label>
-                                                    <input
-                                                        type="text"
-                                                        name="profile_name"
-                                                        className="form-control"
-                                                        value={formData.profile_name}
-                                                        onChange={handleFormDataChange}
-                                                    />
+                                                    <div className="w-1/2 mx-1">
+                                                        <label>Profile Name</label>
+                                                        <input
+                                                            type="text"
+                                                            name="profile_name"
+                                                            className="form-control"
+                                                            value={formData.profile_name}
+                                                            onChange={handleFormDataChange}
+                                                        />
+                                                    </div>
+
+                                                    <div className="w-1/2 mx-1">
+                                                        <label>Select Website</label>
+                                                        <select
+                                                            name="website"
+                                                            className="form-control"
+                                                            value={formData.website}
+                                                            onChange={handleFormDataChange}
+
+                                                        >
+                                                            <option value="">Select website</option>
+                                                            {websites.map((website) => (
+                                                                <option key={website.id} value={website.id}>
+                                                                    {website.website}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
                                                 </div>
 
-                                                <div className="w-1/2 mx-1">
-                                                    <label>Select Website</label>
-                                                    <select
-                                                        name="website"
-                                                        className="form-control"
-                                                        value={formData.website}
-                                                        onChange={handleFormDataChange}
 
-                                                    >
-                                                        <option value="">Select website</option>
-                                                        {websites.map((website) => (
-                                                            <option key={website.id} value={website.id}>
-                                                                {website.website}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                                </div>
-
-                                                
                                                 <div>
                                                     <label>Website Email</label>
                                                     <input
@@ -769,11 +771,11 @@ const AddUser = ({ onClose, after }) => {
                                         </div>
 
                                     </div>
-                                    <div className="flex justify-end mt-4">
+                                    <div className="flex justify-end mt-2">
                                         <button
                                             type="submit"
                                             onClick={handleSubmit}
-                                            className="px-4 py-2 btn btn-success text-white rounded"
+                                            className=" py-1 px-2 btn btn-success text-white rounded"
                                         >
                                             Submit
                                         </button>

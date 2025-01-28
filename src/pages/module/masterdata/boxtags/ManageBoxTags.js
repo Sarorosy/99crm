@@ -177,16 +177,16 @@ const ManageBoxTags = () => {
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-2" size={12}/>
+                        <RefreshCw size={15}/>
                     </button>
                 </div>
             </div>
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto'>
+                <div className='bg-white dtp-0 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto'  style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'27rem'}}>
                 <DataTable
                     data={tags}
                     columns={columns}

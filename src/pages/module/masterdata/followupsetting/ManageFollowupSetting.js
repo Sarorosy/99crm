@@ -3,7 +3,7 @@ import axios from 'axios';
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
 import $ from 'jquery';
-import { PlusCircle, RefreshCw, Pencil, Trash2 } from 'lucide-react';
+import { PlusCircle, RefreshCw, Trash2 } from 'lucide-react';
 import CustomLoader from '../../../../components/CustomLoader';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -28,6 +28,7 @@ const ManageFollowupSetting = () => {
     const toggleAddSettingVisibility = () => {
         setIsAddingSetting(!isAddingSetting);
     };
+
     const toggleEditSettingVisibility = () => {
         setIsEditingSetting(!isEditingSetting);
     };
@@ -44,12 +45,12 @@ const ManageFollowupSetting = () => {
             const data = await response.json();
             setSettings(data.data);
         } catch (error) {
+            toast.error('Failed to load follow-up settings.');
             console.error('Error fetching follow-up settings:', error);
         } finally {
             setLoading(false);
         }
     };
-
 
     const handleDelete = () => {
         if (selectedSettings.length === 0) {
@@ -61,7 +62,6 @@ const ManageFollowupSetting = () => {
 
     const onConfirmDelete = async () => {
         try {
-            // Constructing the request body with the selected settings IDs
             const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deletefollowupsetting', {
                 method: 'POST',
                 headers: {
@@ -70,37 +70,31 @@ const ManageFollowupSetting = () => {
                 body: JSON.stringify({ ids: selectedSettings }),
             });
 
-
             if (!response.ok) {
                 throw new Error('Failed to delete settings');
             }
-
-            const data = await response.json();
 
             setSettings(settings.filter((setting) => !selectedSettings.includes(setting.id)));
             toast.success('Settings deleted successfully!');
             setTimeout(() => {
                 fetchSettings();
-            }, 1000)
+            }, 1000);
 
         } catch (error) {
             toast.error(error.message || 'An error occurred while deleting settings.');
         } finally {
-
             setIsModalOpen(false);
             setSelectedSettings([]);
-
-
             document.querySelectorAll(".checkbox").forEach((checkbox) => {
                 checkbox.checked = false;
             });
         }
     };
 
-
     const handleEditButtonClick = (setting) => {
+        console.log('Selected setting for edit:', setting); // Log to ensure we are selecting the correct setting
         setSelectedSetting(setting);
-        setIsEditingSetting(true);
+        setIsEditingSetting(true);  // Open the edit modal
     };
 
     useEffect(() => {
@@ -144,7 +138,7 @@ const ManageFollowupSetting = () => {
             title: 'Contact By',
             data: 'contact_by',
             orderable: false,
-            render: (data) => data.replaceAll(',', ', '), // Format with spaces
+            render: (data) => data.replaceAll(',', ', '),
         },
         {
             title: 'Actions',
@@ -157,7 +151,6 @@ const ManageFollowupSetting = () => {
       `,
         },
     ];
-
 
     const handleCheckboxClick = (event) => {
         const id = $(event.target).data('id');
@@ -179,22 +172,21 @@ const ManageFollowupSetting = () => {
                         onClick={handleDelete}
                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-1" size={12}/>
+                        <Trash2 className="mr-1" size={12} />
                         Delete
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}
-                        className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center"
+                        className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-2"
                     >
-                        <PlusCircle className="mr-1" size={12}/>
+                        <PlusCircle className="mr-1" size={12} />
                         Add Priority
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="text-white py-1 px-2 rounded bg-gray-500 hover:bg-gray-600 flex items-center"
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw className="mr-1" size={12}/>
-                        Refresh
+                        <RefreshCw size={15}/>
                     </button>
                 </div>
             </div>
@@ -202,17 +194,17 @@ const ManageFollowupSetting = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto'>
-                <DataTable
-                    data={settings}
-                    columns={columns}
-                    options={{
-                        pageLength: 50,
-                        createdRow: (row, data) => {
-                            $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
-                            $(row).find('.checkbox').on('click', handleCheckboxClick);
-                        },
-                    }}
-                />
+                    <DataTable
+                        data={settings}
+                        columns={columns}
+                        options={{
+                            pageLength: 50,
+                            createdRow: (row, data) => {
+                                $(row).find('.edit-btn').on('click', () => handleEditButtonClick(data));
+                                $(row).find('.checkbox').on('click', handleCheckboxClick);
+                            },
+                        }}
+                    />
                 </div>
             )}
             {isModalOpen && (
@@ -229,27 +221,18 @@ const ManageFollowupSetting = () => {
             <ToastContainer />
             <AnimatePresence>
                 {isAddingSetting && (
-
                     <AddFollowupSetting
                         onClose={toggleAddSettingVisibility}
                         afterSave={handleRefresh}
                         setting={selectedSetting}
                     />
-
                 )}
-
-                {isEditingSetting && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                    >
-                        <EditFollowupSetting
-                            onClose={toggleEditSettingVisibility}
-                            afterSave={handleRefresh}
-                            settingId={selectedSetting}
-                        />
-                    </motion.div>
+                {isEditingSetting && selectedSetting && ( // Ensure selectedSetting is not null
+                    <EditFollowupSetting
+                        onClose={toggleEditSettingVisibility}
+                        afterSave={handleRefresh}
+                        setting={selectedSetting}  
+                    />
                 )}
             </AnimatePresence>
         </div>

@@ -132,18 +132,20 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
             <ToastContainer />
-                <h2 className="text-xl font-bold mb-6 text-center">Add Email Campaign</h2>
+                <h2 className="text-md font-bold mb-3 text-center">Add Email Campaign</h2>
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
 <div className='col-md-7 cent add qhpage'>
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
+                
+                <div className='d-flex'>
                 {/* Email Campaign Subject */}
-                <div>
+                <div className='col-md-6'>
                     <label htmlFor="camp_title" className="block text-gray-700 font-medium mb-2">
                         Email Campaign Subject
                     </label>
@@ -158,7 +160,7 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                 </div>
 
                 {/* Website Dropdown */}
-                <div>
+                <div className='col-md-6'>
                     <label htmlFor="website" className="block text-gray-700 font-medium mb-2">
                         Website
                     </label>
@@ -176,10 +178,11 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                             </option>
                         ))}
                     </select>
-                </div>
+                </div></div>
 
+                <div className='d-flex'>
                 {/* Profile Dropdown */}
-                <div>
+                <div className='col-md-6'>
                     <label htmlFor="profile" className="block text-gray-700 font-medium mb-2">
                         Profile
                     </label>
@@ -197,12 +200,10 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                             </option>
                         ))}
                     </select>
-                </div>
-
-                
+                </div>                
 
                 {/* Status Dropdown */}
-                <div>
+                <div className='col-md-6'>
                     <label htmlFor="update_status" className="block text-gray-700 font-medium mb-2">
                         Status
                     </label>
@@ -224,7 +225,7 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
                         <option value="9">Contact Not Made</option>
                         <option value="10">Cross Sell</option>
                     </select>
-                </div>
+                </div></div>
 
                 {/* Mail Body Editor */}
                 <div>

@@ -204,7 +204,7 @@ const ManageTeams = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white dtp-0 shadow-xl rounded border-t-2 border-blue-400 w-2/3 mx-auto' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
+                <div className='bg-white dtp-0 shadow-xl rounded border-t-2 border-blue-400 w-2/3 mx-auto'>
                     <DataTable
                         data={settings}
                         columns={columns}

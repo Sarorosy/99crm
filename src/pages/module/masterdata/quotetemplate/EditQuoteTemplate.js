@@ -13,7 +13,7 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
     const [websites, setWebsites] = useState([]);
     const [selectedWebsite, setSelectedWebsite] = useState('');
     const selectTeamRef = useRef(null);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const fetchWebsites = async () => {
         try {
@@ -44,7 +44,7 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
             }
         } catch (err) {
             console.error('Error fetching template details:', err);
-        }finally{
+        } finally {
             setLoading(false);
         }
     };
@@ -68,7 +68,7 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
         if (selectedWebsite != '') {
             $(selectTeamRef.current).val(selectedWebsite).trigger('change');
         }
-    
+
 
         return () => {
             // Destroy select2 when the component unmounts
@@ -105,10 +105,10 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
                     toast.success('template updated successfully');
                     setServiceName('');
                     setSelectedWebsite('');
-                    setTimeout(()=>{
+                    setTimeout(() => {
                         onClose();
                         afterSave();
-                    },1000)
+                    }, 1000)
                 } else {
                     toast.error('Failed to update template');
                 }
@@ -122,64 +122,67 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <h2 className="text-xl text-center font-semibold mb-4">Edit Template</h2>
-            <button
-                onClick={onClose}
-                className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
-            >
-                <CircleX size={32} />
-            </button>
-            {loading ? (<CustomLoader />) : (
-                <div className='col-md-6 cent add'>
-<form onSubmit={handleSubmit} className='space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl'>
-                <div className="flex w-full space-x-3 justify-center">
-                    {/* template Name Field */}
-                    <div className="form-group w-1/2 mx-2">
-                        <label htmlFor="service_name" className="block text-sm font-medium text-gray-700 mb-2">template Name</label>
-                        <input
-                            type="text"
-                            id="team_name"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={serviceName}
-                            onChange={(e) => setServiceName(e.target.value)}
-                            placeholder="Enter template name"
-                            required
-                        />
-                    </div>
+            <div className="bg-white p-4 rounded-lg shadow-xl  max-w-md relative qhpage col-md-3">
+                <button
+                    onClick={onClose}
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                >
+                    <CircleX size={32} />
+                </button>
 
-                    {/* Manager Name Field */}
-                    <div className="form-group w-1/2 mx-2">
-                        <label htmlFor="website_id" className="block text-sm font-medium text-gray-700 mb-2">Manager Name(s)</label>
-                        <select
-                            id="manager_name"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={selectedWebsite}
-                            ref={selectTeamRef}
-                        >
-                            {websites.map(website => (
-                                <option key={website.id} value={website.id}>
-                                    {website.website}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div className='text-end'>
-                    <button
-                        type="submit"
-                        className="mt-3 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        Update Template
-                    </button>
-                </div>
+                <h2 className="text-md text-center font-semibold mb-2">Edit Template</h2>
 
-            </form>
-                </div>
-            
-            )}
-            <ToastContainer />
+
+                {loading ? (<CustomLoader />) : (
+                        <form onSubmit={handleSubmit} className='space-y-4'>
+                            <div className="">
+                                {/* template Name Field */}
+                                <div className="form-group mb-2">
+                                    <label htmlFor="service_name" className="block text-sm font-medium text-gray-700 mb-2">template Name</label>
+                                    <input
+                                        type="text"
+                                        id="team_name"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={serviceName}
+                                        onChange={(e) => setServiceName(e.target.value)}
+                                        placeholder="Enter template name"
+                                        required
+                                    />
+                                </div>
+
+                                {/* Manager Name Field */}
+                                <div className="form-group">
+                                    <label htmlFor="website_id" className="block text-sm font-medium text-gray-700 mb-2">Manager Name(s)</label>
+                                    <select
+                                        id="manager_name"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={selectedWebsite}
+                                        ref={selectTeamRef}
+                                    >
+                                        {websites.map(website => (
+                                            <option key={website.id} value={website.id}>
+                                                {website.website}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                            <div className='text-end'>
+                                <button
+                                    type="submit"
+                                    className="px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                >
+                                    Update Template
+                                </button>
+                            </div>
+
+                        </form>
+                    
+
+                )}</div>
+                <ToastContainer />
         </motion.div>
     );
 };

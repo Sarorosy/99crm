@@ -85,15 +85,15 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
             className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
 
-            <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative qhpage">
+            <div className="bg-white p-6 rounded-lg shadow-xl  max-w-md relative qhpage col-md-3">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
-                <h2 className="text-xl font-bold mb-6 text-center">Edit Tag</h2>
+                <h2 className="text-md font-bold mb-3 text-center">Edit Tag</h2>
             {loading ? (
                 <CustomLoader />
             ) : (
@@ -111,8 +111,8 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
                                 required
                             />
                         </div>
-                        <div className='col-md-12 flex'>
-                            <div className='col-md-6'>
+                        <div>
+                            <div className='col-md-12'>
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2">Category *</label>
                                     <div className="space-x-4">
@@ -141,7 +141,7 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='col-md-6'>
+                            <div className='col-md-12'>
                                 <div>
                                     <label className="block text-gray-700 font-medium mb-2">Tag Type *</label>
                                     <div className="space-x-4">
@@ -171,7 +171,7 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
                                 </div>
                             </div>
                         </div>
-                        <div className="text-end">
+                        <div className="text-end mt-0">
                             <button
                                 type="submit"
                                 disabled={posting}

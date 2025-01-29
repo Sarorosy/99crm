@@ -196,7 +196,7 @@ const ManageQuoteTemplate = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 reportpage shadow-xl rounded border-t-2 border-blue-400' style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '27rem' }}>
+                <div className='bg-white dtp-0 reportpage shadow-xl rounded border-t-2 border-blue-400'>
                     <DataTable
                         data={templates}
                         columns={columns}

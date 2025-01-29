@@ -81,12 +81,12 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
             <div className="bg-white p-6 rounded-lg shadow-xl max-w-md relative qhpage col-md-3">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
-                <h2 className="text-xl font-bold mb-6 text-center">Edit Box Tag</h2>
+                <h2 className="text-md font-bold mb-3 text-center">Edit Box Tag</h2>
             {loading ? (
                 <CustomLoader />
             ) : (

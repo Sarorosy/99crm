@@ -8,12 +8,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { CircleX } from 'lucide-react';
 
 
-const AddQuoteTemplate = ({onClose, afterSave}) => {
+const AddQuoteTemplate = ({ onClose, afterSave }) => {
     const [serviceName, setServiceName] = useState('');
     const [websites, setWebsites] = useState([]);
     const [selectedWebsite, setSelectedWebsite] = useState('');
     const selectWebsiteRef = useRef(null);
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         // Fetch websites data from the API
@@ -96,62 +96,63 @@ const AddQuoteTemplate = ({onClose, afterSave}) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <h2 className="text-xl font-semibold mb-4 text-center">Add Quote Template</h2>
+        <div className="bg-white p-4 rounded-lg shadow-xl  max-w-md relative qhpage col-md-3">
             <button
-        onClick={onClose}
-        className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
-      >
-        <CircleX size={32} />
-      </button>
-      <div className='col-md-4 cent qhpage'>
-            <form onSubmit={handleSubmit} className='space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl'>
-                <div className="w-full space-x-3 justify-center">
-                    {/* Team Name Field */}
-                    <div className="form-group mx-2 mb-4">
-                        <label htmlFor="service_name" className="block text-sm font-medium text-gray-700 mb-2">Service Name</label>
-                        <input
-                            type="text"
-                            id="service_name"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            value={serviceName}
-                            onChange={(e) => setServiceName(e.target.value)}
-                            placeholder="Service Name"
-                            required
-                        />
-                    </div>
+                onClick={onClose}
+                className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+            >
+                <CircleX size={32} />
+            </button>
+            <h2 className="text-md font-semibold mb-2 text-center">Add Quote Template</h2>
+            
+                <form onSubmit={handleSubmit} className='space-y-3'>
+                    <div className="w-full space-x-3 justify-center">
+                        {/* Team Name Field */}
+                        <div className="form-group mx-2 mb-2">
+                            <label htmlFor="service_name" className="block text-sm font-medium text-gray-700 mb-2">Service Name</label>
+                            <input
+                                type="text"
+                                id="service_name"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                value={serviceName}
+                                onChange={(e) => setServiceName(e.target.value)}
+                                placeholder="Service Name"
+                                required
+                            />
+                        </div>
 
-                    {/* Manager Name Field */}
-                    <div className="form-group mx-2">
-                        <label htmlFor="website_id" className="block text-sm font-medium text-gray-700 mb-2">Website</label>
-                        <select
-                            id="website_id"
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            
-                            value={selectedWebsite}
-                            ref={selectWebsiteRef}
+                        {/* Manager Name Field */}
+                        <div className="form-group mx-2">
+                            <label htmlFor="website_id" className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+                            <select
+                                id="website_id"
+                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+
+                                value={selectedWebsite}
+                                ref={selectWebsiteRef}
+                            >
+                                <option value=""> Select Website</option>
+                                {websites.map(website => (
+                                    <option key={website.id} value={website.id}>
+                                        {website.website}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+                    <div className='text-end mr-2'>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            className="mt-1 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
-                            <option value=""> Select Website</option>
-                            {websites.map(website => (
-                                <option key={website.id} value={website.id}>
-                                    {website.website}
-                                </option>
-                            ))}
-                        </select>
+                            {loading ? 'Submitting..' : "Submit"}
+                        </button>
                     </div>
-                </div>
-                <div className='text-end mr-2'>
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="mt-1 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                        {loading ? 'Submitting..' : "Submit"}
-                    </button>
-                </div>
 
-            </form></div>
+                </form></div>
             <ToastContainer />
         </motion.div>
     );

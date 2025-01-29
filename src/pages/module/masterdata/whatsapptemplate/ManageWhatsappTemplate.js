@@ -209,7 +209,8 @@ const ManageWhatsappTemplate = () => {
             },
         },
         {
-            title: 'Template Name',
+            // title: 'Template Name',
+            title: 'Name',
             orderable: false,
             data: 'template_name',
             width: "50px",
@@ -218,7 +219,7 @@ const ManageWhatsappTemplate = () => {
             },
         },
         {
-            title: 'Template Slug',
+            title: 'Slug',
             orderable: false,
             width: "70px",
             data: 'template_slug',
@@ -370,10 +371,11 @@ const ManageWhatsappTemplate = () => {
                         />
                     </div>
                     <div className="w-[30%] p-4 border-t-2 border-blue-400 bg-white shadow-xl rounded add">
-                        <h2 className="text-xl font-semibold mb-4">{(selectedTemplate && selectedTemplate != null) ? 'Edit Template' : 'Add template'} </h2>
+                        <h2 className="text-xl font-semibold mb-4">{(selectedTemplate && selectedTemplate != null) ? 'Edit Template' : 'Add Template'} </h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label className="block text-sm font-medium text-gray-700">Template Name</label>
+                                {/* <label className="block text-sm font-medium text-gray-700">Template Name</label> */}
                                 <input
                                     type="text"
                                     className="w-full p-2 border rounded"

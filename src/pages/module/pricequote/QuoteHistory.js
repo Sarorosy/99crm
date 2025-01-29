@@ -38,8 +38,6 @@ const QuoteHistory = () => {
             })
             .catch(err => console.error('Error fetching users:', err));
 
-
-
     }, []);
     useEffect(() => {
         // Initialize select2 for Select Team

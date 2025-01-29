@@ -115,15 +115,15 @@ const EditFollowupSetting = ({ onClose, afterSave, settingId }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className="bg-white rounded-lg shadow-lg col-md-4 qhpage p-6 relative">
+            <div className="bg-white rounded-lg shadow-lg col-md-3 qhpage p-4 relative">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
-                <h2 className="text-xl font-bold mb-6 text-center">Edit Follow-Up Setting</h2>
+                <h2 className="text-md font-bold mb-3 text-center">Edit Follow-Up Setting</h2>
                 
                 {loading ? (
                     <div className="flex justify-center items-center">

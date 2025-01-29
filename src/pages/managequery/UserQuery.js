@@ -1079,7 +1079,7 @@ const UserQuery = () => {
                             <Plus className='mr-2' size={14} />  Add query
                         </button>
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
+                    <div>
                         <DataTable
                             data={reports}
                             columns={columns}

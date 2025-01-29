@@ -335,7 +335,7 @@ const CampHistory = () => {
             
 
                     </div>
-                    <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight: '25rem' }}>
+                    <div>
                         <DataTable
                             data={reports}
                             columns={columns}

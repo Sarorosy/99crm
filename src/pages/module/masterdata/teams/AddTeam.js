@@ -89,20 +89,20 @@ const AddTeam = ({ onClose, afterSave }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className="bg-white rounded-lg shadow-lg p-6 relative qhpage col-md-4">
+            <div className="bg-white rounded-lg shadow-lg p-4 relative qhpage col-md-3">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
-                <h2 className="text-xl text-center font-semibold mb-4">Add New Team</h2>
+                <h2 className="text-md text-center font-semibold mb-2">Add New Team</h2>
 
                 <form onSubmit={handleSubmit} className='space-y-4'>
                     <div className="w-full">
                         {/* Team Name Field */}
-                        <div className="form-group mx-1 mb-4">
+                        <div className="form-group mx-1 mb-3">
                             <label htmlFor="team_name" className="block text-sm font-medium text-gray-700 mb-2">Team Name</label>
                             <input
                                 type="text"
@@ -136,7 +136,7 @@ const AddTeam = ({ onClose, afterSave }) => {
                     <div className='text-end'>
                         <button
                             type="submit"
-                            className="mt-3 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="mt-1 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             Add Team
                         </button>

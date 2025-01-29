@@ -78,7 +78,7 @@ const Header = () => {
                 Manage Query
               </button>
               {dropdownOpen && (
-                <div className="absolute bg-white text-black shadow-md mt-3 border  p-2 w-60 ">
+                <div className="absolute bg-white text-black shadow-md mt-3 border  p-2 wnav ">
                   <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
                   
                   <button onClick={() => handleNavigation('/addquery')} className="block px-4 py-2  w-full dropdownmenu">Add Query</button>
@@ -95,7 +95,7 @@ const Header = () => {
                   
                   <button onClick={() => handleNavigation('/dead-query')} className="block px-4 py-2  w-full dropdownmenu">Dead Query</button>
                   
-                  <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu">User Data Specific Query</button>
+                  <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">User Data Specific Query</button>
                 </div>
               )}
             </div>
@@ -132,7 +132,7 @@ const Header = () => {
                   
                   <button onClick={() => handleNavigation('/reports')} className="block px-4 py-2   w-full dropdownmenu">Reports</button>
                   
-                  <button onClick={() => handleNavigation('/request-quote-activation')} className="block px-4 py-2  w-full dropdownmenu" >Request Quote Activation</button>
+                  <button onClick={() => handleNavigation('/request-quote-activation')} className="block px-4 py-2  w-full dropdownmenu bbnone" >Request Quote Activation</button>
                 </div>
               )}
             </div>

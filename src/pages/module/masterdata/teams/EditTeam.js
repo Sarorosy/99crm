@@ -126,14 +126,14 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative qhpage">
-                <h2 className="text-xl font-semibold mb-4 text-center">Edit Team</h2>
+            <div className="bg-white rounded-lg shadow-lg p-4 relative qhpage col-md-3">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
+                <h2 className="text-md font-semibold mb-2 text-center">Edit Team</h2>
 
                 {loading ? (
                     <CustomLoader />
@@ -175,7 +175,7 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
                         <div className="text-end">
                             <button
                                 type="submit"
-                                className="mt-3 py-1 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="py-1 px-3 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
                             >
                                 Update Team
                             </button>

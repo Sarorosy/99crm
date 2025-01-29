@@ -161,6 +161,10 @@ table.dataTable td.dt-type-date {
   text-align: left !important;
 }
 
+table.dataTable th.dt-type-numeric{
+  text-align: left;
+}
+
 /* table.dataTable th.dt-type-numeric {
   text-align: center !important;
 } */
@@ -175,7 +179,7 @@ table.dataTable td.dt-type-date {
 
 .dropdownmenu {
   border-bottom: 1px solid #eff0e7;
-  font-size: 14px;
+  font-size: 12px;
   padding: 10px;
   color: #777;
   text-align: left;
@@ -183,7 +187,7 @@ table.dataTable td.dt-type-date {
 }
 
 .dropdownmenu:hover {
-  background-color: #dddddd;
+  /* background-color: #dddddd; */
   color: #444;
 }
 
@@ -846,4 +850,17 @@ div::selection {
 
 .bg-gray-100{
   background-color: #f0f0f0 !important;
+}
+
+.trx{
+  top:0;
+  right:0
+}
+
+.wnav{
+  width:13rem;
+}
+
+.bbnone{
+  border-bottom: none;
 }

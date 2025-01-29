@@ -39,7 +39,7 @@ const QueryDetails = ({ refId, onClose }) => {
             setQueryInfo(data.queryInfo);
             setQueryFiles(data.QueryFilesData);
             setLoading(false);
-            setAllPriority(data.allpriority);
+            setAllPriority(data.priorityArr);
             setInternalCommentsData(data.internalCommentData)
             setCampaginCommentData(data.campaginCommentData.comments);
 

@@ -202,7 +202,7 @@ const ManageTags = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto'>
+                <div className='bg-white dtp-0 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto' >
                     <DataTable
                         data={tags}
                         columns={columns}

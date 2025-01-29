@@ -80,19 +80,19 @@ const AddFollowupSetting = ({ onClose, afterSave }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 left-0 w-full h-full bg-gray-700 bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className="bg-white rounded-lg shadow-lg p-6 relative qhpage col-md-4">
+            <div className="bg-white rounded-lg shadow-lg p-4 relative qhpage col-md-3">
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
                     <CircleX size={32} />
                 </button>
 
-                <h2 className="text-xl font-bold mb-6 text-center">Add Follow-Up Setting</h2>
+                <h2 className="text-md font-bold mb-3 text-center">Add Follow-Up Setting</h2>
 
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
                     {/* Priority Name */}
-                    <div className='mb-4'>
+                    <div>
                         <label htmlFor="priorityName" className="block text-gray-700 font-medium mb-2">
                             Priority Name *
                         </label>
@@ -110,7 +110,7 @@ const AddFollowupSetting = ({ onClose, afterSave }) => {
                     <div>
                         <label className="block text-gray-700 font-medium mb-2">Follow-Up Settings *</label>
                         {settings.map((group, index) => (
-                            <div key={index} className="flex items-center space-x-4 mb-4">
+                            <div key={index} className="flex items-center space-x-4 mb-1">
                                 {/* No. of Days */}
                                 <input
                                     type="number"

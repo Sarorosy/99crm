@@ -80,7 +80,7 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
     };
 
     if (loading) {
-        return <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} className="col-md-5">
+        return <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} >
         {Array.from({ length: 2 }).map((_, index) => (
             <div
                 key={index}
@@ -104,7 +104,7 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
     }
 
     return (
-        <div className="mt-6 px-4 col-md-5">
+        <div className="mt-6 px-4 ">
             {/* File upload form */}
             <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2">Upload File</h3>
@@ -127,9 +127,9 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
             </div>
 
             {/* Attached files list */}
-            <h2 className="text-2xl font-semibold mb-6 text-gray-800">Attached Files</h2>
+            <h2 className="text-md font-semibold mb-6 text-gray-800">Attached Files</h2>
             {attachedFiles.length === 0 ? (
-                <p className="text-gray-500">No files attached.</p>
+                <p className='text-center bg-blue-100 px-2 py-2 flex items-center justify-center'>No files attached.</p>
             ) : (
                 <ul className="space-y-4">
                     {attachedFiles.map((file, index) => (

@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { Bell, X } from 'lucide-react';
 import QueryInformation from './QueryDetailsComponents/QueryInformation';
 import GeneratePriceQuote from './QueryDetailsComponents/GeneratePriceQuote';
 import ShowAttachedFiles from './QueryDetailsComponents/ShowAttachedFiles';
 import InternalComments from './QueryDetailsComponents/InternalComments';
 import CampaignComments from './QueryDetailsComponents/CampaignComments';
+import { toast, ToastContainer } from 'react-toastify';
+import RightDiv from './RightDiv';
 
 const QueryDetails = ({ refId, onClose }) => {
     const [activeTab, setActiveTab] = useState(1);
     const [queryInfo, setQueryInfo] = useState(null);
+    const [tempateInfo, setTemplateInfo] = useState(null);
     const [queryFiles, setQueryFiles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [escalationMark, setEscalationMark] = useState(0);
     const [allPriority, setAllPriority] = useState([]);
     const [internalCommentsData, setInternalCommentsData] = useState([]);
     const [campaginCommentData, setCampaginCommentData] = useState([]);
+    const [tatScore, setTatScore] = useState(null);
 
     const fetchQueryDetails = async () => {
         const id = sessionStorage.getItem('id');
@@ -37,11 +42,14 @@ const QueryDetails = ({ refId, onClose }) => {
 
             const data = await response.json();
             setQueryInfo(data.queryInfo);
+            setEscalationMark(data.queryInfo.escalation_mark);
             setQueryFiles(data.QueryFilesData);
             setLoading(false);
-            setAllPriority(data.allpriority);
+            setAllPriority(data.priorityArr);
             setInternalCommentsData(data.internalCommentData)
             setCampaginCommentData(data.campaginCommentData.comments);
+            setTatScore(data.TatScore);
+            setTemplateInfo(data.templateInfo);
 
 
         } catch (error) {
@@ -83,6 +91,39 @@ const QueryDetails = ({ refId, onClose }) => {
         }
     };
 
+
+
+    const handleEscalationChange = async (e) => {
+        const checked = e.target.checked;
+        setEscalationMark(checked);
+
+        // Post data to the API
+        const postData = {
+            assign_id: refId,
+            escalation_mark: checked ? 1 : 0,
+            user_id: sessionStorage.getItem("id"),
+        };
+
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/api/update-escalation-status", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            const result = await response.json();
+            if (result.status) {
+                console.error("Failed to update escalation status", result);
+                toast.success("Escalation status updated.");
+            }
+        } catch (error) {
+            console.error("Error posting escalation status:", error);
+            alert("An error occurred while updating escalation status.");
+        }
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -93,15 +134,56 @@ const QueryDetails = ({ refId, onClose }) => {
         >
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
-                <div className="flex px-5 items-center justify-between bg-blue-500 text-white py-3 rounded-t-lg">
+                <div className="flex px-5 items-center justify-between bg-[#0A5EB0] text-white py-3 rounded-t-lg">
                     <h2 className="text-lg font-semibold">Query Details</h2>
+                    <div className='flex items-center'>
+                        <div className="flex items-center mr-4 bg-blue-50 rounded-full px-2 py-1 text-blue-600 border hover:border-blue-100 hover:bg-transparent hover:text-white">
+                            <input
+                                type="checkbox"
+                                id="escalationMark"
+                                checked={escalationMark}
+                                onChange={handleEscalationChange}
+                                className="form-checkbox h-4 w-4 text-blue-600 rounded"
+                            />
+                            <label htmlFor="escalationMark" className="ml-2 text-sm  cursor-pointer">
+                                Escalation Mark
+                            </label>
+                        </div>
+                        <div className='mr-5' style={{ fontSize: "14px" }}>
 
-                    <button
-                        onClick={onClose}
-                        className="text-white hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500"
-                    >
-                        <X size={15} />
-                    </button>
+                            {tatScore && (
+                                tatScore.total_score !== null && tatScore.total_minute !== null ? (
+                                    <div className=''>
+                                        {/* Format the average TAT (in hours and minutes) */}
+                                        {(() => {
+                                            const hours = Math.floor(tatScore.total_minute / 60);
+                                            const minutes = tatScore.total_minute % 60;
+                                            return (
+                                                <div className='flex items-center'>
+                                                    <p>
+                                                        Average TAT: {hours < 10 ? `0${hours}` : hours}h{" "}
+                                                        {minutes < 10 ? `0${minutes}` : minutes}m <br />
+                                                        Average Score: {tatScore.total_score}
+                                                    </p>
+                                                    {queryInfo.showBellicon == 1 && (
+                                                        <Bell className='text-red-600 mx-3 bg-red-200  rounded-full p-1' size={25} />
+                                                    )}
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                ) : (
+                                    <p></p>
+                                )
+                            )}
+                        </div>
+                        <button
+                            onClick={onClose}
+                            className="text-white hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500"
+                        >
+                            <X size={15} />
+                        </button>
+                    </div>
                 </div>
 
                 <div className='row'>
@@ -144,13 +226,17 @@ const QueryDetails = ({ refId, onClose }) => {
                                 Campaign Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{campaginCommentData.length}</span>
                             </button>
                         </div>
+                        <div className="px-1 py-6">
+                            <TabContent />
+                        </div>
                     </div>
+                    {queryInfo && queryInfo != null && (
+                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} />
+                    )}
                 </div>
-
+                <ToastContainer />
                 {/* Tab Content */}
-                <div className="px-1 py-6">
-                    <TabContent />
-                </div>
+               
             </div>
         </motion.div>
     );

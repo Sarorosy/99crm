@@ -147,7 +147,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
     
     if (loading) {
         return (
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} className='col-md-5'>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} >
                 {Array.from({ length: 20 }).map((_, index) => (
                     <div
                         key={index}
@@ -182,7 +182,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
         }
     };
     return (
-        <div className="query-info-container bg-white col-md-5 px-8 py-2 rounded-lg shadow-lg relative">
+        <div className="query-info-container bg-white  px-8 py-2 rounded-lg shadow-lg relative">
             <div className="query-detail space-y-4">
                 {[
                     { label: "Ref. No.", value: queryInfo.assign_id, editable: false },

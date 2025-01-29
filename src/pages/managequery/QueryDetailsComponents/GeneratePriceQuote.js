@@ -190,7 +190,7 @@ const GeneratePriceQuote = ({ refId }) => {
     };
 
     return (
-        <div className="box-group col-md-5 overflow-hidden bg-white rounded-lg shadow-md" id="accordion">
+        <div className="box-group  overflow-hidden bg-white rounded-lg shadow-md" id="accordion">
             <div className="box">
                 
                 {/* Rendered Quote Details */}

@@ -1,11 +1,11 @@
-import { X , History} from "lucide-react";
+import { X , History, Frown} from "lucide-react";
 import React, { useState } from "react";
 
 const InternalComments = ({ internalCommentsData }) => {
     const [activeComment, setActiveComment] = useState(null);
 
     if (!internalCommentsData || internalCommentsData.length === 0) {
-        return <p>No internal comments available.</p>;
+        return <p className='text-center  bg-blue-100 px-2 py-2 flex items-center justify-center'>No internal comments available. <Frown className='' size={18} /></p>;
     }
 
     const formatDate = (timestamp) => {
@@ -29,7 +29,7 @@ const InternalComments = ({ internalCommentsData }) => {
     };
 
     return (
-        <div className="space-y-4 col-md-5 relative">
+        <div className="space-y-4 relative">
             {internalCommentsData.map((comment) => (
                 <div
                     key={comment.id}

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { CircleX } from 'lucide-react';
 import { ScaleLoader } from 'react-spinners';
@@ -132,7 +133,7 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
           </div>
         </form>
       </div>
-      <ToastContainer />
+      
     </div>
   );
 };

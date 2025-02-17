@@ -5,7 +5,7 @@ import DT from 'datatables.net-dt';
 import $ from 'jquery';
 import { PlusCircle, RefreshCw, Pencil, Trash2 } from 'lucide-react';
 import CustomLoader from '../../../../components/CustomLoader';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -173,7 +173,7 @@ const ManageQuoteTemplate = () => {
 
     return (
         <div>
-            <ToastContainer />
+            
             <div className="my-3 flex justify-between">
                 <h1 className="text-2xl font-bold">Quote Templates</h1>
                 <div className='flex mdbut'>

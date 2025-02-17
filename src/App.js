@@ -28,9 +28,15 @@ import RemainderQuery from './pages/managequery/RemainderQuery';
 import CampHistory from './pages/managequery/CampHistory';
 import DeadQuery from './pages/managequery/DeadQuery';
 import UserDataSpecificQuery from './pages/managequery/UserDataSpecificQuery';
+import { Toaster } from 'react-hot-toast';
+import Dashboard from './pages/dashboard/Dashboard';
+import ClientMailPage from './pages/managequery/mail/ClientEmailPage';
+import ManageProfile from './pages/module/manageprofile/ManageProfile';
+import QuerySummary from './pages/managequery/QuerySummary';
+import ManagePayment from './pages/module/payments/ManagePayment';
 
 const App = () => {
-  
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Check sessionStorage on initial load to determine if user is authenticated
@@ -50,9 +56,9 @@ const App = () => {
   const handleLogout = () => {
     sessionStorage.clear(); // Clear session storage
     setIsAuthenticated(false); // Update the authentication state
-    
+
   };
-//basename='/Saravanan/99crm'
+  //basename='/Saravanan/99crm'
   return (
     <Router >
       <Routes>
@@ -63,14 +69,20 @@ const App = () => {
         <Route
           path="/"
           element={
-            <Layout  />
+            <Layout />
           }
         >
           {/* Add the ManageUser route */}
+          <Route index element={<Navigate to="/dashboard" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/manageuser" element={<ManageUser />} />
           <Route path="/manageuser/adduser" element={<AddUser />} />
           <Route path="/manageuser/edituser/:id" element={<EditUser />} />
 
+
+          <Route path="/manageprofile" element={<ManageProfile />} />
+          <Route path="/querysummary" element={<QuerySummary />} />
+          <Route path="/payments" element={<ManagePayment />} />
 
           <Route path="/followupsetting" element={<ManageFollowupSetting />} />
           <Route path="/teams" element={<ManageTeams />} />
@@ -95,11 +107,31 @@ const App = () => {
           <Route path="/camp-history" element={<CampHistory />} />
           <Route path="/dead-query" element={<DeadQuery />} />
           <Route path="/userdataspecificquery" element={<UserDataSpecificQuery />} />
+          <Route path="/client-mail" element={<ClientMailPage />} />
         </Route>
 
         {/* Fallback route */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
+      <Toaster position="top-center" reverseOrder={false} toastOptions={{
+        // Define default options
+        className: 'border',
+        duration: 3000,
+        removeDelay: 500,
+        style: {
+          background: '#161616FF',
+          color: '#fff',
+        },
+
+        // Default options for specific types
+        success: {
+          duration: 3000,
+          iconTheme: {
+            primary: 'green',
+            secondary: 'black',
+          },
+        },
+      }} />
     </Router>
   );
 };

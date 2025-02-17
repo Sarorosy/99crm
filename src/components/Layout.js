@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import Dashboard from '../pages/dashboard/Dashboard';
 
 
 const Layout = () => {
@@ -9,8 +10,10 @@ const Layout = () => {
        <Header  />
 
       {/* Main Content */}
-      <main className="flex-1 container mx-auto px-2 py-4 ">
+      <main className="flex-1 mx-3 px-2 py-4 ">
+       
         <Outlet /> 
+        
       </main>
 
       {/* Footer */}

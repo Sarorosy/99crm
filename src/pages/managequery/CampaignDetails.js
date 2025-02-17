@@ -3,8 +3,7 @@ import $ from 'jquery';
 import 'select2/dist/css/select2.css';
 import 'select2';
 import { motion } from 'framer-motion';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 import { CircleX } from 'lucide-react';
 import DataTable from 'datatables.net-react';
 import DT from 'datatables.net-dt';
@@ -227,7 +226,6 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
                 </div>
             </div>
 
-            <ToastContainer />
         </motion.div>
     );
 };

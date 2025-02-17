@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { CircleX } from 'lucide-react';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomLoader from '../../../../components/CustomLoader';
 import axios from 'axios'; // Import axios for API requests
 import $ from 'jquery';
-import { Editor } from '@tinymce/tinymce-react'; // TinyMCE editor
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     const [camptitle, setCampTitle] = useState('');
@@ -40,7 +41,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     // Fetch profiles based on selected website
     const fetchProfiles = async (websiteId) => {
         if (!websiteId) return; // If no website is selected, skip the API call
-        
+
         try {
             const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofilewebsite', { website_id: websiteId });
             setProfiles(response.data.data); // Assuming response.data is the list of profiles
@@ -51,7 +52,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
 
     // Fetch profiles based on selected website
     const fetchDetails = async () => {
-        
+
         try {
             const response = await axios.get(`https://99crm.phdconsulting.in/99crmwebapi/api/getcampaigndetails/${campaignId.id}`);
             setCampTitle(response.data.data.camp_title);
@@ -97,7 +98,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
             return; // Stop the form submission
         }
 
-        
+
 
         try {
             // POST request to the API
@@ -112,7 +113,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                     email_body: mailBody, // Ensure you are sending a valid email body
                 }),
             });
-            
+
 
             const data = await response.json();
 
@@ -144,7 +145,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <ToastContainer />
+
             <div className='mx-auto w-2/3 relative'>
                 <h2 className="text-xl font-bold mb-6 text-left ">Add Email Campaign</h2>
                 <button
@@ -167,7 +168,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                         value={camptitle}
                         onChange={(e) => setCampTitle(e.target.value)}
-                        
+
                     />
                 </div>
 
@@ -179,7 +180,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                     <select
                         id="website"
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        
+
                         ref={selectWebsiteRef}
                         value={selectedWebsite}
                     >
@@ -200,7 +201,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                     <select
                         id="profile"
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        
+
                         value={selectedProfile}
                         onChange={(e) => setSelectedProfile(e.target.value)}
                     >
@@ -213,7 +214,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                     </select>
                 </div>
 
-                
+
 
                 {/* Status Dropdown */}
                 <div>
@@ -225,7 +226,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                         className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
-                        
+
                     >
                         <option value="">Select Status</option>
                         <option value="1">Lead In</option>
@@ -245,16 +246,27 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                     <label htmlFor="mail_body" className="block text-gray-700 font-medium mb-2">
                         Mail Body
                     </label>
-                    <Editor
-                        apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8"
+
+
+                    <ReactQuill
                         value={mailBody}
-                        init={{
-                            height: 300,
-                            menubar: false,
-                            plugins: ['advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'print', 'preview', 'anchor', 'searchreplace', 'wordcount'],
-                            toolbar: 'undo redo | formatselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                        onChange={(content) => setMailBody(content)}
+                        modules={{
+                            toolbar: [
+                                [{ header: [1, 2, false] }],
+                                ['bold', 'italic'],
+                                [{ align: [] }],
+                                [{ list: 'ordered' }, { list: 'bullet' }],
+                                ['link', 'image'],
+                                ['clean']
+                            ],
                         }}
-                        onEditorChange={(content, editor) => setMailBody(content)}
+                        formats={[
+                            'header', 'bold', 'italic', 'align',
+                            'list', 'bullet', 'link', 'image', 'clean'
+                        ]}
+                        style={{ height: 300 }}
+                        placeholder="Compose your email..."
                     />
                 </div>
 

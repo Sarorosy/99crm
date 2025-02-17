@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import $ from 'jquery'; // Import jQuery for Select2 initialization
 import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
-import { Editor } from '@tinymce/tinymce-react';
-import { toast, ToastContainer } from 'react-toastify';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import { CircleX, Eye, EyeOff } from 'lucide-react';
@@ -487,9 +488,9 @@ const AddUser = ({ onClose, after }) => {
                                                         className="absolute right-2 top-2"
                                                     >
                                                         {showPassword ? (
-                                                            <EyeOff size={14}/>
+                                                            <EyeOff size={14} />
                                                         ) : (
-                                                            <Eye  size={14}/>
+                                                            <Eye size={14} />
                                                         )}
                                                     </button>
                                                 </div>
@@ -498,31 +499,31 @@ const AddUser = ({ onClose, after }) => {
                                                 <label>Category</label>
                                                 <div className="col-md-12 p-1 d-flex">
                                                     <div className="col-sm-3">
-                                                        <div className=''  style={{ marginTop: "0px", display: "flex", alignItems: "center" }}>
-                                                        <input
-                                                            type="radio"
-                                                            name="category"
-                                                            id="category1"
-                                                            className="flat-red"
-                                                            value="PhD"
-                                                            checked={formData.category === 'PhD'}
-                                                            onChange={handleFormDataChange}
-                                                        />
-                                                        <label htmlFor="category1" style={{ marginLeft: "8px", marginTop:"0" }}>PhD</label>
+                                                        <div className='' style={{ marginTop: "0px", display: "flex", alignItems: "center" }}>
+                                                            <input
+                                                                type="radio"
+                                                                name="category"
+                                                                id="category1"
+                                                                className="flat-red"
+                                                                value="PhD"
+                                                                checked={formData.category === 'PhD'}
+                                                                onChange={handleFormDataChange}
+                                                            />
+                                                            <label htmlFor="category1" style={{ marginLeft: "8px", marginTop: "0" }}>PhD</label>
                                                         </div>
                                                     </div>
                                                     <div className="col-sm-3">
                                                         <div className='' style={{ marginTop: "0px", display: "flex", alignItems: "center" }}>
-                                                        <input
-                                                            type="radio"
-                                                            name="category"
-                                                            id="category2"
-                                                            className="flat-red"
-                                                            value="Sales"
-                                                            checked={formData.category === 'Sales'}
-                                                            onChange={handleFormDataChange}
-                                                        />
-                                                        <label htmlFor="category2" style={{ marginLeft: "8px", marginTop:"0" }}>Sales</label></div>
+                                                            <input
+                                                                type="radio"
+                                                                name="category"
+                                                                id="category2"
+                                                                className="flat-red"
+                                                                value="Sales"
+                                                                checked={formData.category === 'Sales'}
+                                                                onChange={handleFormDataChange}
+                                                            />
+                                                            <label htmlFor="category2" style={{ marginLeft: "8px", marginTop: "0" }}>Sales</label></div>
                                                     </div>
                                                 </div>
                                                 <div id="categoryError" className="error"></div>
@@ -754,17 +755,24 @@ const AddUser = ({ onClose, after }) => {
 
                                                 <div>
                                                     <label className="font-medium text-gray-700">Signature</label>
-                                                    <Editor
-                                                        apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
+                                                    <ReactQuill
                                                         value={formData.signature}
-                                                        init={{
-                                                            height: 200,
-                                                            menubar: false,
-                                                            plugins: ['advlist autolink lists link charmap print preview anchor'],
-                                                            toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                                                            placeholder: 'Signature',
+                                                        onChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
+                                                        modules={{
+                                                            toolbar: [
+                                                                ['bold', 'italic', 'underline'],
+                                                                [{ align: [] }],
+                                                                [{ list: 'ordered' }, { list: 'bullet' }],
+                                                                ['link'],
+                                                                ['clean']
+                                                            ],
                                                         }}
-                                                        onEditorChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
+                                                        formats={[
+                                                            'bold', 'italic', 'underline', 'align',
+                                                            'list', 'bullet', 'link', 'clean'
+                                                        ]}
+                                                        style={{ height: 200 }}
+                                                        placeholder="Signature"
                                                     />
                                                 </div>
                                             </div>
@@ -785,7 +793,7 @@ const AddUser = ({ onClose, after }) => {
                         </div>
                     </div>
                 </section>
-                <ToastContainer />
+
             </div>
         </motion.div>
     );

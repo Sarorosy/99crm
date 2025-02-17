@@ -7,8 +7,7 @@ import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
 import { PlusCircle, RefreshCw, Pencil, Trash2, SearchIcon, Plus } from 'lucide-react';
 import CustomLoader from '../../components/CustomLoader';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import toast from 'react-hot-toast';
 import { ConfirmationModal } from '../../components/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
 import 'react-tooltip/dist/react-tooltip.css'
@@ -309,7 +308,7 @@ const CampHistory = () => {
                 <div className='flex w-full justify-between px-4'>
                     <h1 className="text-2xl font-bold">Campaign History</h1>
                 </div>
-                <ToastContainer />
+                
             </div>
 
 

@@ -1,4 +1,4 @@
-import { X , History, Frown} from "lucide-react";
+import { X, History, Frown } from "lucide-react";
 import React, { useState } from "react";
 
 const InternalComments = ({ internalCommentsData }) => {
@@ -36,19 +36,21 @@ const InternalComments = ({ internalCommentsData }) => {
                     className="p-4 bg-gray-100 rounded-lg shadow-sm border border-gray-300 relative"
                 >
                     <div className="flex items-center justify-between">
-                    <p className="text-sm text-gray-600">
-                        <span className="font-medium">From: </span>
-                        <span
-                            className="text-blue-600 cursor-pointer"
-                            onClick={() => setActiveComment(activeComment === comment.id ? null : comment.id)}
-                        >
-                            {comment.FromName}
-                        </span>
-                    </p>
-                    <p className="flex items-center">
-                        <span className="font-medium "><History className="text-orange-400" size={18} /></span>{" "}
-                        {formatDate(comment.date)}
-                    </p>
+                        {comment.FromName && (
+                            <p className="text-sm text-gray-600">
+                                <span className="font-medium">From: </span>
+                                <span
+                                    className="text-blue-600 cursor-pointer"
+                                    onClick={() => setActiveComment(activeComment === comment.id ? null : comment.id)}
+                                >
+                                    {comment.FromName}
+                                </span>
+                            </p>
+                        )}
+                        <p className="flex items-center">
+                            <span className="font-medium "><History className="text-orange-400" size={18} /></span>{" "}
+                            {formatDate(comment.date)}
+                        </p>
                     </div>
 
                     {comment.comments && (

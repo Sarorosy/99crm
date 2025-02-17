@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import $ from 'jquery'; // Import jQuery for Select2 initialization
 import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
-import { Editor } from '@tinymce/tinymce-react';
-import { toast, ToastContainer } from 'react-toastify';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Eye, EyeOff } from 'lucide-react';
@@ -915,18 +916,25 @@ const EditUser = ({ id, onClose, after }) => {
                                             </div>
                                                 <div className="mx-1">
                                                     <label className="font-medium text-gray-700">Signature</label>
-                                                    <Editor
-                                                        apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
-                                                        value={formData.signature}
-                                                        init={{
-                                                            height: 200,
-                                                            menubar: false,
-                                                            plugins: ['advlist autolink lists link charmap print preview anchor'],
-                                                            toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                                                            placeholder: 'Signature',
-                                                        }}
-                                                        onEditorChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
-                                                    />
+                                                    <ReactQuill
+  value={formData.signature}
+  onChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
+  modules={{
+    toolbar: [
+      ['bold', 'italic', 'underline'],
+      [{ align: [] }],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      ['link'],
+      ['clean']
+    ],
+  }}
+  formats={[
+    'bold', 'italic', 'underline', 'align',
+    'list', 'bullet', 'link', 'clean'
+  ]}
+  style={{ height: 200 }}
+  placeholder="Signature"
+/>
                                                 </div>
                                         </div>
 
@@ -1040,7 +1048,7 @@ const EditUser = ({ id, onClose, after }) => {
                     </div>
                 </section>
             </>}
-            <ToastContainer />
+            
         </motion.div>
     );
 };

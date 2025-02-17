@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
-import { Editor } from '@tinymce/tinymce-react';
 import $ from 'jquery'; // Import jQuery for Select2 initialization
 import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
 import AddQuerySideDetails from "./AddQuerySideDetails";
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const AddQuery = () => {
 
@@ -668,7 +668,7 @@ const AddQuery = () => {
                     // For other errors, show a general error message
                     const errorData = await response.json();
                     console.log(errorData);
-                    toast.warning(`${errorData.message || "Submission failed!"}`);
+                    toast.error(`${errorData.message || "Submission failed!"}`);
                 }
                 return;
             }
@@ -1094,13 +1094,13 @@ const AddQuery = () => {
                                     <div className="col-md-1">
                                         {index === 0 ? (
                                             <i
-                                                style={{ fontSize: "14px", cursor: "pointer" ,color: "green", marginLeft:"-15px" }}
+                                                style={{ fontSize: "14px", cursor: "pointer", color: "green", marginLeft: "-15px" }}
                                                 className="fa fa-plus-circle"
                                                 onClick={handleAddFileInput}
                                             ></i>
                                         ) : (
                                             <i
-                                                style={{ fontSize: "14px", cursor: "pointer", color: "red" ,marginLeft:"-15px" }}
+                                                style={{ fontSize: "14px", cursor: "pointer", color: "red", marginLeft: "-15px" }}
                                                 className="fa fa-minus-circle"
                                                 onClick={() => handleRemoveFileInput(index)}
                                             ></i>
@@ -1111,7 +1111,7 @@ const AddQuery = () => {
                         </div>
 
                         <div className="col-sm-4">
-                            <div className="form-group"  style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
+                            <div className="form-group" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
                                     name="ifCampTag"
@@ -1124,7 +1124,7 @@ const AddQuery = () => {
                                         });
                                     }}
                                 />
-                                <label htmlFor="ifCampTag" style={{ marginLeft: "8px", marginTop:"0" }}> Check If Camp Query</label>
+                                <label htmlFor="ifCampTag" style={{ marginLeft: "8px", marginTop: "0" }}> Check If Camp Query</label>
                             </div>
                         </div>
 
@@ -1142,21 +1142,28 @@ const AddQuery = () => {
                                 <option value="1">Line Format</option>
                             </select>
                         </div>
-                        
+
                         {formData.requirement_line && formData.requirement_line == 1 && (
                             <div className="col-sm-12 mt-3">
                                 <label className="font-medium text-gray-700">Line Format</label>
-                                <Editor
-                                    apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
+                                <ReactQuill
                                     value={formData.line_format}
-                                    init={{
-                                        height: 200,
-                                        menubar: false,
-                                        plugins: ['advlist autolink lists link charmap print preview anchor'],
-                                        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                                        placeholder: 'Line Format',
+                                    onChange={(content) => handleChange({ target: { name: 'line_format', value: content } })}
+                                    modules={{
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline'],
+                                            [{ align: [] }],
+                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                            ['link'],
+                                            ['clean']
+                                        ],
                                     }}
-                                    onEditorChange={(content) => handleChange({ target: { name: 'line_format', value: content } })}
+                                    formats={[
+                                        'bold', 'italic', 'underline', 'align',
+                                        'list', 'bullet', 'link', 'clean'
+                                    ]}
+                                    style={{ height: 200 }}
+                                    placeholder="Line Format"
                                 />
                             </div>
                         )}
@@ -1189,7 +1196,7 @@ const AddQuery = () => {
                     <AddQuerySideDetails TodayCreatedQuery={1} />
                 </div>
             </div>
-            <ToastContainer />
+
         </div>
     );
 };

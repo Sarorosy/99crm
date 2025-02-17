@@ -7,7 +7,7 @@ import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
 import { PlusCircle, RefreshCw, Pencil, Trash2, SearchIcon, Plus } from 'lucide-react';
 import CustomLoader from '../../components/CustomLoader';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfirmationModal } from '../../components/ConfirmationModal';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -572,7 +572,7 @@ const DeadQuery = () => {
                     onClose={() => setIsModalOpen(false)}
                 />
             )}
-            <ToastContainer />
+            
             <AnimatePresence>
 
             </AnimatePresence>

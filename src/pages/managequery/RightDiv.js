@@ -2,18 +2,48 @@ import React, { act, useState } from "react";
 import WhatsappChatArea from "./QueryDetailsComponents/WhatsappChatArea";
 import { Twitch } from "lucide-react";
 import EmailDiv from "./QueryDetailsComponents/EmailDiv";
+import { AnimatePresence } from "framer-motion";
+import CommentDiv from "./QueryDetailsComponents/CommentDiv";
 
-const RightDiv = ({ queryInfo, tempateInfo }) => {
+const RightDiv = ({ queryInfo, tempateInfo  , commentInfo , whatsappOptions, callOptions}) => {
 
     const userType = sessionStorage.getItem('user_type');
     const [activeTab, setActiveTab] = useState('email');
+    //const [commentInfo, setCommentInfo] = useState([]);
+    const [commentsDivVisible, setCommentsTabVisible] = useState(false);
 
     const handleWhatsAppChat = () => {
         setActiveTab('whatsapp');
     };
 
-    const handleGetAutoComments = () => {
-        console.log("Show Conversations triggered");
+    const handleGetAutoComments = async () => {
+
+        // const queryData = {
+        //     assign_qid: String(queryInfo.assign_id),
+        //     archive_no: String(0),
+        // };
+        // console.log("Request Payload:", queryData);
+
+        // try {
+        //     const response = await fetch('https://99crm.phdconsulting.in/api/getquerycomments', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify(queryData),
+        //     });
+
+        //     const data = await response.json();
+        //     console.log(data)
+        //     setCommentInfo(data.CommentInfo);
+            
+        //     setCommentsTabVisible(true);
+            
+        // } catch (error) {
+        //     console.error('Error fetching comments:', error);
+        // }
+        setCommentsTabVisible(true);
+
     };
 
     const handleEmailMessageArea = () => {
@@ -25,9 +55,9 @@ const RightDiv = ({ queryInfo, tempateInfo }) => {
     };
 
     return (
-        <div className="col-md-7 connectedSortable" id="rightColomnDiv">
+        <div className="col-md-7 connectedSortable bg-white rounded shadow-md" id="rightColomnDiv">
             {/* Right Section */}
-            <div className="box box-primary direct-chat direct-chat-primary">
+            <div className="box box-primary direct-chat direct-chat-primary ">
                 <div className="flex justify-between items-center px-4 py-3 border-b">
                     <h3 className="text-lg font-semibold">
                         Comments
@@ -70,7 +100,7 @@ const RightDiv = ({ queryInfo, tempateInfo }) => {
                 ) : (
 
                     <div className="box-body emailBodyArea">
-                        <EmailDiv queryInfo={queryInfo} templateInfo={tempateInfo}/>
+                        <EmailDiv queryInfo={queryInfo} templateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions}/>
                     </div>
                 )}
 
@@ -78,6 +108,11 @@ const RightDiv = ({ queryInfo, tempateInfo }) => {
 
 
             </div>
+            <AnimatePresence>
+                {commentsDivVisible && (
+                    <CommentDiv commentInfo={commentInfo} onClose={()=>{setCommentsTabVisible(!commentsDivVisible)}} />
+                )}
+            </AnimatePresence>
         </div>
     );
 };

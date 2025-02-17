@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { CircleX } from 'lucide-react';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomLoader from '../../../../components/CustomLoader';
 
@@ -102,7 +102,7 @@ const AddBoxTag = ({ onClose, afterSave }) => {
                     </div>
                 )}
             </div>
-            <ToastContainer />
+           
         </motion.div>
     );
 };

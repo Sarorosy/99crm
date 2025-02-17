@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import toast from 'react-hot-toast';
 import { Send, SendHorizonal } from "lucide-react";
 
 const WhatsappChatArea = ({ company_id, refId }) => {
@@ -124,11 +124,11 @@ const WhatsappChatArea = ({ company_id, refId }) => {
 
         if (selectedOption === "Message") {
             if (!message || message.trim() == "") {
-                toast.warning("Message should not be empty!")
+                toast.error("Message should not be empty!")
             }
         } else if (selectedOption === "Template") {
             if (selectedTemplate == "") {
-                toast.warning("Please select a template!")
+                toast.error("Please select a template!")
             }
         }
         const formData = new FormData();
@@ -157,7 +157,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
                 setFile(null);
                 setMessage('');
             } else {
-                //toast.warning(response.data.message || "Something went wrong!");
+                //toast.error(response.data.message || "Something went wrong!");
                 setError(response.data.message ?? "Something went wrong!");
             }
         } catch (error) {
@@ -278,7 +278,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
                 </div>
             </form>
             )}
-            <ToastContainer />
+            
         </div>
     );
 };

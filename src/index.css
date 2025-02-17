@@ -12,6 +12,9 @@ code {
     monospace;
 }
 
+.young-serif{
+  font-family: 'Young Serif', sans-serif;
+}
 /* Apply styles for Firefox */
 .custom-scrollbar {
   scrollbar-width: 2px;
@@ -707,7 +710,10 @@ div.dt-container select.dt-input {
 }
 
 .navv {
-  background-color: #257180 !important;
+  /* background-color: #257180 !important; */
+  background-image: url('https://www.thehrbulb.com/team-member-panel/public/images/banner.png');
+  color: rgb(0, 10, 70) !important;
+  font-weight: 500;
 }
 
 #my-tooltip {
@@ -863,4 +869,25 @@ div::selection {
 
 .bbnone{
   border-bottom: none;
+}
+.ql-editor{
+  height: 200px !important;
+}
+.itemborder:hover{
+  /* border: 1px solid rgba(8, 0, 77, 0.363); */
+  /* transform: scale(1.05); */
+  /* transition: all 0.3s ease-in-out; */
+  filter: contrast(1.4);
+}
+.itemborder{
+  /* border: 1px solid transparent; */
+}
+.maildiv{
+  max-height: 1000px;
+  overflow-y: scroll;
+  height: 80%;
+}
+.logospan{
+  position: absolute;
+  top: 9px !important;
 }

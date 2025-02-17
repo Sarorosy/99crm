@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import toast from 'react-hot-toast';
 
 const ShowAttachedFiles = ({ refId, crmId }) => {
     const [attachedFiles, setAttachedFiles] = useState([]);
@@ -154,7 +154,7 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
                     ))}
                 </ul>
             )}
-            <ToastContainer />
+            
         </div>
     );
 };

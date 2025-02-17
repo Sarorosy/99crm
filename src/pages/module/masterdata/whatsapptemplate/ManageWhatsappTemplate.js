@@ -5,10 +5,11 @@ import DT from 'datatables.net-dt';
 import $ from 'jquery';
 import { PlusCircle, RefreshCw, Pencil, Trash2 } from 'lucide-react';
 import CustomLoader from '../../../../components/CustomLoader';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { ConfirmationModal } from '../../../../components/ConfirmationModal';
-import { Editor } from '@tinymce/tinymce-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 
 const ManageWhatsappTemplate = () => {
@@ -415,17 +416,19 @@ const ManageWhatsappTemplate = () => {
                             <div className="mb-3">
                                 <label className="block text-sm font-medium text-gray-700">Description</label>
 
-                                <Editor
-                                    apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
+                                <ReactQuill
                                     value={description}
-                                    init={{
-                                        height: 350,
-                                        menubar: false,
-                                        plugins: ['advlist autolink lists link charmap print preview anchor'],
-                                        toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                                        placeholder: 'Signature',
+                                    onChange={setDescription}
+                                    modules={{
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline'],
+                                            [{ align: [] }],
+                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                            ['link'],
+                                            ['clean']
+                                        ],
                                     }}
-                                    onEditorChange={(content) => setDescription(content)}
+                                    placeholder="Signature"
                                 />
                             </div>
 
@@ -461,7 +464,7 @@ const ManageWhatsappTemplate = () => {
                     onClose={() => setIssingleModalOpen(false)}
                 />
             )}
-            <ToastContainer />
+
 
         </div>
     );

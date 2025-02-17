@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { Editor } from '@tinymce/tinymce-react';
 import $ from 'jquery'; // Import jQuery for Select2 initialization
@@ -371,7 +371,7 @@ const ImportQuery = () => {
                 setFormData(initialFormData); 
             } else {
                 
-                toast.warning(`${data.message || "Submission failed!"}`);
+                toast.error(`${data.message || "Submission failed!"}`);
             }  
 
             
@@ -521,7 +521,7 @@ const ImportQuery = () => {
                     <AddQuerySideDetails TodayCreatedQuery ={0}/>
                 </div>
             </div>
-            <ToastContainer />
+           
         </div>
     );
 };

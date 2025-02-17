@@ -3,11 +3,12 @@ import $ from 'jquery';
 import 'select2/dist/css/select2.css';
 import 'select2';
 import { motion } from 'framer-motion';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { CircleX } from 'lucide-react';
 import CustomLoader from '../../../../components/CustomLoader';
-import { Editor } from '@tinymce/tinymce-react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 
 const EditWebsite = ({ onClose, afterSave, websiteId }) => {
@@ -123,15 +124,15 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         if (!websiteName || !selectedCompany) {
             toast.error('Please fill all required fields.');
             return;
         }
-    
+
         // Create a FormData object
         const formData = new FormData();
-        formData.append('id',websiteId.id)
+        formData.append('id', websiteId.id)
         formData.append('website', websiteName);
         formData.append('company_id', selectedCompany);
         formData.append('payment_data', JSON.stringify(paymentData)); // If it's an array, convert it to a string
@@ -141,12 +142,12 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
         formData.append('checkPhdPlanner', phdPlanner);
         formData.append('mailContent', mailContent);
         formData.append('mailContentWithoutCoupon', mailContentWithoutCoupon);
-    
+
         // Append the logo file if it exists
         if (logo instanceof File) {
             formData.append('logo', logo);
         }
-    
+
         fetch('https://99crm.phdconsulting.in/editwebsite.php/', {
             method: 'POST',
             body: formData, // Use FormData directly as the body
@@ -168,7 +169,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
             })
             .catch(err => toast.error('Error updating website:', err));
     };
-    
+
 
     return (
         <motion.div
@@ -188,274 +189,288 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
             {loading ? (<CustomLoader />) : (
 
                 <div className='col-md-7 cent qhpage'>
-                <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl">
-                    <div className="flex w-full space-x-3 justify-center">
-                        {/* Website Name Field */}
-                        <div className="form-group w-1/2">
-                            <label htmlFor="website_name" className="block text-sm font-medium text-gray-700 mb-2">
-                                Website Name
-                            </label>
-                            <input
-                                type="text"
-                                id="website_name"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-200 cursor-not-allowed"
-                                value={websiteName}
-                                readOnly
-                                disabled
-                            />
-                        </div>
-                        <div className="form-group w-1/2">
-                            <label htmlFor="website_name" className="block text-sm font-medium text-gray-700 mb-2">
-                                Display Name
-                            </label>
-                            <input
-                                type="text"
-                                id="display_name"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm "
-                                value={displayName}
-                                onChange={(e) => setDisplayName(e.target.value)}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex w-full space-x-3 justify-center">
-                        {/* Manager Name Field */}
-                        <div className="form-group w-1/2">
-                            <label htmlFor="company_id" className="block text-sm font-medium text-gray-700 mb-2">
-                                Company
-                            </label>
-                            <select
-                                id="company_id"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                value={selectedCompany}
-                                ref={selectCompanyRef}
-                            >
-                                <option value="">Select a Company</option>
-                                {companies.map((company) => (
-                                    <option key={company.id} value={company.id}>
-                                        {company.company_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="form-group w-1/2">
-                            <label htmlFor="sender_id" className="block text-sm font-medium text-gray-700 mb-2">
-                                Sender ID
-                            </label>
-                            <input
-                                type="text"
-                                id="sender_id"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                value={senderId}
-                                onChange={(e) => setSenderId(e.target.value)}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Additional Fields */}
-                    <div className="flex w-full space-x-3 justify-center">
-                        
-                        {/* Color Code Field */}
-                        <div className="form-group w-1/3 mx-2">
-                            <label htmlFor="color_code" className="block text-sm font-medium text-gray-700 mb-2">
-                                Color Code
-                            </label>
-                            <input
-                                type="color"
-                                id="color_code"
-                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
-                                value={colorCode}
-                                onChange={(e) => setColorCode(e.target.value)}
-                            />
-                        </div>
-
-                        {/* PHD Planner Field */}
-                        <div className="form-group w-1/3 mx-2 flex items-top cbl">
-                        <div className=''  style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
-                        <input
-                                type="checkbox"
-                                id="phd_planner"
-                                className="ml-2"
-                                checked={phdPlanner == 1}
-                                onChange={(e) => setPhdPlanner(e.target.checked ? 1 : 0)}
-                            />
-                            <label htmlFor="phd_planner" className="block text-sm font-medium text-gray-700 mb-2" style={{ marginLeft: "8px", marginTop:"10px" }}>
-                                Check PhD Planner
-                            </label>
-                        </div>
-                        </div>
-
-                        {/* Logo Upload Field */}
-                        <div className="form-group w-1/3 mx-2">
-                            <label htmlFor="logo" className="block text-sm font-medium text-gray-700 mb-2">
-                                Logo
-                            </label>
-                            <input
-                                type="file"
-                                id="logo"
-                                className="w-full uploadlogo border border-gray-300 rounded-md shadow-sm"
-                                onChange={(e) => {
-                                    const file = e.target.files[0];
-                                    setLogo(file);
-                                }}
-                            />
-                        </div>
-                        {logo && (
-                            <div className="form-group w-1/3 mx-2 logimg">
-                                <img
-                                    src={logo instanceof File ? URL.createObjectURL(logo) : `https://99crm.phdconsulting.in/public/images/logos/${logo}`}
-                                    alt="Website Logo"
-                                    onLoad={() => logo instanceof File && URL.revokeObjectURL(URL.createObjectURL(logo))} // Free memory for blob URL
-                                    className="rounded-md shadow-lg max-w-full"
+                    <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl">
+                        <div className="flex w-full space-x-3 justify-center">
+                            {/* Website Name Field */}
+                            <div className="form-group w-1/2">
+                                <label htmlFor="website_name" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Website Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="website_name"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-200 cursor-not-allowed"
+                                    value={websiteName}
+                                    readOnly
+                                    disabled
                                 />
                             </div>
-                        )}
-
-                    </div>
-
-                    <div className='w-full flex space-x-2 items-center mt-4'>
-                    <div>
-                        <h3 className="text-lg font-semibold">Payment Information</h3>
-                        {(paymentData.length === 0 ? [{}] : paymentData).map((payment, index) => (
-                            <div key={index} className="flex items-center justify-start space-x-4 my-2">
-                                <div className="w-1/3">
-                                    <select
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:outline-none"
-                                        value={payment.currency_type || ''}
-                                        onChange={(e) => handleChangePaymentField(index, 'currency_type', e.target.value)}
-                                    >
-                                        <option value="">Select Currency</option>
-                                        <option value="INR">INR</option>
-                                        <option value="USD">USD</option>
-                                        <option value="GBP">GBP</option>
-                                        <option value="AUD">AUD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="MYR">MYR</option>
-                                        <option value="SGD">SGD</option>
-                                        <option value="ZAR">ZAR</option>
-                                        <option value="CAD">CAD</option>
-                                        <option value="TZS">TZS</option>
-                                        <option value="UGX">UGX</option>
-                                        <option value="NGN">NGN</option>
-                                        <option value="ETB">ETB</option>
-                                        <option value="ZMW">ZMW</option>
-                                    </select>
-                                </div>
-
-                                <div className="w-full">
-                                    <select
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-                                        value={payment.payment_url || ''}
-                                        onChange={(e) => handleChangePaymentField(index, 'payment_url', e.target.value)}
-                                    >
-                                        <option value="">Select a Payment URL</option>
-                                        <option value="https://www.phdbox.edu.in/razorpay/instacrm-pay.php">
-                                            https://www.phdbox.edu.in/razorpay/instacrm-pay.php
-                                        </option>
-                                        <option value="https://www.regentediting.com/stripe/instacrm-strip.php">
-                                            https://www.regentediting.com/stripe/instacrm-strip.php
-                                        </option>
-                                        <option value="https://www.learchgroup.com/instacrm-strip.php">
-                                            https://www.learchgroup.com/instacrm-strip.php
-                                        </option>
-                                        <option value="https://www.fivevidya.com/instacrm-strip.php">
-                                            https://www.fivevidya.com/instacrm-strip.php
-                                        </option>
-                                        <option value="https://www.fflspl.com/instacrm-razorpay.php">
-                                            https://www.fflspl.com/instacrm-razorpay.php
-                                        </option>
-                                        <option value="https://www.chanakyaresearch.com/instamojo/instacrm.php">
-                                            https://www.chanakyaresearch.com/instamojo/instacrm.php
-                                        </option>
-                                        <option value="https://www.authenu.com/instacrm-strip.php">
-                                            https://www.authenu.com/instacrm-strip.php
-                                        </option>
-                                        <option value="https://webeshop.in/payment/instacrm_razorpay">
-                                            https://webeshop.in/payment/instacrm_razorpay
-                                        </option>
-                                        <option value="https://www.learchgroup.com/instamojo/instacrm-instamojo-elementk.php">
-                                            https://www.learchgroup.com/instamojo/instacrm-instamojo-elementk.php
-                                        </option>
-                                        <option value="https://www.regentresearch.com/razorpay/ti-instacrm-razorpay.php">
-                                            https://www.regentresearch.com/razorpay/ti-instacrm-razorpay.php
-                                        </option>
-                                        <option value="https://emarketzindia.com/instacrm-ccavenue.php">
-                                            https://emarketzindia.com/instacrm-ccavenue.php
-                                        </option>
-                                        <option value="https://www.emarketz.net/razorpay/instacrm-pay.php">
-                                            https://www.emarketz.net/razorpay/instacrm-pay.php
-                                        </option>
-                                    </select>
-                                </div>
-
-                                {index === 0 ? (
-                                    <button
-                                        type="button"
-                                        onClick={handleAddPaymentField}
-                                        className="ml-4 plus"
-                                    >
-                                        +
-                                    </button>
-                                ) : (
-                                    <button
-                                        type="button"
-                                        onClick={() => handleRemovePaymentField(index)}
-                                        className="ml-4 minus"
-                                    >
-                                        -
-                                    </button>
-                                )}
+                            <div className="form-group w-1/2">
+                                <label htmlFor="website_name" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Display Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="display_name"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm "
+                                    value={displayName}
+                                    onChange={(e) => setDisplayName(e.target.value)}
+                                />
                             </div>
-                        ))}
-
-                    </div>
-                    </div>
-
-                    <div className='w-full flex space-x-2 items-center mt-4'>
-                        <div className="w-1/2 mx-1">
-                            <label className="font-medium text-gray-700">Mail Content (With Coupon) </label>
-                            <Editor
-                                apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
-                                value={mailContent}
-                                init={{
-                                    height: 400,
-                                    menubar: false,
-                                    plugins: ['advlist autolink lists link charmap print preview anchor'],
-                                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                                    placeholder: 'Signature',
-                                }}
-                                onEditorChange={(content) => setMailContent(content)}
-                            />
                         </div>
-                        <div className="w-1/2 mx-1">
-                            <label className="font-medium text-gray-700">Mail Content (Without Coupon)</label>
-                            <Editor
-                                apiKey="2crkajrj0p3qpzebc7qfndt5c6xoy8vwer3qt5hsqqyv8hb8" // Your TinyMCE API Key
-                                value={mailContentWithoutCoupon}
-                                init={{
-                                    height: 400,
-                                    menubar: false,
-                                    plugins: ['advlist autolink lists link charmap print preview anchor'],
-                                    toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
-                                    placeholder: 'Signature',
-                                }}
-                                onEditorChange={(content) => setMailContentWithoutCoupon(content)}
-                            />
+                        <div className="flex w-full space-x-3 justify-center">
+                            {/* Manager Name Field */}
+                            <div className="form-group w-1/2">
+                                <label htmlFor="company_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Company
+                                </label>
+                                <select
+                                    id="company_id"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    value={selectedCompany}
+                                    ref={selectCompanyRef}
+                                >
+                                    <option value="">Select a Company</option>
+                                    {companies.map((company) => (
+                                        <option key={company.id} value={company.id}>
+                                            {company.company_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group w-1/2">
+                                <label htmlFor="sender_id" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Sender ID
+                                </label>
+                                <input
+                                    type="text"
+                                    id="sender_id"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                    value={senderId}
+                                    onChange={(e) => setSenderId(e.target.value)}
+                                />
+                            </div>
                         </div>
-                    </div>
 
-                    {/* Submit Button */}
-                    <div className="text-end ">
-                        <button
-                            type="submit"
-                            className="mt-3 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            Update Website
-                        </button>
-                    </div>
-                </form></div>
+                        {/* Additional Fields */}
+                        <div className="flex w-full space-x-3 justify-center">
+
+                            {/* Color Code Field */}
+                            <div className="form-group w-1/3 mx-2">
+                                <label htmlFor="color_code" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Color Code
+                                </label>
+                                <input
+                                    type="color"
+                                    id="color_code"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm"
+                                    value={colorCode}
+                                    onChange={(e) => setColorCode(e.target.value)}
+                                />
+                            </div>
+
+                            {/* PHD Planner Field */}
+                            <div className="form-group w-1/3 mx-2 flex items-top cbl">
+                                <div className='' style={{ marginTop: "20px", display: "flex", alignItems: "center" }}>
+                                    <input
+                                        type="checkbox"
+                                        id="phd_planner"
+                                        className="ml-2"
+                                        checked={phdPlanner == 1}
+                                        onChange={(e) => setPhdPlanner(e.target.checked ? 1 : 0)}
+                                    />
+                                    <label htmlFor="phd_planner" className="block text-sm font-medium text-gray-700 mb-2" style={{ marginLeft: "8px", marginTop: "10px" }}>
+                                        Check PhD Planner
+                                    </label>
+                                </div>
+                            </div>
+
+                            {/* Logo Upload Field */}
+                            <div className="form-group w-1/3 mx-2">
+                                <label htmlFor="logo" className="block text-sm font-medium text-gray-700 mb-2">
+                                    Logo
+                                </label>
+                                <input
+                                    type="file"
+                                    id="logo"
+                                    className="w-full uploadlogo border border-gray-300 rounded-md shadow-sm"
+                                    onChange={(e) => {
+                                        const file = e.target.files[0];
+                                        setLogo(file);
+                                    }}
+                                />
+                            </div>
+                            {logo && (
+                                <div className="form-group w-1/3 mx-2 logimg">
+                                    <img
+                                        src={logo instanceof File ? URL.createObjectURL(logo) : `https://99crm.phdconsulting.in/public/images/logos/${logo}`}
+                                        alt="Website Logo"
+                                        onLoad={() => logo instanceof File && URL.revokeObjectURL(URL.createObjectURL(logo))} // Free memory for blob URL
+                                        className="rounded-md shadow-lg max-w-full"
+                                    />
+                                </div>
+                            )}
+
+                        </div>
+
+                        <div className='w-full flex space-x-2 items-center mt-4'>
+                            <div>
+                                <h3 className="text-lg font-semibold">Payment Information</h3>
+                                {(paymentData.length === 0 ? [{}] : paymentData).map((payment, index) => (
+                                    <div key={index} className="flex items-center justify-start space-x-4 my-2">
+                                        <div className="w-1/3">
+                                            <select
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:outline-none"
+                                                value={payment.currency_type || ''}
+                                                onChange={(e) => handleChangePaymentField(index, 'currency_type', e.target.value)}
+                                            >
+                                                <option value="">Select Currency</option>
+                                                <option value="INR">INR</option>
+                                                <option value="USD">USD</option>
+                                                <option value="GBP">GBP</option>
+                                                <option value="AUD">AUD</option>
+                                                <option value="EUR">EUR</option>
+                                                <option value="MYR">MYR</option>
+                                                <option value="SGD">SGD</option>
+                                                <option value="ZAR">ZAR</option>
+                                                <option value="CAD">CAD</option>
+                                                <option value="TZS">TZS</option>
+                                                <option value="UGX">UGX</option>
+                                                <option value="NGN">NGN</option>
+                                                <option value="ETB">ETB</option>
+                                                <option value="ZMW">ZMW</option>
+                                            </select>
+                                        </div>
+
+                                        <div className="w-full">
+                                            <select
+                                                className="w-full px-3 py-2 border border-gray-300 rounded-md"
+                                                value={payment.payment_url || ''}
+                                                onChange={(e) => handleChangePaymentField(index, 'payment_url', e.target.value)}
+                                            >
+                                                <option value="">Select a Payment URL</option>
+                                                <option value="https://www.phdbox.edu.in/razorpay/instacrm-pay.php">
+                                                    https://www.phdbox.edu.in/razorpay/instacrm-pay.php
+                                                </option>
+                                                <option value="https://www.regentediting.com/stripe/instacrm-strip.php">
+                                                    https://www.regentediting.com/stripe/instacrm-strip.php
+                                                </option>
+                                                <option value="https://www.learchgroup.com/instacrm-strip.php">
+                                                    https://www.learchgroup.com/instacrm-strip.php
+                                                </option>
+                                                <option value="https://www.fivevidya.com/instacrm-strip.php">
+                                                    https://www.fivevidya.com/instacrm-strip.php
+                                                </option>
+                                                <option value="https://www.fflspl.com/instacrm-razorpay.php">
+                                                    https://www.fflspl.com/instacrm-razorpay.php
+                                                </option>
+                                                <option value="https://www.chanakyaresearch.com/instamojo/instacrm.php">
+                                                    https://www.chanakyaresearch.com/instamojo/instacrm.php
+                                                </option>
+                                                <option value="https://www.authenu.com/instacrm-strip.php">
+                                                    https://www.authenu.com/instacrm-strip.php
+                                                </option>
+                                                <option value="https://webeshop.in/payment/instacrm_razorpay">
+                                                    https://webeshop.in/payment/instacrm_razorpay
+                                                </option>
+                                                <option value="https://www.learchgroup.com/instamojo/instacrm-instamojo-elementk.php">
+                                                    https://www.learchgroup.com/instamojo/instacrm-instamojo-elementk.php
+                                                </option>
+                                                <option value="https://www.regentresearch.com/razorpay/ti-instacrm-razorpay.php">
+                                                    https://www.regentresearch.com/razorpay/ti-instacrm-razorpay.php
+                                                </option>
+                                                <option value="https://emarketzindia.com/instacrm-ccavenue.php">
+                                                    https://emarketzindia.com/instacrm-ccavenue.php
+                                                </option>
+                                                <option value="https://www.emarketz.net/razorpay/instacrm-pay.php">
+                                                    https://www.emarketz.net/razorpay/instacrm-pay.php
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        {index === 0 ? (
+                                            <button
+                                                type="button"
+                                                onClick={handleAddPaymentField}
+                                                className="ml-4 plus"
+                                            >
+                                                +
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleRemovePaymentField(index)}
+                                                className="ml-4 minus"
+                                            >
+                                                -
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+
+                            </div>
+                        </div>
+
+                        <div className='w-full flex space-x-2 items-center mt-4'>
+                            <div className="w-1/2 mx-1">
+                                <label className="font-medium text-gray-700">Mail Content (With Coupon) </label>
+                                <ReactQuill
+                                    value={mailContent}
+                                    onChange={(content) => setMailContent(content)}
+                                    modules={{
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline'],
+                                            [{ align: [] }],
+                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                            ['link'],
+                                            ['clean']
+                                        ],
+                                    }}
+                                    formats={[
+                                        'bold', 'italic', 'underline', 'align',
+                                        'list', 'bullet', 'link', 'clean'
+                                    ]}
+                                    style={{ height: 400 }}
+                                    placeholder="Signature"
+                                />
+                            </div>
+                            <div className="w-1/2 mx-1">
+                                <label className="font-medium text-gray-700">Mail Content (Without Coupon)</label>
+                                <ReactQuill
+                                    value={mailContentWithoutCoupon}
+                                    onChange={(content) => setMailContentWithoutCoupon(content)}
+                                    modules={{
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline'],
+                                            [{ align: [] }],
+                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                            ['link'],
+                                            ['clean']
+                                        ],
+                                    }}
+                                    formats={[
+                                        'bold', 'italic', 'underline', 'align',
+                                        'list', 'bullet', 'link', 'clean'
+                                    ]}
+                                    style={{ height: 400 }}
+                                    placeholder="Signature"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="text-end ">
+                            <button
+                                type="submit"
+                                className="mt-3 px-3 py-1 mx-auto bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                Update Website
+                            </button>
+                        </div>
+                    </form></div>
 
             )}
-            <ToastContainer />
+
         </motion.div>
     );
 };

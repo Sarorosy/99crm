@@ -6,7 +6,7 @@ import GeneratePriceQuote from './QueryDetailsComponents/GeneratePriceQuote';
 import ShowAttachedFiles from './QueryDetailsComponents/ShowAttachedFiles';
 import InternalComments from './QueryDetailsComponents/InternalComments';
 import CampaignComments from './QueryDetailsComponents/CampaignComments';
-import { toast, ToastContainer } from 'react-toastify';
+import toast from 'react-hot-toast';
 import RightDiv from './RightDiv';
 
 const QueryDetails = ({ refId, onClose }) => {
@@ -19,7 +19,10 @@ const QueryDetails = ({ refId, onClose }) => {
     const [allPriority, setAllPriority] = useState([]);
     const [internalCommentsData, setInternalCommentsData] = useState([]);
     const [campaginCommentData, setCampaginCommentData] = useState([]);
+    const [commentInfo, setCommentInfo] = useState([]);
     const [tatScore, setTatScore] = useState(null);
+    const [whatsappOptions, setWhatsappOptions] = useState([]);
+    const [callOptions, setCallOptions] = useState([]);
 
     const fetchQueryDetails = async () => {
         const id = sessionStorage.getItem('id');
@@ -50,11 +53,15 @@ const QueryDetails = ({ refId, onClose }) => {
             setCampaginCommentData(data.campaginCommentData.comments);
             setTatScore(data.TatScore);
             setTemplateInfo(data.templateInfo);
+            setCommentInfo(data.CommentInfo);
 
 
         } catch (error) {
             console.error('Error fetching query details:', error);
             setLoading(false);
+        } finally {
+            fetchWhatsappOptions();
+            fetchCallOptions();
         }
     };
 
@@ -62,6 +69,35 @@ const QueryDetails = ({ refId, onClose }) => {
 
         fetchQueryDetails();
     }, []);
+
+    const fetchWhatsappOptions = async () => {
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/api/getwhatsappoptions");
+            const data = await response.json();
+            if (data.status) {
+                setWhatsappOptions(data.options);  // Set the options to state
+            } else {
+                console.error("Failed to fetch options");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
+    const fetchCallOptions = async () => {
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/api/getcalloptions");
+            const data = await response.json();
+            if (data.status) {
+                setCallOptions(data.options);  // Set the options to state
+            } else {
+                console.error("Failed to fetch options");
+            }
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+
 
     // Dummy content for each tab
     const TabContent = () => {
@@ -187,7 +223,7 @@ const QueryDetails = ({ refId, onClose }) => {
                 </div>
 
                 <div className='row'>
-                    <div className=" mt-4 col-md-5">
+                    <div className=" mt-4 col-md-5 ">
                         <div className="flex space-x-2 border-b px-2">
                             {/* Tab buttons */}
                             <button
@@ -231,12 +267,12 @@ const QueryDetails = ({ refId, onClose }) => {
                         </div>
                     </div>
                     {queryInfo && queryInfo != null && (
-                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} />
+                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} />
                     )}
                 </div>
-                <ToastContainer />
+                
                 {/* Tab Content */}
-               
+
             </div>
         </motion.div>
     );

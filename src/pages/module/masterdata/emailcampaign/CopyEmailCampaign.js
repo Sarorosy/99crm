@@ -156,7 +156,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                 </button>
             </div>
 
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-green-400 w-2/3 mx-auto bg-white shadow-xl">
                 {/* Email Campaign Subject */}
                 <div>
                     <label htmlFor="camp_title" className="block text-gray-700 font-medium mb-2">

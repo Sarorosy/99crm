@@ -223,7 +223,7 @@ const ManageEmailCampaign = () => {
     return (
         <div>
             <div className="my-3 flex justify-between mx-auto">
-                <h1 className="text-2xl font-bold">Email Campaign</h1>
+                <h1 className="text-md font-bold">Email Campaign</h1>
                 <div className='flex mdbut'>
                     <button
                         onClick={handleDelete}
@@ -250,7 +250,7 @@ const ManageEmailCampaign = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+                <div className='bg-white p-2 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                     <DataTable
                         data={tags}
                         columns={columns}

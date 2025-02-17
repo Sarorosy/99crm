@@ -291,7 +291,7 @@ const ManageUser = () => {
     <div className="">
       
       <div className="my-3 flex justify-between">
-        <h1 className=" text-xl font-bold">Users List</h1>
+        <h1 className="text-md font-bold">Users List</h1>
         <div className='flex items-center'>
           <button
             className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
@@ -333,7 +333,7 @@ const ManageUser = () => {
       {loading ? (
         <CustomLoader />
       ) : (
-        <div className='px-3 py-2 shadow-xl rounded border-t-2 border-blue-400 bg-white'>
+        <div className='px-3 py-2 shadow-xl rounded border-t-2 border-green-400 bg-white'>
 
           {statisticsVisible && (
             <div className="px-4 py-2 mb-4 bg-gray-100 shadow-md rounded flex justify-evenly">

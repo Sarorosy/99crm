@@ -317,15 +317,15 @@ const ClientMailPage = () => {
 
 
             {/* Profile Emails Dropdown */}
-            <div className={`mb-8 flex items-center justify-between ${detailsOpen ? 'col-md-8' : 'col-md-12'}`}>
+            <div className={`mb-8 flex items-center justify-between ${detailsOpen ? 'col-md-12' : 'col-md-12'}`}>
                 <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-bold text-gray-800">Client Mail Page</h1>
-                <div className="flex-1 min-w-[150px] mx-3">
+                <h1 className="text-md font-bold text-green-600">Client Mail Page</h1>
+                <div className="flex-1 min-w-[150px] mx-3 mailinput">
                             
                             <input
                                 id="filterDate"
                                 type="text"
-                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 "
+                                className="form-control w-full sm:w-auto border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 "
                                 placeholder="From Date - To Date"
                                 value={filterDate}
                                 readOnly
@@ -335,25 +335,27 @@ const ClientMailPage = () => {
                 <div className="flex items-center justify-end gap-2 ml-3">
                         <button
                             onClick={handleDelete}
-                            className="bg-red-500 hover:bg-red-600 flex items-center justify-between space-x-1 text-white px-2 py-1 rounded-md text-sm transition"
+                            className="bg-red-500 hover:bg-red-600 flex items-center justify-between space-x-1 text-white px-2 py-1 rounded-md fsx transition"
                         >
-                           <MailX  size={18} className="mr-2"/> Delete
+                           <MailX  size={14} className="mr-2"/> Delete
                         </button>
                         <button
                             onClick={handleReadBtnClick}
-                            className="bg-green-500 hover:bg-green-600 flex items-center justify-between space-x-1 text-white px-2 py-1 rounded-md text-sm transition"
+                            className="bg-green-500 hover:bg-green-600 flex items-center justify-between space-x-1 text-white px-2 py-1 rounded-md fsx transition"
                         >
-                          <MailCheck  size={18} className="mr-2"/>  Mark as Read
+                          <MailCheck  size={14} className="mr-2"/>  Mark as Read
                         </button>
                         <button
                             onClick={handleUnreadBtnClick}
-                            className="bg-yellow-500 hover:bg-yellow-600 flex items-center justify-between space-x-1 text-white px-2 py-1 rounded-md text-sm transition"
+                            className="bg-yellow-500 hover:bg-yellow-600 flex items-center justify-between space-x-1 text-white px-2 py-1 rounded-md fsx transition"
                         >
-                           <Mail size={18} className="mr-2"/> Mark as Unread
+                           <Mail size={14} className="mr-2"/> Mark as Unread
                         </button>
                     </div>
                     </div>
-                <div className=" border p-1 rounded">
+
+                    <div className="col-md-3">
+                <div className="rounded">
                     <select
                         value={selectedProfileEmail}
                         ref={tagsRef}
@@ -368,7 +370,7 @@ const ClientMailPage = () => {
                             </option>
                         ))}
                     </select>
-                </div>
+                </div></div>
             </div>
 
 

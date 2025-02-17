@@ -4,7 +4,7 @@ import { Tooltip } from "react-tooltip";
 
 const CampaignComments = ({ campaginCommentData }) => {
     if (!campaginCommentData || campaginCommentData.length === 0) {
-        return <p className=' col-md-5 text-center bg-blue-100 px-2 py-2 flex items-center justify-center'>No comments available. <Frown className='' size={18} /></p>;
+        return <p className=' col-md-12 text-center bg-blue-100 px-2 py-2 flex items-center justify-center'>No comments available. <Frown className='' size={18} /></p>;
     }
 
     return (

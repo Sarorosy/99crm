@@ -693,10 +693,10 @@ const AddBoxQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-2xl font-semibold text-center'>Add New Box Query</h1>
+            <h1 className='text-xl font-bold'>Add New Box Query</h1>
 
             <div className="flex w-full items-start justify-center space-x-2 mt-4 qhpage">
-                <form encType="multipart/form-data" className="space-y-4 px-4 py-3 border-t-2 rounded border-blue-400 bg-white shadow-xl w-3/4" autoComplete="off">
+                <form encType="multipart/form-data" className="space-y-4 px-4 py-3 border-t-2 rounded border-green-400 bg-white shadow-xl w-3/4" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
                             <div dangerouslySetInnerHTML={{ __html: errorData }} />

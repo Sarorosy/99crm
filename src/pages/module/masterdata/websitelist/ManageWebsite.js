@@ -197,7 +197,7 @@ const ManageWebsite = () => {
         <div>
             
             <div className="my-3 flex justify-between">
-                <h1 className="text-2xl font-bold">Websites</h1>
+                <h1 className="text-md font-bold">Websites</h1>
                 <div className='flex mdbut'>
 
                     <button
@@ -211,7 +211,7 @@ const ManageWebsite = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white dtp-0 shadow-xl rounded border-t-2 border-blue-400'>
+                <div className='bg-white dtp-0 shadow-xl rounded border-t-2 border-green-400'>
                     <DataTable
                         data={websites}
                         columns={columns}

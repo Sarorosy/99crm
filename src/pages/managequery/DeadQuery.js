@@ -446,7 +446,7 @@ const DeadQuery = () => {
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
                 <div className='flex w-full justify-between px-2'>
-                    <h1 className="text-2xl font-bold">Dead Query History</h1>
+                    <h1 className="text-md font-bold">Dead Query History</h1>
                 </div>
                 <div className="flex items-center space-x-2 my-4 bg-white rounded gap-2 px-2 py-2 gap-2 qhpage" id="filterDiv">
 
@@ -526,7 +526,7 @@ const DeadQuery = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+                <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end mb-2'>
                         <button
                             onClick={handleDelete}

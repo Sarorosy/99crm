@@ -187,7 +187,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
                     <div className="flex space-x-4">
                         <button
                             type="button"
-                            className={`py-2 px-6 rounded-md focus:outline-none ${selectedOption === "Message"
+                            className={`py-1 fssx px-2 rounded-md focus:outline-none ${selectedOption === "Message"
                                 ? "bg-blue-600 text-white shadow-inner"
                                 : "bg-gray-200 text-gray-700 hover:bg-blue-200"
                                 }`}
@@ -197,7 +197,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
                         </button>
                         <button
                             type="button"
-                            className={`py-2 px-6 rounded-md focus:outline-none ${selectedOption === "Template"
+                            className={`py-1 fssx px-2 rounded-md focus:outline-none ${selectedOption === "Template"
                                 ? "bg-blue-600 text-white shadow-inner"
                                 : "bg-gray-200 text-gray-700 hover:bg-blue-200"
                                 }`}
@@ -260,16 +260,16 @@ const WhatsappChatArea = ({ company_id, refId }) => {
                 <div className="flex items-center justify-end mb-2">
                     <button
                         type="submit"
-                        className="ml-auto bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-700"
+                        className="ml-auto bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700"
                     >
                         {selectedOption === "Message" ? (
                             <div className="flex items-center ">
-                                <Send className="mr-2" size={18} />
+                                <Send className="mr-2" size={14} />
                                 Submit
                             </div>
                         ) : (
                             <div className="flex items-center ">
-                                <SendHorizonal className="mr-2" size={18} />
+                                <SendHorizonal className="mr-2" size={14} />
                                 Send
                             </div>
                         )}

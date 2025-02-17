@@ -53,7 +53,7 @@ const QuerySummary = () => {
 
             <div className="flex items-center justify-center space-x-2 ">
                 {/* Today Pending Task */}
-                <div className=" custom-scrollbar rounded col-md-8 p-4 border-t-2 border-blue-400 bg-white shadow-xl" style={{ overflowY: 'auto', height: '25rem' }}>
+                <div className=" custom-scrollbar rounded col-md-8 p-4 border-t-2 border-green-400 bg-white shadow-xl" style={{ overflowY: 'auto', height: '25rem' }}>
                     <h3 className="font-bold  border-b pb-2 mb-3 flex items-center justify-between space-x-1 text-sm">Today Pending Task for Users <button className="bg-gray-100 rounded" onClick={fetchDetails}><RefreshCcw size={12} /></button></h3>
                     {loading ? (<CustomLoader />) : (
                         <>
@@ -89,7 +89,7 @@ const QuerySummary = () => {
                 </div>
 
 
-                <div className="border-t-2 border-blue-400 bg-white shadow-xl rounded px-4  col-md-4 " style={{ overflowY: 'auto', height: '25rem' }}>
+                <div className="border-t-2 border-green-400 bg-white shadow-xl rounded px-4  col-md-4 " style={{ overflowY: 'auto', height: '25rem' }}>
                     <h3 className="font-bold text-sm border-b pb-2 mb-2">Today Created Query</h3>
                     <table className="table-auto w-full border-collapse border border-gray-200 dataTable">
                         <thead>

@@ -159,7 +159,7 @@ const ManageBoxTags = () => {
     return (
         <div>
             <div className="my-3 flex justify-between w-2/3 mx-auto">
-                <h1 className="text-2xl font-bold">Box Tags</h1>
+                <h1 className="text-md font-bold">Box Tags</h1>
                 <div className='flex mdbut'>
                     <button
                         onClick={handleDelete}
@@ -186,7 +186,7 @@ const ManageBoxTags = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white dtp-0 shadow-xl border-t-2 border-blue-400 rounded w-2/3 mx-auto'>
+                <div className='bg-white dtp-0 shadow-xl border-t-2 border-green-400 rounded w-2/3 mx-auto'>
                 <DataTable
                     data={tags}
                     columns={columns}

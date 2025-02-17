@@ -142,7 +142,7 @@ const AddEmailCampaign = ({ onClose, afterSave }) => {
             </button>
 
             <div className='col-md-7 cent add qhpage'>
-                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-blue-400 w-2/3 mx-auto bg-white shadow-xl">
+                <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 p-4 border-t-2 rounded border-green-400 w-2/3 mx-auto bg-white shadow-xl">
 
                     <div className='d-flex'>
                         {/* Email Campaign Subject */}

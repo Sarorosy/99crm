@@ -204,7 +204,7 @@ const ManagePayment = () => {
         <div>
             <div className="my-3 flex mx-auto rep">
                 <div className='col-md-7 flex'>
-                    <h1 className="text-2xl font-bold">Payments &nbsp;</h1>
+                    <h1 className="text-md font-bold">Payments &nbsp;</h1>
                     <div className="w-1/2 ">
                         <input
                             id="filterDate"
@@ -252,7 +252,7 @@ const ManagePayment = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white dtp-0 reportpage shadow-xl border-t-2 border-blue-400 rounded  mx-auto'>
+                <div className='bg-white dtp-0 reportpage shadow-xl border-t-2 border-green-400 rounded  mx-auto'>
                     <DataTable
                         data={tags}
                         columns={columns}

@@ -444,7 +444,7 @@ const AddUser = ({ onClose, after }) => {
                     <div className="row">
                         <div className="col-md-6 cent add">
                             <div className="box">
-                                <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
+                                <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl'>
                                     <div className="box-body qhpage">
                                         <div className="my-2 flex items-center justify-between mb-2">
                                             <div className='col-md-6'>

@@ -23,13 +23,13 @@ const CommentDiv = ({ commentInfo, onClose }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <div className="flex px-5 items-center justify-start space-x-10 bg-[#0A5EB0] text-white py-3 rounded-t-lg">
+            <div className="flex px-5 items-center justify-between space-x-10 theme py-3 rounded-t-lg">
                 <h2 className="text-lg font-semibold">Previous Comments</h2>
                 <button
                     onClick={onClose}
                     className="text-white flex items-center hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500"
                 >
-                    <X size={15} />
+                    <X size={14} />
                 </button>
             </div>
 

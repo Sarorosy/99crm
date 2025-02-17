@@ -406,16 +406,15 @@ const Dashboard = () => {
    
 
     return (
-        <div className="px-2 py-1">
+        <div className="py-1">
             {/* Filter Section */}
             <div className="bg-white rounded-lg px-2 py-3 mb-6">
-            <h2 className="text-blue-950 font-semibold ml-2 my-1 text-xl">Dashboard</h2>
-                <form onSubmit={handleSearch}>
+            <h2 className="mb-2 font-semibold ml-2 my-1 text-xl mt-0">Dashboard</h2>
+                <form onSubmit={handleSearch} className="dashboardinput">
                     {/* Flex container for form fields */}
                     <div className="grid grid-cols-5 gap-1">
                     
-                        <div className="flex-1 min-w-[150px]">
-                            
+                        <div className="flex-1 min-w-[150px]">                            
                             <input
                                 id="filterDate"
                                 type="text"
@@ -448,7 +447,7 @@ const Dashboard = () => {
                             <select
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="w-full border border-gray-300  dashboardselect focus:outline-none focus:ring-2 "
                             >
                                 <option value="">Select User</option>
                                 {users.map((user) => (
@@ -486,7 +485,7 @@ const Dashboard = () => {
                             <select
                                 value={website}
                                 onChange={(e) => setWebsite(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="w-full border border-gray-300 dashboardselect focus:outline-none focus:ring-2 "
                             >
                                 <option value="">Select Website</option>
                                 {websites.map((site) => (
@@ -520,13 +519,14 @@ const Dashboard = () => {
                                 ))}
                             </select>
                         </div>
+
                         <div className="">
                             <button
                                 type="button"
                                 onClick={fetchDashboardQueries}
-                                className="bg-[#257180] flex items-center hover:bg-[#1a545f] text-white py-1 px-2 rounded "
+                                className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 mr-2 "
                             >
-                               <Search size={18}className="mr-2" /> Search
+                               <Search size={14}className="mr-2" /> Search
                             </button>
                         </div>
                     </div>
@@ -540,7 +540,6 @@ const Dashboard = () => {
             </div>
         
         <div className=" px-2 row items-start">
-
             <Escalation queries={escalationTask} loading={loading} />
             <OpenTasks queries={openTasks} loading={loading} />
             <LeadIn queries={leadsData} loading={loading} />

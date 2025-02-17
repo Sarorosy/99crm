@@ -290,7 +290,7 @@ const RequestQuoteActivation = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 border-t-2 border-blue-400 rounded'>
+                <div className='bg-white p-2 border-t-2 border-green-400 rounded'>
                 <DataTable
                     data={quotes}
                     columns={columns}

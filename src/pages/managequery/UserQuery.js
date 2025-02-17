@@ -1247,8 +1247,8 @@ const UserQuery = () => {
         <div>
             <div className='bg-white py-2 rounded'>
                 <div className="my-3 flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex w-full justify-between px-4'>
-                        <h1 className="text-2xl font-bold">Query History</h1>
+                    <div className='flex w-full justify-between px-0'>
+                        <h1 className="text-md font-bold">Query History</h1>
 
                     </div>
                     <div className="w-full flex flex-wrap gap-2 px-4 pt-2 qhpage" id="filterDiv">
@@ -1691,7 +1691,7 @@ const UserQuery = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+                <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end buton mb-3'>
                         <button
                             onClick={handleAddQuery}

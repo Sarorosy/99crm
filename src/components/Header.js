@@ -124,12 +124,12 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-blue-400 navv text-white">
-      <div className="mx-auto w-full flex justify-between items-center px-5">
+    <header className="navv">
+      <div className="w-full flex justify-between items-center container">
         {/* Logo and Navigation Links */}
         <div className="flex items-center">
           <div className="relative inline-block">
-            <h1 className="text-xl font-bold relative mr-6 bg-[#9bddff9c] text-blue-950 py-3 px-4 young-serif">
+            <h1 className="text-xl font-bold relative mr-6 theme1 py-3 px-4 young-serif">
               99 CRM <span className="logospan text-xs text-blue-950 font-bold">®</span>
             </h1>
 
@@ -308,8 +308,8 @@ const Header = () => {
               setShowNoti(false)
               setShowFiles(!showFiles)
             }}
-            className="text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
-            <File />
+            className="text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+            <File size={16}/>
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
                   w-5 h-5 rounded-full flex items-center justify-center
                   shadow-lg transform scale-100">
@@ -322,8 +322,8 @@ const Header = () => {
               setShowFiles(false)
               setShowNoti(!showNoti)
             }}
-            className=" text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
-            <Bell />
+            className=" text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+            <Bell size={17}/>
             <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs 
                   w-5 h-5 rounded-full flex items-center justify-center
                   shadow-lg ">
@@ -333,12 +333,12 @@ const Header = () => {
 
           {showNoti && (
             <div className="absolute h-96 overflow-y-auto custom-scrollbar top-12 right-10 w-64 bg-white shadow-lg rounded-lg px-2 py-2 z-50">
-              <h3 className="text-sm font-semibold">You have {notifications.TotalNoti} notifications</h3>
+              <h3 className="font-semibold">You have {notifications.TotalNoti} notifications</h3>
               <ul className="mt-2">
                 {notifications.arrayNoti.map((noti, index) => (
                   <li onClick={() => { handleViewButtonClick(noti.ref_id) }} key={index} className=" hover:bg-gray-100 border-b py-2 px-1 text-sm cursor-pointer">
                     <strong>{noti.name}</strong> Ref. No.({noti.ref_id}) <br />
-                    <span className="text-xs text-gray-500">{noti.email_id}</span>
+                    <span className="fssx text-gray-500">{noti.email_id}</span>
                   </li>
                 ))}
               </ul>
@@ -362,10 +362,10 @@ const Header = () => {
 
           <button
             onClick={() => { navigate('client-mail') }}
-            className="text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
-            <Mail />
+            className="text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+            <Mail size={17}/>
             <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs 
-                  px-2 py-1 rounded-full flex items-center justify-center
+                  w-5 h-5 rounded-full flex items-center justify-center
                   shadow-lg font-semibold min-w-[20px]">
               {notifications.ClientTotalUnraed}
             </span>
@@ -373,8 +373,8 @@ const Header = () => {
 
           <button
             onClick={toggleUserMenu}
-            className="px-4 py-2 rounded-full transition-all duration-200
-                      bg-blue-100 text-blue-900 
+            className="px-2 py-2 rounded-full transition-all duration-200
+                      theme1 text-green-600 
                       hover:text-blue-800 font-medium
                       flex items-center gap-2
                       hover:shadow-md hover:-translate-y-[1px]

@@ -714,7 +714,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
                 {/* Shifted Date */}
                 {queryInfo.update_status_date && (
-                  <span className="block text-sm text-gray-600">
+                  <span className="block text-xs text-gray-600">
                     Shifted Date:{" "}
                     {new Date(
                       queryInfo.update_status_date * 1000 // Convert seconds to milliseconds
@@ -724,7 +724,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
                 {/* Next Followup Date */}
                 {queryInfo.followupInfo && queryInfo.followupInfo.followup_day && (
-                  <div className="text-sm text-gray-600">
+                  <div className="text-xs text-gray-600">
                     Next Followup Date:{" "}
                     <span>{new Date(queryInfo.followupInfo.followup_day).toLocaleDateString()}</span>
                   </div>
@@ -740,11 +740,11 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
           <div className="col-md-12" id="emailCommentsDiv">
             {userType !== 'Data Manager' && queryInfo.email_id && (
               <>
-                <div className="row">
-                  <div className=" bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                <div>
+                  <div className=" bg-white p-2 rounded-lg shadow-md border border-gray-200">
 
                     <div className="checkbox">
-                      <label className='flex items-center space-x-3'>
+                      <label className='flex items-center space-x-3 mb-0'>
                         {queryInfo.update_status == '1' ? (
                           <input
                             type="checkbox"
@@ -769,9 +769,10 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
                     <div id="send_mail_type1Div" style={{ display: emailDivVisible ? "block" : "none" }}>
                       <div className=" w-full flex justify-end items-end  ">
+                        <div className='col-md-4 dashboardinput'>
                         <select
                           onChange={(e) => handleTemplateChange(e.target.value)}
-                          className="block w-1/2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                          className="block w-full px-2 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
                         >
                           <option value="" disabled selected>
                             {templateInfo && templateInfo.length > 0 ? 'Choose Template' : 'Mail Template'}
@@ -786,24 +787,32 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                             <option disabled>Template not found.</option>
                           )}
                         </select>
+                        </div>
+                        
                       </div>
 
                       {!templateApproved ? (
                         <div>
-                          <div className="mt-2 mx-auto bg-white  rounded-lg p-6">
-                            <div className="mb-4">
+                          <div className="mt-2 mx-auto bg-white  rounded-lg py-2">
+                            <div className='d-flex gap-2'>
+                            <div className='w-1/2'>
+                            <div className="mb-3">
                               <label className="block font-semibold">From:</label>
                               <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.website_email} />
                             </div>
+                            </div>
 
-                            <div className="mb-4" disabled>
+                            <div className='w-1/2'>
+                            <div className="mb-3" disabled>
                               <label className="block font-semibold">To:</label>
                               <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.email_id} readOnly disabled />
                             </div>
+                            </div>
+                            </div>
 
                             <div className="flex gap-4 mb-4">
-                              <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleCcClick}>CC</button>
-                              <button type="button" className="bg-blue-500 text-white px-4 py-2 rounded" onClick={handleBccClick}>BCC</button>
+                              <button type="button" className="bg-blue-500 text-white px-2 py-1 rounded" onClick={handleCcClick}>CC</button>
+                              <button type="button" className="bg-blue-500 text-white px-2 py-1 rounded" onClick={handleBccClick}>BCC</button>
                             </div>
 
                             {showccField && (
@@ -836,24 +845,24 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                                 <div key={index} className="flex items-center gap-2 mb-2">
                                   <input
                                     type="file"
-                                    className="w-full border rounded px-3 py-2"
+                                    className="w-full border rounded px-1 py-1"
                                     onChange={(e) => handleFileChange(index, e.target.files[0])}
                                   />
                                   <button
                                     type="button"
-                                    className="p-2 bg-red-500 text-white rounded"
+                                    className="text-danger"
                                     onClick={() => handleRemoveFile(index)}
                                   >
-                                    <Minus size={16} />
+                                    <Minus size={12} />
                                   </button>
                                 </div>
                               ))}
                               <button
                                 type="button"
-                                className="mt-2 p-2 bg-blue-500 text-white rounded flex items-center gap-1"
+                                className="mt-2 px-2 py-1 bg-blue-500 text-white rounded flex items-center gap-1"
                                 onClick={handleAddFile}
                               >
-                                <Plus size={16} /> Add File
+                                <Plus size={12} /> Add File
                               </button>
                             </div>
 
@@ -862,7 +871,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               <ReactQuill theme="snow" value={emailSignature} onChange={setEmailSignature} className="bg-white" />
                             </div>
                             <div className='flex justify-between'>
-                              <div className="flex gap-4 mb-4">
+                              <div className="flex gap-4">
                                 <label className="flex items-center">
                                   <input
                                     type="radio"
@@ -888,7 +897,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               </div>
 
                               {sendType === 'later' && (
-                                <div className="mb-4 w-1/2 flex">
+                                <div className="w-1/2 flex dashboardinput">
                                   <label className="block font-semibold" style={{ fontSize: "11px" }}>Schedule Date and Time:</label>
                                   <Flatpickr
                                     value={sendLaterDate}
@@ -904,13 +913,15 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               )}
                             </div>
 
+                          <div className='d-flex justify-content-end mt-2'>
                             <button
                               type="button"
-                              className="bg-orange-500 text-white px-4 py-2 rounded mt-4"
+                              className="bg-orange-500 text-white px-2 py-1 rounded fssx"
                               onClick={() => approveTemplate(1)}
                             >
                               Approve
                             </button>
+                            </div>
 
                           </div>
                         </div>
@@ -933,8 +944,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                   </div>
                 </div>
 
-                <div className='row mt-3'>
-                  <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                <div className='mt-3'>
+                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
@@ -944,7 +955,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                         disabled={whatsappCheckBoxDisabled}
                         onChange={() => ClickAndCheckMailType(3, queryInfo.arrTags, queryInfo.update_status)}
                       />
-                      <label htmlFor="whatsapp_checkbox" className="text-green-900 font-medium select-none">
+                      <label htmlFor="whatsapp_checkbox" className="text-green-900 font-medium select-none mb-0">
                         WhatsApp
                       </label>
                       <input type="hidden" name="send_mail_type[]" id="send_mail_type3" value="WhatsApp" />
@@ -1067,8 +1078,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
                 </div>
 
-                <div className='row mt-3'>
-                  <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                <div className='mt-3'>
+                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
@@ -1078,7 +1089,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                         disabled={callCheckBoxDisabled}
                         onChange={() => ClickAndCheckMailType(4, queryInfo.arrTags, queryInfo.update_status)}
                       />
-                      <label htmlFor="call_checkbox" className="text-blue-900 font-medium select-none">
+                      <label htmlFor="call_checkbox" className="text-blue-900 font-medium select-none mb-0">
                         Call
                       </label>
                       <input type="hidden" name="send_mail_type[]" id="send_mail_type4" value="Call" />
@@ -1201,8 +1212,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
                 </div>
                 {queryInfo.checkPhdPlanner == 1 && (
-                  <div className='row mt-3'>
-                    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+                  <div className='mt-3'>
+                    <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200">
                       <div className="flex items-center space-x-3">
                         <input
                           type="checkbox"
@@ -1224,7 +1235,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                   <button
                     type='button'
                     onClick={() => setCommentsTabVisible(!commentsTabVisible)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white my-3 font-medium py-1 px-2 rounded-lg shadow-md transition duration-300"
+                    className="bg-blue-500 hover:bg-blue-600 text-white my-3 font-medium py-1 px-2 rounded-md shadow-md transition duration-300"
                   >
                     Add Comments
                   </button>
@@ -1232,7 +1243,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                   <button
                     type='button'
                     onClick={() => handleSubmitButtonClick(queryInfo, queryInfo.arrTags, remainderDate)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white my-3 font-medium py-1 px-2 rounded-lg shadow-md transition duration-300"
+                    className="bg-orange-500 hover:bg-orange-600 text-white my-3 fssx py-1 px-2 rounded shadow-md transition duration-300"
                   >
                     Submit
                   </button>

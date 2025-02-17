@@ -456,7 +456,7 @@ const BoxQuery = () => {
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
                 <div className='flex w-full justify-between px-1'>
-                    <h1 className="text-2xl font-bold">Box Query</h1>
+                    <h1 className="text-md font-bold">Box Query</h1>
                 </div>
                 <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded gap-2 px-2 pt-2 qhpage" id="filterDiv">
 
@@ -544,7 +544,7 @@ const BoxQuery = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+                <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end mb-1'>
                         <button
                             onClick={handleDelete}

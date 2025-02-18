@@ -604,7 +604,18 @@ table.dataTable>tbody>tr>td {
 .qhtable .dataTable{
   text-wrap:auto;
   word-break:break-word;
+  border: 1px solid #212529;
+  border-bottom: unset !important;
 }
+
+.qhtable table.dataTable thead {
+  border-bottom: 1px solid #212529 !important;
+}
+
+/* .custom-row-border {
+  border-bottom: 1px solid black !important;
+} */
+
 
 .buton button:hover {
   background-color: #0077eb !important;
@@ -1041,4 +1052,30 @@ select.dashboardselect {
       align-items: center;
       justify-content: end;
       margin-top: -27px;
+}
+
+span.product-description {
+  font-size: 10px;
+  font-weight: 600;
+  color: black;
+  line-height: normal;
+}
+
+.timerCls a {
+  color: black !important;
+}
+
+.open-tasks-container ul{
+  background-color: #fff;
+  padding: 3px;
+}
+
+.open-tasks-container {
+  margin: 4px;
+  width: 15.2rem;
+}
+
+.buton button .fa-chevron-right {
+  font-size: 7px;
+  transform: translateY(-1px);
 }

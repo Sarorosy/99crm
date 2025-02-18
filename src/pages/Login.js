@@ -133,7 +133,7 @@ const Login = () => {
           <div className='w-full mx-auto flex items-center justify-end buton'>
           <button
             type="submit"
-            className={`ml-auto bg-blue-500 text-white py-1 px-3 rounded-md hover:bg-blue-600 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
+            className={`ml-auto bg-blue-500 text-white py-1 fssx px-3 rounded-md hover:bg-blue-600 ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={isLoading}
           >
             {isLoading ? (
@@ -147,7 +147,7 @@ const Login = () => {
              />
             ) : (
               'Login'
-            )}
+            )} &nbsp;<i class="fa fa-chevron-right"></i>
           </button>
           </div>          
         </form>

@@ -43,7 +43,7 @@ const OpenTasks = ({ queries, loading }) => {
     }
 
     return (
-        <div className="open-tasks-container w-1/5" style={{ padding: '20px 8px', border: '1px solid #ddd', borderRadius: '6px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#f9f9f9', maxWidth: '350px' }}>
+        <div className="open-tasks-container" style={{ padding: '20px 8px', border: '1px solid #ddd', borderRadius: '6px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#e2e0c8', maxWidth: '350px' }}>
             <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#02313a', marginBottom: '15px' }}>Open Tasks <span className='text-green-400 bg-transparent rouneded-full px-1 py-1'>({queries && queries.length})</span></h1>
             <ul className=" custom-scrollbar box-height h-96 overflow-y-scroll" id="sortable3">
                 {loading ? <SkeletonLoader /> : queries.map((task) => (
@@ -77,10 +77,10 @@ const OpenTasks = ({ queries, loading }) => {
                                 
                                </p>
                             </a>
-                            <span className="product-description text-gray-600 mt-1 block">
+                            <span className="product-description text-gray-600  block">
                                 Ref. No. : {task.assign_id}
                                 {task.open_date && task.open_status == '0' && (
-                                    <div className="timerCls mt-1">
+                                    <div className="timerCls">
                                         <a
                                             href="javascript:void(0)"
                                             data-placement="bottom"
@@ -93,7 +93,7 @@ const OpenTasks = ({ queries, loading }) => {
                                     </div>
                                 )}
                                 {task.update_status == 7 && task.remainder_date && (
-                                    <div className="timerCls mt-1">
+                                    <div className="timerCls">
                                         <a
                                             href="javascript:void(0)"
                                             data-placement="bottom"

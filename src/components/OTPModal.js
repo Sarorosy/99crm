@@ -144,7 +144,8 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
              />
             ) : (
               'Verify OTP'
-            )}</button>
+            )} &nbsp;<i class="fa fa-chevron-right"></i>
+            </button>
           </div>
         </form>
       </div>

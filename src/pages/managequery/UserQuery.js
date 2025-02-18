@@ -729,7 +729,7 @@ const UserQuery = () => {
                 return `
                     <div style="text-align: left; display: flex; align-items: center; gap: 10px; width:80px;">
                         <span class="view-btn bg-blue-500 hover:bg-blue-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">${data}</span>
-                        <span class=" fssx edit-btn bg-orange-500 hover:bg-orange-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">Edit</span>
+                        <span class=" fssx edit-btn " style="cursor: pointer;"><img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" /></span>
                     </div>
                 `;
             },
@@ -1256,7 +1256,6 @@ const UserQuery = () => {
                     </div>
                     <div style={{ display: showFilter ? "block" : "none" }}>
 
-
                         <div className="w-full flex flex-wrap gap-1 px-4 pt-2 qhpage mb-1" id="filterDiv" >
                             {/* Team Selection */}
                             {userType != "user" && userType != "Operations Manager" && (
@@ -1477,6 +1476,7 @@ const UserQuery = () => {
                             )}
 
                         </div>
+
                         <div class="col-md-12 px-4 py-0 qhpage mb-4">
                             <div className='row'>
                                 <div className='col-md-6 flex gap-1'>
@@ -1539,6 +1539,7 @@ const UserQuery = () => {
                                     </div></div>
                             </div>
                         </div>
+
                     </div>
                 </div>
 
@@ -1712,25 +1713,32 @@ const UserQuery = () => {
                         </button>
                     </div>
                     <div className='qhtable'>
-                        <DataTable
-                            data={reports}
-                            columns={columns}
-                            options={{
-                                pageLength: 50,
-                                ordering: false,
-                                createdRow: (row, data) => {
-                                    $(row).css('background-color', data.color_code || 'white');
-                                    $(row).css('font-size', '12px !important');
-                                    $(row).find('.row-checkbox').on('click', handleCheckboxClick);
-                                    $(row).find('.view-btn').on('click', () => {
-                                        handleViewButtonClick(data);
-                                    });
-                                    $(row).find('.edit-btn').on('click', () => {
-                                        handleEditButtonClick(data);
-                                    });
-                                },
-                            }}
-                        />
+        <DataTable
+    data={reports}
+    columns={columns}
+    options={{
+        pageLength: 50,
+        ordering: false,
+        rowCallback: (row, data, index) => {
+            $(row).css('background-color', data.color_code || 'white');
+            $(row).css('font-size', '12px !important');
+
+            // Apply border-bottom to each td
+            $(row).find('td').css('border-bottom', '1px solid #212529');
+            
+            // Event listeners
+            $(row).find('.row-checkbox').on('click', handleCheckboxClick);
+            $(row).find('.view-btn').on('click', () => {
+                handleViewButtonClick(data);
+            });
+            $(row).find('.edit-btn').on('click', () => {
+                handleEditButtonClick(data);
+            });
+        },
+    }}
+/>
+
+
                     </div>
                 </div>
 

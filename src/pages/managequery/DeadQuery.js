@@ -510,7 +510,7 @@ const DeadQuery = () => {
                         </button>
                         <button
                             onClick={resetFilters}
-                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+                            className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
                         >
                             <RefreshCw size={15} />
                         </button>
@@ -538,7 +538,7 @@ const DeadQuery = () => {
                             onClick={handleAddQuery}
                             className="btn btn-success text-white py-1 px-2 rounded flex items-center"
                         >
-                            <Plus className='mr-2' size={14} />  Add Box query
+                            <Plus className='mr-1' size={14} />  Add Box query
                         </button>
 
                     </div>

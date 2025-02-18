@@ -214,7 +214,7 @@ const ManageReports = () => {
         <div>
             <div className="my-3 flex w-2/3 mx-auto rep">
                 <div className='col-md-7 flex'>
-                    <h1 className="text-md font-bold">Reports &nbsp;</h1>
+                    <h1 className="text-md font-bold mt-1">Reports &nbsp;</h1>
                     <div className="w-1/2 datereports">
                         <input
                             id="filterDate"
@@ -230,7 +230,7 @@ const ManageReports = () => {
 
                         <button
                             onClick={handleRefresh}
-                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+                            className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
                         >
                             <RefreshCw size={15} />
                         </button>

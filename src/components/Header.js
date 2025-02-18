@@ -302,13 +302,13 @@ const Header = () => {
         </div>
 
         {/* User Session Info */}
-        <div className="relative z-50 flex space-x-2">
+        <div className="relative z-50 flex space-x-2 navpop">
           <button
             onClick={() => {
               setShowNoti(false)
               setShowFiles(!showFiles)
             }}
-            className="text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+            className="text-white relative p-2 rounded-full hover:bg-gray-100  active:scale-95 transition-all duration-200">
             <File size={16}/>
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
                   w-5 h-5 rounded-full flex items-center justify-center

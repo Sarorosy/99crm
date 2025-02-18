@@ -411,7 +411,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                             </div>
                         </div>
 
-                        <div className='w-full flex space-x-2 items-center mt-4'>
+                        <div className='w-full flex space-x-2 items-start mt-4'>
                             <div className="w-1/2 mx-1">
                                 <label className="font-medium text-gray-700">Mail Content (With Coupon) </label>
                                 <ReactQuill
@@ -430,7 +430,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                         'bold', 'italic', 'underline', 'align',
                                         'list', 'bullet', 'link', 'clean'
                                     ]}
-                                    style={{ height: 400 }}
+                                    // style={{ height: 400 }}
                                     placeholder="Signature"
                                 />
                             </div>
@@ -452,7 +452,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                                         'bold', 'italic', 'underline', 'align',
                                         'list', 'bullet', 'link', 'clean'
                                     ]}
-                                    style={{ height: 400 }}
+                                    // style={{ height: 400 }}
                                     placeholder="Signature"
                                 />
                             </div>

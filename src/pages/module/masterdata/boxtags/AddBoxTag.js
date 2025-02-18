@@ -86,7 +86,7 @@ const AddBoxTag = ({ onClose, afterSave }) => {
                         <button
                             type="submit"
                             disabled={posting}
-                            className="px-3 py-1 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition-colors cremove"
+                            className="px-3 py-1 bg-blue-500 text-white font-medium rounded-md hover:bg-blue-600 transition-colors cremove"
                         >
                             {posting ? 'Saving...' : 'Save'}
                         </button>

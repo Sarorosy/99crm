@@ -280,7 +280,7 @@ const RequestQuoteActivation = () => {
                     <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchFilteredQuotes}>
                         Apply Filters
                     </button>
-                    <button className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300" onClick={resetFilters}>
+                    <button className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300" onClick={resetFilters}>
                         <RefreshCcw size={15}/>
                     </button>
 

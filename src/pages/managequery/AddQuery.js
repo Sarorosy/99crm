@@ -688,7 +688,7 @@ const AddQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-xl font-bold'>Add New Query</h1>
+            <h1 className='text-md font-bold'>Add New Query</h1>
 
             <div className="flex w-full items-start justify-center space-x-2 mt-4 ">
                 <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl w-3/4 qhpage" autoComplete="off">
@@ -1181,7 +1181,7 @@ const AddQuery = () => {
                             </div>
                         )}
 
-                        <div className="flex justify-end mt-4">
+                        <div className="flex justify-end mt-3">
                             <button
                                 type="submit"
                                 onClick={handleSubmit}

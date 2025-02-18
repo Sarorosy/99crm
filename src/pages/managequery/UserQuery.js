@@ -5,7 +5,7 @@ import DT from 'datatables.net-dt';
 import $ from 'jquery';
 import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
-import { PlusCircle, RefreshCw, Pencil, Trash2, SearchIcon, Plus } from 'lucide-react';
+import { PlusCircle, RefreshCw, Pencil, Trash2, SearchIcon, Plus, FilterIcon } from 'lucide-react';
 import CustomLoader from '../../components/CustomLoader';
 import toast from 'react-hot-toast';
 import { ConfirmationModal } from '../../components/ConfirmationModal';
@@ -71,6 +71,8 @@ const UserQuery = () => {
     const [campaignUsers, setCampaignUsers] = useState([]);
     const [selectedCampaignUser, setSelectedcampaignUser] = useState(null);
     const [campaignModalOpen, setCampaignModalOpen] = useState(false);
+
+    const [showFilter, setShowFilter] = useState(false);
 
     const websiteRef = useRef(null);
     const tagsRef = useRef(null);
@@ -233,7 +235,7 @@ const UserQuery = () => {
         } catch (error) {
             console.error('Error fetching teams:', error);
             toast.error(error.message || 'Error fetching Teams');
-        } 
+        }
     };
 
     const fetchCampaignUsers = async () => {
@@ -297,7 +299,7 @@ const UserQuery = () => {
         } catch (error) {
             console.error('Error fetching teams:', error);
             toast.error(error.message || 'Error fetching Teams');
-        } 
+        }
     };
 
     const fetchTags = async () => {
@@ -363,7 +365,7 @@ const UserQuery = () => {
 
     const fetchUsers = async () => {
         try {
-            
+
 
             const team_ids = sessionStorage.getItem('team_id');  // Assuming 'id' is stored in sessionStorage
             const user_type = sessionStorage.getItem('user_type');  // Assuming 'user_type' is stored in sessionStorage
@@ -399,7 +401,7 @@ const UserQuery = () => {
         } catch (error) {
             console.error('Error fetching users:', error);
             toast.error(error.message || 'Error fetching Users');
-        } 
+        }
     };
     const fetchStates = async () => {
         try {
@@ -418,7 +420,7 @@ const UserQuery = () => {
         } catch (error) {
             console.error('Error fetching states:', error);
             toast.error(error.message || 'Error fetching States');
-        } 
+        }
     };
     const fetchCallOptions = async () => {
         try {
@@ -437,11 +439,11 @@ const UserQuery = () => {
         } catch (error) {
             console.error('Error fetching states:', error);
             toast.error(error.message || 'Error fetching options');
-        } 
+        }
     };
     const fetchWhatsappOptions = async () => {
         try {
-            
+
 
             const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/whatsappopt', {
                 headers: {
@@ -457,7 +459,7 @@ const UserQuery = () => {
         } catch (error) {
             console.error('Error fetching states:', error);
             toast.error(error.message || 'Error fetching options');
-        } 
+        }
     };
 
     const handleSearchTeamIdChange = (e) => {
@@ -725,9 +727,9 @@ const UserQuery = () => {
             data: 'assign_id',
             render: (data, type, row) => {
                 return `
-                    <div style="text-align: left; display: flex; align-items: center; gap: 10px;">
+                    <div style="text-align: left; display: flex; align-items: center; gap: 10px; width:80px;">
                         <span class="view-btn bg-blue-500 hover:bg-blue-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">${data}</span>
-                        <span class="edit-btn bg-orange-500 hover:bg-orange-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">Edit</span>
+                        <span class=" fssx edit-btn bg-orange-500 hover:bg-orange-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">Edit</span>
                     </div>
                 `;
             },
@@ -1245,295 +1247,304 @@ const UserQuery = () => {
 
     return (
         <div>
-            <div className='bg-white py-2 rounded'>
-                <div className="my-3 flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex w-full justify-between px-0'>
-                        <h1 className="text-md font-bold">Query History</h1>
-
+            <div className='bg-white py-2 rounded mb-3'>
+                <div className="flex justify-between flex-col mx-auto qhpage ">
+                    <div className='flex w-full justify-between px-4 py-2'>
+                        <h1 className="text-md font-bold flex items-center">Query History </h1>
+                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
+                            <FilterIcon size={14} className="" /></button>
                     </div>
-                    <div className="w-full flex flex-wrap gap-2 px-4 pt-2 qhpage" id="filterDiv">
-                        {/* Team Selection */}
-                        {userType != "user" && userType != "Operations Manager" && (
+                    <div style={{ display: showFilter ? "block" : "none" }}>
+
+
+                        <div className="w-full flex flex-wrap gap-1 px-4 pt-2 qhpage mb-1" id="filterDiv" >
+                            {/* Team Selection */}
+                            {userType != "user" && userType != "Operations Manager" && (
+                                <select
+                                    name="search_team_id"
+                                    id="search_team_id"
+                                    className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    onChange={handleSearchTeamIdChange}
+                                    value={searchTeamId}
+                                >
+                                    <option value="">Select Team</option>
+                                    {teams.map((team) => (
+                                        <option key={team.id} value={team.id}>
+                                            {team.team_name}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+
+                            {/* Date Range Picker */}
+                            <input
+                                id="filterDate"
+                                type="text"
+                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="From Date - To Date"
+                                value={filterDate}
+                                readOnly
+                            />
+
+                            {/* Keyword Search */}
+                            <input
+                                type="text"
+                                name="search_keywords"
+                                id="search_keywords"
+                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter Keywords Name or Email or Phone"
+                                value={searchKeywords}
+                                onChange={(e) => setSearchKeywords(e.target.value)}
+                            />
+
+                            {/* Reference ID */}
+                            <input
+                                type="text"
+                                name="ref_id"
+                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                placeholder="Enter Ref. Id"
+                                value={refId}
+                                onChange={(e) => setRefId(e.target.value)}
+                            />
+
+
+                            {/* Status Selection */}
                             <select
-                                name="search_team_id"
-                                id="search_team_id"
-                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                onChange={handleSearchTeamIdChange}
-                                value={searchTeamId}
-                            >
-                                <option value="">Select Team</option>
-                                {teams.map((team) => (
-                                    <option key={team.id} value={team.id}>
-                                        {team.team_name}
-                                    </option>
-                                ))}
-                            </select>
-                        )}
-
-                        {/* Date Range Picker */}
-                        <input
-                            id="filterDate"
-                            type="text"
-                            className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="From Date - To Date"
-                            value={filterDate}
-                            readOnly
-                        />
-
-                        {/* Keyword Search */}
-                        <input
-                            type="text"
-                            name="search_keywords"
-                            id="search_keywords"
-                            className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Enter Keywords Name or Email or Phone"
-                            value={searchKeywords}
-                            onChange={(e) => setSearchKeywords(e.target.value)}
-                        />
-
-                        {/* Reference ID */}
-                        <input
-                            type="text"
-                            name="ref_id"
-                            className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            placeholder="Enter Ref. Id"
-                            value={refId}
-                            onChange={(e) => setRefId(e.target.value)}
-                        />
-
-
-                        {/* Status Selection */}
-                        <select
-                            name="update_status"
-                            id="update_status"
-                            className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={updateStatus}
-                            onChange={(e) => setUpdateStatus(e.target.value)}
-                        >
-                            <option value="">Select Status</option>
-                            {status
-                                .filter((statusItem) => statusItem.id !== 4)
-                                .map((statusItem) => (
-                                    <option key={statusItem.id} value={statusItem.id}>
-                                        {statusItem.status_name}
-                                    </option>
-                                ))}
-                        </select>
-
-                        {/* Icon Filter */}
-                        <select
-                            name="icon_filter"
-                            id="icon_filter"
-                            className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={iconFilter}
-                            onChange={(e) => setIconFilter(e.target.value)}
-                        >
-                            <option value="">Select Icon</option>
-                            <option value="Bell">Bell</option>
-                            <option value="Dollar">Dollar</option>
-                            <option value="Calendar">Calendar</option>
-                        </select>
-
-                        {/* Transfer Type */}
-                        {userType !== "user" && (
-                            <select
-                                name="transfer_type"
-                                id="transfer_type"
+                                name="update_status"
+                                id="update_status"
                                 className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                value={transferType}
-                                onChange={(e) => setTransferType(e.target.value)}
-                            >
-                                <option value="">Select All</option>
-                                <option key="Fresh" value="Fresh">Fresh</option>
-                                <option key='1' value="Transferred">Transferred</option>
-                                <option key='2' value="Replicated">Replicated</option>
-                                <option key='Bell' value="Bell">Show Bell Icon</option>
-                            </select>
-                        )}
-
-                        {/* User Selection */}
-                        <select
-                            name="user_id"
-                            id="user_id"
-                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={selectedUser}
-                            onChange={(e) => setSelectedUser(e.target.value)}
-                        >
-                            <option value="">
-                                {userType !== "user" ? "Select User" : "Absent User"}
-                            </option>
-                            {users.map((user) => (
-                                <option key={user.id} value={user.id}>
-                                    {user.name}
-                                </option>
-                            ))}
-                        </select>
-
-                        {/* Call / Whatsapp */}
-                        <select
-                            name="callWhatsapp"
-                            id="callWhatsapp"
-                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={callWhatsapp}
-                            onChange={(e) => setSelectedCallWhatsapp(e.target.value)}
-                        >
-                            <option value="">Select Call / Whatsapp</option>
-                            <option value="Call">Call </option>
-                            <option value="Whatsapp">Whatsapp</option>
-                        </select>
-
-                        {/* Call/Whatsapp Options */}
-                        {callWhatsapp && callWhatsapp === "Call" && (
-                            <select
-                                className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                onChange={(e) => setUpdateStatus(e.target.value)}
                                 value={updateStatus}
+                                onChange={(e) => setUpdateStatus(e.target.value)}
                             >
-                                <option value="">Select Call Option</option>
-                                {callOptions.map((option) => {
-                                    let callFromStatus = '';
-                                    let callToStatus = '';
-                                    if (option.status_from == 1) callFromStatus = 'Lead In';
-                                    if (option.status_from == 2) callFromStatus = 'Contact Made';
-                                    if (option.status_from == 3) callFromStatus = 'Quoted';
-                                    if (option.status_from == 6) callFromStatus = 'Client Not Interested';
-                                    if (option.status_from == 7) callFromStatus = 'Reminder';
-
-                                    if (option.status_to == 2) callToStatus = 'Contact Made';
-                                    if (option.status_to == 6) callToStatus = 'Client Not Interested';
-                                    if (option.status_to == 3) callToStatus = 'Quoted';
-
-                                    return (
-                                        <option key={option.id} value={option.id}>
-                                            {callFromStatus} - {callToStatus} | {option.option_val}
+                                <option value="">Select Status</option>
+                                {status
+                                    .filter((statusItem) => statusItem.id !== 4)
+                                    .map((statusItem) => (
+                                        <option key={statusItem.id} value={statusItem.id}>
+                                            {statusItem.status_name}
                                         </option>
-                                    );
-                                })}
+                                    ))}
                             </select>
-                        )}
 
-                        {callWhatsapp && callWhatsapp === "Whatsapp" && (
+                            {/* Icon Filter */}
                             <select
+                                name="icon_filter"
+                                id="icon_filter"
                                 className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                onChange={(e) => setSelectedTags(e.target.value)}
-                                value={selectedTags}
+                                value={iconFilter}
+                                onChange={(e) => setIconFilter(e.target.value)}
                             >
-                                <option value="">Select WhatsApp Option</option>
-                                {whatsappOptions.map((option) => {
-                                    let whatsappFromStatus = '';
-                                    let whatsappToStatus = '';
-                                    if (option.status_from == 1) whatsappFromStatus = 'Lead In';
-                                    if (option.status_from == 2) whatsappFromStatus = 'Contact Made';
-                                    if (option.status_from == 3) whatsappFromStatus = 'Quoted';
-                                    if (option.status_from == 6) whatsappFromStatus = 'Client Not Interested';
-                                    if (option.status_from == 7) whatsappFromStatus = 'Reminder';
-
-                                    if (option.status_to == 2) whatsappToStatus = 'Contact Made';
-                                    if (option.status_to == 6) whatsappToStatus = 'Client Not Interested';
-                                    if (option.status_to == 3) whatsappToStatus = 'Quoted';
-
-                                    return (
-                                        <option key={option.id} value={option.id}>
-                                            {whatsappFromStatus} - {whatsappToStatus} | {option.option_val}
-                                        </option>
-                                    );
-                                })}
+                                <option value="">Select Icon</option>
+                                <option value="Bell">Bell</option>
+                                <option value="Dollar">Dollar</option>
+                                <option value="Calendar">Calendar</option>
                             </select>
-                        )}
-                        <select
-                            name="state"
-                            id="state"
-                            className=" form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            value={selectedState}
-                            onChange={handleStateChange}
-                        >
-                            <option value="">Select State</option>
-                            {states.map((state) => (
-                                <option key={state.id} value={state.id}>
-                                    {state.name}
+
+                            {/* Transfer Type */}
+                            {userType !== "user" && (
+                                <select
+                                    name="transfer_type"
+                                    id="transfer_type"
+                                    className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    value={transferType}
+                                    onChange={(e) => setTransferType(e.target.value)}
+                                >
+                                    <option value="">Select All</option>
+                                    <option key="Fresh" value="Fresh">Fresh</option>
+                                    <option key='1' value="Transferred">Transferred</option>
+                                    <option key='2' value="Replicated">Replicated</option>
+                                    <option key='Bell' value="Bell">Show Bell Icon</option>
+                                </select>
+                            )}
+
+                            {/* User Selection */}
+                            <select
+                                name="user_id"
+                                id="user_id"
+                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                value={selectedUser}
+                                onChange={(e) => setSelectedUser(e.target.value)}
+                            >
+                                <option value="">
+                                    {userType !== "user" ? "Select User" : "Absent User"}
                                 </option>
-                            ))}
-                        </select>
-
-                        {selectedState && (
-                            <select
-                                name="city"
-                                id="city"
-                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            >
-                                <option value="">Select City</option>
-                                {cities.map((city) => (
-                                    <option key={city.id} value={city.id}>
-                                        {city.name}
+                                {users.map((user) => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.name}
                                     </option>
                                 ))}
                             </select>
-                        )}
 
+                            {/* Call / Whatsapp */}
+                            <select
+                                name="callWhatsapp"
+                                id="callWhatsapp"
+                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                value={callWhatsapp}
+                                onChange={(e) => setSelectedCallWhatsapp(e.target.value)}
+                            >
+                                <option value="">Select Call / Whatsapp</option>
+                                <option value="Call">Call </option>
+                                <option value="Whatsapp">Whatsapp</option>
+                            </select>
+
+                            {/* Call/Whatsapp Options */}
+                            {callWhatsapp && callWhatsapp === "Call" && (
+                                <select
+                                    className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    onChange={(e) => setUpdateStatus(e.target.value)}
+                                    value={updateStatus}
+                                >
+                                    <option value="">Select Call Option</option>
+                                    {callOptions.map((option) => {
+                                        let callFromStatus = '';
+                                        let callToStatus = '';
+                                        if (option.status_from == 1) callFromStatus = 'Lead In';
+                                        if (option.status_from == 2) callFromStatus = 'Contact Made';
+                                        if (option.status_from == 3) callFromStatus = 'Quoted';
+                                        if (option.status_from == 6) callFromStatus = 'Client Not Interested';
+                                        if (option.status_from == 7) callFromStatus = 'Reminder';
+
+                                        if (option.status_to == 2) callToStatus = 'Contact Made';
+                                        if (option.status_to == 6) callToStatus = 'Client Not Interested';
+                                        if (option.status_to == 3) callToStatus = 'Quoted';
+
+                                        return (
+                                            <option key={option.id} value={option.id}>
+                                                {callFromStatus} - {callToStatus} | {option.option_val}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            )}
+
+                            {callWhatsapp && callWhatsapp === "Whatsapp" && (
+                                <select
+                                    className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    onChange={(e) => setSelectedTags(e.target.value)}
+                                    value={selectedTags}
+                                >
+                                    <option value="">Select WhatsApp Option</option>
+                                    {whatsappOptions.map((option) => {
+                                        let whatsappFromStatus = '';
+                                        let whatsappToStatus = '';
+                                        if (option.status_from == 1) whatsappFromStatus = 'Lead In';
+                                        if (option.status_from == 2) whatsappFromStatus = 'Contact Made';
+                                        if (option.status_from == 3) whatsappFromStatus = 'Quoted';
+                                        if (option.status_from == 6) whatsappFromStatus = 'Client Not Interested';
+                                        if (option.status_from == 7) whatsappFromStatus = 'Reminder';
+
+                                        if (option.status_to == 2) whatsappToStatus = 'Contact Made';
+                                        if (option.status_to == 6) whatsappToStatus = 'Client Not Interested';
+                                        if (option.status_to == 3) whatsappToStatus = 'Quoted';
+
+                                        return (
+                                            <option key={option.id} value={option.id}>
+                                                {whatsappFromStatus} - {whatsappToStatus} | {option.option_val}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
+                            )}
+                            <select
+                                name="state"
+                                id="state"
+                                className=" form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                value={selectedState}
+                                onChange={handleStateChange}
+                            >
+                                <option value="">Select State</option>
+                                {states.map((state) => (
+                                    <option key={state.id} value={state.id}>
+                                        {state.name}
+                                    </option>
+                                ))}
+                            </select>
+
+                            {selectedState && (
+                                <select
+                                    name="city"
+                                    id="city"
+                                    className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                >
+                                    <option value="">Select City</option>
+                                    {cities.map((city) => (
+                                        <option key={city.id} value={city.id}>
+                                            {city.name}
+                                        </option>
+                                    ))}
+                                </select>
+                            )}
+
+                        </div>
+                        <div class="col-md-12 px-4 py-0 qhpage mb-4">
+                            <div className='row'>
+                                <div className='col-md-6 flex gap-1'>
+                                    <div className='col-md-6 przero'>
+                                        {/* Website Selection */}
+                                        <select
+                                            name="website"
+                                            id="websiteselect"
+                                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            multiple
+                                            value={selectedWebsites}
+                                            // onChange={(e) =>
+                                            //     setSelectedWebsites(Array.from(e.target.selectedOptions, (option) => option.value))
+                                            // }
+                                            ref={websiteRef}
+                                        >
+                                            <option value="">Select Website</option>
+                                            {websites.map((website) => (
+                                                <option key={website.id} value={website.id}>
+                                                    {website.website}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className='col-md-6 p-0'>
+                                        {/* Tags Selection */}
+                                        <select
+                                            name="tags"
+                                            id="tagsselectt"
+                                            className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                            multiple
+                                            value={selectedTags}
+
+                                            ref={tagsRef}
+                                        >
+                                            <option value="">Select Tags</option>
+                                            {tags.map((tag) => (
+                                                <option key={tag.id} value={tag.id}>
+                                                    {tag.tag_name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className='col-md-6'>
+                                    <div className='last'>
+                                        <button
+                                            onClick={handleSubmit}
+                                            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center mr-3"
+                                        >
+                                            <SearchIcon className="mr-2" size={12} />
+                                            Search
+                                        </button>
+                                        <button
+                                            onClick={resetFilters}
+                                            className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-2"
+                                        >
+                                            Reset Filters
+                                        </button>
+                                    </div></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-md-12 px-4 py-0">
-                    <div className='row'>
-                        <div className='col-md-6'>
-                            {/* Website Selection */}
-                            <select
-                                name="website"
-                                id="websiteselect"
-                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                multiple
-                                value={selectedWebsites}
-                                // onChange={(e) =>
-                                //     setSelectedWebsites(Array.from(e.target.selectedOptions, (option) => option.value))
-                                // }
-                                ref={websiteRef}
-                            >
-                                <option value="">Select Website</option>
-                                {websites.map((website) => (
-                                    <option key={website.id} value={website.id}>
-                                        {website.website}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className='col-md-6'>
-                            {/* Tags Selection */}
-                            <select
-                                name="tags"
-                                id="tagsselectt"
-                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                multiple
-                                value={selectedTags}
 
-                                ref={tagsRef}
-                            >
-                                <option value="">Select Tags</option>
-                                {tags.map((tag) => (
-                                    <option key={tag.id} value={tag.id}>
-                                        {tag.tag_name}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    </div>
 
-                    <div className='last mb-4 mt-2'>
-                        <button
-                            onClick={handleSubmit}
-                            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center mr-3"
-                        >
-                            <SearchIcon className="mr-2" size={12} />
-                            Search
-                        </button>
-                        <button
-                            onClick={resetFilters}
-                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
-                        >
-                            Reset Filters
-                        </button>
-                    </div>
-                </div>
-                <div className="flex flex-wrap items-center justify-between mb-4 px-2">
+                <div className="flex flex-wrap items-center justify-between mb-2 px-4 qhpage">
                     {/* Selects Container */}
                     <div className="flex flex-wrap items-center gap-2 flex-1">
                         {/* Team Select */}
@@ -1613,30 +1624,30 @@ const UserQuery = () => {
                     <div className="flex gap-1 ml-2">
                         <button
                             onClick={handletransferBtnClick}
-                            style={{ fontSize: "12px" }}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-2 rounded shadow-md"
+                            style={{ fontSize: "10px" }}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-2 bradius shadow-md"
                         >
                             Transfer Queries
                         </button>
                         <button
                             onClick={handleReplicateBtnClick}
-                            style={{ fontSize: "12px" }}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-2 rounded shadow-md"
+                            style={{ fontSize: "10px" }}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-2 bradius shadow-md"
                         >
                             Replicate Queries
                         </button>
                         <button
                             onClick={handleShiftBtnClick}
-                            style={{ fontSize: "12px" }}
-                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-2 rounded shadow-md"
+                            style={{ fontSize: "10px" }}
+                            className="bg-indigo-600 hover:bg-indigo-700 text-white py-1 px-2 bradius shadow-md"
                         >
                             Shift Queries
                         </button>
                     </div>
                 </div>
-                <div className=' flex items-center justify-between'>
+                <div className=' flex items-center justify-between mb-2 px-4 qhpage'>
                     {(sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "sub-admin") && (
-                        <div className="flex items-center justify-start mb-4 px-2 space-x-1">
+                        <div className="flex items-center justify-start space-x-1">
                             <div className="">
                                 <select
                                     name="campaignuser"
@@ -1655,27 +1666,27 @@ const UserQuery = () => {
                             </div>
                             <button
                                 onClick={handleAssignQueryCampaignBtnClick}
-                                style={{ fontSize: "12px" }}
-                                className="bg-orange-400 hover:bg-orange-600 text-white py-1 px-2 rounded shadow-md"
+                                style={{ fontSize: "10px" }}
+                                className="bg-orange-400 hover:bg-orange-600 text-white py-1 px-2 bradius shadow-md"
                             >
                                 Assign Query For Campaign
                             </button>
                         </div>
                     )}
-                    <div className='pr-5'>
+                    <div className='pr-0'>
                         {(sessionStorage.getItem('user_type') == "admin" ||
                             (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryDelete') == "Yes")) && (
                                 <>
                                     <button
                                         onClick={handleDelete}
-                                        className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-3 rounded-lg shadow-md transition-all duration-200"
+                                        className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded-lg shadow-md transition-all duration-200"
                                     >
                                         Delete
                                     </button>
 
                                     <button
                                         onClick={handleBellIconClick}
-                                        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-3 rounded-lg shadow-md transition-all duration-200 ml-4"
+                                        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-2 rounded-lg shadow-md transition-all duration-200 ml-4"
                                     >
                                         Remove Bell Icon
                                     </button>
@@ -1692,15 +1703,15 @@ const UserQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
-                    <div className='w-full flex items-center justify-end buton mb-3'>
+                    <div className='w-full flex items-center justify-end mb-3'>
                         <button
                             onClick={handleAddQuery}
-                            className="bg-[#f39c12] text-white rounded hover:bg-orange-400 flex items-center py-1 px-2"
+                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
                         >
-                            <Plus className='mr-2' size={14} />  Add query
+                            <Plus className='mr-1' size={14} />  Add query
                         </button>
                     </div>
-                    <div>
+                    <div className='qhtable'>
                         <DataTable
                             data={reports}
                             columns={columns}
@@ -1746,7 +1757,7 @@ const UserQuery = () => {
                     )
                 }
                 {editPageOpen && (
-                    <EditQuery queryId={selectedRefId} onClose={() => { setEditPageOpen(!editPageOpen) }} queryPriority={selectedRefIdPriority}/>
+                    <EditQuery queryId={selectedRefId} onClose={() => { setEditPageOpen(!editPageOpen) }} queryPriority={selectedRefIdPriority} />
                 )}
             </AnimatePresence>
             <Tooltip id="my-tooltip" />

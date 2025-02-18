@@ -301,7 +301,7 @@ const ManageEmailTemplate = () => {
             render: (data, type, row) => `
             <div class="flex space-x-1">
             <button class="copy-btn mx-1 fsm" data-id="${row.id}">
-            <i class="far fa-clone hover:text-blue-400"></i>
+            <i class="far fa-clone hover:text-green-400"></i>
         </button>
         <button class="edit-btn mx-1 fsm" data-id="${row.id}">
             <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
@@ -408,7 +408,7 @@ const ManageEmailTemplate = () => {
 
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+                        className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
                     >
                         <RefreshCw size={15} />
                     </button>

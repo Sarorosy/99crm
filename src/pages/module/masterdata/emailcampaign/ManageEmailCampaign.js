@@ -241,7 +241,7 @@ const ManageEmailCampaign = () => {
                     </button>
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+                        className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
                     >
                         <RefreshCw size={15}/>
                     </button>

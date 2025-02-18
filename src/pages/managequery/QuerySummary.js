@@ -61,8 +61,8 @@ const QuerySummary = () => {
                                 <table className="table-auto w-full border-collapse border border-gray-200  table-responsive ">
                                     <thead>
                                         <tr>
-                                            <th className="border border-gray-300 px-2 py-1 text-sm">User Name</th>
-                                            <th className="border border-gray-300 px-2 py-1 text-sm">Total Pending</th>
+                                            <th className="border border-gray-300 px-2 py-1 text-xs">User Name</th>
+                                            <th className="border border-gray-300 px-2 py-1 text-xs">Total Pending</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -94,8 +94,8 @@ const QuerySummary = () => {
                     <table className="table-auto w-full border-collapse border border-gray-200 dataTable">
                         <thead>
                             <tr>
-                                <th className="border border-gray-300 px-2 py-1 text-sm">User Name</th>
-                                <th className="border border-gray-300 px-2 py-1 text-sm">Profile</th>
+                                <th className="border border-gray-300 px-2 py-1 text-xs">User Name</th>
+                                <th className="border border-gray-300 px-2 py-1 text-xs">Profile</th>
                                 <th className="border border-gray-300 px-4 py-1 text-sm">CRM Name</th>
                             </tr>
                         </thead>

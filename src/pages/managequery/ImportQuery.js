@@ -388,9 +388,9 @@ const ImportQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-xl font-bold mt-2'>Import Query</h1>
+            <h1 className='text-md text-center font-bold mt-2'>Import Query</h1>
             
-            <div className="flex w-full items-start justify-center space-x-2 mt-5 ">
+            <div className="flex w-full items-start justify-center space-x-2 mt-4">
                 <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl iqw" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">

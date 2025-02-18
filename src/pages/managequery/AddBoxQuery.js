@@ -693,7 +693,7 @@ const AddBoxQuery = () => {
 
     return (
         <div className="container">
-            <h1 className='text-xl font-bold'>Add New Box Query</h1>
+            <h1 className='text-md font-bold text-center'>Add New Box Query</h1>
 
             <div className="flex w-full items-start justify-center space-x-2 mt-4 qhpage">
                 <form encType="multipart/form-data" className="space-y-4 px-4 py-3 border-t-2 rounded border-green-400 bg-white shadow-xl w-3/4" autoComplete="off">

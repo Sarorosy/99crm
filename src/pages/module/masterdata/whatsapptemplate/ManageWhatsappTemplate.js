@@ -244,7 +244,7 @@ const ManageWhatsappTemplate = () => {
             render: (data, type, row) => `
             <div class="flex space-x-1">
             <button class="copy-btn btn btn-sm mx-1" data-id="${row.id}">
-            <i class="far fa-clone hover:text-blue-400"></i>
+            <i class="far fa-clone hover:text-green-400"></i>
         </button>
         <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
             <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
@@ -346,7 +346,7 @@ const ManageWhatsappTemplate = () => {
 
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+                        className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
                     >
                         <RefreshCw size={15} />
                     </button>
@@ -372,7 +372,7 @@ const ManageWhatsappTemplate = () => {
                         />
                     </div>
                     <div className="w-[30%] p-4 border-t-2 border-green-400 bg-white shadow-xl rounded add">
-                        <h2 className="text-xl font-semibold mb-4">{(selectedTemplate && selectedTemplate != null) ? 'Edit Template' : 'Add Template'} </h2>
+                        <h2 className="text-md font-semibold mb-3">{(selectedTemplate && selectedTemplate != null) ? 'Edit Template' : 'Add Template'} </h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
                                 <label className="block text-sm font-medium text-gray-700">Template Name</label>

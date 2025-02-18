@@ -322,7 +322,7 @@ const ManageUser = () => {
 
           <button
             onClick={handleRefresh}
-            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+            className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
           >
             <RefreshCw size={15} />
           </button>
@@ -339,7 +339,7 @@ const ManageUser = () => {
             <div className="px-4 py-2 mb-4 bg-gray-100 shadow-md rounded flex justify-evenly">
               {Object.keys(userStats).map(userType => (
                 <div key={userType} className="p-3 bg-white shadow rounded sslist">
-                  <h3 className="text-sm font-semibold text-left text-blue-400">{userType}</h3>
+                  <h3 className="text-sm font-semibold text-left text-green-400">{userType}</h3>
                   <div className="flex flex-col font-light">
                     <div className='fsm'>
                       <strong>Total:</strong> {(userStats[userType]?.active || 0) + (userStats[userType]?.inactive || 0)}

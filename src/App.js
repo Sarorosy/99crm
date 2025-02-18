@@ -35,6 +35,7 @@ import ManageProfile from './pages/module/manageprofile/ManageProfile';
 import QuerySummary from './pages/managequery/QuerySummary';
 import ManagePayment from './pages/module/payments/ManagePayment';
 import MilestonePayments from './pages/module/pricequote/MilestonePayments';
+import ChangePassword from './pages/ChangePassword';
 
 const App = () => {
 
@@ -45,6 +46,8 @@ const App = () => {
     const username = sessionStorage.getItem('username');
     const email = sessionStorage.getItem('email');
     const name = sessionStorage.getItem('name');
+
+    
 
     // If username, email, and name are available in sessionStorage, user is authenticated
     if (username && email && name) {
@@ -110,6 +113,7 @@ const App = () => {
           <Route path="/dead-query" element={<DeadQuery />} />
           <Route path="/userdataspecificquery" element={<UserDataSpecificQuery />} />
           <Route path="/client-mail" element={<ClientMailPage />} />
+          <Route path="/changepassword" element={<ChangePassword />} />
         </Route>
 
         {/* Fallback route */}

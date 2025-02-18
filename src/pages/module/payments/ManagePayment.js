@@ -260,7 +260,7 @@ const ManagePayment = () => {
                         >
                             Apply
                         </button>
-                    )}
+                    
 
                 </div>
             </div>

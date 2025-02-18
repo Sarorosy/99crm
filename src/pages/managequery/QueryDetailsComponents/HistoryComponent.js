@@ -98,7 +98,8 @@ const HistoryComponent = ({ queryInfo }) => {
     };
 
     return (
-        <div className="p-3 bg-white rounded-lg shadow-md mx-auto mt-2">
+        <>
+        <div className="mx-auto mt-2 border-top pt-3">
             <div className="flex space-x-4">
                 <button
                     onClick={fetchCallHistory}
@@ -152,7 +153,7 @@ const HistoryComponent = ({ queryInfo }) => {
 
                 </div>
             )}
-        </div>
+        </div></>
     );
 };
 

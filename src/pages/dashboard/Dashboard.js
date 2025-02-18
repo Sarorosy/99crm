@@ -416,13 +416,13 @@ const Dashboard = () => {
             {/* Filter Section */}
             <div className="bg-white rounded-lg px-2 py-3 mb-6">
                 <div className="flex justify-between items-center">
-                    <h2 className="mb-2 font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={20} className="" /></button></h2>
+                    <h2 className="mb-2 font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={14} className="" /></button></h2>
 
                     <div className="flex items-center mb-1">
-                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowConversationSummary(!showConversationSummary)}>
+                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowConversationSummary(!showConversationSummary)}>
                             Show Conversation Summary
                         </button>
-                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowAverageClaimedQueries(!showAverageClaimedQueries)}>
+                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowAverageClaimedQueries(!showAverageClaimedQueries)}>
                             Show Average Claimed Queries
                         </button>
                     </div>
@@ -538,17 +538,17 @@ const Dashboard = () => {
                             </select>
                         </div>
 
-                        <div className="">
+                        
+                    </div>
+                    <div className="col-md-12 spdbut">
                             <button
                                 type="button"
                                 onClick={fetchDashboardQueries}
-                                className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 mr-2 "
+                                className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 "
                             >
                                 <Search size={14} className="mr-2" /> Search
                             </button>
                         </div>
-                    </div>
-
                     {/* Search Button */}
 
                 </form>

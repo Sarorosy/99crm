@@ -68,7 +68,7 @@ const CommentForm = ({ queryInfo, onClose , status}) => {
                 onClick={onClose}
                 className="absolute top-2 right-2 text-white bg-red-600 hover:bg-red-500 p-1 rounded-full transition"
             >
-                <X size={15} />
+                <X size={10} />
             </button>
 
             <div className="flex items-center space-x-2">
@@ -115,12 +115,12 @@ const CommentForm = ({ queryInfo, onClose , status}) => {
             </div>
 
             {/* Submit Button */}
-            <div className="mt-4 flex justify-end">
+            <div className="flex justify-end">
                 {!isSubmitting ? (
                     <button
                         onClick={handleSubmit}
                         type="button"
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md transition"
+                        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 rounded-md transition"
                     >
                         Submit
                     </button>

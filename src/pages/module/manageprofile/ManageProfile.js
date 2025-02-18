@@ -21,7 +21,7 @@ const ManageProfile = () => {
     const [profileName, setProfileName] = useState('');
     const [websiteId, setWebsiteId] = useState('');
     const [websiteEmail, setWebsiteEmail] = useState('');
-    const [signature, setSignature] = useState('<p>Thanks and Regards</p><p>Niranjan sub admin</p>');
+    const [signature, setSignature] = useState('');
 
     const fetchProfiles = async () => {
         try {

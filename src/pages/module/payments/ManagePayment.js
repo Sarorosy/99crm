@@ -11,6 +11,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import 'daterangepicker/daterangepicker.css'; // Import daterangepicker CSS
 import 'daterangepicker'; // Import daterangepicker JS
 import moment from 'moment';
+import ViewPaymentDetails from './ViewPaymentDetails';
+import AddPayment from './AddPayment';
 
 
 const ManagePayment = () => {
@@ -18,9 +20,9 @@ const ManagePayment = () => {
 
     const [tags, setTags] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedSetting, setSelectedSetting] = useState(null);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [selectedPayment, setSelectedPayment] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isAddPaymentOpen, setIsAddPaymentOpen] = useState(false);
     const [filterDate, setFilterDate] = useState('');
     const [startDate, setStartDate] = useState(null); // Store start date
     const [endDate, setEndDate] = useState(null); // Store end date
@@ -102,12 +104,19 @@ const ManagePayment = () => {
         fetchReports();
     };
 
-
+    const handleAddPayment = () => {
+        setIsAddPaymentOpen(true);
+    }
 
 
     useEffect(() => {
         fetchReports();
     }, []);
+    const handleViewButtonClick = (data) => {
+        setSelectedPayment(data);
+        setIsModalOpen(true);
+
+    }
 
     const columns = [
         {
@@ -173,15 +182,15 @@ const ManagePayment = () => {
             render: (data) => {
                 let statusLabel = '';
                 if (data === 1) {
-                    statusLabel = '<span class="inline-block px-3 py-1 text-gray-700 bg-gray-200 rounded-full text-sm">Pending</span>';
+                    statusLabel = '<span class="inline-block px-2  bg-gray-700 text-white rounded-full text-sm">Pending</span>';
                 } else if (data === 2) {
-                    statusLabel = '<span class="inline-block px-3 py-1 text-yellow-700 bg-yellow-100 rounded-full text-sm">On Hold</span>';
+                    statusLabel = '<span class="inline-block px-2  bg-yellow-700 text-white rounded-full text-sm">On Hold</span>';
                 } else if (data === 3) {
-                    statusLabel = '<span class="inline-block px-3 py-1 text-green-700 bg-green-100 rounded-full text-sm">Confirm</span>';
+                    statusLabel = '<span class="inline-block px-2  bg-green-700 text-white rounded-full text-sm">Confirm</span>';
                 } else if (data === 4) {
-                    statusLabel = '<span class="inline-block px-3 py-1 text-red-700 bg-red-100 rounded-full text-sm">Reject</span>';
+                    statusLabel = '<span class="inline-block px-2  bg-red-700 text-white rounded-full text-sm">Reject</span>';
                 } else {
-                    statusLabel = '<span class="inline-block px-3 py-1 text-gray-700 bg-gray-200 rounded-full text-sm">NA</span>';
+                    statusLabel = '<span class="inline-block px-2  bg-gray-700 text-white rounded-full text-sm">NA</span>';
                 }
                 return `<div class="flex justify-center">${statusLabel}</div>`;
             },
@@ -191,8 +200,12 @@ const ManagePayment = () => {
             orderable: false,
             data: null,
             render: (data, type, row) => {
-                // Display total rows (actions count)
-                return `<div style="text-align: center;"><button>View</button></div>`;
+                return `
+                    <div style="text-align: center;">
+                        <button class="view-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm transition duration-150 ease-in-out">
+                            View
+                        </button>
+                    </div>`;
             },
         },
     ];
@@ -203,9 +216,9 @@ const ManagePayment = () => {
     return (
         <div>
             <div className="my-3 flex mx-auto rep">
-                <div className='col-md-7 flex'>
+                <div className='col-md-7 flex items-center'>
                     <h1 className="text-md font-bold">Payments &nbsp;</h1>
-                    <div className="w-1/2 ">
+                    <div className="w-1/2">
                         <input
                             id="filterDate"
                             type="text"
@@ -232,12 +245,12 @@ const ManagePayment = () => {
                     </div>
 
                 </div>
-                <div className='ml-3 flex justify-end'>
-                    <div className='flex mdbut'>
+                <div className='ml-3 flex items-center justify-end'>
+
 
                         <button
                             onClick={handleRefresh}
-                            className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
+                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                         >
                             <RefreshCw size={15} />
                         </button>
@@ -247,7 +260,9 @@ const ManagePayment = () => {
                         >
                             Apply
                         </button>
-                    </div></div>
+                    )}
+
+                </div>
             </div>
             {loading ? (
                 <CustomLoader />
@@ -260,7 +275,9 @@ const ManagePayment = () => {
                             pageLength: 50,
                             order: false,
                             createdRow: (row, data) => {
-
+                                $(row).find('.view-btn').on('click', () => {
+                                    handleViewButtonClick(data);
+                                });
                             },
                         }}
                     />
@@ -268,7 +285,8 @@ const ManagePayment = () => {
             )}
 
             <AnimatePresence>
-
+                {isModalOpen && <ViewPaymentDetails paymentDetails={selectedPayment} onClose={() => setIsModalOpen(false)} finalFunction={fetchReports} />}
+                {isAddPaymentOpen && <AddPayment onClose={() => setIsAddPaymentOpen(false)} finalFunction={fetchReports} />}
             </AnimatePresence>
         </div>
     );

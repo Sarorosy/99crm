@@ -305,8 +305,8 @@ const CampHistory = () => {
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between px-4'>
-                    <h1 className="text-2xl font-bold">Campaign History</h1>
+                <div className='flex w-full justify-between px-0'>
+                    <h1 className="text-md font-bold">Campaign History</h1>
                 </div>
                 
             </div>
@@ -316,7 +316,7 @@ const CampHistory = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+                <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end mb-1'>
                         <button
                             onClick={handleDelete}

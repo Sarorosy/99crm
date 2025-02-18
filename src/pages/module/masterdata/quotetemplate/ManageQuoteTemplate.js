@@ -175,7 +175,7 @@ const ManageQuoteTemplate = () => {
         <div>
             
             <div className="my-3 flex justify-between">
-                <h1 className="text-2xl font-bold">Quote Templates</h1>
+                <h1 className="text-md font-bold">Quote Templates</h1>
                 <div className='flex mdbut'>
 
                     <button
@@ -196,7 +196,7 @@ const ManageQuoteTemplate = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white dtp-0 reportpage shadow-xl rounded border-t-2 border-blue-400'>
+                <div className='bg-white dtp-0 reportpage shadow-xl rounded border-t-2 border-green-400'>
                     <DataTable
                         data={templates}
                         columns={columns}

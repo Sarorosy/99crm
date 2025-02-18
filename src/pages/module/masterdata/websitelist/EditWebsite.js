@@ -189,7 +189,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
             {loading ? (<CustomLoader />) : (
 
                 <div className='col-md-7 cent qhpage'>
-                    <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4 p-4 border-t-2 bg-white rounded border-blue-400 shadow-xl">
+                    <form onSubmit={handleSubmit} encType="multipart/form-data" className="space-y-4 p-4 border-t-2 bg-white rounded border-green-400 shadow-xl">
                         <div className="flex w-full space-x-3 justify-center">
                             {/* Website Name Field */}
                             <div className="form-group w-1/2">

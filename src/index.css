@@ -106,11 +106,7 @@ table.dataTable>tbody>tr>td {
   /* font-size: 14px; */
 }
 
-/* Optional: Hover effect on rows */
-table.dataTable tbody tr:hover {
-  /* background-color: #F3F3F3FF; */
-  /* Light blue on hover for better interactivity */
-}
+
 
 /* Style the 'entries per page' and 'Search' container */
 .dataTables_wrapper .dataTables_info,
@@ -711,10 +707,17 @@ div.dt-container select.dt-input {
 
 .navv {
   /* background-color: #257180 !important; */
-  background-image: url('https://www.thehrbulb.com/team-member-panel/public/images/banner.png');
-  color: rgb(0, 10, 70) !important;
+  /* background-image: url('https://www.thehrbulb.com/team-member-panel/public/images/banner.png'); */
   font-weight: 500;
+  background-color: #cfe1e5;
+  color: #02313a;
+  font-size: 14px;
 }
+
+.border-green-400{
+  border-color: rgb(0 108 129);
+}
+
 
 #my-tooltip {
   font-size: 10px;
@@ -786,9 +789,9 @@ div::selection {
   margin-bottom: 10px;
 }
 
-.navv {
+/* .navv {
   background-color: #257180 !important;
-}
+} */
 
 #my-tooltip {
   font-size: 10px;
@@ -879,15 +882,110 @@ div::selection {
   /* transition: all 0.3s ease-in-out; */
   filter: contrast(1.4);
 }
-.itemborder{
-  /* border: 1px solid transparent; */
-}
+
 .maildiv{
   max-height: 1000px;
   overflow-y: scroll;
   height: 80%;
 }
+
 .logospan{
   position: absolute;
   top: 9px !important;
+}
+
+.dashboardinput input{
+  padding: 4px 10px !important;
+  font-size: 12px;
+  height: 28px;
+  border-radius: 4px;
+  width: -webkit-fill-available !important;
+}
+
+.dashboardinputs input{
+  padding: 4px 10px !important;
+  font-size: 12px;
+  /* height: 30px; */
+  border-radius: 4px;
+  width: -webkit-fill-available !important;
+}
+
+
+.dashboardinput .select2-container--default .select2-selection--single{
+  height: 28px;
+}
+
+.dashboardinput .select2-container--default .select2-selection--multiple{
+  min-height: 28px;
+  padding-bottom: 0;
+}
+
+.dashboardinput .select{
+  height: 28px;
+}
+
+.dashboardinput .select2-container--default .select2-selection--multiple .select2-selection__clear{
+  margin-top:0
+}
+
+select.dashboardselect {
+  padding: 4px 10px !important;
+  font-size: 12px;
+  height: 28px;
+  border-radius: 4px;
+}
+
+.product-description{
+  font-size: 12px;
+}
+
+.fss{
+  font-size: 12px;
+}
+
+.open-tasks-container h1 {
+  font-size: 14px !important;
+}
+
+.query-detail{
+  font-size: 12px;
+}
+
+.theme{
+  /* background-color: #e3ecee; */
+  background-color: #cfe1e5;
+  color: #02313a;
+}
+
+.theme1{
+  background-color: #e3ecee;
+  /* background-color: #cfe1e5; */
+  color: #02313a;
+}
+
+.border-green-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(2 49 58);
+}
+
+.text-green-600{
+  color: #02313a !important;
+}
+
+.mailinput input {
+  height: 30px;
+  font-size: 12px;
+}
+
+.fsx{
+  font-size: 12px;
+}
+
+.fssx{
+  font-size: 10px;
+}
+
+.custom-modal-content.maild{
+  width: 26rem;
+  height: fit-content;
 }

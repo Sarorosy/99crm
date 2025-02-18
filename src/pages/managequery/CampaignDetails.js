@@ -203,7 +203,7 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
 
 
 
-            <div className='bg-white p-3 shadow-xl border-t-2 border-blue-400 rounded mx-auto'>
+            <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                 <h3 className="text-lg font-semibold">Query Data</h3>
                 <div style={{ overflowX: 'auto', maxWidth: '100%', maxHeight:'25rem' }}>
                     <DataTable

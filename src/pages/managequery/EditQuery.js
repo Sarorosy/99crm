@@ -918,7 +918,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
             </div>
 
             <div className="flex w-full items-start justify-center space-x-2 mt-4 ">
-                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl qhpage" autoComplete="off">
+                <form encType="multipart/form-data" className="space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl qhpage" autoComplete="off">
                     {errorData && errorData != '' && (
                         <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
                             <div dangerouslySetInnerHTML={{ __html: errorData }} />

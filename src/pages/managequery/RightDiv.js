@@ -66,17 +66,17 @@ const RightDiv = ({ queryInfo, tempateInfo  , commentInfo , whatsappOptions, cal
                     <div className="flex space-x-4">
                         {queryInfo.company_id && queryInfo.interakt_api && queryInfo.company_id != "" && queryInfo.interakt_api != "" && activeTab != "whatsapp" ? (
                             <button
-                                className="flex items-center bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+                                className="flex items-center bg-green-500 text-white py-1 px-2 rounded-md hover:bg-green-600"
                                 onClick={handleWhatsAppChat}
                                 style={{ fontSize: "10px" }}
                             >
-                                <Twitch size={16} className="mr-2" /> WhatsApp Chat
+                                <Twitch size={14} className="mr-2" /> WhatsApp Chat
                             </button>
                         ) : ""}
                         {activeTab == "whatsapp" && (
                             <button
 
-                                className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                                className="flex items-center bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600"
                                 onClick={handleEmailMessageArea}
 
                             >
@@ -85,7 +85,7 @@ const RightDiv = ({ queryInfo, tempateInfo  , commentInfo , whatsappOptions, cal
                         )}
 
                         <button
-                            className="flex items-center bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                            className="flex items-center bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600"
                             onClick={handleGetAutoComments}
                         >
                             <i className="fa fa-fw fa-refresh mr-2"></i> Show Conversations

@@ -104,21 +104,21 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
     }
 
     return (
-        <div className="mt-6 px-4 ">
+        <div className="px-4">
             {/* File upload form */}
             <div className="mb-6">
                 <h3 className="text-lg font-semibold mb-2">Upload File</h3>
                 <form onSubmit={handleFileUpload} className="space-y-2">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-4 dashboardinputs">
                         <input
                             type="file"
                             onChange={handleFileChange}
-                            className="border border-gray-300 rounded px-4 py-2"
+                            className="border border-gray-300 rounded"
                         />
                         <button
                             type="submit"
                             disabled={uploading}
-                            className="bg-blue-600 text-white py-1 px-2 rounded disabled:bg-gray-400"
+                            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
                         >
                             {uploading ? "Uploading..." : "Upload"}
                         </button>

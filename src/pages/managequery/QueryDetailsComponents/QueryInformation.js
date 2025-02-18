@@ -182,7 +182,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
         }
     };
     return (
-        <div className="query-info-container bg-white  px-8 py-2 rounded-lg shadow-lg relative">
+        <div className="query-info-container bg-white  px-8 py-4 rounded-lg shadow-lg relative">
             <div className="query-detail space-y-4">
                 {[
                     { label: "Ref. No.", value: queryInfo.assign_id, editable: false },
@@ -276,7 +276,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                                             }}
                                             title={`Edit ${label}`}
                                         >
-                                            <Settings size={18} />
+                                            <Settings size={14} />
                                         </button>
                                     )}
                                 </>
@@ -293,13 +293,13 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                                     }}
                                     title='Earlier Activity History'
                                 >
-                                    <Hourglass className='ml-2' size={18} />
+                                    <Hourglass className='ml-2' size={14} />
                                 </button>
                             )}
                         </div>
                         {historyVisible && (
                             <div
-                                className="absolute top-8 right-0 bg-white rounded-lg shadow-sm p-4 w-64 z-50 overflow-y-auto max-h-72 custom-scrollbar"
+                                className="absolute top-8 right-0 bg-white rounded-lg shadow-sm p-2 w-64 z-50 overflow-y-auto max-h-72 custom-scrollbar fsx"
                             >
                                 {historyloading && (
                                     <div className="space-y-3 animate-pulse">
@@ -319,11 +319,11 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                                     activityData.map((activity, index) => (
                                         <div
                                             key={index}
-                                            className="mb-3 border-b border-gray-200 pb-2 last:border-b-0"
+                                            className="mb-3 border-b border-gray-100 pb-2 last:border-b-0"
                                         >
-                                            <p className="font-semibold text-gray-800">{activity.user_name}</p>
-                                            <p className="text-gray-600 text-sm">{activity.message}</p>
-                                            <p className="text-gray-400 text-xs mt-1">{activity.action_date}</p>
+                                            <p className="font-semibold text-green-600">{activity.user_name}</p>
+                                            <p className="text-gray-600 ">{activity.message}</p>
+                                            <p className="text-gray-400 fssx">{activity.action_date}</p>
                                         </div>
                                     ))}
                             </div>
@@ -340,7 +340,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                         <strong>Tags</strong>
                     </div>
                     <div className='w-1/2 text-left'>
-                        <div >
+                        <div class="d-flex align-items-start">
                             {editingField && editingField === "tags" ? (
                                 <div>
                                     <select
@@ -393,7 +393,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                                         }}
                                         title={`Edit Tags`}
                                     >
-                                        <Settings size={18} />
+                                        <Settings size={14} />
                                     </button>
                                 </>
                             )}

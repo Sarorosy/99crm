@@ -7,7 +7,7 @@ import axios from "axios";
 import "daterangepicker/daterangepicker.css"; // Import daterangepicker CSS
 import "daterangepicker"; // Import daterangepicker JS
 import moment from "moment";
-import { Search } from "lucide-react";
+import { FilterIcon, Search } from "lucide-react";
 import OpenTasks from "./OpenTasks";
 import Escalation from "./Escalation";
 import LeadIn from "./LeadIn";
@@ -20,13 +20,17 @@ import ClientNotInterested from "./ClientNotInterested";
 import LostDeals from "./LostDeals";
 import { AnimatePresence } from "framer-motion";
 import QueryDetails from "../managequery/QueryDetails";
+import DashboardSummary from "./DashboardSummary";
+import AverageClaimedQueries from "./AverageClaimedQueries";
 const Dashboard = () => {
     // State for the filter inputs
-    const [startDate, setStartDate] = useState(moment().subtract(1, "month"));
     const [endDate, setEndDate] = useState(moment());
+    const [startDate, setStartDate] = useState(moment().subtract(7, "days"));
+
     const [filterDate, setFilterDate] = useState(
         `${startDate.format("MM/DD/YYYY")} - ${endDate.format("MM/DD/YYYY")}`
     );
+
     const [teamId, setTeamId] = useState(null);
     const [userId, setUserId] = useState("");
     const [refId, setRefId] = useState("");
@@ -65,8 +69,9 @@ const Dashboard = () => {
     const [delayCount, setDelayCount] = useState(0);
     const [internalCommentPendingData, setInternalCommentPendingData] = useState([]);
     const [internalCommentResolvedData, setInternalCommentResolvedData] = useState([]);
-
-    
+    const [showFilter, setShowFilter] = useState(false);
+    const [showConversationSummary, setShowConversationSummary] = useState(false);
+    const [showAverageClaimedQueries, setShowAverageClaimedQueries] = useState(false);
 
 
     const fetchTeams = async () => {
@@ -99,10 +104,10 @@ const Dashboard = () => {
         } catch (error) {
             console.error('Error fetching teams:', error);
             toast.error(error.message || 'Error fetching Teams');
-        } 
+        }
     };
 
-   const fetchDashboardQueries = async () => {
+    const fetchDashboardQueries = async () => {
         try {
             setLoading(true);
 
@@ -112,7 +117,7 @@ const Dashboard = () => {
                 team_id: sessionStorage.getItem("team_id"),
                 date_type: "ass_qr.update_status_date",
                 filter_date: filterDate,
-                teamid:teamId,
+                teamid: teamId,
                 userid: userId
             };
 
@@ -150,7 +155,7 @@ const Dashboard = () => {
                 internalCommentPendingData,
                 internalCommentResolvedData
             } = response.data;
-            
+
             // Set fetched data into states
             setOpenTasks(openTask || []);
             setLeads(leads || []);
@@ -307,7 +312,7 @@ const Dashboard = () => {
         } catch (error) {
             console.error('Error fetching teams:', error);
             toast.error(error.message || 'Error fetching Teams');
-        } 
+        }
     };
     const fetchTags = async () => {
         try {
@@ -403,19 +408,31 @@ const Dashboard = () => {
         }
     };
 
-   
+    
+
 
     return (
-        <div className="px-2 py-1">
+        <div className="py-1">
             {/* Filter Section */}
             <div className="bg-white rounded-lg px-2 py-3 mb-6">
-            <h2 className="text-blue-950 font-semibold ml-2 my-1 text-xl">Dashboard</h2>
-                <form onSubmit={handleSearch}>
+                <div className="flex justify-between items-center">
+                    <h2 className="mb-2 font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={20} className="" /></button></h2>
+
+                    <div className="flex items-center mb-1">
+                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowConversationSummary(!showConversationSummary)}>
+                            Show Conversation Summary
+                        </button>
+                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowAverageClaimedQueries(!showAverageClaimedQueries)}>
+                            Show Average Claimed Queries
+                        </button>
+                    </div>
+                </div>
+
+                <form onSubmit={handleSearch} className="dashboardinput" style={{ display: showFilter ? 'block' : 'none' }}>
                     {/* Flex container for form fields */}
                     <div className="grid grid-cols-5 gap-1">
-                    
+
                         <div className="flex-1 min-w-[150px]">
-                            
                             <input
                                 id="filterDate"
                                 type="text"
@@ -448,7 +465,7 @@ const Dashboard = () => {
                             <select
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="w-full border border-gray-300  dashboardselect focus:outline-none focus:ring-2 "
                             >
                                 <option value="">Select User</option>
                                 {users.map((user) => (
@@ -486,7 +503,7 @@ const Dashboard = () => {
                             <select
                                 value={website}
                                 onChange={(e) => setWebsite(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="w-full border border-gray-300 dashboardselect focus:outline-none focus:ring-2 "
                             >
                                 <option value="">Select Website</option>
                                 {websites.map((site) => (
@@ -520,13 +537,14 @@ const Dashboard = () => {
                                 ))}
                             </select>
                         </div>
+
                         <div className="">
                             <button
                                 type="button"
                                 onClick={fetchDashboardQueries}
-                                className="bg-[#257180] flex items-center hover:bg-[#1a545f] text-white py-1 px-2 rounded "
+                                className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 mr-2 "
                             >
-                               <Search size={18}className="mr-2" /> Search
+                                <Search size={14} className="mr-2" /> Search
                             </button>
                         </div>
                     </div>
@@ -537,24 +555,33 @@ const Dashboard = () => {
 
 
 
+
             </div>
-        
-        <div className=" px-2 row items-start">
 
-            <Escalation queries={escalationTask} loading={loading} />
-            <OpenTasks queries={openTasks} loading={loading} />
-            <LeadIn queries={leadsData} loading={loading} />
-            <BucketList queries={delayData} loading={loading} />      
-            <ContactMade queries={contactMadeData} loading={loading} />
-            <div className="mb-2 w-full "></div>   
-            <Quoted queries={quotedData} loading={loading} />  
-            <Converted queries={convertedData} loading={loading} />  
-            <ClientNotInterested queries={notInterestedData} loading={loading} />    
-            <LostDeals queries={lostDealsData} loading={loading} /> 
-            <ContactNotMade queries={contactNotMadeData} loading={loading} />                      
-        </div>
+            <AnimatePresence>
+                {showConversationSummary && (
+                    <DashboardSummary filterDate={filterDate} onClose={() => setShowConversationSummary(false)} />
+                )}
+                {showAverageClaimedQueries && (
+                    <AverageClaimedQueries websiteId={website} onClose={() => setShowAverageClaimedQueries(false)} />
+                )}
+            </AnimatePresence>
 
-        
+            <div className=" px-2 row items-start">
+                <Escalation queries={escalationTask} loading={loading} />
+                <OpenTasks queries={openTasks} loading={loading} />
+                <LeadIn queries={leadsData} loading={loading} />
+                <BucketList queries={delayData} loading={loading} />
+                <ContactMade queries={contactMadeData} loading={loading} />
+                <div className="mb-2 w-full "></div>
+                <Quoted queries={quotedData} loading={loading} />
+                <Converted queries={convertedData} loading={loading} />
+                <ClientNotInterested queries={notInterestedData} loading={loading} />
+                <LostDeals queries={lostDealsData} loading={loading} />
+                <ContactNotMade queries={contactNotMadeData} loading={loading} />
+            </div>
+
+
         </div>
     );
 };

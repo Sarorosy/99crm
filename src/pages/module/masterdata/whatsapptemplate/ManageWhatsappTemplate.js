@@ -334,7 +334,7 @@ const ManageWhatsappTemplate = () => {
     return (
         <div className='bg-gray-100 p-2'>
             <div className="my-3 flex justify-between ">
-                <h1 className="text-2xl font-bold">Whatsapp Templates</h1>
+                <h1 className="text-md font-bold">Whatsapp Templates</h1>
                 <div className='flex mdbut'>
                     <button
                         onClick={handleDelete}
@@ -356,7 +356,7 @@ const ManageWhatsappTemplate = () => {
                 <CustomLoader />
             ) : (
                 <div className='w-full flex space-x-2 items-start justify-evenly'>
-                    <div className='bg-white shadow-xl px-3 w-[70%] rounded border-t-2 border-blue-400'>
+                    <div className='bg-white shadow-xl px-3 w-[70%] rounded border-t-2 border-green-400'>
                         <DataTable
                             data={settings}
                             columns={columns}
@@ -371,7 +371,7 @@ const ManageWhatsappTemplate = () => {
                             }}
                         />
                     </div>
-                    <div className="w-[30%] p-4 border-t-2 border-blue-400 bg-white shadow-xl rounded add">
+                    <div className="w-[30%] p-4 border-t-2 border-green-400 bg-white shadow-xl rounded add">
                         <h2 className="text-xl font-semibold mb-4">{(selectedTemplate && selectedTemplate != null) ? 'Edit Template' : 'Add Template'} </h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">

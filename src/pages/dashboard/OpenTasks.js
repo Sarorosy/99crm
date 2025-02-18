@@ -26,13 +26,13 @@ const OpenTasks = ({ queries, loading }) => {
 
     const getStatusLabel = (status) => {
         switch (status) {
-            case 1: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0 pull-right">Lead In</span>;
-            case 2: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0  pull-right">Contact Made</span>;
-            case 3: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0  pull-right">Quoted</span>;
-            case 4: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0  pull-right">Negotiating</span>;
-            case 5: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0  pull-right">Converted</span>;
-            case 6: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0 pull-right">Client Not Interested</span>;
-            case 7: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-full px-2 py-0 pull-right">Reminder</span>;
+            case 1: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-sm px-1 py-0 pull-right">Lead In</span>;
+            case 2: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Contact Made</span>;
+            case 3: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Quoted</span>;
+            case 4: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Negotiating</span>;
+            case 5: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Converted</span>;
+            case 6: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-sm px-1 py-0 pull-right">Client Not Interested</span>;
+            case 7: return <span style={{fontSize:"9px"}} className="bg-blue-950 text-white font-normal rounded-sm px-1 py-0 pull-right">Reminder</span>;
             default: return null;
         }
     };
@@ -44,7 +44,7 @@ const OpenTasks = ({ queries, loading }) => {
 
     return (
         <div className="open-tasks-container w-1/5" style={{ padding: '20px 8px', border: '1px solid #ddd', borderRadius: '6px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#f9f9f9', maxWidth: '350px' }}>
-            <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#333', marginBottom: '15px' }}>Open Tasks <span className='text-blue-900 bg-white rouneded-full px-1 py-1 mx-2'>({queries && queries.length})</span></h1>
+            <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#02313a', marginBottom: '15px' }}>Open Tasks <span className='text-green-400 bg-transparent rouneded-full px-1 py-1 mx-2'>({queries && queries.length})</span></h1>
             <ul className=" custom-scrollbar box-height h-96 overflow-y-scroll" id="sortable3">
                 {loading ? <SkeletonLoader /> : queries.map((task) => (
                     <li
@@ -54,7 +54,7 @@ const OpenTasks = ({ queries, loading }) => {
                         style={{backgroundColor :task.color_code ?? "white"}}
                         onClick={() => handleViewButtonClick(task)} // Replace with your actual function
                     >
-                        <div className="product-info px-1">
+                        <div className="product-info">
                             <a
                                 href="javascript:void(0)"
                                 className="font-bold text-blue-950 "
@@ -62,19 +62,20 @@ const OpenTasks = ({ queries, loading }) => {
                                 data-toggle="tooltip"
                                 data-original-title={task.email_id}
                             >
-                                <p className='flex items-center'>
+                                {getStatusLabel(task.update_status)}    
+                                <p className='flex justify-content-between fss'>
                                 {task.name}
                                 {task.showBellicon == 1 ? (
-                                    <Bell size={16} className="text-red-500 ml-1" />
+                                    <Bell size={12} className="text-red-500 mr-1 mt-1" />
                                 ) : (
                                     ""
                                 )}
                                 {task.reconnect_date && new Date(task.reconnect_date * 1000) >= new Date() && (
-                                    <Calendar size={16} className="ml-1" />
+                                    <Calendar size={12} className="ml-1 mr-1 mt-1" />
                                 )}
 
-                                </p>
-                               {getStatusLabel(task.update_status)}
+                                
+                               </p>
                             </a>
                             <span className="product-description text-gray-600 mt-1 block">
                                 Ref. No. : {task.assign_id}

@@ -166,11 +166,11 @@ const QueryDetails = ({ refId, onClose }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+            className="fixed top-0 right-0 h-full w-full bg-gray-50 shadow-md z-50 overflow-y-auto p-6"
         >
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
-                <div className="flex px-5 items-center justify-between bg-[#0A5EB0] text-white py-3 rounded-t-lg">
+                <div className="flex px-5 items-center justify-between theme py-3 rounded-t-lg">
                     <h2 className="text-lg font-semibold">Query Details</h2>
                     <div className='flex items-center'>
                         <div className="flex items-center mr-4 bg-blue-50 rounded-full px-2 py-1 text-blue-600 border hover:border-blue-100 hover:bg-transparent hover:text-white">
@@ -185,7 +185,7 @@ const QueryDetails = ({ refId, onClose }) => {
                                 Escalation Mark
                             </label>
                         </div>
-                        <div className='mr-5' style={{ fontSize: "14px" }}>
+                        <div className='mr-5' style={{ fontSize: "12px" }}>
 
                             {tatScore && (
                                 tatScore.total_score !== null && tatScore.total_minute !== null ? (
@@ -202,7 +202,7 @@ const QueryDetails = ({ refId, onClose }) => {
                                                         Average Score: {tatScore.total_score}
                                                     </p>
                                                     {queryInfo.showBellicon == 1 && (
-                                                        <Bell className='text-red-600 mx-3 bg-red-200  rounded-full p-1' size={25} />
+                                                        <Bell className='text-red-600 mx-3 bg-red-200  rounded-full p-1' size={17} />
                                                     )}
                                                 </div>
                                             );
@@ -217,7 +217,7 @@ const QueryDetails = ({ refId, onClose }) => {
                             onClick={onClose}
                             className="text-white hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500"
                         >
-                            <X size={15} />
+                            <X size={12} />
                         </button>
                     </div>
                 </div>
@@ -229,35 +229,35 @@ const QueryDetails = ({ refId, onClose }) => {
                             <button
                                 onClick={() => setActiveTab(1)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 1 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-100' : 'text-gray-500 hover:text-blue-600'}`}
+                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 1 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Query Information
                             </button>
                             <button
                                 onClick={() => setActiveTab(2)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 2 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-100' : 'text-gray-500 hover:text-blue-600'}`}
+                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 2 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Generate Price
                             </button>
                             <button
                                 onClick={() => setActiveTab(3)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 3 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-100' : 'text-gray-500 hover:text-blue-600'}`}
+                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 3 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Attached Files
                             </button>
                             <button
                                 onClick={() => setActiveTab(4)}
                                 style={{ fontSize: "11px" }}
-                                className={`flex items-center font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 4 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-100' : 'text-gray-500 hover:text-blue-600'}`}
+                                className={`flex items-center font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 4 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Internal Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{internalCommentsData.length}</span>
                             </button>
                             <button
                                 onClick={() => setActiveTab(5)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 5 ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-100' : 'text-gray-500 hover:text-blue-600'}`}
+                                className={`flex items-center  font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 5 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Campaign Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{campaginCommentData.length}</span>
                             </button>

@@ -103,14 +103,14 @@ const HistoryComponent = ({ queryInfo }) => {
                 <button
                     onClick={fetchCallHistory}
                     type="button"
-                    className="bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-500 transition"
+                    className="bg-blue-600 text-white px-2 py-1 fssx rounded-md hover:bg-blue-500 transition"
                 >
                     Call History
                 </button>
                 <button
                     onClick={fetchWhatsappHistory}
                     type="button"
-                    className="bg-green-600 text-white px-2 py-1 rounded-md hover:bg-green-700 transition"
+                    className="bg-green-600 text-white px-2 py-1 fssx rounded-md hover:bg-green-700 transition"
                 >
                     WhatsApp History
                 </button>
@@ -130,7 +130,7 @@ const HistoryComponent = ({ queryInfo }) => {
                         onClick={() => setShowHistory(false)}
                         className="bg-red-500 text-white p-1 rounded-full float-right hover:bg-red-600 transition mb-4"
                     >
-                        <X size={18} />
+                        <X size={12} />
                     </button>
 
 

@@ -567,7 +567,7 @@ const EditUser = ({ id, onClose, after }) => {
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
             <section className="content-header my-2">
-                <h1 className='text-2xl font-semibold text-center'>Edit User</h1>
+                <h1 className='text-xl font-bold'>Edit User</h1>
                 <button
                     onClick={onClose}
                     className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
@@ -582,7 +582,7 @@ const EditUser = ({ id, onClose, after }) => {
                     <div className="row">
                         <div className="col-md-6 cent add">
                             <div className="box box-primary">
-                                <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-blue-400 bg-white shadow-xl'>
+                                <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl'>
                                     <div className="box-body">
                                         <div className="my-2 flex items-center justify-between mb-3">
                                             <div class="col-md-6">

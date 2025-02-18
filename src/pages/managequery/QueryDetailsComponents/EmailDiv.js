@@ -668,14 +668,14 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         <input type="hidden" name="old_status" value={queryInfo.update_status} />
 
         {userType !== 'Data Manager' && (
-          <div className="flex flex-row items-start gap-4">
+          <div className="flex flex-row items-start justify-content-between gap-4 qhpage">
             {/* Left Side - Label */}
             <div className="w-1/4">
               <label className="text-sm font-medium text-gray-700">Status</label>
             </div>
 
             {/* Right Side - Select and Additional Elements */}
-            <div className="w-3/4 space-y-2">
+            <div className="col-md-3 space-y-2">
               {/* Select Dropdown */}
               <select
                 name="update_status1"
@@ -741,14 +741,13 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
             {userType !== 'Data Manager' && queryInfo.email_id && (
               <>
                 <div>
-                  <div className=" bg-white p-2 rounded-lg shadow-md border border-gray-200">
-
+                  <div className=" bg-white p-2 rounded-lg shadow-md border border-gray-200 qhpage">
                     <div className="checkbox">
                       <label className='flex items-center space-x-3 mb-0'>
                         {queryInfo.update_status == '1' ? (
                           <input
                             type="checkbox"
-                            className='h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed'
+                            className='h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed'
                             checked={queryInfo.update_status == '1' && queryInfo.email_id != ''}
                             disabled={queryInfo.update_status == '1'}
 
@@ -757,7 +756,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                           <input
                             type="checkbox"
                             id="send_mail_type1"
-                            className='h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed'
+                            className='h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed'
                             checked={emailCheckBoxChecked}
                             onChange={() => { ClickAndCheckMailType(1, queryInfo.arrTags, queryInfo.update_status) }}
                           />
@@ -945,12 +944,12 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
                 <div className='mt-3'>
-                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200">
+                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200 qhpage">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
                         id="whatsapp_checkbox"
-                        className="h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         checked={whatsappCheckBoxChecked}
                         disabled={whatsappCheckBoxDisabled}
                         onChange={() => ClickAndCheckMailType(3, queryInfo.arrTags, queryInfo.update_status)}
@@ -1079,12 +1078,12 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
                 <div className='mt-3'>
-                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200">
+                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200 qhpage">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
                         id="call_checkbox"
-                        className="h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         checked={callCheckBoxChecked}
                         disabled={callCheckBoxDisabled}
                         onChange={() => ClickAndCheckMailType(4, queryInfo.arrTags, queryInfo.update_status)}
@@ -1218,7 +1217,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                         <input
                           type="checkbox"
                           id="phd_checkbox"
-                          className="h-5 w-5 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                           checked={phdCheckBoxChecked}
                           disabled={phdCheckBoxDisabled}
                           onChange={() => setPhdCheckBoxChecked(!phdCheckBoxChecked)}

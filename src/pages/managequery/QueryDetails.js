@@ -173,7 +173,7 @@ const QueryDetails = ({ refId, onClose }) => {
                 <div className="flex px-5 items-center justify-between theme py-3 rounded-t-lg">
                     <h2 className="text-lg font-semibold">Query Details</h2>
                     <div className='flex items-center'>
-                        <div className="flex items-center mr-4 bg-blue-50 rounded-full px-2 py-1 text-blue-600 border hover:border-blue-100 hover:bg-transparent hover:text-white">
+                        <div className="flex items-center mr-4 bg-blue-50 rounded-full px-2 py-1 text-blue-600 border hover:border-blue-100 hover:bg-transparent hover:text-green-600">
                             <input
                                 type="checkbox"
                                 id="escalationMark"

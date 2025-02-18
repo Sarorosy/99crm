@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { CircleX } from 'lucide-react';
+
 const DashboardSummary = ({ filterDate, onClose }) => {
     const [data, setData] = useState(null);
     const userId = sessionStorage.getItem("id");
@@ -33,27 +35,27 @@ const DashboardSummary = ({ filterDate, onClose }) => {
 
     return (
         <motion.div
-            initial={{ y: '-100%' }}
-            animate={{ y: 0 }}
-            exit={{ y: '-100%' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-2/3 w-full bg-gray-100 shadow-lg z-50 overflow-y-auto "
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className="col-md-12">
-                <div className="flex px-5 py-3 justify-end">
+            <div className="bg-white rounded-lg shadow-lg p-4 relative qhpage col-md-6">
+                {/* <div className="flex justify-end"> */}
                 <button
                     onClick={onClose}
-                    className="text-white hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500"
+                    className="absolute trx px-2 py-1 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
-                    <X size={12} />
+                    <CircleX size={32} />
                 </button>
-                </div>
+                {/* </div> */}
                 {loading ? (
                     <div className="flex justify-center items-center h-full">
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
                     </div>
                 ) : (
-                <div className="w-2xl mx-auto overflow-x-auto rounded-lg ">
+                <div className="w-2xl mx-auto overflow-x-auto rounded-lg mt-2">
                     <table className=" bg-white divide-y divide-gray-200 text-xs mx-auto shadow-md">
                         <thead className="bg-gradient-to-r from-blue-600 to-blue-800">
                             <tr>
@@ -63,7 +65,7 @@ const DashboardSummary = ({ filterDate, onClose }) => {
                                 <th className="px-3 py-2 text-center font-semibold text-white w-1/5">Conversion Rate</th>
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-gray-200">
+                        <tbody className="divide-y divide-gray-200 border">
                             <tr className="hover:bg-gray-50 transition-colors">
                                 <td className="px-3 py-2 font-medium text-gray-900">Total Data Conversion</td>
                                 <td className="px-3 py-2 text-center text-gray-800">{data.totalQuery}</td>

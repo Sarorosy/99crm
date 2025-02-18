@@ -729,11 +729,18 @@ color:#fff;
 }
 
 .navpop button:hover{
-  color:#02313a
+  color:#02313a !important;
+  background-color: #ffff;
+  padding: 3px;
+  border-radius: 100px;
 }
 
 .border-green-400{
-  border-color: rgb(0 108 129);
+  border-color: rgb(0 108 129) !important;
+}
+
+.noti{
+  border-radius: 100px !important;
 }
 
 
@@ -1014,4 +1021,24 @@ select.dashboardselect {
 
 .przero{
   padding-right: 0 !important;
+}
+
+.notifsec{
+  color:#212529;
+  font-size: 12px;
+}
+
+.notifsec li{
+  font-size: 12px;
+}
+
+.notifsec li strong{
+  color: #02313a;
+}
+
+.spdbut{
+      display: flex  ;
+      align-items: center;
+      justify-content: end;
+      margin-top: -27px;
 }

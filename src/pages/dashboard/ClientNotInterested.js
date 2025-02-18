@@ -27,10 +27,10 @@ const ClientNotInterested = ({ queries, loading }) => {
     const getStatusLabel = (status) => {
         switch (status) {
             case 1: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0 pull-right">Lead In</span>;
-            case 2: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Contact Made</span>;
-            case 3: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Quoted</span>;
-            case 4: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Negotiating</span>;
-            case 5: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0  pull-right">Converted</span>;
+            case 2: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal bradius px-1 py-0  pull-right">Contact Made</span>;
+            case 3: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal bradius px-1 py-0  pull-right">Quoted</span>;
+            case 4: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal bradius px-1 py-0  pull-right">Negotiating</span>;
+            case 5: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal bradius px-1 py-0  pull-right">Converted</span>;
             case 6: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0 pull-right">Client Not Interested</span>;
             case 7: return <span style={{ fontSize: "9px" }} className="bg-blue-950 text-white font-normal rounded-md px-1 py-0 pull-right">Reminder</span>;
             default: return null;
@@ -43,7 +43,7 @@ const ClientNotInterested = ({ queries, loading }) => {
 
     return (
         <div className="open-tasks-container w-1/5" style={{ padding: '20px 8px', border: '1px solid #ddd', borderRadius: '6px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#f9f9f9', maxWidth: '350px' }}>
-            <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#02313a', marginBottom: '15px' }}>Client Not Interested <span className='text-green-400 bg-transparent rouneded-full px-1 py-1 mx-2'>({queries && queries.length})</span></h1>
+            <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#02313a', marginBottom: '15px' }}>Client Not Interested <span className='text-green-400 bg-transparent rouneded-full px-1 py-1'>({queries && queries.length})</span></h1>
             <ul className=" custom-scrollbar box-height h-96 overflow-y-scroll" id="sortable3">
                 {loading ? <SkeletonLoader /> : queries.map((task) => (
                     <li

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import moment from 'moment'; // To format the time as "X ago"
+import { CircleX } from 'lucide-react';
 
 const CommentDiv = ({ commentInfo, onClose }) => {
     const [isDetailsVisible, setIsDetailsVisible] = useState(false); // State to toggle visibility of the floating div
@@ -17,21 +18,21 @@ const CommentDiv = ({ commentInfo, onClose }) => {
 
     return (
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.3, ease: 'easeInOut' }}
+            className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
         >
-            <div className="flex px-5 items-center justify-between space-x-10 theme py-3 rounded-t-lg">
-                <h2 className="text-lg font-semibold">Previous Comments</h2>
-                <button
+            <div className="bg-white rounded-lg shadow-lg p-4 relative qhpage col-md-6">
+            <button
                     onClick={onClose}
-                    className="text-white flex items-center hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500"
+                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
                 >
-                    <X size={14} />
+                    <CircleX size={32} />
                 </button>
-            </div>
+            
+                <h2 className="text-lg font-semibold">Previous Comments</h2>
 
             {commentInfo.length > 0 ? (
                 commentInfo.map((comment) => (
@@ -79,6 +80,7 @@ const CommentDiv = ({ commentInfo, onClose }) => {
             ) : (
                 <p className='alert alert-danger mt-4 text-center'>No comments available.</p>
             )}
+            </div>
         </motion.div>
     );
 };

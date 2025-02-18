@@ -129,7 +129,7 @@ const Header = () => {
         {/* Logo and Navigation Links */}
         <div className="flex items-center">
           <div className="relative inline-block">
-            <h1 className="text-xl font-bold relative mr-6 theme1 py-3 px-4 young-serif">
+            <h1 className="text-xl font-bold relative mr-6 theme py-3 px-4 young-serif">
               99 CRM <span className="logospan text-xs text-blue-950 font-bold">®</span>
             </h1>
 
@@ -309,11 +309,11 @@ const Header = () => {
               setShowNoti(false)
               setShowFiles(!showFiles)
             }}
-            className="text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+            className="text-white relative p-2 ">
             <File size={16}/>
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs 
-                  w-5 h-5 rounded-full flex items-center justify-center
-                  shadow-lg transform scale-100">
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white fssx 
+                  w-5 h-5 rounded-full flex items-center justify-center noti
+                  shadow-lg">
               {notifications.totalAttacheFile}
             </span>
           </button>
@@ -324,10 +324,10 @@ const Header = () => {
                 setShowFiles(false)
                 setShowNoti(!showNoti)
               }}
-              className="text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+              className="text-white relative p-2 ">
               <Bell size={17}/>
-              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs 
-                  w-5 h-5 rounded-full flex items-center justify-center
+              <span className="absolute -top-1 -right-1 bg-blue-600 text-white fssx 
+                  w-5 h-5 rounded-full flex items-center justify-center rounded-circle
                   shadow-lg">
                 {notifications.TotalNoti}
               </span>
@@ -335,7 +335,7 @@ const Header = () => {
           )}
 
           {showNoti && (
-            <div className="absolute h-96 overflow-y-auto custom-scrollbar top-12 right-10 w-64 bg-white shadow-lg rounded-lg px-2 py-2 z-50">
+            <div className="absolute h-96 overflow-y-auto custom-scrollbar top-12 right-10 w-64 bg-white shadow-lg rounded-lg px-2 py-2 z-50 notifsec">
               <h3 className="font-semibold">You have {notifications.TotalNoti} notifications</h3>
               <ul className="mt-2">
                 {notifications.arrayNoti.map((noti, index) => (
@@ -365,18 +365,18 @@ const Header = () => {
 
           <button
             onClick={() => { navigate('client-mail') }}
-            className="text-green-600 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+            className="text-white relative p-2 ">
             <Mail size={17}/>
-            <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs 
+            <span className="absolute -top-1 -right-1 bg-emerald-500 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center
-                  shadow-lg font-semibold min-w-[20px]">
+                  shadow-lg font-semibold min-w-[20px] rounded-circle">
                 {notifications.ClientTotalUnraed}
               </span>
             </button>
 
           <button
             onClick={toggleUserMenu}
-            className="px-2 py-2 rounded-full transition-all duration-200
+            className="px-2 py-1 rounded-full transition-all duration-200
                       theme1 text-green-600 
                       hover:text-blue-800 font-medium
                       flex items-center gap-2

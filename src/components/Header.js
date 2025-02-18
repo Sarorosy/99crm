@@ -160,7 +160,7 @@ const Header = () => {
             )}
 
 
-            {userType == 'admin' || userType == "sub-admin" ? (
+            {(userType == 'admin' || userType == "sub-admin") ? (
               <button onClick={() => handleNavigation('/manageuser')} className="">
                 Manage User
               </button>
@@ -173,7 +173,7 @@ const Header = () => {
             ) : null}
 
 
-            {userType != "Campaign Manager" && userType != "Accountant" && (
+            {(userType != "Campaign Manager" && userType != "Accountant") && (
               <>
                 <div className="relative z-50">
                   <button
@@ -226,6 +226,7 @@ const Header = () => {
 
                         (
                           <>
+                          <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
                           </>
                         )}
                     </div>
@@ -316,20 +317,23 @@ const Header = () => {
               {notifications.totalAttacheFile}
             </span>
           </button>
-
-          <button
-            onClick={() => {
-              setShowFiles(false)
-              setShowNoti(!showNoti)
-            }}
-            className=" text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
-            <Bell />
-            <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs 
+          {(userType == "admin" || userType == "user") && (
+            <button
+              onClick={() => {
+                setShowFiles(false)
+                setShowNoti(!showNoti)
+              }}
+              className=" text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+              <Bell />
+              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs 
                   w-5 h-5 rounded-full flex items-center justify-center
                   shadow-lg ">
-              {notifications.TotalNoti}
-            </span>
-          </button>
+                {notifications.TotalNoti}
+              </span>
+            </button>
+          )}
+
+
 
           {showNoti && (
             <div className="absolute h-96 overflow-y-auto custom-scrollbar top-12 right-10 w-64 bg-white shadow-lg rounded-lg px-2 py-2 z-50">
@@ -359,17 +363,18 @@ const Header = () => {
               </ul>
             </div>
           )}
-
-          <button
-            onClick={() => { navigate('client-mail') }}
-            className="text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
-            <Mail />
-            <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs 
+          {(userType == "admin" || userType == "sub-admin" || userType == "user") && (
+            <button
+              onClick={() => { navigate('client-mail') }}
+              className="text-blue-900 relative p-2 rounded-full hover:bg-gray-100 active:scale-95 transition-all duration-200">
+              <Mail />
+              <span className="absolute -top-1 -right-1 bg-emerald-500 text-white text-xs 
                   px-2 py-1 rounded-full flex items-center justify-center
                   shadow-lg font-semibold min-w-[20px]">
-              {notifications.ClientTotalUnraed}
-            </span>
-          </button>
+                {notifications.ClientTotalUnraed}
+              </span>
+            </button>
+          )}
 
           <button
             onClick={toggleUserMenu}

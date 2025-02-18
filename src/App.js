@@ -34,6 +34,7 @@ import ClientMailPage from './pages/managequery/mail/ClientEmailPage';
 import ManageProfile from './pages/module/manageprofile/ManageProfile';
 import QuerySummary from './pages/managequery/QuerySummary';
 import ManagePayment from './pages/module/payments/ManagePayment';
+import MilestonePayments from './pages/module/pricequote/MilestonePayments';
 
 const App = () => {
 
@@ -88,6 +89,7 @@ const App = () => {
           <Route path="/teams" element={<ManageTeams />} />
 
           <Route path="/quote-history" element={<QuoteHistory />} />
+          <Route path="/payment-milestone" element={<MilestonePayments />} />
           <Route path="/email-template" element={<ManageEmailTemplate />} />
           <Route path="/email-campaign" element={<ManageEmailCampaign />} />
           <Route path="/quote-template" element={<ManageQuoteTemplate />} />

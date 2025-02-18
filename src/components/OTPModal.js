@@ -79,7 +79,22 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
         
         setTimeout(()=>{
             setIsOTPVerified(true);
-            navigate('/')
+            if(sessionStorage.getItem('user_type') == "admin"){
+              navigate('/')
+            }else if(sessionStorage.getItem('user_type') == "user"){
+              navigate('/dashboard')
+            }else if(sessionStorage.getItem('user_type') == "Accountant"){
+              navigate('/payment-milestone')
+            }else if(sessionStorage.getItem('user_type') == "Campaign Manager"){
+              navigate('/camp-history')
+            }else if(sessionStorage.getItem('user_type') == "Data Manager"){
+              navigate('/queryhistory')
+            }else if(sessionStorage.getItem('user_type') == "sub-admin"){
+              navigate('/dashboard')
+            }else{
+              navigate('/')
+            }
+           
             closeModal();
         },2000)
        

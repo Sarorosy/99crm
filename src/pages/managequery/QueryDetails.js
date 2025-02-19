@@ -224,40 +224,40 @@ const QueryDetails = ({ refId, onClose }) => {
 
                 <div className='row'>
                     <div className=" mt-4 col-md-5 ">
-                        <div className="flex space-x-2 border-b px-2">
+                        <div className="flex mx-2">
                             {/* Tab buttons */}
                             <button
                                 onClick={() => setActiveTab(1)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 1 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                className={` inact font-medium px-2 py-1 transition-colors ${activeTab === 1 ? 'border-b-2 border-green-400 theme' : 'border border-[#efefef] text-gray-500'}`}
                             >
                                 Query Information
                             </button>
                             <button
                                 onClick={() => setActiveTab(2)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 2 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 2 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Generate Price
                             </button>
                             <button
                                 onClick={() => setActiveTab(3)}
                                 style={{ fontSize: "11px" }}
-                                className={` font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 3 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 3 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Attached Files
                             </button>
                             <button
                                 onClick={() => setActiveTab(4)}
                                 style={{ fontSize: "11px" }}
-                                className={`flex items-center font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 4 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                className={` inact flex items-center font-medium px-2 py-1 transition-colors ${activeTab === 4 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Internal Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{internalCommentsData.length}</span>
                             </button>
                             <button
                                 onClick={() => setActiveTab(5)}
                                 style={{ fontSize: "11px" }}
-                                className={`flex items-center  font-medium px-2 py-1 rounded-lg transition-colors ${activeTab === 5 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                className={`inact flex items-center  font-medium px-2 py-1  transition-colors ${activeTab === 5 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
                             >
                                 Campaign Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{campaginCommentData.length}</span>
                             </button>

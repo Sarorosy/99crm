@@ -9,7 +9,7 @@ import moment from 'moment';
 import 'select2/dist/css/select2.css';
 import 'select2';
 import CustomLoader from '../../../components/CustomLoader';
-import { RefreshCcw } from 'lucide-react';
+import { RefreshCcw, FilterIcon } from 'lucide-react';
 
 
 const QuoteHistory = () => {
@@ -252,8 +252,9 @@ const QuoteHistory = () => {
                 </div>
                 <div className="w-1/2 flex items-center space-x-2 last">
                     <label>&nbsp;</label>
-                    <button className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchFilteredQuotes}>
-                        Apply Filters
+                    <button className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchFilteredQuotes}>
+                        Apply Filters &nbsp;
+                        <FilterIcon size={12} className="" />
                     </button>
                     <button className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300" onClick={resetFilters}>
                         <RefreshCcw size={15}/>

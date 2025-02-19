@@ -728,7 +728,7 @@ const UserQuery = () => {
             render: (data, type, row) => {
                 return `
                     <div style="text-align: left; display: flex; align-items: center; gap: 10px; width:80px;">
-                        <span class="view-btn bg-blue-500 hover:bg-blue-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">${data}</span>
+                        <span class="view-btn bg-blue-400 hover:bg-blue-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">${data}</span>
                         <span class=" fssx edit-btn " style="cursor: pointer;"><img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" /></span>
                     </div>
                 `;
@@ -1249,7 +1249,7 @@ const UserQuery = () => {
         <div>
             <div className='bg-white py-2 rounded mb-3'>
                 <div className="flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex w-full justify-between px-4 py-2'>
+                    <div className='flex w-full justify-start px-4 py-2'>
                         <h1 className="text-md font-bold flex items-center">Query History </h1>
                         <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
                             <FilterIcon size={14} className="" /></button>
@@ -1525,14 +1525,14 @@ const UserQuery = () => {
                                     <div className='last'>
                                         <button
                                             onClick={handleSubmit}
-                                            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center mr-3"
+                                            className="bg-blue-400 text-white py-1 px-2 rounded flex items-center mr-3"
                                         >
                                             <SearchIcon className="mr-2" size={12} />
                                             Search
                                         </button>
                                         <button
                                             onClick={resetFilters}
-                                            className="btn btn-success text-white py-1 px-2 rounded flex items-center mr-2"
+                                            className="btn btn-successs text-white py-1 px-2 rounded flex items-center mr-2"
                                         >
                                             Reset Filters
                                         </button>
@@ -1668,26 +1668,26 @@ const UserQuery = () => {
                             <button
                                 onClick={handleAssignQueryCampaignBtnClick}
                                 style={{ fontSize: "10px" }}
-                                className="bg-orange-400 hover:bg-orange-600 text-white py-1 px-2 bradius shadow-md"
+                                className="bg-orange-500 hover:bg-orange-600 text-white py-1 px-2 bradius shadow-md"
                             >
                                 Assign Query For Campaign
                             </button>
                         </div>
                     )}
-                    <div className='pr-0'>
+                    <div className='pr-0 flex'>
                         {(sessionStorage.getItem('user_type') == "admin" ||
                             (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryDelete') == "Yes")) && (
                                 <>
                                     <button
                                         onClick={handleDelete}
-                                        className="bg-red-500 hover:bg-red-600 text-white font-semibold py-1 px-2 rounded-lg shadow-md transition-all duration-200"
-                                    >
+                                        className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-1 flex items-center"
+                                    ><Trash2 className="mr-2" size={12} />
                                         Delete
                                     </button>
 
                                     <button
                                         onClick={handleBellIconClick}
-                                        className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-1 px-2 rounded-lg shadow-md transition-all duration-200 ml-4"
+                                        className="bg-gray-5000 hover:bg-gray-600 text-white font-semibold py-1 px-2 rounded-lg shadow-md transition-all duration-200"
                                     >
                                         Remove Bell Icon
                                     </button>

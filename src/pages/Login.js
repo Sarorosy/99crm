@@ -147,7 +147,7 @@ const Login = () => {
              />
             ) : (
               'Login'
-            )} &nbsp;<i class="fa fa-chevron-right"></i>
+            )}
           </button>
           </div>          
         </form>

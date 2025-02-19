@@ -566,7 +566,7 @@ const RemainderQuery = () => {
                     <div className="flex gap-1">
                         <button
                             onClick={handleSubmit}
-                            className="bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-600 mr-2 flex items-center"
+                            className="bg-blue-400 text-white py-1 px-2 rounded-md hover:bg-blue-600 mr-2 flex items-center"
                         >
                             <SearchIcon className="mr-2" size={14} />
                             Search

@@ -294,7 +294,7 @@ const ManageUser = () => {
         <h1 className="text-md font-bold">Users List</h1>
         <div className='flex items-center'>
           <button
-            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
+            className="bg-blue-400 text-white py-1 px-2 rounded flex items-center"
             onClick={toggleStatistics}
             style={{ marginRight: "8px" }}
           >

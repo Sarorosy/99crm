@@ -299,7 +299,7 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                         </div>
                         {historyVisible && (
                             <div
-                                className="absolute top-8 right-0 bg-white rounded-lg shadow-sm p-2 w-64 z-50 overflow-y-auto max-h-72 custom-scrollbar fsx"
+                                className="absolute histqd bg-white rounded-md border p-2 z-50 overflow-y-auto custom-scrollbar fsx "
                             >
                                 {historyloading && (
                                     <div className="space-y-3 animate-pulse">
@@ -319,10 +319,10 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                                     activityData.map((activity, index) => (
                                         <div
                                             key={index}
-                                            className="mb-3 border-b border-gray-100 pb-2 last:border-b-0"
+                                            className="mb-1 border-b border-gray-100 pb-1 last:border-b-0"
                                         >
-                                            <p className="font-semibold text-green-600">{activity.user_name}</p>
-                                            <p className="text-gray-600 ">{activity.message}</p>
+                                            <p className="font-semibold text-green-600">{activity.user_name}&nbsp;{activity.message}</p>
+                                            {/* <p className="text-gray-600 ">{activity.message}</p> */}
                                             <p className="text-gray-400 fssx">{activity.action_date}</p>
                                         </div>
                                     ))}

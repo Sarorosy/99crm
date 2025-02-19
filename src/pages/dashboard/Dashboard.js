@@ -408,15 +408,12 @@ const Dashboard = () => {
         }
     };
 
-    
-
-
     return (
         <div className="py-1">
             {/* Filter Section */}
-            <div className="bg-white rounded-lg px-2 py-3 mb-6">
+            <div className="bg-white rounded-lg px-2 py-2 mb-6">
                 <div className="flex justify-between items-center">
-                    <h2 className="mb-2 font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={14} className="" /></button></h2>
+                    <h2 className="font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={14} className="" /></button></h2>
 
                     <div className="flex items-center mb-1">
                         <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowConversationSummary(!showConversationSummary)}>
@@ -430,9 +427,9 @@ const Dashboard = () => {
 
                 <form onSubmit={handleSearch} className="dashboardinput" style={{ display: showFilter ? 'block' : 'none' }}>
                     {/* Flex container for form fields */}
-                    <div className="grid grid-cols-5 gap-1">
+                    <div className="flex gap-2">
 
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="spwdashboardinput col-span-1">
                             <input
                                 id="filterDate"
                                 type="text"
@@ -444,7 +441,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Team Dropdown */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="spwdashboardinput col-span-1">
                             <select
                                 value={teamId}
                                 ref={teamsRef}
@@ -461,7 +458,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* User Dropdown */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="flex-1 col-span-1 col-md-3">
                             <select
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
@@ -477,7 +474,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Ref ID */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="spwdashboardinput">
                             <input
                                 type="text"
                                 value={refId}
@@ -488,7 +485,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Keywords */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="flex-1  col-span-1 col-md-3">
                             <input
                                 type="text"
                                 value={keywords}
@@ -499,7 +496,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Website Dropdown */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="flex-1  col-span-1 col-md-3">
                             <select
                                 value={website}
                                 onChange={(e) => setWebsite(e.target.value)}
@@ -515,7 +512,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Tags Multi-select */}
-                        <div className="flex-1 min-w-[150px]">
+                        <div className="flex-1  col-span-1 col-md-3">
                             <select
                                 multiple
                                 value={selectedTags}
@@ -537,8 +534,6 @@ const Dashboard = () => {
                                 ))}
                             </select>
                         </div>
-
-                        
                     </div>
                     <div className="col-md-12 spdbut">
                             <button
@@ -552,9 +547,6 @@ const Dashboard = () => {
                     {/* Search Button */}
 
                 </form>
-
-
-
 
             </div>
 

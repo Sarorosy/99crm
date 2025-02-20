@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import toast from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, X } from 'lucide-react';
 import { ScaleLoader } from 'react-spinners';
 import { CircleX } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -47,6 +47,7 @@ const EditUser = ({ id, onClose, after }) => {
         accessPriceQuote: '',
         accessQueryDelete: '',
         disabledQuery: [],
+        profiles: [],
     });
 
     const [teams, setTeams] = useState([]);
@@ -61,6 +62,7 @@ const EditUser = ({ id, onClose, after }) => {
     const [usernameStatus, setUsernameStatus] = useState('');
     const [loading, setloading] = useState(true);
     const navigate = useNavigate();
+    const [addnewProfile, setAddNewProfile] = useState(false);
 
     useEffect(() => {
         // Fetch data from APIs
@@ -158,8 +160,9 @@ const EditUser = ({ id, onClose, after }) => {
                     setFormData((prevData) => ({
                         ...prevData,
                         ...userCheckboxes,
-                        team_id: teamIds,
+                        team_id: teamIds
                     }));
+                    
                 } else {
                     const { team_id } = userData.data;
                     const teamIds = team_id ? team_id.split(',') : []; // Convert to array
@@ -184,104 +187,138 @@ const EditUser = ({ id, onClose, after }) => {
 
     useEffect(() => {
         // Initialize select2 for Select Team
-        $(selectTeamRef.current).select2({
-            placeholder: "Select a Team",
-            allowClear: true,
-            multiple: true,
-        }).on('change', (e) => {
-            const selectedValues = $(e.target).val(); // Use select2's value retrieval method
-            console.log("Selected team IDs:", selectedValues);
-            setFormData((prevData) => ({
-                ...prevData,
-                team_id: selectedValues || formData.team_id, // Ensure it's an array
-            }));
-        });
+        if (selectTeamRef.current) {
+            const $select = $(selectTeamRef.current);
+            
+            // Only initialize if not already initialized
+            if (!$select.data('select2')) {
+                $select.select2({
+                    placeholder: "Select a Team",
+                    allowClear: true,
+                    multiple: true,
+                }).on('change', (e) => {
+                    const selectedValues = $(e.target).val();
+                    setFormData(prevData => ({
+                        ...prevData,
+                        team_id: selectedValues || [], 
+                    }));
+                });
 
+                // Set initial value
+                $select.val(formData.team_id).trigger('change');
+            }
+        }
 
         return () => {
-            // Destroy select2 when the component unmounts
+            // Cleanup select2
             if (selectTeamRef.current) {
-                //  $(selectTeamRef.current).select2('destroy');
+                const $select = $(selectTeamRef.current);
+                if ($select.data('select2')) {
+                    $select.select2('destroy');
+                }
             }
         };
-    }, [teams]);
+    }, [teams]); // Only re-run when teams changes
 
     useEffect(() => {
         // Initialize select2 for Operations Manager
         if (selectBackUsersRef.current) {
-            $(selectBackUsersRef.current).select2({
-                placeholder: "Select Backup user",
-                allowClear: true,
-            }).on('change', (e) => {
-                const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-                setFormData((prevData) => ({
-                    ...prevData,
-                    [e.target.name]: selectedValues,
-                }));
-            });
+            const $select = $(selectBackUsersRef.current);
+            
+            // Only initialize if not already initialized
+            if (!$select.data('select2')) {
+                $select.select2({
+                    placeholder: "Select Backup user",
+                    allowClear: true,
+                }).on('change', (e) => {
+                    setFormData(prevData => ({
+                        ...prevData,
+                        [e.target.name]: e.target.value,
+                    }));
+                });
+
+                // Set initial value
+                $select.val(formData.backup_user).trigger('change');
+            }
         }
 
         return () => {
-            // Destroy select2 when the component unmounts for Operations Manager
             if (selectBackUsersRef.current) {
-                //  $(selectBackUsersRef.current).select2('destroy');
+                const $select = $(selectBackUsersRef.current);
+                if ($select.data('select2')) {
+                    $select.select2('destroy');
+                }
             }
         };
-    }, [backupusers]);
+    }, [backupusers]); // Only re-run when backupusers changes
 
 
     useEffect(() => {
         // Initialize select2 for Select Website
         if (selectWebsiteRef.current) {
-            $(selectWebsiteRef.current).select2({
-                placeholder: "Select a Website",
-                allowClear: true,
-                multiple: true,
-            }).on('change', (e) => {
-                const selectedValues = $(e.target).val(); // Use select2's value retrieval method
-                console.log("Selected website IDs:", selectedValues);
-                setFormData((prevData) => ({
-                    ...prevData,
-                    website_id: selectedValues || [], // Ensure it's an array
-                }));
-            });
+            const $select = $(selectWebsiteRef.current);
+            
+            // Only initialize if not already initialized
+            if (!$select.data('select2')) {
+                $select.select2({
+                    placeholder: "Select a Website",
+                    allowClear: true,
+                    multiple: true,
+                }).on('change', (e) => {
+                    const selectedValues = $(e.target).val();
+                    setFormData(prevData => ({
+                        ...prevData,
+                        website_id: selectedValues || [],
+                    }));
+                });
+
+                // Set initial value
+                $select.val(formData.website_id).trigger('change');
+            }
         }
 
         return () => {
-            // Destroy select2 when the component unmounts for Select Website
             if (selectWebsiteRef.current) {
-                // $(selectWebsiteRef.current).select2('destroy');
+                const $select = $(selectWebsiteRef.current);
+                if ($select.data('select2')) {
+                    $select.select2('destroy');
+                }
             }
         };
-    }, [websites]); // Triggered when websites data changes
+    }, [websites]); // Only re-run when websites changes
 
     useEffect(() => {
         // Initialize select2 for Operations Manager
         if (selectManagerRef.current) {
-            $(selectManagerRef.current).select2({
-                placeholder: "Select an Operations Manager",
-                allowClear: true,
-            }).on('change', (e) => {
-                const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-                setFormData((prevData) => ({
-                    ...prevData,
-                    [e.target.name]: selectedValues,
-                }));
-            });
+            const $select = $(selectManagerRef.current);
+            
+            // Only initialize if not already initialized
+            if (!$select.data('select2')) {
+                $select.select2({
+                    placeholder: "Select an Operations Manager",
+                    allowClear: true,
+                }).on('change', (e) => {
+                    setFormData(prevData => ({
+                        ...prevData,
+                        [e.target.name]: e.target.value,
+                    }));
+                });
+
+                // Set initial value
+                $select.val(formData.manager_id).trigger('change');
+            }
         }
 
         return () => {
-            // Destroy select2 when the component unmounts for Operations Manager
             if (selectManagerRef.current) {
-                //$(selectManagerRef.current).select2('destroy');
+                const $select = $(selectManagerRef.current);
+                if ($select.data('select2')) {
+                    $select.select2('destroy');
+                }
             }
         };
-    }, [managers]);
+    }, [managers]); // Only re-run when managers changes
 
-
-    useEffect(() => {
-        console.log('Updated formData:', formData);
-    }, [formData]); // This will run every time formData changes
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword); // Toggle the visibility
@@ -566,7 +603,7 @@ const EditUser = ({ id, onClose, after }) => {
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <section className="content-header my-2">
+            <section className="content-header my-2 col-md-10">
                 <h1 className='text-xl font-bold'>Edit User</h1>
                 <button
                     onClick={onClose}
@@ -578,9 +615,9 @@ const EditUser = ({ id, onClose, after }) => {
             {loading ? (<div className='w-full h-60 flex items-center justify-center'>
                 <ScaleLoader />
             </div>) : <>
-                <section className="content">
+                <section className="">
                     <div className="row">
-                        <div className="col-md-6 cent add">
+                        <div className="col-md-10 cent add">
                             <div className="box box-primary">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl'>
                                     <div className="box-body">
@@ -687,11 +724,11 @@ const EditUser = ({ id, onClose, after }) => {
                                                     onChange={handleFormDataChange}
                                                 />
                                             </div>
-                                          
+
                                         </div>
 
                                         <div className="w-full my-2 flex items-center justify-between space-x-3">
-                                        <div className="w-1/2">
+                                            <div className="w-1/2">
                                                 <label>User Type<span className="error">*</span></label>
                                                 <select
                                                     name="user_type"
@@ -711,28 +748,28 @@ const EditUser = ({ id, onClose, after }) => {
                                                 </select>
                                             </div>
                                             {formData.user_type === 'sub-admin' && (
-                                            <div className="w-1/2">
-                                            <div className="row form-group">
-                                                <div className="col-sm-12">
-                                                    <label>Select Access Type</label>
-                                                    <select
-                                                        name="access_type"
-                                                        className="form-control"
-                                                        value={formData.access_type}
-                                                        onChange={handleAccessTypeChange}
-                                                    >
-                                                        <option value="">Select Access Type</option>
-                                                        <option value="Team">Team</option>
-                                                        <option value="Website">Website</option>
-                                                        <option value="Both">Both</option>
-                                                    </select>
+                                                <div className="w-1/2">
+                                                    <div className="row form-group">
+                                                        <div className="col-sm-12">
+                                                            <label>Select Access Type</label>
+                                                            <select
+                                                                name="access_type"
+                                                                className="form-control"
+                                                                value={formData.access_type}
+                                                                onChange={handleAccessTypeChange}
+                                                            >
+                                                                <option value="">Select Access Type</option>
+                                                                <option value="Team">Team</option>
+                                                                <option value="Website">Website</option>
+                                                                <option value="Both">Both</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            </div>
 
-                                        )}
-</div>
-                                        
+                                            )}
+                                        </div>
+
 
 
                                         <div className="w-full my-2">
@@ -816,48 +853,48 @@ const EditUser = ({ id, onClose, after }) => {
                                                 </div>
                                             )}
                                         </div>
-                                        
+
                                         <div className="w-full my-2" style={{ display: formData.user_type === 'user' ? 'block' : 'none' }}>
                                             <div className='flex items-center justify-between my-2'>
                                                 <div className='col-md-6'>
-                                                <div className="">
-                                                    <label>Operations Manager</label>
-                                                    <select
-                                                        name="manager_id"
-                                                        className="form-control"
-                                                        value={formData.manager_id}
-                                                        onChange={handleFormDataChange}
-                                                        ref={selectManagerRef}
-                                                    >
-                                                        {managers.map((manager) => (
-                                                            <option key={manager.id} value={manager.id}>
-                                                                {manager.name}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
+                                                    <div className="">
+                                                        <label>Operations Manager</label>
+                                                        <select
+                                                            name="manager_id"
+                                                            className="form-control"
+                                                            value={formData.manager_id}
+                                                            onChange={handleFormDataChange}
+                                                            ref={selectManagerRef}
+                                                        >
+                                                            {managers.map((manager) => (
+                                                                <option key={manager.id} value={manager.id}>
+                                                                    {manager.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
                                                 </div>
                                                 <div className='col-md-6'>
-                                                <div className="">
-                                                    <label>Backup User</label>
-                                                    <select
-                                                        name="backup_user"
-                                                        className="form-control"
-                                                        value={formData.manager_id}
-                                                        onChange={handleFormDataChange}
-                                                        ref={selectBackUsersRef}
-                                                    >
-                                                        <option value="" >Select Backup User</option>
-                                                        {backupusers.map((user) => (
-                                                            <option key={user.id} value={user.id}>
-                                                                {user.name}
-                                                            </option>
-                                                        ))}
-                                                    </select>
+                                                    <div className="">
+                                                        <label>Backup User</label>
+                                                        <select
+                                                            name="backup_user"
+                                                            className="form-control"
+                                                            value={formData.manager_id}
+                                                            onChange={handleFormDataChange}
+                                                            ref={selectBackUsersRef}
+                                                        >
+                                                            <option value="" >Select Backup User</option>
+                                                            {backupusers.map((user) => (
+                                                                <option key={user.id} value={user.id}>
+                                                                    {user.name}
+                                                                </option>
+                                                            ))}
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                                </div>                                                                                          
                                             </div>
-                                            <div className='flex items-center justify-between my-2'>                                                                                                                                            
+                                            <div className='flex items-center justify-between my-2'>
                                                 <div className="w-1/2 flex flex-col mx-1">
                                                     <label>Current Status</label>
                                                     <select
@@ -872,77 +909,172 @@ const EditUser = ({ id, onClose, after }) => {
 
                                                     </select>
                                                 </div>
-                                                <div className="w-1/2 mx-1">
-                                                    <label>Profile Name</label>
-                                                    <input
-                                                        type="text"
-                                                        name="profile_name"
-                                                        className="form-control"
-                                                        value={formData.profile_name}
-                                                        onChange={handleFormDataChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div className='flex items-start justify-between my-2'>
-                                                
 
-                                                <div className="w-1/2 mx-1">
-                                                    <label>Select Website</label>
-                                                    <select
-                                                        name="website"
-                                                        className="form-control"
-                                                        value={formData.website}
-                                                        onChange={handleFormDataChange}
-
-                                                    >
-                                                        <option value="">Select website</option>
-                                                        {websites.map((website) => (
-                                                            <option key={website.id} value={website.id}>
-                                                                {website.website}
-                                                            </option>
-                                                        ))}
-                                                    </select>
-                                                </div>
-                                                <div className="w-1/2 mx-1">
-                                                    <label>Website Email</label>
-                                                    <input
-                                                        type="text"
-                                                        name="website_email"
-                                                        className="form-control"
-                                                        value={formData.website_email}
-                                                        onChange={handleFormDataChange}
-                                                    />
-                                                </div>
                                             </div>
-                                                <div className="mx-1">
-                                                    <label className="font-medium text-gray-700">Signature</label>
-                                                    <ReactQuill
-  value={formData.signature}
-  onChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
-  modules={{
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ align: [] }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link'],
-      ['clean']
-    ],
-  }}
-  formats={[
-    'bold', 'italic', 'underline', 'align',
-    'list', 'bullet', 'link', 'clean'
-  ]}
-  style={{ height: 200 }}
-  placeholder="Signature"
-/>
+                                            
+
+                                            {formData.user_type === 'user' && (
+                                                <div>
+                                                    {formData.profiles.map((profile, index) => (
+                                                        <div key={index} className='flex items-start justify-between my-2 relative'>
+                                                            {/* Profile inputs */}
+                                                            <div className="w-1/4 mx-1">
+                                                                <label>Profile Name</label>
+                                                                <input
+                                                                    type="text"
+                                                                    name="profile_name"
+                                                                    className="form-control"
+                                                                    value={profile.profile_name || ''}
+                                                                    onChange={(e) => {
+                                                                        const updatedProfiles = [...formData.profiles];
+                                                                        updatedProfiles[index] = {
+                                                                            ...updatedProfiles[index],
+                                                                            profile_name: e.target.value
+                                                                        };
+                                                                        setFormData({
+                                                                            ...formData,
+                                                                            profiles: updatedProfiles
+                                                                        });
+                                                                    }}
+                                                                />
+                                                            </div>
+
+                                                            <div className="w-1/4 mx-1">
+                                                                <label>Select Website</label>
+                                                                <select
+                                                                    name="website"
+                                                                    className="form-control"
+                                                                    value={profile.website || ''}
+                                                                    onChange={(e) => {
+                                                                        const updatedProfiles = [...formData.profiles];
+                                                                        updatedProfiles[index] = {
+                                                                            ...updatedProfiles[index],
+                                                                            website: e.target.value
+                                                                        };
+                                                                        setFormData({
+                                                                            ...formData,
+                                                                            profiles: updatedProfiles
+                                                                        });
+                                                                    }}
+                                                                >
+                                                                    <option value="">Select website</option>
+                                                                    {websites.map((website) => (
+                                                                        <option key={website.id} value={website.id}>
+                                                                            {website.website}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+
+                                                            <div className="w-1/4 mx-1">
+                                                                <label>Website Email</label>
+                                                                <input
+                                                                    type="text"
+                                                                    name="website_email"
+                                                                    className="form-control"
+                                                                    value={profile.website_email || ''}
+                                                                    onChange={(e) => {
+                                                                        const updatedProfiles = [...formData.profiles];
+                                                                        updatedProfiles[index] = {
+                                                                            ...updatedProfiles[index],
+                                                                            website_email: e.target.value
+                                                                        };
+                                                                        setFormData({
+                                                                            ...formData,
+                                                                            profiles: updatedProfiles
+                                                                        });
+                                                                    }}
+                                                                />
+                                                            </div>
+
+                                                            <div className="w-1/4 mx-1">
+                                                                <label className="font-medium text-gray-700">Signature</label>
+                                                                <ReactQuill
+                                                                    value={profile.signature || ''}
+                                                                    onChange={(content) => {
+                                                                        setFormData((prevData) => {
+                                                                            const updatedProfiles = [...prevData.profiles];
+                                                                            updatedProfiles[index] = {
+                                                                                ...updatedProfiles[index],
+                                                                                signature: content
+                                                                            };
+                                                                            return { ...prevData, profiles: updatedProfiles };
+                                                                        });
+                                                                    }}
+                                                                    
+                                                                    modules={{
+                                                                        toolbar: [
+                                                                            ['bold', 'italic', 'underline'],
+                                                                            [{ align: [] }],
+                                                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                                                            ['link'],
+                                                                            ['clean']
+                                                                        ],
+                                                                    }}
+                                                                    formats={[
+                                                                        'bold', 'italic', 'underline', 'align',
+                                                                        'list', 'bullet', 'link', 'clean'
+                                                                    ]}
+                                                                    placeholder="Signature"
+                                                                />
+                                                            </div>
+
+                                                            { addnewProfile && index === formData.profiles.length - 1 && (
+                                                                <button
+                                                                    type="button"
+                                                                    className=" text-red-500 hover:text-red-700 bg-red-300 rounded-full p-1"
+                                                                    onClick={() => {
+                                                                        const updatedProfiles = formData.profiles.filter((_, i) => i !== index);
+                                                                        setFormData({
+                                                                            ...formData,
+                                                                            profiles: updatedProfiles
+                                                                        });
+                                                                        setAddNewProfile(false);
+                                                                    }}
+                                                                >
+                                                                    <X size={20} />
+                                                                </button>
+                                                            )}
+                                                        </div>
+                                                    ))}
+
+                                                    {/* Add new profile button */}
+                                                    {!addnewProfile && (
+                                                    <div className="flex justify-end mt-2">
+                                                        <button
+                                                            type="button"
+                                                            className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
+                                                            onClick={() => {
+                                                                setFormData({
+                                                                    ...formData,
+                                                                    profiles: [
+                                                                        ...formData.profiles,
+                                                                        {
+                                                                            profile_name: '',
+                                                                            website: '',
+                                                                            website_email: '',
+                                                                            signature: ''
+                                                                        }
+                                                                    ]
+                                                                });
+                                                                setAddNewProfile(true);
+                                                            }}
+                                                        >
+                                                            + Add Another Profile
+                                                        </button>
+                                                    </div>
+                                                    )}
                                                 </div>
+                                            )}
+
+
                                         </div>
 
 
                                         <div className="w-full mt-3" style={{
                                             display: (formData.user_type === 'user') ? 'block' : 'none',
                                         }}>
-                                            
+
                                         </div>
                                         {formData.user_type === 'sub-admin' && (
                                             <div className='mulabel my-2 space-y-1'>
@@ -1048,7 +1180,7 @@ const EditUser = ({ id, onClose, after }) => {
                     </div>
                 </section>
             </>}
-            
+
         </motion.div>
     );
 };

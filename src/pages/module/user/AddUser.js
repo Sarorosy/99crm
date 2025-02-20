@@ -30,6 +30,7 @@ const AddUser = ({ onClose, after }) => {
         profile_name: '',
         website_email: '',
         signature: '',
+        profiles: [{ profile_name: '', website: '', website_email: '', signature: '' }],
         category: '',
         whatsap_notification: false,
         sms_notify: false,
@@ -211,7 +212,28 @@ const AddUser = ({ onClose, after }) => {
         }));
     };
 
+    const handleAddProfile = () => {
+        setFormData(prevData => ({
+            ...prevData,
+            profiles: [...prevData.profiles, { profile_name: '', website: '', website_email: '', signature: '' }]
+        }));
+    };
 
+    const handleRemoveProfile = (indexToRemove) => {
+        setFormData(prevData => ({
+            ...prevData,
+            profiles: prevData.profiles.filter((_, index) => index !== indexToRemove)
+        }));
+    };
+
+    const handleProfileChange = (index, field, value) => {
+        setFormData(prevData => ({
+            ...prevData,
+            profiles: prevData.profiles.map((profile, i) => 
+                i === index ? { ...profile, [field]: value } : profile
+            )
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -226,15 +248,38 @@ const AddUser = ({ onClose, after }) => {
         // A flag to track if the form is valid
         let formIsValid = true;
 
+        // Validate profiles if user type is 'user'
+        if (formData.user_type === 'user') {
+            formData.profiles.forEach((profile, index) => {
+                if (!profile.profile_name.trim()) {
+                    toast.error(`Profile ${index + 1}: Profile Name is required`);
+                    formIsValid = false;
+                }
+                if (!profile.website) {
+                    toast.error(`Profile ${index + 1}: Website is required`);
+                    formIsValid = false;
+                }
+                if (!profile.website_email.trim()) {
+                    toast.error(`Profile ${index + 1}: Website Email is required`);
+                    formIsValid = false;
+                }
+                if (!profile.signature.trim()) {
+                    toast.error(`Profile ${index + 1}: Signature is required`);
+                    formIsValid = false;
+                }
+            });
+        }
+
         // Get form elements by their ID
         const formElements = Array.from(form.elements);
 
         // Validate the fields
         for (let element of formElements) {
-            const { name, value, type, style } = element;
+            const { name, value, type } = element;
 
-            // Skip invisible elements
-            if (element.offsetParent === null) continue;
+            // Skip invisible elements and profile fields (handled above)
+            if (element.offsetParent === null || 
+                ['profile_name', 'website_email', 'signature'].includes(name)) continue;
 
             // Field-specific validation
             switch (name) {
@@ -442,7 +487,7 @@ const AddUser = ({ onClose, after }) => {
 
                 <section className="content">
                     <div className="row">
-                        <div className="col-md-6 cent add">
+                        <div className="col-md-10 cent add">
                             <div className="box">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl'>
                                     <div className="box-body qhpage">
@@ -708,72 +753,91 @@ const AddUser = ({ onClose, after }) => {
                                         <div className="w-full mt-3" style={{
                                             display: (formData.user_type === 'user') ? 'block' : 'none',
                                         }}>
-                                            <div className='space-x-2 '>
+                                            <div className='space-y-4'>
+                                                {formData.profiles.map((profile, index) => (
+                                                    <div key={index} className='relative border p-4 rounded-lg bg-gray-50'>
+                                                        <div className='flex my-2'>
+                                                            <div className="w-1/4 mx-1">
+                                                                <label>Profile Name</label>
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    value={profile.profile_name}
+                                                                    onChange={(e) => handleProfileChange(index, 'profile_name', e.target.value)}
+                                                                />
+                                                            </div>
 
-                                                <div className='flex my-2'>
-                                                    <div className="w-1/2 mx-1">
-                                                        <label>Profile Name</label>
-                                                        <input
-                                                            type="text"
-                                                            name="profile_name"
-                                                            className="form-control"
-                                                            value={formData.profile_name}
-                                                            onChange={handleFormDataChange}
-                                                        />
+                                                            <div className="w-1/4 mx-1">
+                                                                <label>Select Website</label>
+                                                                <select
+                                                                    className="form-control"
+                                                                    value={profile.website}
+                                                                    onChange={(e) => handleProfileChange(index, 'website', e.target.value)}
+                                                                >
+                                                                    <option value="">Select website</option>
+                                                                    {websites.map((website) => (
+                                                                        <option key={website.id} value={website.id}>
+                                                                            {website.website}
+                                                                        </option>
+                                                                    ))}
+                                                                </select>
+                                                            </div>
+
+                                                            <div className='w-1/4 mx-1'>
+                                                                <label>Website Email</label>
+                                                                <input
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    value={profile.website_email}
+                                                                    onChange={(e) => handleProfileChange(index, 'website_email', e.target.value)}
+                                                                />
+                                                            </div>
+
+                                                            <div className='w-1/4'>
+                                                                <label className="font-medium text-gray-700">Signature</label>
+                                                                <ReactQuill
+                                                                className='bg-white'
+                                                                    value={profile.signature}
+                                                                    onChange={(content) => handleProfileChange(index, 'signature', content)}
+                                                                    modules={{
+                                                                        toolbar: [
+                                                                            ['bold', 'italic', 'underline'],
+                                                                            [{ align: [] }],
+                                                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                                                            ['link'],
+                                                                            ['clean']
+                                                                        ],
+                                                                    }}
+                                                                    formats={[
+                                                                        'bold', 'italic', 'underline', 'align',
+                                                                        'list', 'bullet', 'link', 'clean'
+                                                                    ]}
+                                                                    placeholder="Signature"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        {formData.profiles.length > 1 && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => handleRemoveProfile(index)}
+                                                                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                                                            >
+                                                                <CircleX size={20} />
+                                                            </button>
+                                                        )}
                                                     </div>
-
-                                                    <div className="w-1/2 mx-1">
-                                                        <label>Select Website</label>
-                                                        <select
-                                                            name="website"
-                                                            className="form-control"
-                                                            value={formData.website}
-                                                            onChange={handleFormDataChange}
-
-                                                        >
-                                                            <option value="">Select website</option>
-                                                            {websites.map((website) => (
-                                                                <option key={website.id} value={website.id}>
-                                                                    {website.website}
-                                                                </option>
-                                                            ))}
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-
-                                                <div>
-                                                    <label>Website Email</label>
-                                                    <input
-                                                        type="text"
-                                                        name="website_email"
-                                                        className="form-control"
-                                                        value={formData.website_email}
-                                                        onChange={handleFormDataChange}
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <label className="font-medium text-gray-700">Signature</label>
-                                                    <ReactQuill
-                                                        value={formData.signature}
-                                                        onChange={(content) => handleFormDataChange({ target: { name: 'signature', value: content } })}
-                                                        modules={{
-                                                            toolbar: [
-                                                                ['bold', 'italic', 'underline'],
-                                                                [{ align: [] }],
-                                                                [{ list: 'ordered' }, { list: 'bullet' }],
-                                                                ['link'],
-                                                                ['clean']
-                                                            ],
-                                                        }}
-                                                        formats={[
-                                                            'bold', 'italic', 'underline', 'align',
-                                                            'list', 'bullet', 'link', 'clean'
-                                                        ]}
-                                                        style={{ height: 200 }}
-                                                        placeholder="Signature"
-                                                    />
+                                                ))}
+                                                
+                                                <div className="flex justify-center mt-4">
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleAddProfile}
+                                                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2"
+                                                    >
+                                                        <span>Add Profile</span>
+                                                        <span>+</span>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

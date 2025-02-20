@@ -62,6 +62,7 @@ const UserQuery = () => {
     const [editPageOpen, setEditPageOpen] = useState(false);
 
     const [selectedTeamForTransfer, setSelectedTeamForTransfer] = useState(null);
+    const [transferUserType, setTransferUserType] = useState('');
     const [usersForTransfer, setUsersForTransfer] = useState([]);
     const [selectedUserForTransfer, setSelectedUserForTransfer] = useState(null);
     const [userProfilesForTransfer, setUserProfilesForTransfer] = useState([]);
@@ -546,25 +547,7 @@ const UserQuery = () => {
         }).on('change', async (e) => {
             const selectedValues = $(e.target).val(); // Use select2's value retrieval method
             setSelectedTeamForTransfer(selectedValues);
-            if (selectedValues) {
-                try {
-                    const response = await fetch(
-                        "https://99crm.phdconsulting.in/99crmwebapi/api/getallusersbyteamid",
-                        {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({ team_id: selectedValues }),
-                        }
-                    );
-
-                    const data = await response.json();
-                    setUsersForTransfer(data.data || []); // Ensure it sets an array
-                } catch (error) {
-                    console.error("Error fetching users:", error);
-                }
-            }
+            
         });
 
 
@@ -1564,6 +1547,40 @@ const UserQuery = () => {
                                 ))}
                             </select>
                         </div>
+                        <div className="min-w-[150px] flex-1">
+                            <select
+                                name="crmRoleType"
+                                id="crmRoleType"
+                                className="form-select select2 w-full py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                value={transferUserType}
+                                onChange={async (e) => {
+                                    setTransferUserType(e.target.value);
+                                    if (selectedTeamForTransfer) {
+                                        try {
+                                            const response = await fetch(
+                                                "https://99crm.phdconsulting.in/99crmwebapi/api/getallusersbyteamid",
+                                                {
+                                                    method: "POST",
+                                                    headers: {
+                                                        "Content-Type": "application/json",
+                                                    },
+                                                    body: JSON.stringify({ team_id: selectedTeamForTransfer, user_type: e.target.value }),
+                                                }
+                                            );
+                        
+                                            const data = await response.json();
+                                            setUsersForTransfer(data.data || []); // Ensure it sets an array
+                                        } catch (error) {
+                                            console.error("Error fetching users:", error);
+                                        }
+                                    }
+                                }}
+                            >
+                                <option value="">Select CRM Type</option>
+                                <option value="crmuser">CRM User</option>
+                                <option value="opsuser">OPS User</option>
+                            </select>
+                        </div>
 
                         {/* User Select */}
                         <div className="min-w-[150px] flex-1">
@@ -1705,38 +1722,40 @@ const UserQuery = () => {
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
                     <div className='w-full flex items-center justify-end mb-3'>
-                        <button
-                            onClick={handleAddQuery}
-                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
-                        >
-                            <Plus className='mr-1' size={14} />  Add query
-                        </button>
+                        {sessionStorage.getItem('user_type') == "Data Manager" && (
+                            <button
+                                onClick={handleAddQuery}
+                                className="btn btn-success text-white py-1 px-2 rounded flex items-center"
+                            >
+                                <Plus className='mr-1' size={14} />  Add query
+                            </button>
+                        )}
                     </div>
                     <div className='qhtable'>
-        <DataTable
-    data={reports}
-    columns={columns}
-    options={{
-        pageLength: 50,
-        ordering: false,
-        rowCallback: (row, data, index) => {
-            $(row).css('background-color', data.color_code || 'white');
-            $(row).css('font-size', '12px !important');
+                        <DataTable
+                            data={reports}
+                            columns={columns}
+                            options={{
+                                pageLength: 50,
+                                ordering: false,
+                                rowCallback: (row, data, index) => {
+                                    $(row).css('background-color', data.color_code || 'white');
+                                    $(row).css('font-size', '12px !important');
 
-            // Apply border-bottom to each td
-            $(row).find('td').css('border-bottom', '1px solid #212529');
-            
-            // Event listeners
-            $(row).find('.row-checkbox').on('click', handleCheckboxClick);
-            $(row).find('.view-btn').on('click', () => {
-                handleViewButtonClick(data);
-            });
-            $(row).find('.edit-btn').on('click', () => {
-                handleEditButtonClick(data);
-            });
-        },
-    }}
-/>
+                                    // Apply border-bottom to each td
+                                    $(row).find('td').css('border-bottom', '1px solid #212529');
+
+                                    // Event listeners
+                                    $(row).find('.row-checkbox').on('click', handleCheckboxClick);
+                                    $(row).find('.view-btn').on('click', () => {
+                                        handleViewButtonClick(data);
+                                    });
+                                    $(row).find('.edit-btn').on('click', () => {
+                                        handleEditButtonClick(data);
+                                    });
+                                },
+                            }}
+                        />
 
 
                     </div>

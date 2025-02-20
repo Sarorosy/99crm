@@ -36,6 +36,7 @@ import QuerySummary from './pages/managequery/QuerySummary';
 import ManagePayment from './pages/module/payments/ManagePayment';
 import MilestonePayments from './pages/module/pricequote/MilestonePayments';
 import ChangePassword from './pages/ChangePassword';
+import ManageValidationQuery from './pages/module/validation/ManageValidationQuery';
 
 const App = () => {
 
@@ -91,6 +92,7 @@ const App = () => {
           <Route path="/followupsetting" element={<ManageFollowupSetting />} />
           <Route path="/teams" element={<ManageTeams />} />
 
+          <Route path="/validation" element={<ManageValidationQuery />} />
           <Route path="/quote-history" element={<QuoteHistory />} />
           <Route path="/payment-milestone" element={<MilestonePayments />} />
           <Route path="/email-template" element={<ManageEmailTemplate />} />

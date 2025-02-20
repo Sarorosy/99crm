@@ -122,7 +122,7 @@ const Header = () => {
     setSelectedRefId(data);
     setDetailsOpen(true);
   }
-  
+
   return (
     <header className="navv">
       <div className="w-full flex justify-between items-center container">
@@ -145,9 +145,7 @@ const Header = () => {
                 Payment Milestone
               </button>
             ) : userType == "Data Manager" ? (
-              <button onClick={() => handleNavigation('/queryhistory')} className="">
-                Query History
-              </button>
+              null
             ) : (
               <button onClick={() => handleNavigation('/dashboard')} className="">
                 Dashboard
@@ -192,6 +190,10 @@ const Header = () => {
                           <button onClick={() => handleNavigation('/addboxquery')} className="block px-4 py-2  w-full dropdownmenu">Add Box Query</button>
 
                           <button onClick={() => handleNavigation('/import-query')} className="block px-4 py-2  w-full dropdownmenu">Import Query</button>
+
+                          <button onClick={() => handleNavigation('/boxquery')} className="block px-4 py-2  w-full dropdownmenu">Box Query</button>
+
+                          <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
                         </>
                       ) : userType != "Operations Manager" ? (
                         <>
@@ -204,7 +206,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/import-query')} className="block px-4 py-2  w-full dropdownmenu">Import Query</button>
 
-                          {userType == "Data Manager" || userType == "sub-admin" || userType == "admin" && (
+                          {(userType == "Data Manager" || userType == "sub-admin" || userType == "admin") && (
                             <button onClick={() => handleNavigation('/camp-history')} className="block px-4 py-2  w-full dropdownmenu">Camp History</button>
                           )}
 
@@ -226,7 +228,7 @@ const Header = () => {
 
                         (
                           <>
-                          <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
+                            <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
                           </>
                         )}
                     </div>
@@ -299,6 +301,9 @@ const Header = () => {
               </>
             )}
 
+            <button onClick={() => handleNavigation('/validation')} className="">
+              Validation
+            </button>
           </nav>
         </div>
 
@@ -310,7 +315,7 @@ const Header = () => {
               setShowFiles(!showFiles)
             }}
             className="text-white relative p-2 ">
-            <File size={16}/>
+            <File size={16} />
             <span className="absolute -top-1 -right-1 bg-red-500 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center noti
                   shadow-lg">
@@ -325,7 +330,7 @@ const Header = () => {
                 setShowNoti(!showNoti)
               }}
               className="text-white relative p-2 ">
-              <Bell size={17}/>
+              <Bell size={17} />
               <span className="absolute -top-1 -right-1 bg-blue-600 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center rounded-circle
                   shadow-lg">
@@ -362,17 +367,18 @@ const Header = () => {
               </ul>
             </div>
           )}
-
-          <button
-            onClick={() => { navigate('client-mail') }}
-            className="text-white relative p-2 ">
-            <Mail size={17}/>
-            <span className="absolute -top-1 -right-1 bg-emerald-500 text-white fssx 
+          {(userType == "admin" || userType == "sub-admin") && (
+            <button
+              onClick={() => { navigate('client-mail') }}
+              className="text-white relative p-2 ">
+              <Mail size={17} />
+              <span className="absolute -top-1 -right-1 bg-emerald-500 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center
                   shadow-lg font-semibold min-w-[20px] rounded-circle">
                 {notifications.ClientTotalUnraed}
               </span>
             </button>
+          )}
 
           <button
             onClick={toggleUserMenu}

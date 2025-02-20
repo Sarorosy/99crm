@@ -4,7 +4,7 @@ const SkeletonLoader = () => {
         {/* Skeleton List */}
         <ul className="space-y-2">
           {Array.from({ length: 8 }).map((_, index) => (
-            <li key={index} className="h-20 bg-gray-300 animate-pulse rounded"></li>
+            <li key={index} className="h-16 bg-gray-300 animate-pulse rounded"></li>
           ))}
         </ul>
   

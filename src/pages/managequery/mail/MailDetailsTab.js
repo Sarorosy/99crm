@@ -113,32 +113,6 @@ const MailDetailsTab = ({ mailid, onClose }) => {
                     </>
                 ) : (
                     <div>
-                        <div className="flex items-center justify-end space-x-2">
-                                <button
-                                    onClick={() => {
-                                        setFullScreen(false);
-                                        onClose();
-                                    }}
-                                    className=" bg-red-500  rounded-full trx p-0 fss m-1 text-white hover:text-red-600 transition-colors cremove"
-                                >
-                                    <CircleX size={14} />
-                                </button>
-                                {fullscreen ? (
-                                    <button
-                                        onClick={() => { setFullScreen(false) }}
-                                        className=" bg-gray-100 rounded trx p-0 fss m-1 text-gray-800  transition-colors cremove"
-                                    >
-                                        <Minimize2 size={14} />
-                                    </button>
-                                ) : (
-                                    <button
-                                        onClick={() => { setFullScreen(true) }}
-                                        className=" bg-gray-100 rounded trx p-0 fsx m-1 text-gray-800  transition-colors cremove"
-                                    >
-                                        <Expand size={14} />
-                                    </button>
-                                )}
-                            </div>
                         {mailInfo.Attachments ? (
                             <div className="mt-4 border-t pt-4">
                                 <h4 className="text-lg font-semibold text-gray-900 mb-2">Attachments</h4>

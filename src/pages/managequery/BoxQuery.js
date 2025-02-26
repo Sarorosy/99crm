@@ -456,9 +456,9 @@ const BoxQuery = () => {
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
                 <div className='flex w-full justify-between px-1'>
-                    <h1 className="text-md font-bold">Box Query</h1>
+                    <h1 className="text-md font-bold ml-1">Box Query</h1>
                 </div>
-                <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded gap-2 px-2 pt-2 qhpage" id="filterDiv">
+                <div className="flex items-center space-x-2 my-2 bg-white p-2 rounded gap-2 px-2 pt-2 qhpage" id="filterDiv">
 
                     {/* Date Range Picker */}
                     <input

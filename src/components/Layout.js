@@ -6,7 +6,7 @@ import Dashboard from '../pages/dashboard/Dashboard';
 
 const Layout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100">
+    <div className="min-h-screen flex flex-col bg-white">
        <Header  />
 
       {/* Main Content */}

@@ -394,7 +394,7 @@ const ManageEmailTemplate = () => {
     };
 
     return (
-        <div className='bg-gray-100 p-2'>
+        <div className='bg-white p-2'>
             <div className="my-3 flex justify-between ">
                 <h1 className="text-md font-bold">Email Templates</h1>
                 <div className='flex mdbut'>

@@ -1192,3 +1192,10 @@ span.product-description {
  background-color: #b8b8b8; 
   border-radius: 10px; 
 }
+
+
+@media screen and (min-width: 1440px) {
+  .open-tasks-container {
+    width: 16.2rem;
+}
+}

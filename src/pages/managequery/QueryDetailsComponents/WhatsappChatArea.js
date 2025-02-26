@@ -68,7 +68,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
 
     const renderMessageList = () => {
         if (messages.length === 0) {
-            return <div className="direct-chat-msg not-found text-center bg-gray-100 py-2 rounded my-2">No Messages found.</div>;
+            return <div className="direct-chat-msg not-found text-center bg-gray-100py-2 rounded my-2">No Messages found.</div>;
         }
 
         return messages.map((item, index) => {
@@ -260,15 +260,14 @@ const WhatsappChatArea = ({ company_id, refId }) => {
                 <div className="flex items-center justify-end mb-2">
                     <button
                         type="submit"
-                        className="ml-auto bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700"
+                        className="ml-auto bg-blue-500 text-white py-1 px-2 rounded-md hover:bg-blue-700 d-flex"
                     >
                         {selectedOption === "Message" ? (
-                            <div className="flex items-center ">
-                                <Send className="mr-2" size={14} />
+                            <div className="">                                
                                 Submit
                             </div>
                         ) : (
-                            <div className="flex items-center ">
+                            <div className="">
                                 <SendHorizonal className="mr-2" size={14} />
                                 Send
                             </div>

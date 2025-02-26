@@ -601,10 +601,10 @@ const EditUser = ({ id, onClose, after }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+            className="fixed top-0 right-0 h-full w-full bg-gray-50 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <section className="content-header my-2 col-md-10">
-                <h1 className='text-xl font-bold'>Edit User</h1>
+            <section className="content-header my-2 col-md-12">
+                <h1 className='text-md text-center font-bold'>Edit User</h1>
                 <button
                     onClick={onClose}
                     className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
@@ -617,7 +617,7 @@ const EditUser = ({ id, onClose, after }) => {
             </div>) : <>
                 <section className="">
                     <div className="row">
-                        <div className="col-md-10 cent add">
+                        <div className="col-md-6 cent add">
                             <div className="box box-primary">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl'>
                                     <div className="box-body">

@@ -187,9 +187,9 @@ const ManageValidationQuery = () => {
                 if (data == 'Approved') {
                     statusHtml = `<span class="bg-green-500 text-white p-1 rounded">${data}</span>`;
                 } else if (data == 'On Hold') {
-                    statusHtml = `<span class="bg-yellow-500 text-white p-1 rounded">On Hold >> Validation team is unable to contact</span>`;
+                    statusHtml = `<span class="bg-warning p-1 rounded">On Hold >> Validation team is unable to contact</span>`;
                 } else if (data == 'Rejected') {
-                    statusHtml = `<span class="bg-red-500 text-white p-1 rounded">Rejected >> No requirement/client refused requirement.</span>`;
+                    statusHtml = `<span class="text-danger p-1 rounded">Rejected >> No requirement/client refused requirement.</span>`;
                 }
 
                 let commentHtml = '';
@@ -225,11 +225,11 @@ const ManageValidationQuery = () => {
     };
 
     return (
-        <div className="container bg-gray-100 w-full add">
-            <h1 className='text-xl font-bold'>Validation Query</h1>
+        <div className="container bg-white w-full add">
+            <h1 className='text-md font-bold ml-1'>Validation Query</h1>
 
             {/* Filter Section */}
-            <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded">
+            <div className="flex items-center space-x-2 my-2 bg-gray-50 p-2 rounded">
                 <div className="w-1/2">
                     <input
                         id="filterDate"
@@ -296,7 +296,7 @@ const ManageValidationQuery = () => {
                 <CustomLoader />
             ) : (
                 <>
-                <div className='flex items-center justify-between mb-4'>
+                <div className='flex items-center justify-between mb-4 ml-2'>
                     <div className='flex items-center gap-2 text-xs ' style={{fontSize: "12px !important"}}>
                         <div style={{fontSize: "12px !important"}} className='bg-sky-600 text-white px-2 py-1 rounded-md shadow-sm  transition-colors'>
                             Total: {totalQuotes.length}
@@ -312,7 +312,7 @@ const ManageValidationQuery = () => {
                         </div>
                     </div>
                 </div>
-                <div className='bg-white p-2 border-t-2 border-green-400 rounded'>
+                <div className='bg-white p-2 border-t-2 border-green-400 rounded shadow-xl'>
                 <DataTable
                     data={quotes}
                     columns={columns}

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import moment from 'moment'; // To format the time as "X ago"
 import { CircleX } from 'lucide-react';
@@ -17,22 +16,15 @@ const CommentDiv = ({ commentInfo, onClose }) => {
     };
 
     return (
-        <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-        >
-            <div className="bg-white rounded-lg shadow-lg p-4 relative qhpage col-md-6">
+        <div className="bg-white rounded-lg shadow-lg p-4 relative col-md-12 mt-3">
             <button
-                    onClick={onClose}
-                    className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
-                >
-                    <CircleX size={32} />
-                </button>
+                onClick={onClose}
+                className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
+            >
+                <CircleX size={32} />
+            </button>
             
-                <h2 className="text-lg font-semibold">Previous Comments</h2>
+            <h2 className="text-lg font-semibold">Previous Comments</h2>
 
             {commentInfo.length > 0 ? (
                 commentInfo.map((comment) => (
@@ -60,11 +52,10 @@ const CommentDiv = ({ commentInfo, onClose }) => {
                             dangerouslySetInnerHTML={{ __html: comment.email_body }}
                         />
 
-
                         {isDetailsVisible && (
                             <div style={{fontSize:"12px"}} className="absolute top-12 left-0 bg-white shadow-md rounded-lg p-4 mt-4 w-lg border">
                                 <button
-                                    onClick={()=>{setIsDetailsVisible(!isDetailsVisible)}}
+                                    onClick={() => { setIsDetailsVisible(!isDetailsVisible) }}
                                     className="text-white flex items-center hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500 float-right"
                                 >
                                     <X size={15} />
@@ -80,8 +71,7 @@ const CommentDiv = ({ commentInfo, onClose }) => {
             ) : (
                 <p className='alert alert-danger mt-4 text-center'>No comments available.</p>
             )}
-            </div>
-        </motion.div>
+        </div>
     );
 };
 

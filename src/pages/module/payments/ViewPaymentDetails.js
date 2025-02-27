@@ -184,7 +184,7 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
                                                         name="comments"
                                                         value={comments}
                                                         onChange={(e) => setComments(e.target.value)}
-                                                        className=" border ml-2 form-textarea rounded-md border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-full"
+                                                        className=" border ml-2 form-textarea p-2 border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-full"
                                                         rows="2"
                                                     />
                                                 </div>

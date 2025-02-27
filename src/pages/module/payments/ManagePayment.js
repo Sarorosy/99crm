@@ -172,7 +172,8 @@ const ManagePayment = () => {
             orderable: false,
             data: 'craeted_date',
             render: (data) => {
-                return `<div style="text-align: center;"> ${data ?? "NA"}</div>`;
+                const formattedDate = data ? moment.unix(data).format('DD MMM, YYYY') : 'NA';
+                return `<div style="text-align: center;">${formattedDate}</div>`;
             },
         },
         {
@@ -182,17 +183,17 @@ const ManagePayment = () => {
             render: (data) => {
                 let statusLabel = '';
                 if (data === 1) {
-                    statusLabel = '<span class="inline-block px-2  bg-gray-700 text-white rounded-full text-sm">Pending</span>';
+                    statusLabel = '<span class="inline-block px-1  bg-gray-700 text-white rounded-full px-2">Pending</span>';
                 } else if (data === 2) {
-                    statusLabel = '<span class="inline-block px-2  bg-yellow-700 text-white rounded-full text-sm">On Hold</span>';
+                    statusLabel = '<span class="inline-block px-1  bg-yellow-700 text-white rounded-full px-2">On Hold</span>';
                 } else if (data === 3) {
-                    statusLabel = '<span class="inline-block px-2  bg-green-700 text-white rounded-full text-sm">Confirm</span>';
+                    statusLabel = '<span class="inline-block px-1  bg-green-700 text-white rounded-full px-2">Confirm</span>';
                 } else if (data === 4) {
-                    statusLabel = '<span class="inline-block px-2  bg-red-700 text-white rounded-full text-sm">Reject</span>';
+                    statusLabel = '<span class="inline-block px-1  bg-red-700 text-white rounded-full px-2">Reject</span>';
                 } else {
-                    statusLabel = '<span class="inline-block px-2  bg-gray-700 text-white rounded-full text-sm">NA</span>';
+                    statusLabel = '<span class="inline-block px-1  bg-gray-700 text-white rounded-full px-2">NA</span>';
                 }
-                return `<div class="flex justify-center">${statusLabel}</div>`;
+                return `<div class="flex justify-center" style="font-size: 12px;">${statusLabel}</div>`;
             },
         },
         {
@@ -202,7 +203,7 @@ const ManagePayment = () => {
             render: (data, type, row) => {
                 return `
                     <div style="text-align: center;">
-                        <button class="view-btn bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm transition duration-150 ease-in-out">
+                        <button style="font-size: 12px;" class="view-btn bg-blue-500 hover:bg-blue-600 text-white px-1 flex items-center justify-center rounded-md text-sm transition duration-150 ease-in-out">
                             View
                         </button>
                     </div>`;
@@ -218,7 +219,7 @@ const ManagePayment = () => {
             <div className="my-3 flex mx-auto rep">
                 <div className='col-md-7 flex items-center'>
                     <h1 className="text-md font-bold">Payments &nbsp;</h1>
-                    <div className="w-1/2">
+                    <div className="w-1/4">
                         <input
                             id="filterDate"
                             type="text"
@@ -228,11 +229,11 @@ const ManagePayment = () => {
                             readOnly
                         />
                     </div>
-                    <div className="w-1/2 ">
+                    <div className="w-1/4 ml-2">
                         <select
                             name="status_filter"
                             id="status_filter"
-                            className="form-control"
+                            className="px-1 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
                         >
@@ -261,6 +262,12 @@ const ManagePayment = () => {
                             Apply
                         </button>
                     
+                    <button
+                        onClick={handleAddPayment}
+                        className="bg-orange-600 w-36 px-2 ml-3 text-white rounded hover:bg-orange-700"
+                    >
+                        Add Payment
+                    </button>
 
                 </div>
             </div>

@@ -404,7 +404,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
                                 <div className="flex">
                                     <div className="w-5/12"><label>Source of Lead</label></div>
                                     <div className="w-1/12"></div>
-                                    <div className="w-6/12">
+                                    <div className="w-6/12 text-xsm elevenpx">
                                         {getSourceOfLeadLabel(queryInfo.sourceoflead)}
                                     </div>
                                 </div>
@@ -453,7 +453,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
                                                     </div>
                                                 ) : null
                                             }
-                                            <div style={{ display: validationType == "Call" ? "block" : "none" }}>
+                                            <div style={{ display: validationType !="" || validationType != null ||validationType == "Call" ? "block" : "none" }}>
                                                 <div className="flex mt-4">
                                                     <div className="w-5/12"><label>Status</label></div>
                                                     <div className="w-1/12"></div>

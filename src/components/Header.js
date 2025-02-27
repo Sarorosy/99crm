@@ -200,11 +200,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
 
-                          <button onClick={() => handleNavigation('/addquery')} className="block px-4 py-2  w-full dropdownmenu">Add Query</button>
-
-                          <button onClick={() => handleNavigation('/addboxquery')} className="block px-4 py-2  w-full dropdownmenu">Add Box Query</button>
-
-                          <button onClick={() => handleNavigation('/import-query')} className="block px-4 py-2  w-full dropdownmenu">Import Query</button>
+                          
 
                           {(userType == "Data Manager" || userType == "sub-admin" || userType == "admin") && (
                             <button onClick={() => handleNavigation('/camp-history')} className="block px-4 py-2  w-full dropdownmenu">Camp History</button>

@@ -1528,7 +1528,9 @@ const UserQuery = () => {
 
 
 
-                <div className="flex flex-wrap items-center justify-between mb-2 px-4 qhpage">
+                <div className=" flex-wrap items-center justify-between mb-2 px-4 qhpage"
+                style={{display:(sessionStorage.getItem('user_type') == "admin" || (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryTransRepliShift') == "Yes")) ? "flex" : "none"}}
+                >
                     {/* Selects Container */}
                     <div className="flex flex-wrap items-center gap-2 flex-1">
                         {/* Team Select */}

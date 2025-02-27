@@ -384,10 +384,10 @@ const AddQuery = () => {
     const handleEmailIdChange = (e) => {
         const emailIdInput = e.target.value;
         let emailId = emailIdInput.trim();
-
-        // If email has a domain part (e.g., user@domain.com), remove it
-        if (emailId.includes('@')) {
-            emailId = emailId.split('@')[0];
+        if (formData.email_domain != "other") {
+            if (emailId.includes('@')) {
+                emailId = emailId.split('@')[0];
+            }
         }
 
         // Update the email_id without domain part
@@ -466,7 +466,7 @@ const AddQuery = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ team_id: teamId }), // Send selected team_id
+                body: JSON.stringify({ team_id: teamId, user_type: "" }), // Send selected team_id
             });
 
             const data = await response.json();
@@ -597,11 +597,20 @@ const AddQuery = () => {
                 return;
             }
 
+
             if (!formData.email_domain) {
                 toast.error("Please provide an email domain!");
                 return;
             }
+
+            
         }
+        if (formData.email_domain && formData.email_domain != "other") {
+            if (formData.email_id.includes('@')) {
+                toast.error("Please remove the domain part from the email ID!");
+                return;
+            }
+        } 
 
         if (!formData.company_id) {
             toast.error("Please provide the company name!");

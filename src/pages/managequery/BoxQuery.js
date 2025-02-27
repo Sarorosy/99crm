@@ -324,21 +324,25 @@ const BoxQuery = () => {
                 return `<div style="text-align: left;">${formattedDate}</div>`;
             },
         },
-        {
+        sessionStorage.getItem('user_type') == "user" ? {
             title: 'Action',
             orderable: false,
             data: null,
             render: (data, type, row) => {
-                return `<div style="text-align: left;">${
-                    sessionStorage.getItem('user_type') == "user" ? (
-                        `<button style="background-color: #f97316; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; margin-right: 0.5rem; display: flex; align-items: center; cursor: pointer; hover:background-color: #ea580c;">
+                return `<div style="text-align: left;">
+                ${row.if_generic_query == "yes" ? (
+                        `<button class="details-btn" style="background-color: #f97316; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; margin-right: 0.5rem; display: flex; align-items: center; cursor: pointer; hover:background-color: #ea580c;">
+                            Details
+                        </button>`
+                    ) : (
+                        `<button class="claim-btn" style="background-color: #f97316; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; margin-right: 0.5rem; display: flex; align-items: center; cursor: pointer; hover:background-color: #ea580c;">
                             Claim
                         </button>`
-                    ) : null
-                }</div>`;
+                    )}
+                    </div>`;
             },
-        }
-        
+        } : null
+
 
     ];
 
@@ -362,11 +366,7 @@ const BoxQuery = () => {
 
     // Refresh button handler
     const handleRefresh = () => {
-        if (startDate && endDate) {
-            fetchQueries(startDate, endDate, teamUsers); // Pass start and end dates to fetchReports
-        } else {
-            toast.error('Please select a date range first');
-        }
+        fetchQueries();
     };
 
 
@@ -561,22 +561,22 @@ const BoxQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
-                    {(sessionStorage.getItem('user_type') == "admin"  || sessionStorage.getItem('user_type') == "Data Manager" )&& (
-                    <div className='w-full flex items-center justify-end mb-1'>
-                        <button
-                            onClick={handleDelete}
-                            className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
-                        >
-                            <Trash2 className='mr-2' size={12} />  Delete
-                        </button>
-                        <button
-                            onClick={handleAddQuery}
-                            className="btn btn-success text-white py-1 px-2 rounded flex items-center"
-                        >
-                            <Plus className='mr-1' size={12} />  Add Box query
-                        </button>
+                    {(sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager") && (
+                        <div className='w-full flex items-center justify-end mb-1'>
+                            <button
+                                onClick={handleDelete}
+                                className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
+                            >
+                                <Trash2 className='mr-2' size={12} />  Delete
+                            </button>
+                            <button
+                                onClick={handleAddQuery}
+                                className="btn btn-success text-white py-1 px-2 rounded flex items-center"
+                            >
+                                <Plus className='mr-1' size={12} />  Add Box query
+                            </button>
 
-                    </div>
+                        </div>
                     )}
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
                         <DataTable
@@ -607,7 +607,7 @@ const BoxQuery = () => {
                     onClose={() => setIsModalOpen(false)}
                 />
             )}
-           
+
             <AnimatePresence>
 
             </AnimatePresence>

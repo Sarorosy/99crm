@@ -22,6 +22,7 @@ import { AnimatePresence } from "framer-motion";
 import QueryDetails from "../managequery/QueryDetails";
 import DashboardSummary from "./DashboardSummary";
 import AverageClaimedQueries from "./AverageClaimedQueries";
+import TodaysTasks from "./TodayTasks";
 const Dashboard = () => {
     // State for the filter inputs
     const [endDate, setEndDate] = useState(moment());
@@ -65,6 +66,7 @@ const Dashboard = () => {
     const [lostDealsData, setLostDealsData] = useState([]);
     const [lostDealsCount, setLostDealsCount] = useState(0);
     const [escalationTask, setEscalationTask] = useState([]);
+    const [todayTasks, setTodayTasks] = useState([]);
     const [delayData, setDelayData] = useState([]);
     const [delayCount, setDelayCount] = useState(0);
     const [internalCommentPendingData, setInternalCommentPendingData] = useState([]);
@@ -112,7 +114,7 @@ const Dashboard = () => {
             setLoading(true);
 
             const payload = {
-                user_id: sessionStorage.getItem("user_id"),
+                user_id: sessionStorage.getItem("id"),
                 user_type: sessionStorage.getItem("user_type"),
                 team_id: sessionStorage.getItem("team_id"),
                 date_type: "ass_qr.update_status_date",
@@ -150,6 +152,7 @@ const Dashboard = () => {
                 LostDealsData,
                 LostDealsCount,
                 escalationTask,
+                todayTask,
                 DelayData,
                 DelayCount,
                 internalCommentPendingData,
@@ -175,6 +178,7 @@ const Dashboard = () => {
             setLostDealsData(LostDealsData || []);
             setLostDealsCount(LostDealsCount || 0);
             setEscalationTask(escalationTask || []);
+            setTodayTasks(todayTask || []);
             setDelayData(DelayData || []);
             setDelayCount(DelayCount || 0);
             setInternalCommentPendingData(internalCommentPendingData || []);
@@ -441,7 +445,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Team Dropdown */}
-                        <div className="spwdashboardinput col-span-1">
+                        <div className="spwdashboardinput col-span-1" style={{ display: (sessionStorage.getItem("user_type") != "user" && sessionStorage.getItem("user_type") != "Operations Manager") ? 'block' : 'none' }}>
                             <select
                                 value={teamId}
                                 ref={teamsRef}
@@ -458,7 +462,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* User Dropdown */}
-                        <div className="flex-1 col-span-1 col-md-3">
+                        <div className="flex-1 col-span-1 col-md-3" style={{ display: (sessionStorage.getItem("user_type") != "user" && sessionStorage.getItem("user_type") != "Operations Manager") ? 'block' : 'none' }}>
                             <select
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
@@ -536,14 +540,14 @@ const Dashboard = () => {
                         </div>
                     </div>
                     <div className="col-md-12 spdbut">
-                            <button
-                                type="button"
-                                onClick={fetchDashboardQueries}
-                                className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 "
-                            >
-                                <Search size={14} className="mr-2" /> Search
-                            </button>
-                        </div>
+                        <button
+                            type="button"
+                            onClick={fetchDashboardQueries}
+                            className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 "
+                        >
+                            <Search size={14} className="mr-2" /> Search
+                        </button>
+                    </div>
                     {/* Search Button */}
 
                 </form>
@@ -560,7 +564,12 @@ const Dashboard = () => {
             </AnimatePresence>
 
             <div className=" px-2 row items-start">
-                <Escalation queries={escalationTask} loading={loading} />
+                {(sessionStorage.getItem("user_type") == "admin" || sessionStorage.getItem("user_type") == "sub-admin") ? (
+                    <Escalation queries={escalationTask} loading={loading} />
+                ) : (
+                    <TodaysTasks queries={todayTasks} loading={loading} />
+                )}
+
                 <OpenTasks queries={openTasks} loading={loading} />
                 <LeadIn queries={leadsData} loading={loading} />
                 <BucketList queries={delayData} loading={loading} />

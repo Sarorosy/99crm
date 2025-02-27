@@ -370,7 +370,7 @@ const ManageValidationQuery = () => {
                         onChange={(e) => setKeywords(e.target.value)}
                     />
                 </div>
-                <div className="w-1/2">
+                <div className="w-1/2" style={{display: sessionStorage.getItem('user_type') != "user" ? "block" : "none"}}>
                     <select
                         id="user_id"
                         className=" px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 form-control"
@@ -386,7 +386,7 @@ const ManageValidationQuery = () => {
                         ))}
                     </select>
                 </div>
-                <div className="w-1/2">
+                <div className="w-1/2" style={{display: sessionStorage.getItem('user_type') == "admin" ? "block" : "none"}}>
 
                     <select
                         className="form-control"
@@ -419,20 +419,7 @@ const ManageValidationQuery = () => {
             ) : (
                 <>
                 <div className='flex items-center justify-between mb-4 ml-2'>
-                    <div className='flex items-center gap-2 text-xs ' style={{fontSize: "12px !important"}}>
-                        <div style={{fontSize: "12px !important"}} className='bg-sky-600 text-white px-2 py-1 rounded-md shadow-sm  transition-colors'>
-                            Total: {totalQuotes.length}
-                        </div>
-                        <div style={{fontSize: "12px !important"}} className='bg-green-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
-                            Approved: {approvedQuotes.length}
-                        </div>
-                        <div style={{fontSize: "12px !important"}} className='bg-orange-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
-                            Hold: {onHoldQuotes.length}
-                        </div>
-                        <div style={{fontSize: "12px !important"}} className='bg-red-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
-                            Rejected: {rejectedQuotes.length}
-                        </div>
-                    </div>
+                    
                     <div className='bg-white flex items-center justify-between mb-4 rounded'>
                         <div className='bg-white flex items-center gap-2 text-xs p-2' style={{ fontSize: "12px !important" }}>
                             <div style={{ fontSize: "12px !important" }} className='bg-sky-600 text-white px-2 py-1 rounded-md shadow-sm  transition-colors'>

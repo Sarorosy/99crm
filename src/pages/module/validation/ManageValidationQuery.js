@@ -11,6 +11,10 @@ import 'select2';
 import CustomLoader from '../../../components/CustomLoader';
 import { RefreshCcw, FilterIcon, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
+import ValidationQueryDetails from './ValidationQueryDetails';
+import toast from 'react-hot-toast';
+import { ConfirmationModal } from '../../../components/ConfirmationModal';
+import AddValidateQuery from './AddValidateQuery';
 
 
 const ManageValidationQuery = () => {
@@ -28,6 +32,13 @@ const ManageValidationQuery = () => {
     const selectTeamRef = useRef(null);
     const [selectedQuote, setSelectedQuote] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [selectedQueries, setSelectedQueries] = useState([]);
+
+    const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [isAddQueryModalOpen, setIsAddQueryModalOpen] = useState(false);
 
     DataTable.use(DT);
 
@@ -51,8 +62,11 @@ const ManageValidationQuery = () => {
         $(selectTeamRef.current).select2({
             placeholder: "Select Website",
             allowClear: true,
+            multiple: true,
         }).on('change', (e) => {
+            
             setSelectedWebsite($(e.target).val());
+
         });
 
 
@@ -88,15 +102,15 @@ const ManageValidationQuery = () => {
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/loadvalidation',{
-                    user_id: sessionStorage.getItem('id'),
-                    user_type: sessionStorage.getItem('user_type'),
-                    crmroletype: sessionStorage.getItem('crmRoleType'),
-                    assignType: status,
-                    search_keywords: keywords,
-                    filter_date: filterDate,
-                    website: selectedWebsite,
-                }
+                'https://99crm.phdconsulting.in/api/loadvalidation', {
+                user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                crmroletype: sessionStorage.getItem('crmRoleType'),
+                validation_status: status,
+                search_keywords: keywords,
+                filter_date: filterDate,
+                website: selectedWebsite,
+            }
             );
             if (response.data.status) {
                 setQuotes(response.data.queryData ?? []);
@@ -112,18 +126,65 @@ const ManageValidationQuery = () => {
         }
     };
 
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    const fetchUsers = async () => {
+        const response = await axios.post('https://99crm.phdconsulting.in/api/teampresentuser', {
+            team_id: "opsuser",
+            assignType: "opsuser"
+        });
+        if (response.data.status) {
+            setUsers(response.data.data);
+        } else {
+            console.error('Error fetching users:', response.data.message);
+        }
+    }
+
     const handleViewClick = (quote) => {
         setSelectedQuote(quote);
         setShowModal(true);
     };
 
+    const handleCheckboxClick = (event) => {
+        const id = parseInt(event.target.dataset.id, 10); // Parse the ID to ensure it's a number
+
+        setSelectedQueries((prevSelectedQueries) => {
+            if (event.target.checked) {
+                // Add the ID to the state if checked
+                return [...prevSelectedQueries, id];
+            } else {
+                // Remove the ID from the state if unchecked
+                return prevSelectedQueries.filter((selectedId) => selectedId != id);
+            }
+        });
+
+        // State updates are asynchronous, so this may not reflect the latest value immediately
+    };
+
     const columns = [
         {
-            title: 'Sr. No.',
-            data: null,
+            title: 'Sel',
+            data: 'id',
+            width: '50px',
             orderable: false,
-            render: (data, type, row, meta) => {
-                return `<div style="text-align: left;">${meta.row + 1}</div>`;
+            render: (data, type, row) => {
+                // Only show checkbox if validation_status is empty
+                if (!row.validation_status) {
+                    const isChecked = selectedQueries.includes(data);
+                    return `
+                        <div style="width:30px;">
+                            <input
+                                class="checkbox"
+                                type="checkbox"
+                                ${isChecked ? 'checked' : ''}
+                                data-id="${data}"
+                            />
+                        </div>
+                    `;
+                }
+                return ''; // Return empty string if validation_status exists
             },
         },
         {
@@ -143,7 +204,7 @@ const ManageValidationQuery = () => {
             orderable: false,
             width: '80px !important',
             render: (data, type, row) => `<div style="text-align: left;font-size: 12px; width: 180px !important;">${data}
-            ${row.duplicate != "" ? `<span class="text-red-700 bg-red-100 p-1 rounded">Duplicate</span>` : ''}
+            ${( row.duplicate != null) ? `<span class="text-red-700 bg-red-100 p-1 rounded">Duplicate</span>` : ''}
             </div>`,
         },
         {
@@ -186,7 +247,7 @@ const ManageValidationQuery = () => {
                 let statusHtml = '';
                 if (data == 'Approved') {
                     statusHtml = `<span class="bg-green-500 text-white p-1 rounded">${data}</span>`;
-                } else if (data == 'On Hold') {
+                } else if (data == 'On hold') {
                     statusHtml = `<span class="bg-yellow-500 text-white p-1 rounded">On Hold >> Validation team is unable to contact</span>`;
                 } else if (data == 'Rejected') {
                     statusHtml = `<span class="bg-red-500 text-white p-1 rounded">Rejected >> No requirement/client refused requirement.</span>`;
@@ -218,11 +279,71 @@ const ManageValidationQuery = () => {
         setFilterDate('');
         setKeywords('');
         setSelectedWebsite('');
-        
+
         $(selectTeamRef.current).val(null).trigger('change');
         setStatus('');
         fetchQuotes();  // Fetch unfiltered data
     };
+
+    const multipleChangeOpsUser = async () => {
+        if(!selectedUser){
+            toast.error("Please select a user");
+            return;
+        }
+        if(selectedQueries.length == 0){
+            toast.error("Please select at least one query");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                'https://99crm.phdconsulting.in/api/multipleshiftqueryopsuser',
+                {
+                    assign_opsuser: selectedUser,
+                    checkid: selectedQueries
+                }
+            );
+
+            if (response.data.status) {
+                toast.success('Ops user updated successfully');
+                fetchQuotes(); // Refresh the data
+                setSelectedQueries([]); // Clear selections
+                setSelectedUser(''); // Reset user selection
+            } else {
+                toast.error(response.data.message || 'Failed to update ops user');
+            }
+        } catch (error) {
+            console.error('Error updating ops user:', error);
+            toast.error('Failed to update ops user');
+        }
+    }
+
+    const handleDelete = async () => {
+        if(selectedQueries.length == 0){
+            toast.error("Please select at least one query");
+            return;
+        }
+
+        try {
+            const response = await axios.post(
+                'https://99crm.phdconsulting.in/api/deletevalidatequery',
+                {
+                    checkid: selectedQueries
+                }
+            );
+
+            if (response.data.status) {
+                toast.success(response.data.message || 'The validation query is deleted successfully.');
+                fetchQuotes(); // Refresh the data
+                setSelectedQueries([]); // Clear selections
+            } else {
+                toast.error(response.data.message || 'Failed to delete queries');
+            }
+        } catch (error) {
+            console.error('Error deleting queries:', error);
+            toast.error('Failed to delete queries');
+        }
+    }
 
     return (
         <div className="container bg-gray-100 w-full add">
@@ -266,17 +387,17 @@ const ManageValidationQuery = () => {
                     </select>
                 </div>
                 <div className="w-1/2">
-                    
+
                     <select
                         className="form-control"
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
                     >
-                            <option value="">Select validation status</option>
-                            <option value="Approved">Approved</option>
-                            <option value="On Hold"> On Hold &gt;&gt; Validation team is unable to contact</option>
-                            <option value="Rejected"> Rejected &gt;&gt; No requirement/client refused requirement.</option>
-    
+                        <option value="">Select validation status</option>
+                        <option value="Approved">Approved</option>
+                        <option value="On Hold"> On Hold &gt;&gt; Validation team is unable to contact</option>
+                        <option value="Rejected"> Rejected &gt;&gt; No requirement/client refused requirement.</option>
+
                     </select>
                 </div>
                 <div className="w-1/2 flex items-center space-x-2 last">
@@ -286,79 +407,100 @@ const ManageValidationQuery = () => {
                         <FilterIcon size={12} className="" />
                     </button>
                     <button className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300" onClick={resetFilters}>
-                        <RefreshCcw size={15}/>
+                        <RefreshCcw size={15} />
                     </button>
 
                 </div>
             </div>
 
+
             {loading ? (
                 <CustomLoader />
             ) : (
                 <>
-                <div className='flex items-center justify-between mb-4'>
-                    <div className='flex items-center gap-2 text-xs ' style={{fontSize: "12px !important"}}>
-                        <div style={{fontSize: "12px !important"}} className='bg-sky-600 text-white px-2 py-1 rounded-md shadow-sm  transition-colors'>
-                            Total: {totalQuotes.length}
+                    <div className='bg-white flex items-center justify-between mb-4 rounded'>
+                        <div className='bg-white flex items-center gap-2 text-xs p-2' style={{ fontSize: "12px !important" }}>
+                            <div style={{ fontSize: "12px !important" }} className='bg-sky-600 text-white px-2 py-1 rounded-md shadow-sm  transition-colors'>
+                                Total: <span className='bg-white px-1 m1 text-black rounded-sm'>{totalQuotes.length}</span>
+                            </div>
+                            <div style={{ fontSize: "12px !important" }} className='bg-green-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
+                                Approved: <span className='bg-white px-1 m1 text-black rounded-sm'>{approvedQuotes.length}</span>
+                            </div>
+                            <div style={{ fontSize: "12px !important" }} className='bg-orange-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
+                                Hold: <span className='bg-white px-1 m1 text-black rounded-sm'>{onHoldQuotes.length}</span>
+                            </div>
+                            <div style={{ fontSize: "12px !important" }} className='bg-red-500 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
+                                Rejected: <span className='bg-white px-1 m1 text-black rounded-sm'>{rejectedQuotes.length}</span>
+                            </div>
                         </div>
-                        <div style={{fontSize: "12px !important"}} className='bg-green-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
-                            Approved: {approvedQuotes.length}
+                        {(sessionStorage.getItem('user_type') == "admin"  || sessionStorage.getItem('user_type') == "Data Manager" )&& (
+                        <div className="flex justify-end items-center space-x-2 bg-white p-2 rounded">
+                            <select className=" w-48 form-control" value={selectedUser} onChange={(e) => setSelectedUser(e.target.value)}>
+                                <option value="">Select Ops User</option>
+                                {users.map(user => (
+                                    <option key={user.id} value={user.id}>
+                                        {user.name}
+                                    </option>
+                                ))}
+                            </select>
+                            <button onClick={multipleChangeOpsUser} className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center">
+                                Change Ops User
+                            </button>
                         </div>
-                        <div style={{fontSize: "12px !important"}} className='bg-orange-600 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
-                            Hold: {onHoldQuotes.length}
-                        </div>
-                        <div style={{fontSize: "12px !important"}} className='bg-red-500 text-white px-2 py-1 rounded-md shadow-sm transition-colors'>
-                            Rejected: {rejectedQuotes.length}
-                        </div>
+                        )}
                     </div>
-                </div>
-                <div className='bg-white p-2 border-t-2 border-green-400 rounded'>
-                <DataTable
-                    data={quotes}
-                    columns={columns}
-                    options={{
-                        pageLength: 50,
-                        createdRow: (row, data) => {
-                            $(row).find('.view-btn').click(function() {
-                                handleViewClick(data);
-                            });
-                        },
-                    }}
-                />
-                </div>
+                    {(sessionStorage.getItem('user_type') == "admin"  || sessionStorage.getItem('user_type') == "Data Manager" )&& (
+                        
+                        <div className='bg-white flex items-center justify-end my-2 p-2 rounded'>
+                            <button onClick={() => setIsAddQueryModalOpen(true)} className="add-btn bg-orange-500 text-white px-2 py-1 rounded hover:bg-orange-600 mr-2 flex items-center text-sm" style={{fontSize: "12px !important"}}>
+                                Add Query
+                        </button>
+                        {sessionStorage.getItem('user_type') == "admin" && (
+                            <button onClick={() => setIsModalOpen(true)} className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-2 flex items-center">
+                                Delete
+                            </button>
+                        )}
+                    </div>
+                    )}
+                    <div className='bg-white p-2 border-t-2 border-green-400 rounded'>
+                        <DataTable
+                            data={quotes}
+                            columns={columns}
+                            options={{
+                                pageLength: 50,
+                                createdRow: (row, data) => {
+                                    $(row).find('.view-btn').click(function () {
+                                        handleViewClick(data);
+                                    });
+                                    $(row).find('.checkbox').on('click', handleCheckboxClick);
+                                },
+                            }}
+                        />
+                    </div>
                 </>
             )}
 
-            <AnimatePresence>  
+            <AnimatePresence>
                 {showModal && (
-                    // ... existing code ...
-                    <motion.div 
-                        className="fixed inset-0 z-50 flex items-start justify-end bg-black bg-opacity-50"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                    >
-                        <motion.div 
-                            className="h-full w-1/3 bg-white shadow-lg"
-                            initial={{ x: '100%' }}
-                            animate={{ x: 0 }}
-                            exit={{ x: '100%' }}
-                            transition={{ type: 'tween', duration: 0.3 }}
-                        >
-                            <div className="p-6">
-                                <div className='flex items-center justify-between'>
-                                <h2 className="text-lg font-bold mb-4">Validation Query Details</h2>
-                               <button className='bg-red-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 transition-colors'>
-                                <X size={15} onClick={() => setShowModal(false)}/>
-                               </button>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-// ... existing code ...
+                    <ValidationQueryDetails queryId={selectedQuote.id} onClose={() => setShowModal(false)} finalFunction={fetchQuotes} />
+
+                )}
+                {isModalOpen && (
+                    <ConfirmationModal
+                        context={{
+                            title: 'Confirm Deletion',
+                            message: 'Are you sure you want to delete the selected queries?',
+                        }}  
+                        onConfirm={handleDelete}
+                        isReversible={false}
+                        onClose={() => setIsModalOpen(false)}
+                    />
+                )}
+                {isAddQueryModalOpen && (
+                    <AddValidateQuery onClose={() => setIsAddQueryModalOpen(false)} finalFunction={fetchQuotes}/>
                 )}
             </AnimatePresence>
-           
+
         </div>
     );
 };

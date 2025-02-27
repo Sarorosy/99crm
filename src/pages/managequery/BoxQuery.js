@@ -324,6 +324,21 @@ const BoxQuery = () => {
                 return `<div style="text-align: left;">${formattedDate}</div>`;
             },
         },
+        {
+            title: 'Action',
+            orderable: false,
+            data: null,
+            render: (data, type, row) => {
+                return `<div style="text-align: left;">${
+                    sessionStorage.getItem('user_type') == "user" ? (
+                        `<button style="background-color: #f97316; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; margin-right: 0.5rem; display: flex; align-items: center; cursor: pointer; hover:background-color: #ea580c;">
+                            Claim
+                        </button>`
+                    ) : null
+                }</div>`;
+            },
+        }
+        
 
     ];
 
@@ -546,6 +561,7 @@ const BoxQuery = () => {
                 <CustomLoader />
             ) : (
                 <div className='bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto'>
+                    {(sessionStorage.getItem('user_type') == "admin"  || sessionStorage.getItem('user_type') == "Data Manager" )&& (
                     <div className='w-full flex items-center justify-end mb-1'>
                         <button
                             onClick={handleDelete}
@@ -561,6 +577,7 @@ const BoxQuery = () => {
                         </button>
 
                     </div>
+                    )}
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
                         <DataTable
                             data={reports}

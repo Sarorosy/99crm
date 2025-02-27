@@ -1192,3 +1192,7 @@ span.product-description {
  background-color: #b8b8b8; 
   border-radius: 10px; 
 }
+
+.add-btn{
+  font-size: 12px !important;
+}

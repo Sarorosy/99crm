@@ -99,7 +99,7 @@ const App = () => {
           <Route path="/email-campaign" element={<ManageEmailCampaign />} />
           <Route path="/quote-template" element={<ManageQuoteTemplate />} />
           <Route path="/website-list" element={<ManageWebsite />} />
-          <Route path="/whatsapp-template" element={<ManageWhatsappTemplate />} />
+          {/* <Route path="/whatsapp-template" element={<ManageWhatsappTemplate />} /> */}
           <Route path="/tags" element={<ManageTags />} />
           <Route path="/box-tags" element={<ManageBoxTags />} />
           <Route path="/reports" element={<ManageReports />} />
@@ -115,7 +115,7 @@ const App = () => {
           <Route path="/dead-query" element={<DeadQuery />} />
           <Route path="/userdataspecificquery" element={<UserDataSpecificQuery />} />
           <Route path="/client-mail" element={<ClientMailPage />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
+          {/* <Route path="/changepassword" element={<ChangePassword />} /> */}
         </Route>
 
         {/* Fallback route */}

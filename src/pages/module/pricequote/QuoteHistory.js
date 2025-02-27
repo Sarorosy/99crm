@@ -138,7 +138,7 @@ const QuoteHistory = () => {
         },
         {
             title: 'Service Name',
-            data: 'quote_service_name',
+            data: 'service_name',
             orderable: false,
             render: (data) => `<div style="text-align: left;">${data}</div>`,
         },
@@ -146,7 +146,7 @@ const QuoteHistory = () => {
             title: 'Total Price',
             data: 'total_price',
             orderable: false,
-            render: (data) => `<div style="text-align: left;">${data || 'N/A'}</div>`,
+            render: (data,type,row,meta) => `<div style="text-align: left;">${row.currency_type} ${ data }</div>`,
         },
         {
             title: 'Created Date',
@@ -166,15 +166,30 @@ const QuoteHistory = () => {
         },
         {
             title: 'Query Status',
-            data: 'query_status',
+            data: null,
             orderable: false,
-            render: (data) => `<div style="text-align: left;">${data || 'N/A'}</div>`,
+            render: (data) => `<div style="text-align: left;">
+            <button class="bg-orange-500 text-white py-1 px-2 rounded hover:bg-orange-600 mr-2 flex items-center" style={{fontSize: "12px !important"}}>
+                Edit
+            </button>
+            </div>`,
         },
         {
             title: 'Status',
             data: 'status',
             orderable: false,
-            render: (data) => `<div style="text-align: left;">${data || 'N/A'}</div>`,
+            render: (data) => {
+                const statusMap = {
+                    '1': { text: 'Draft', color: 'bg-yellow-500' },
+                    '2': { text: 'Approval Awaiting', color: 'bg-red-500' },
+                    '3': { text: 'Approved', color: 'bg-yellow-500' },
+                    '4': { text: 'Published', color: 'bg-green-500' },
+                    '5': { text: 'Paid', color: 'bg-green-500' }
+                };
+                
+                const status = statusMap[data] || { text: 'N/A', color: 'bg-gray-500' };
+                return `<div class="flex"><span style="font-size: 12px !important;" class="${status.color} text-white px-1 rounded-full text-sm">${status.text}</span></div>`;
+            },
         },
         {
             title: 'Milestone',

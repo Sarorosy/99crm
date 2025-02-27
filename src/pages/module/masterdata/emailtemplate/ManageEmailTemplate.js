@@ -27,7 +27,13 @@ const ManageEmailTemplate = () => {
     const [websiteId, setWebsiteId] = useState('');
     const [mailSubject, setMailSubject] = useState('');
     const [mailBody, setMailBody] = useState('');
-    const [assignUsers, setAssignUsers] = useState([]);
+    const [assignUsers, setAssignUsers] = useState(() => {
+        const userType = sessionStorage.getItem('user_type');
+        const userId = sessionStorage.getItem('id');
+        return (userType != 'admin' && userType != 'sub-admin' && userId) 
+            ? [userId] 
+            : [];
+    });
 
     // State for dropdowns
     const [tags, setTags] = useState([]);
@@ -512,7 +518,7 @@ const ManageEmailTemplate = () => {
   placeholder="Signature"
 />
                             </div>
-                            <div className="mb-3">
+                            <div className="mb-3" style={{display : sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "sub-admin" ? 'block' : 'none'}}>
                                 <label className="block text-sm font-medium text-gray-700">Assign Users</label>
                                 <select
                                     className="w-full p-2 border rounded"

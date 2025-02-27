@@ -176,9 +176,9 @@ const Header = () => {
                 <div className="relative z-50">
                   <button
                     onClick={toggleDropdown}
-                    className=""
+                    className="flex"
                   >
-                    Manage Query
+                    Manage Query <ChevronDown size={15} className='mt-1 ml-1'/>
                   </button>
                   {dropdownOpen && (
                     <div className="absolute bg-white text-black shadow-md mt-3 border  p-2 wnav ">
@@ -239,9 +239,9 @@ const Header = () => {
                     <div className="relative z-50 ">
                       <button
                         onClick={toggleMasterDropdown}
-                        className=""
+                        className="flex"
                       >
-                        Master Data
+                        Master Data <ChevronDown size={15} className='mt-1 ml-1'/>
                       </button>
                       {masterDropdownOpen && (
                         <div className="absolute bg-white text-black shadow-md mt-3 border p-2 w-60 ">

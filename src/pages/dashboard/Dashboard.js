@@ -411,7 +411,7 @@ const Dashboard = () => {
     return (
         <div className="py-1">
             {/* Filter Section */}
-            <div className="bg-white rounded-lg px-2 py-2 mb-6">
+            <div className="bg-gray-50 rounded-lg px-2 py-2 mb-6">
                 <div className="flex justify-between items-center">
                     <h2 className="font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={14} className="" /></button></h2>
 

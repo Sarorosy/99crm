@@ -1193,6 +1193,14 @@ span.product-description {
   border-radius: 10px; 
 }
 
+<<<<<<< HEAD
 .add-btn{
   font-size: 12px !important;
+=======
+
+@media screen and (min-width: 1440px) {
+  .open-tasks-container {
+    width: 16.2rem;
+}
+>>>>>>> d6846398e6c9db96a9e05a385b7570afa5b3d485
 }

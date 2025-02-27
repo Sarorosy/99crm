@@ -177,9 +177,9 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-100 shadow-lg z-50 overflow-y-auto p-6"
+            className="fixed top-0 right-0 h-full w-full bg-gray-50 shadow-lg z-50 overflow-y-auto p-6"
         >
-            <h2 className="text-xl font-semibold mb-4 text-center">Edit Website</h2>
+            <h2 className="text-md font-semibold mb-4 text-center">Edit Website</h2>
             <button
                 onClick={onClose}
                 className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"

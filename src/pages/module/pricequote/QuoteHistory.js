@@ -210,11 +210,11 @@ const QuoteHistory = () => {
     };
 
     return (
-        <div className="container bg-gray-100 w-full add">
-            <h1 className='text-xl font-bold'>Generated Price Quote</h1>
+        <div className="container bg-white w-full add">
+            <h1 className='text-md font-bold mt-2 ml-2'>Generated Price Quote</h1>
 
             {/* Filter Section */}
-            <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded">
+            <div className="flex items-center space-x-2 my-2 bg-gray-50 p-2 rounded ">
                 <div className="w-1/2">
                     <input
                         id="filterDate"
@@ -281,7 +281,7 @@ const QuoteHistory = () => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className='bg-white p-2 border-t-2 border-green-400 rounded'>
+                <div className='bg-white p-2 border-t-2 border-green-400 rounded shadow-xl'>
                 <DataTable
                     data={quotes}
                     columns={columns}

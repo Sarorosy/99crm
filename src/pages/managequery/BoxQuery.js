@@ -17,6 +17,7 @@ import 'daterangepicker/daterangepicker.css'; // Import daterangepicker CSS
 import 'daterangepicker'; // Import daterangepicker JS
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import BoxQueryDetails from './BoxQueryDetails';
 
 
 const BoxQuery = () => {
@@ -30,7 +31,7 @@ const BoxQuery = () => {
     const [users, setUsers] = useState([]);
     const [states, setStates] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [selectedSetting, setSelectedSetting] = useState(null);
+    const [selectedQuery, setSelectedQuery] = useState(null);
     const [selectedQueries, setSelectedQueries] = useState([]);
     const [selectedUsers, setSelectedUsers] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -49,6 +50,7 @@ const BoxQuery = () => {
     const [cities, setCities] = useState([]);
     const [selectedCity, setSelectedCity] = useState('')
     const userType = sessionStorage.getItem('user_type');
+    const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
 
 
@@ -467,6 +469,16 @@ const BoxQuery = () => {
         navigate('/addboxquery');
     }
 
+    const handleDetailsClick = ( row) => {
+        setSelectedQuery(row.id);
+        setIsDetailsOpen(true);
+    }
+    const handleClaimClick = (row) => {
+        console.log(row);
+    }
+
+
+
     return (
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
@@ -589,6 +601,8 @@ const BoxQuery = () => {
                                     // $(row).css('background-color', data.color_code || 'white');
                                     $(row).css('font-size', '12px !important');
                                     $(row).find('.checkbox').on('click', handleCheckboxClick);
+                                    $(row).find('.details-btn').on('click', () => handleDetailsClick(data));
+                                    $(row).find('.claim-btn').on('click', () => handleClaimClick(data));
                                 },
                             }}
                         />
@@ -609,7 +623,7 @@ const BoxQuery = () => {
             )}
 
             <AnimatePresence>
-
+                {isDetailsOpen && <BoxQueryDetails onClose={() => setIsDetailsOpen(false)} queryId={selectedQuery} />}
             </AnimatePresence>
             <Tooltip id="my-tooltip" />
         </div>

@@ -326,13 +326,14 @@ const BoxQuery = () => {
                 return `<div style="text-align: left;">${formattedDate}</div>`;
             },
         },
-        sessionStorage.getItem('user_type') == "user" ? {
+         {
             title: 'Action',
             orderable: false,
-            data: null,
+            data: 'if_generic_query',
             render: (data, type, row) => {
+                if(sessionStorage.getItem('user_type') == "user"){
                 return `<div style="text-align: left;">
-                ${row.if_generic_query == "yes" ? (
+                ${data == "yes" ? (
                         `<button class="details-btn" style="background-color: #f97316; color: white; padding: 0.25rem 0.5rem; border-radius: 0.25rem; margin-right: 0.5rem; display: flex; align-items: center; cursor: pointer; hover:background-color: #ea580c;">
                             Details
                         </button>`
@@ -342,8 +343,11 @@ const BoxQuery = () => {
                         </button>`
                     )}
                     </div>`;
+                }else{
+                    return ``;
+                }
             },
-        } : null
+        } 
 
 
     ];
@@ -473,8 +477,42 @@ const BoxQuery = () => {
         setSelectedQuery(row.id);
         setIsDetailsOpen(true);
     }
-    const handleClaimClick = (row) => {
-        console.log(row);
+    const handleClaimClick = async (row) => {
+       try{
+        const payload = {
+            query_id: row.id,
+            user_id: sessionStorage.getItem('id'),
+            user_type: sessionStorage.getItem('user_type'),
+            user_name: sessionStorage.getItem('name'),
+            team_id: sessionStorage.getItem('team_id'),
+
+        }
+        const response = await fetch('https://99crm.phdconsulting.in/api/claimboxquery', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload),
+        });
+        if (!response.ok) {
+            throw new Error(`Failed to claim query, status: ${response.status}`);
+        }
+        const data = await response.json();
+        if(data.status){
+            if (data.value == "1") {
+                toast.success("Query claimed successfully");
+                navigate('/queryhistory');
+            } else {
+                toast.error("Query already exists on the company with this email");
+            }
+
+        }else{
+            toast.error('Failed to claim query.');
+        }
+        
+       }catch(error){
+        toast.error(error.message || 'An error occurred while claiming queries.');
+       }
     }
 
 

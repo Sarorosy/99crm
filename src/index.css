@@ -27,7 +27,7 @@ code {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
+  background: #257180;
   /* Transparent background for track */
 }
 

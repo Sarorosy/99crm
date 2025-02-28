@@ -57,7 +57,7 @@ const AddQuerySideDetails = ({ TodayCreatedQuery }) => {
                     <h3 className="font-bold  border-b pb-2 mb-3 flex items-center justify-between space-x-1 text-sm">Today Pending Task for Users <button className="bg-gray-100 rounded" onClick={fetchDetails}><RefreshCcw size={12} /></button></h3>
                     {loading ? (<CustomLoader />) : (
                         <>
-                            <div style={{ overflowY: 'auto', maxHeight: '19.2rem' }}>
+                            <div className="custom-scrollbar" style={{ overflowY: 'auto', maxHeight: '19.2rem' }}>
                                 <table className="table-auto w-full border-collapse border border-gray-200 iqt table-responsive sptid">
                                     <thead>
                                         <tr>
@@ -89,9 +89,9 @@ const AddQuerySideDetails = ({ TodayCreatedQuery }) => {
                 </div>
 
                 {TodayCreatedQuery == 1 && (
-                    <div className="border-t-2 border-green-400 bg-white shadow-xl rounded px-4 py-3">
-                        <h3 className="font-bold text-sm border-b pb-2 mb-2">Today Created Query</h3>
-                        <table className="table-auto w-full border-collapse border border-gray-200 dataTable">
+                    <div className="border-t-2 border-green-400 bg-white shadow-xl rounded px-1 py-3 max-w-lg w-lg custom-scrollbar" style={{fontSize:"12px", width:"300px", overflowX:"auto"}}>
+                        <h3 className="font-bold text-sm border-b pb-2 mb-2 text-center">Today Created Query</h3>
+                        <table className="table-auto w-xl border-collapse border border-gray-200 dataTable" style={{fontSize:"12px"}}>
                             <thead>
                                 <tr>
                                     <th className="border border-gray-300 px-2 py-1 text-xs">User Name</th>

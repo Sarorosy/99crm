@@ -100,7 +100,18 @@ const UserQuery = () => {
         };
     }, [websites]);
 
-
+    const getTagNames = (tagIds) => {
+        if (!tagIds) return ""; 
+        return tagIds
+            .split(",") // Split the string into an array of IDs
+            .map(id => {
+                const tag = tags.find(tag => tag.id == parseInt(id)); // Find the matching tag
+                return tag ? tag.tag_name : ""; // Return tag_name if found, otherwise empty string
+            })
+            .filter(name => name) // Remove any empty values
+            .join(", "); // Join names with a comma separator
+    };
+    
 
     useEffect(() => {
         // Calculate dynamic date range (last 1 month)
@@ -184,10 +195,26 @@ const UserQuery = () => {
             setSelectedQueries([]);
 
             const payload = {
-                team_id: teamUsers
+                team_id: teamUsers,
+                user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                user_name: sessionStorage.getItem('name'),
+                team_id: sessionStorage.getItem('team_id'),
+                Website_id:sessionStorage.getItem('website_id'),
+                tags: selectedTags,
+                search_keywords: searchKeywords,
+                filter_date: filterDate,
+                ref_id: refId,
+                update_status:updateStatus,
+                icon_filter:iconFilter,
+                callwhatsappfilter:callWhatsapp,
+                state:selectedState,
+                city:selectedCity,
+                search_user_id:selectedUser,
+                website:selectedWebsites,
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/loaduserquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/api/loaduserquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -198,6 +225,11 @@ const UserQuery = () => {
             }
 
             setReports(response.data.data);
+            if(sessionStorage.getItem('user_type') == "user"){
+                setUsers([]);
+            }else{
+                setUsers(response.data.userArr);
+            }
         } catch (error) {
             console.error('Error fetching reports:', error);
             toast.error(error.message || 'Error fetching reports');
@@ -480,7 +512,7 @@ const UserQuery = () => {
         fetchTeams();
         fetchCategoryWebsites();
         fetchStatus();
-        fetchUsers();
+        // fetchUsers();
         fetchStates();
         fetchCallOptions();
         fetchWhatsappOptions();
@@ -776,9 +808,16 @@ const UserQuery = () => {
         {
             title: 'Tags',
             orderable: false,
-            data: 'tag_names',
+            data: 'tags',
             render: (data, type, row) => {
-                return `<div style="text-align: left;">${data}</div>`;
+                const tagNames = getTagNames(data);
+                if (!tagNames) return '<div style="text-align: left;">-</div>';
+                
+                const tagSpans = tagNames.split(', ').map(tag => 
+                    `<span style="background-color: #B6CEFFFF; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block;">${tag}</span>`
+                ).join('');
+                
+                return `<div style="text-align: left;">${tagSpans}</div>`;
             },
         },
         {
@@ -804,7 +843,7 @@ const UserQuery = () => {
             orderable: false,
             data: 'status_name',
             render: (data, type, row) => {
-                return `<div style="text-align: left;">${data}</div>`;
+                return `<div style="text-align: left;">${data ?? "-"}</div>`;
             },
         },
         {
@@ -1164,6 +1203,7 @@ const UserQuery = () => {
                 update_status: updateStatus,
                 search_keywords: searchKeywords,
                 transfer_type: transferType,
+                
             };
 
             const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/loaduserquery', {
@@ -1507,7 +1547,7 @@ const UserQuery = () => {
                                 <div className='col-md-6'>
                                     <div className='last'>
                                         <button
-                                            onClick={handleSubmit}
+                                            onClick={fetchQueries}
                                             className="bg-blue-400 text-white py-1 px-2 rounded flex items-center mr-3"
                                         >
                                             <SearchIcon className="mr-2" size={12} />

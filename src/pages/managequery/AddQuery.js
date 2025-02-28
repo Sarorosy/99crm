@@ -873,7 +873,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-4" style={{display : formData.location == "India" ? "block" : "none"}}>
                             <label htmlFor="state">State</label>
                             <select
                                 name="state"
@@ -892,7 +892,7 @@ const AddQuery = () => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-4" style={{display : formData.location == "India" ? "block" : "none"}}>
                             <label htmlFor="city">City</label>
                             <select
                                 name="city"
@@ -1171,7 +1171,6 @@ const AddQuery = () => {
                                         'bold', 'italic', 'underline', 'align',
                                         'list', 'bullet', 'link', 'clean'
                                     ]}
-                                    style={{ height: 200 }}
                                     placeholder="Line Format"
                                 />
                             </div>

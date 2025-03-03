@@ -65,7 +65,7 @@ const App = () => {
   };
   //basename='/Saravanan/99crm'
   return (
-    <Router basename='/'>
+    <Router>
       <Routes>
         {/* Public route */}
         <Route path="/login" element={<Login />} />

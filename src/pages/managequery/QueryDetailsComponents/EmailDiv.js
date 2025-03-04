@@ -9,7 +9,7 @@ import CommentForm from './CommentForm';
 import HistoryComponent from './HistoryComponent';
 import moment from "moment";
 
-const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions }) => {
+const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions, after }) => {
   const [status, setStatus] = useState(queryInfo.update_status);
   const [remainderDate, setRemainderDate] = useState(
     queryInfo.remainder_date
@@ -649,7 +649,9 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       
       if (result.status) {
         console.log("Form submitted successfully!", response);
-        toast.success("Form submitted successfully!")
+        toast.success("Submitted successfully!");
+        after();
+
       } else {
         console.error("Error submitting form:", response);
       }
@@ -1210,25 +1212,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                   </div>
 
                 </div>
-                {queryInfo.checkPhdPlanner == 1 && (
-                  <div className='mt-3'>
-                    <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200">
-                      <div className="flex items-center space-x-3">
-                        <input
-                          type="checkbox"
-                          id="phd_checkbox"
-                          className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
-                          checked={phdCheckBoxChecked}
-                          disabled={phdCheckBoxDisabled}
-                          onChange={() => setPhdCheckBoxChecked(!phdCheckBoxChecked)}
-                        />
-                        <label htmlFor="phd_checkbox" className="text-gray-800 font-medium select-none">
-                          I explained PhD Planner to the client
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                
 
                 <div className='flex items-center justify-between '>
                   <button

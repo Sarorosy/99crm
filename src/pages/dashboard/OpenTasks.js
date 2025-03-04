@@ -4,6 +4,8 @@ import SkeletonLoader from './SkeletonLoader';
 import { AnimatePresence } from 'framer-motion';
 import QueryDetails from '../managequery/QueryDetails';
 import { useState } from 'react';
+import { Tooltip } from 'react-tooltip'
+
 
 const OpenTasks = ({ queries, loading }) => {
 
@@ -13,16 +15,29 @@ const OpenTasks = ({ queries, loading }) => {
     const getDueTime = (timestamp) => {
         const currentDate = new Date();
         const dueDate = new Date(parseInt(timestamp) * 1000);
-        const diffInMonths = (currentDate - dueDate) / (1000 * 60 * 60 * 24 * 30);
-        const diffInYears = diffInMonths / 12;
-
-        if (diffInYears >= 1) {
-            return `${Math.floor(diffInYears)} Year(s) ago`;
-        } else if (diffInMonths >= 1) {
-            return `${Math.floor(diffInMonths)} Month(s) ago`;
+        const diffInSeconds = Math.floor((currentDate - dueDate) / 1000);
+    
+        const secondsInMinute = 60;
+        const secondsInHour = 60 * secondsInMinute;
+        const secondsInDay = 24 * secondsInHour;
+        const secondsInMonth = 30 * secondsInDay;
+        const secondsInYear = 12 * secondsInMonth;
+    
+        if (diffInSeconds >= secondsInYear) {
+            return `${Math.floor(diffInSeconds / secondsInYear)} Year(s) ago`;
+        } else if (diffInSeconds >= secondsInMonth) {
+            return `${Math.floor(diffInSeconds / secondsInMonth)} Month(s) ago`;
+        } else if (diffInSeconds >= secondsInDay) {
+            return `${Math.floor(diffInSeconds / secondsInDay)} Day(s) ago`;
+        } else if (diffInSeconds >= secondsInHour) {
+            return `${Math.floor(diffInSeconds / secondsInHour)} Hour(s) ago`;
+        } else if (diffInSeconds >= secondsInMinute) {
+            return `${Math.floor(diffInSeconds / secondsInMinute)} Minute(s) ago`;
+        } else {
+            return "Just now";
         }
-        return 'Just now';
     };
+    
 
     const getStatusLabel = (status) => {
         switch (status) {
@@ -58,9 +73,7 @@ const OpenTasks = ({ queries, loading }) => {
                             <a
                                 href="javascript:void(0)"
                                 className="font-bold text-blue-950 "
-                                data-placement="bottom"
-                                data-toggle="tooltip"
-                                data-original-title={task.email_id}
+                                data-tooltip-id="my-tooltip" data-tooltip-content={task.email_id}
                             >
                                 {getStatusLabel(task.update_status)}    
                                 <p className='flex justify-content-between fss'>
@@ -115,6 +128,7 @@ const OpenTasks = ({ queries, loading }) => {
                     <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
                 )}
         </AnimatePresence>
+        <Tooltip id="my-tooltip" />
         </div>
     );
 };

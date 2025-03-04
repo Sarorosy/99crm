@@ -1265,13 +1265,14 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
                         
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-4" disabled>
                             <div className="form-group" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
                                     name="ifCampTag"
                                     id="ifCampTag"
                                     checked={formData.ifCampTag}
+                                    disabled
                                     onChange={(e) => {
                                         setFormData({
                                             ...formData,

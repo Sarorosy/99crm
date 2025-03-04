@@ -7,6 +7,7 @@ import 'select2';
 import AddQuerySideDetails from "./AddQuerySideDetails";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from "react-router-dom";
 
 const AddQuery = () => {
 
@@ -99,6 +100,7 @@ const AddQuery = () => {
     const [errorData, setErrorData] = useState("");
 
     const [isPhD, setIsPhD] = useState(false);
+    const navigate = useNavigate();
 
     const queryCodes = [
         "GH56671",
@@ -684,8 +686,10 @@ const AddQuery = () => {
 
             const data = await response.json();
             toast.success("Query submitted successfully!");
-
+            navigate('/queryhistory');
+        
             setFormData(initialFormData);
+            
 
         } catch (error) {
             console.error("Error submitting query:", error);

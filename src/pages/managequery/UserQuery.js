@@ -732,7 +732,7 @@ const UserQuery = () => {
             data: 'assign_id',
             render: (data, type, row) => {
                 return `
-                    <input type="checkbox" class="row-checkbox" data-id="${data}" />
+                    <input type="checkbox" class="row-checkbox" data-id="${data} ${row.inConversationMarkOn}" />
                 `;
             },
         },
@@ -771,14 +771,6 @@ const UserQuery = () => {
                 ${data} ${bellIcon} ${dollarIcon}
             </div>
         `;
-            },
-        },
-        {
-            title: 'Client Name',
-            orderable: false,
-            data: 'name',
-            render: (data, type, row) => {
-                return `<div style="text-align: left;">${data}</div>`;
             },
         },
         {

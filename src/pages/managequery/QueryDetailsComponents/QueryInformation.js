@@ -333,7 +333,16 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                 ))}
 
 
-
+                {queryInfo.ifCampTag && queryInfo.ifCampTag == 1 && (
+                    <div className="flex justify-start">
+                    <div className='w-1/2 text-left'>
+                        <strong>Camp Tag</strong>
+                    </div>
+                    <div className=' text-center' style={{width : " 80px"}}>
+                        <div className='bg-green-100 px-1 py-1 rounded'>Yes</div>
+                    </div>
+                </div>
+                )}
                 {/* Tags */}
                 <div className="flex justify-between">
                     <div className='w-1/2 text-left'>

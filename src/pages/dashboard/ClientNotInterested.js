@@ -4,7 +4,7 @@ import SkeletonLoader from './SkeletonLoader';
 import { AnimatePresence } from 'framer-motion';
 import QueryDetails from '../managequery/QueryDetails';
 import { useState } from 'react';
-
+import { Tooltip } from 'react-tooltip'
 
 const ClientNotInterested = ({ queries, loading }) => {
     const [detailsOpen, setDetailsOpen] = useState(false);
@@ -57,9 +57,7 @@ const ClientNotInterested = ({ queries, loading }) => {
                             <a
                                 href="javascript:void(0)"
                                 className="font-bold text-blue-950 flex items-center justify-between"
-                                data-placement="bottom"
-                                data-toggle="tooltip"
-                                data-original-title={task.email_id}
+                                data-tooltip-id="my-tooltip" data-tooltip-content={task.email_id}
                             >
                                 <p className='flex items-center fss'>
                                     {task.name}
@@ -101,6 +99,7 @@ const ClientNotInterested = ({ queries, loading }) => {
                     <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
                 )}
             </AnimatePresence>
+            <Tooltip id="my-tooltip" />
         </div>
     );
 };

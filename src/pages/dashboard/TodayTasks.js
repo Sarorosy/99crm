@@ -4,7 +4,7 @@ import SkeletonLoader from './SkeletonLoader';
 import { AnimatePresence } from 'framer-motion';
 import QueryDetails from '../managequery/QueryDetails';
 import { useState } from 'react';
-
+import { Tooltip } from 'react-tooltip'
 
 const TodayTasks = ({ queries , loading}) => {
 
@@ -59,9 +59,7 @@ const TodayTasks = ({ queries , loading}) => {
                             <a
                                 href="javascript:void(0)"
                                 className="font-bold text-blue-950 "
-                                data-placement="bottom"
-                                data-toggle="tooltip"
-                                data-original-title={task.email_id}
+                                data-tooltip-id="my-tooltip" data-tooltip-content={task.email_id}
                             >
                                 {getStatusLabel(task.update_status)}
                                 <p className='flex items-center fss'>
@@ -106,6 +104,7 @@ const TodayTasks = ({ queries , loading}) => {
                     <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
                 )}
         </AnimatePresence>
+        <Tooltip id="my-tooltip" />
 
         </div>
     );

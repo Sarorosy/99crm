@@ -731,11 +731,14 @@ const UserQuery = () => {
             orderable: false,
             data: 'assign_id',
             render: (data, type, row) => {
-                return `
-                    <input type="checkbox" class="row-checkbox" data-id="${data}" />
-                `;
+                const currentTime = Math.floor(Date.now() / 1000);
+                if (!row.inConversationMarkExpiry || row.inConversationMarkExpiry < currentTime) {
+                    return `<input type="checkbox" class="row-checkbox" data-id="${data}" />`;
+                }
+                return ''; // If conditions are not met, don't show checkbox
             },
         },
+        
         {
             title: 'Ref No.',
             orderable: false,

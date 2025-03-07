@@ -732,7 +732,7 @@ const UserQuery = () => {
             data: 'assign_id',
             render: (data, type, row) => {
                 return `
-                    <input type="checkbox" class="row-checkbox" data-id="${data} ${row.inConversationMarkOn}" />
+                    <input type="checkbox" class="row-checkbox" data-id="${data}" />
                 `;
             },
         },
@@ -753,8 +753,8 @@ const UserQuery = () => {
             title: 'Username',
             orderable: false,
             data: 'user_name',
-            render: (data) => {
-                return `<div style="text-align: left;">${data}</div>`;
+            render: (data, type, row) => {
+                return `<div style="text-align: left;">${data} <br />${row.inConversationMarkOn && row.inConversationMarkOn != null ? '<span class="small-badge">In Conversation</span>' : ''}</div>`;
             },
         },
         {

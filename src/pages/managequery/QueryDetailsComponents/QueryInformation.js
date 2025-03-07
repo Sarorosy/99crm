@@ -5,13 +5,14 @@ import { Hourglass, Settings } from 'lucide-react';
 import $ from 'jquery';
 import "select2/dist/css/select2.css";
 import "select2";
+import toast from 'react-hot-toast';
 
-const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority, fetchQueryDetails}) => {
-    
-    
-    
+const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, fetchQueryDetails }) => {
+
+
+
     const [allTags, setAllTags] = useState([]);
-   
+
     const [historyVisible, setHistoryVisible] = useState(false);
     const [activityData, setActivityData] = useState([]);
     const [historyloading, setHistoryLoading] = useState(false);
@@ -144,7 +145,40 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
 
     };
 
-    
+
+    const markAsInconversation = async (assign_qid, query_id) => {
+        const user_id = sessionStorage.getItem("id");
+        const user_name = sessionStorage.getItem("name");
+
+        const postData = {
+            assign_qid,
+            query_id,
+            user_id,
+            user_name,
+        };
+
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/api/markinconversation", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(postData),
+            });
+
+            const result = await response.json();
+            if (result.status) {
+                toast.success("Marked as In Conversation successfully!");
+                fetchQueryDetails();
+            } else {
+                toast.error(`Error: ${result.message}`);
+            }
+        } catch (error) {
+            console.error("Error marking as in conversation:", error);
+            toast.error("Failed to mark as in conversation.");
+        }
+    };
+
     if (loading) {
         return (
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", padding: "10px" }} >
@@ -335,13 +369,13 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
 
                 {queryInfo.ifCampTag && queryInfo.ifCampTag == 1 && (
                     <div className="flex justify-start">
-                    <div className='w-1/2 text-left'>
-                        <strong>Camp Tag</strong>
+                        <div className='w-1/2 text-left'>
+                            <strong>Camp Tag</strong>
+                        </div>
+                        <div className=' text-center' style={{ width: " 80px" }}>
+                            <div className='bg-green-100 px-1 py-1 rounded'>Yes</div>
+                        </div>
                     </div>
-                    <div className=' text-center' style={{width : " 80px"}}>
-                        <div className='bg-green-100 px-1 py-1 rounded'>Yes</div>
-                    </div>
-                </div>
                 )}
                 {/* Tags */}
                 <div className="flex justify-between">
@@ -496,6 +530,24 @@ const QueryInformation = ({ refId , queryInfo , queryFiles, loading, allPriority
                         ) : null}
                     </div>
                 </div>
+                {sessionStorage.getItem('user_type') === 'user' &&
+                    (!queryInfo.inConversationMarkExpiry || queryInfo.inConversationMarkExpiry < Math.floor(Date.now() / 1000)) ? (
+                    <div className="flex justify-between">
+                        <div className='w-1/2 text-left'>
+                            <strong>Mark As In Conversation</strong>
+                        </div>
+                        <div className='w-1/2 text-left'>
+                            <button
+                                onClick={() => markAsInconversation(queryInfo.assign_id, queryInfo.id)}
+                                className='bg-green-600 text-white px-1 py-0.5 rounded'
+                            >
+                                In Conversation
+                            </button>
+                        </div>
+                    </div>
+                ) : null}
+
+
             </div>
         </div>
 

@@ -1202,3 +1202,10 @@ span.product-description {
 .elevenpx{
   font-size: 11px !important;
 }
+.small-badge{
+  font-size: 10px;;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid gray;
+  border-radius: 3px;
+  padding: 1px;
+}

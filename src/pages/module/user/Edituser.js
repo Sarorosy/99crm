@@ -617,7 +617,7 @@ const EditUser = ({ id, onClose, after }) => {
             </div>) : <>
                 <section className="">
                     <div className="row">
-                        <div className="col-md-6 cent add">
+                        <div className="col-md-10 cent add">
                             <div className="box box-primary">
                                 <form onSubmit={handleSubmit} id="user_form" name="user_form" className='space-y-4 p-4 border-t-2 rounded border-green-400 bg-white shadow-xl'>
                                     <div className="box-body">

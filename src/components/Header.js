@@ -189,7 +189,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/addboxquery')} className="block px-4 py-2  w-full dropdownmenu">Add Box Query</button>
 
-                          <button onClick={() => handleNavigation('/import-query')} className="block px-4 py-2  w-full dropdownmenu">Import Query</button>
+                          {/*  <button onClick={() => handleNavigation('/import-query')} className="block px-4 py-2  w-full dropdownmenu">Import Query</button> */}
 
                           <button onClick={() => handleNavigation('/boxquery')} className="block px-4 py-2  w-full dropdownmenu">Box Query</button>
 
@@ -263,7 +263,7 @@ const Header = () => {
                             </>
                           )}
 
-                          {userType == "admin" || userType == "sub-admin" && (
+                          {(userType == "admin" || userType == "sub-admin") && (
                             <>
                               <button onClick={() => handleNavigation('/quote-template')} className="block px-4 py-2  w-full dropdownmenu">Quote Template</button>
 
@@ -283,7 +283,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/reports')} className="block px-4 py-2   w-full dropdownmenu">Reports</button>
 
-                          {userType == "admin" || userType == "sub-admin" && (
+                          {(userType == "admin" || userType == "sub-admin") && (
                             <button onClick={() => handleNavigation('/request-quote-activation')} className="block px-4 py-2  w-full dropdownmenu bbnone" >Request Quote Activation</button>
                           )}
 
@@ -308,7 +308,9 @@ const Header = () => {
         </div>
 
         {/* User Session Info */}
+        
         <div className="relative z-50 flex space-x-2 navpop">
+        {(userType != "Data Manager") && (
           <button
             onClick={() => {
               setShowNoti(false)
@@ -322,6 +324,7 @@ const Header = () => {
               {notifications.totalAttacheFile}
             </span>
           </button>
+        )}
 
           {(userType === "admin" || userType === "user") && (
             <button

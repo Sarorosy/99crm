@@ -115,6 +115,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
   const handleOptionChange = (event) => {
     const selectedId = event.target.value;
+    setSelectedOption(selectedId);
+    console.log(selectedId);
     if (selectedId == 3 || selectedId == 18 || selectedId == 20 || selectedId == 24 || selectedId == 26 || selectedId == 27 || selectedId == 28 || selectedId == 29) {
       setIsDateTimeInput(false);
       setIsDiscussionInput(false);
@@ -123,7 +125,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         (opt) => opt.id === parseInt(selectedId)
       );
 
-      setSelectedOption(selectedId);
+      
+      
 
 
       // Extract and split sub_options if available
@@ -456,7 +459,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
 
   const handleSubmitButtonClick = (queryInfo, arrTag, remainderDate) => {
-    const totalTag = arrTag.length;
+    const totalTag = (!arrTag || arrTag.length === 0) ? 0 : arrTag.length;
     const currentStatus = queryInfo.update_status;
 
 
@@ -533,12 +536,13 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
     } else if (
       whatsappCheckBoxChecked && !selectedOption
     ) {
+      console.log("selected option", selectedOption)
       toast.error("Please select Whatsapp option.");
       return false;
     } else if (
       whatsappCheckBoxChecked && selectedOption && whatsappSubOptionDisplay && whatsappallFilled.includes("no")
     ) {
-      console.log(isAllFilled)
+      console.log(whatsappallFilled)
       toast.error("Please select whatsapp Sub option.");
       return false;
     } else if (
@@ -980,7 +984,6 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                           onChange={handleOptionChange}
                         >
                           <option value="">Select an Option</option>
-                          {console.log(filteredWhatsappOptions)}
                           {filteredWhatsappOptions.map((whatsappOptValueData) => (
                             <option
                               key={whatsappOptValueData.id}

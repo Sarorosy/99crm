@@ -685,10 +685,18 @@ const AddQuery = () => {
             }
 
             const data = await response.json();
-            toast.success("Query submitted successfully!");
-            navigate('/queryhistory');
+
+            if(data.status){
+                toast.success("Query submitted successfully!");
+                setFormData(initialFormData);
+                navigate('/queryhistory');
+            }else{
+                toast.error(data.message || "Submission failed!");
+            }
+            
+            
         
-            setFormData(initialFormData);
+            
             
 
         } catch (error) {
@@ -727,7 +735,7 @@ const AddQuery = () => {
                                 <option value="DATA_SPECIFIC">DATA SPECIFIC</option>
                             </select>
                         </div>
-                        <div className="col-sm-4">
+                        {/* <div className="col-sm-4">
                             <label htmlFor="query_code">Query Code<span className="error">*</span></label>
                             <select
                                 name="query_code"
@@ -743,7 +751,7 @@ const AddQuery = () => {
                                     </option>
                                 ))}
                             </select>
-                        </div>
+                        </div> */}
                         <div className="col-sm-4">
                             <div className="form-group" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input

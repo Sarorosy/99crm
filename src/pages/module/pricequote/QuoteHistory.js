@@ -10,6 +10,8 @@ import 'select2/dist/css/select2.css';
 import 'select2';
 import CustomLoader from '../../../components/CustomLoader';
 import { RefreshCcw, FilterIcon } from 'lucide-react';
+import { AnimatePresence } from 'framer-motion';
+import QueryStatusModal from './QueryStatusModal';
 
 
 const QuoteHistory = () => {
@@ -21,6 +23,11 @@ const QuoteHistory = () => {
     const [selectedUser, setSelectedUser] = useState('')
     const [loading, setLoading] = useState(false);
     const selectTeamRef = useRef(null);
+
+    const [selectedId, setSelectedId] = useState('');
+    const [selectedStatus, setSelectedStatus] = useState('');
+    const [comments,Setcomments] = useState('');
+    const [modalOpen, setModalOpen] = useState(false);
 
     DataTable.use(DT);
 
@@ -77,37 +84,26 @@ const QuoteHistory = () => {
 
     }, []);
 
-    const fetchQuotes = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(
-                'https://99crm.phdconsulting.in/99crmwebapi/api/quote-history'
-            );
-            if (response.data.status) {
-                setQuotes(response.data.data);
-            }
-        } catch (error) {
-            console.error('Error fetching quotes:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    
 
-    const fetchFilteredQuotes = async () => {
+    const fetchQuotes = async () => {
       
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/99crmwebapi/api/quote-history',
+                'https://99crm.phdconsulting.in/api/loadquotehistory',
                 {
+                    get_user_id: sessionStorage.getItem('id'),
+                    user_type: sessionStorage.getItem('user_type'),
+                    team_id: sessionStorage.getItem('team_id'),
                     filter_date: filterDate,
                     ref_id: refId,
                     user_id: selectedUser,
-                    status: status,
+                    filterSts: status,
                 }
             );
             if (response.data.status) {
-                setQuotes(response.data.data);
+                setQuotes(response.data.quoteData);
             }
         } catch (error) {
             console.error('Error fetching filtered quotes:', error);
@@ -164,16 +160,22 @@ const QuoteHistory = () => {
                 return data ? new Date(data * 1000).toLocaleDateString() : 'N/A';
             },
         },
+        (sessionStorage.getItem('user_type') == 'admin' || sessionStorage.getItem('user_type') == 'sub-admin') ? 
         {
             title: 'Query Status',
             data: null,
             orderable: false,
-            render: (data) => `<div style="text-align: left;">
-            <button class="bg-orange-500 text-white py-1 px-2 rounded hover:bg-orange-600 mr-2 flex items-center" style={{fontSize: "12px !important"}}>
+            render: (data,type,row) => `<div style="text-align: left;">
+            ${(row.query_status == "" || row.query_status == null) ? (
+                `<button class="edit-btn bg-orange-500 text-white py-1 px-2 rounded hover:bg-orange-600 mr-2 flex items-center" style={{fontSize: "12px !important"}}>
                 Edit
-            </button>
+            </button>`
+            ) : (
+                `<span class="bg-yellow-500 text-white elevenpx p-1 rounded">${row.query_status}</span>`
+            )}
+            
             </div>`,
-        },
+        } : null,
         {
             title: 'Status',
             data: 'status',
@@ -209,12 +211,21 @@ const QuoteHistory = () => {
         fetchQuotes();  // Fetch unfiltered data
     };
 
+    const handleUpdateStatus = (data) => {
+        setSelectedId(data.id);
+        setModalOpen(true);
+    }
+
+
+
     return (
         <div className="container bg-white w-full add">
             <h1 className='text-md font-bold mt-2 ml-2'>Generated Price Quote</h1>
 
-            {/* Filter Section */}
-            <div className="flex items-center space-x-2 my-2 bg-gray-50 p-2 rounded ">
+            
+            <div className="items-center space-x-2 my-2 bg-gray-50 p-2 rounded "
+                style={{display : sessionStorage.getItem('user_type') == 'user' ? 'none' : 'flex'}}
+            >
                 <div className="w-1/2">
                     <input
                         id="filterDate"
@@ -267,7 +278,7 @@ const QuoteHistory = () => {
                 </div>
                 <div className="w-1/2 flex items-center space-x-2 last">
                     <label>&nbsp;</label>
-                    <button className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchFilteredQuotes}>
+                    <button className="bg-blue-400 text-white py-1 px-2 rounded hover:bg-blue-600 mr-2 flex items-center" onClick={fetchQuotes}>
                         Apply Filters &nbsp;
                         <FilterIcon size={12} className="" />
                     </button>
@@ -288,13 +299,20 @@ const QuoteHistory = () => {
                     options={{
                         pageLength: 50,
                         createdRow: (row, data) => {
-                            
+                            $(row).find('.edit-btn').on('click', () => {
+                                handleUpdateStatus(data);
+                            });
                         },
                     }}
                 />
                 </div>
             )}
 
+            <AnimatePresence>
+                {modalOpen && (
+                    <QueryStatusModal selectedId={selectedId} onClose={()=>{setModalOpen(false)}} /> 
+                )}
+            </AnimatePresence>
            
         </div>
     );

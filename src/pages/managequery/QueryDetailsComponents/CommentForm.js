@@ -2,7 +2,7 @@ import { X } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const CommentForm = ({ queryInfo, onClose , status}) => {
+const CommentForm = ({ queryInfo, onClose , status, after}) => {
     const [comments, setComments] = useState("");
     const [shiftToLead, setShiftToLead] = useState(false);
     const [shiftToOpen, setShiftToOpen] = useState(false);
@@ -47,6 +47,7 @@ const CommentForm = ({ queryInfo, onClose , status}) => {
             // Check if response is successful
             if (data.status) {
                 toast.success("Comment Submitted!");
+                after();
                 onClose(); // Close the form after successful submission
             } else {
                 toast.error("Error submitting comment! Please try again.");

@@ -178,7 +178,7 @@ const Header = () => {
                     onClick={toggleDropdown}
                     className="flex"
                   >
-                    Manage Query <ChevronDown size={15} className='mt-1 ml-1'/>
+                    Manage Query <ChevronDown size={15} className='mt-1 ml-1' />
                   </button>
                   {dropdownOpen && (
                     <div className="absolute bg-white text-black shadow-md mt-3 border  p-2 wnav ">
@@ -200,7 +200,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
 
-                          
+
 
                           {(userType == "Data Manager" || userType == "sub-admin" || userType == "admin") && (
                             <button onClick={() => handleNavigation('/camp-history')} className="block px-4 py-2  w-full dropdownmenu">Camp History</button>
@@ -237,7 +237,7 @@ const Header = () => {
                         onClick={toggleMasterDropdown}
                         className="flex"
                       >
-                        Master Data <ChevronDown size={15} className='mt-1 ml-1'/>
+                        Master Data <ChevronDown size={15} className='mt-1 ml-1' />
                       </button>
                       {masterDropdownOpen && (
                         <div className="absolute bg-white text-black shadow-md mt-3 border p-2 w-60 ">
@@ -296,10 +296,14 @@ const Header = () => {
 
               </>
             )}
+            {(userType === "admin" ||
+              (userType === "user" && sessionStorage.getItem("crmRoleType") === "opsuser") ||
+              userType === "Data Manager") && (
+                <button onClick={() => handleNavigation('/validation')} className="">
+                  Validation
+                </button>
+              )}
 
-            <button onClick={() => handleNavigation('/validation')} className="">
-              Validation
-            </button>
           </nav>
         </div>
 
@@ -363,7 +367,7 @@ const Header = () => {
               </ul>
             </div>
           )}
-          {(userType == "admin" || userType == "sub-admin") && (
+          {(userType == "admin" || userType == "sub-admin" || userType == "user") && (
             <button
               onClick={() => { navigate('client-mail') }}
               className="text-white relative p-2 ">

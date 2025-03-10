@@ -92,6 +92,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
     if ((oldStatus == 8 && newStatus == 2) || (oldStatus == 3 && newStatus == 2)) showStatus = "1-2";
     if (oldStatus == 8 && newStatus == 6) showStatus = "1-6";
 
+
     // Filter WhatsApp options based on status
     const filteredOptions = whatsappOptions.filter(
       (opt) => opt.status_from + "-" + opt.status_to == showStatus
@@ -383,7 +384,12 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       if (whatsappCheckBoxChecked) {
         setWhatsappCheckBoxChecked((prev) => !prev);
       } else {
-        setWhatsappCheckBoxChecked((prev) => !prev);
+        if (status == queryInfo.update_status) {
+          toast.error("Please Change Status First")
+        } else {
+          setWhatsappCheckBoxChecked((prev) => !prev);
+        }
+
       }
 
       return;
@@ -393,7 +399,11 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       if (callCheckBoxChecked) {
         setCallCheckBoxChecked((prev) => !prev);
       } else {
-        setCallCheckBoxChecked((prev) => !prev);
+        if (status == queryInfo.update_status) {
+          toast.error("Please Change Status First")
+        } else {
+          setCallCheckBoxChecked((prev) => !prev);
+        }
       }
       return;
     }
@@ -410,6 +420,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       setEmailDivVisible((prev) => !prev)
 
     }
+
 
   };
 
@@ -646,7 +657,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       });
       console.log(response)
       const result = await response.json();
-      
+
       if (result.status) {
         console.log("Form submitted successfully!", response);
         toast.success("Submitted successfully!");
@@ -737,7 +748,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         )}
 
         {commentsTabVisible ? (
-          <CommentForm onClose={() => { setCommentsTabVisible(!commentsTabVisible) }} queryInfo={queryInfo} status={status} />
+          <CommentForm onClose={() => { setCommentsTabVisible(!commentsTabVisible) }} queryInfo={queryInfo} status={status} after={after} />
         ) : (
           <div className="col-md-12" id="emailCommentsDiv">
             {userType !== 'Data Manager' && queryInfo.email_id && (
@@ -771,44 +782,44 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                     <div id="send_mail_type1Div" style={{ display: emailDivVisible ? "block" : "none" }}>
                       <div className=" w-full flex justify-end items-end  ">
                         <div className='col-md-4 dashboardinput'>
-                        <select
-                          onChange={(e) => handleTemplateChange(e.target.value)}
-                          className="block w-full px-2 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
-                        >
-                          <option value="" disabled selected>
-                            {templateInfo && templateInfo.length > 0 ? 'Choose Template' : 'Mail Template'}
-                          </option>
-                          {templateInfo && templateInfo.length > 0 ? (
-                            templateInfo.map((template) => (
-                              <option key={template.id} value={template.id}>
-                                {template.template_name}
-                              </option>
-                            ))
-                          ) : (
-                            <option disabled>Template not found.</option>
-                          )}
-                        </select>
+                          <select
+                            onChange={(e) => handleTemplateChange(e.target.value)}
+                            className="block w-full px-2 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                          >
+                            <option value="" disabled selected>
+                              {templateInfo && templateInfo.length > 0 ? 'Choose Template' : 'Mail Template'}
+                            </option>
+                            {templateInfo && templateInfo.length > 0 ? (
+                              templateInfo.map((template) => (
+                                <option key={template.id} value={template.id}>
+                                  {template.template_name}
+                                </option>
+                              ))
+                            ) : (
+                              <option disabled>Template not found.</option>
+                            )}
+                          </select>
                         </div>
-                        
+
                       </div>
 
                       {!templateApproved ? (
                         <div>
                           <div className="mt-2 mx-auto bg-white  rounded-lg py-2">
                             <div className='d-flex gap-2'>
-                            <div className='w-1/2'>
-                            <div className="mb-3">
-                              <label className="block font-semibold">From:</label>
-                              <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.website_email} />
-                            </div>
-                            </div>
+                              <div className='w-1/2'>
+                                <div className="mb-3">
+                                  <label className="block font-semibold">From:</label>
+                                  <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.website_email} />
+                                </div>
+                              </div>
 
-                            <div className='w-1/2'>
-                            <div className="mb-3" disabled>
-                              <label className="block font-semibold">To:</label>
-                              <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.email_id} readOnly disabled />
-                            </div>
-                            </div>
+                              <div className='w-1/2'>
+                                <div className="mb-3" disabled>
+                                  <label className="block font-semibold">To:</label>
+                                  <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.email_id} readOnly disabled />
+                                </div>
+                              </div>
                             </div>
 
                             <div className="flex gap-4 mb-4">
@@ -914,14 +925,14 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               )}
                             </div>
 
-                          <div className='d-flex justify-content-end mt-2'>
-                            <button
-                              type="button"
-                              className="bg-orange-500 text-white px-2 py-1 rounded fssx"
-                              onClick={() => approveTemplate(1)}
-                            >
-                              Approve
-                            </button>
+                            <div className='d-flex justify-content-end mt-2'>
+                              <button
+                                type="button"
+                                className="bg-orange-500 text-white px-2 py-1 rounded fssx"
+                                onClick={() => approveTemplate(1)}
+                              >
+                                Approve
+                              </button>
                             </div>
 
                           </div>
@@ -969,6 +980,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                           onChange={handleOptionChange}
                         >
                           <option value="">Select an Option</option>
+                          {console.log(filteredWhatsappOptions)}
                           {filteredWhatsappOptions.map((whatsappOptValueData) => (
                             <option
                               key={whatsappOptValueData.id}
@@ -1212,7 +1224,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                   </div>
 
                 </div>
-                
+
 
                 <div className='flex items-center justify-between '>
                   <button

@@ -82,7 +82,7 @@ const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOp
                 {/* Show CommentDiv when commentsDivVisible is true */}
                 <AnimatePresence>
                     {commentsDivVisible && (
-                        <CommentDiv commentInfo={commentInfo} onClose={() => { setCommentsTabVisible(false) }} />
+                        <CommentDiv commentInfo={commentInfo} onClose={() => { setCommentsTabVisible(false) }} after={after}/>
                     )}
                 </AnimatePresence>
             </div>

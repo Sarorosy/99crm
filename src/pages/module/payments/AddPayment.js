@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion } from 'framer-motion';
 import { X } from "lucide-react";
 import toast from "react-hot-toast";
-const AddPayment = ({onClose, finalFunction}) => {
+const AddPayment = ({ onClose, finalFunction }) => {
     const [formData, setFormData] = useState({
         clientType: "",
         refId: "",
@@ -10,7 +10,7 @@ const AddPayment = ({onClose, finalFunction}) => {
         name: "",
         email: "",
         serviceName: "",
-        upload_file: null, 
+        upload_file: null,
         clientAddress: "",
         pincode: "",
         currency: "",
@@ -104,6 +104,11 @@ const AddPayment = ({onClose, finalFunction}) => {
             toast.error("Please select payment date");
             return false;
         }
+        const today = new Date().toISOString().split("T")[0]; // Get today's date in YYYY-MM-DD format
+        if (formData.paymentDate > today) {
+            toast.error("Payment date cannot be in the future");
+            return false;
+        }
         return true;
     };
 
@@ -112,7 +117,7 @@ const AddPayment = ({onClose, finalFunction}) => {
         if (validateForm()) {
             try {
                 const formDataToSend = new FormData();
-                
+
                 // Append all form fields to FormData
                 formDataToSend.append('client_type', formData.clientType);
                 formDataToSend.append('refId', formData.refId);
@@ -149,12 +154,12 @@ const AddPayment = ({onClose, finalFunction}) => {
                 }
 
                 const result = await response.json();
-                if(result.status){
+                if (result.status) {
                     toast.success("Payment added successfully!");
                     onClose(); // Close the form after successful submission
                     finalFunction();
                 }
-               
+
             } catch (error) {
                 console.error('Error:', error);
                 toast.error("Failed to add payment. Please try again.");
@@ -162,7 +167,7 @@ const AddPayment = ({onClose, finalFunction}) => {
         }
     };
 
-   
+
 
 
     return (
@@ -185,7 +190,7 @@ const AddPayment = ({onClose, finalFunction}) => {
                 <form onSubmit={handleSubmit} className="p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Client Type *</label>
-                        <select name="clientType" value={formData.clientType} onChange={handleChange} 
+                        <select name="clientType" value={formData.clientType} onChange={handleChange}
                             className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Client Type</option>
                             <option value="New Client">New Client</option>
@@ -196,14 +201,14 @@ const AddPayment = ({onClose, finalFunction}) => {
                     {formData.clientType === "Existing Client" && (
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Ref Id *</label>
-                            <input type="text" name="refId" value={formData.refId} onChange={handleChange} 
+                            <input type="text" name="refId" value={formData.refId} onChange={handleChange}
                                 className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                         </div>
                     )}
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Quotation Id *</label>
-                        <input type="text" name="quotationId" value={formData.quotationId} onChange={handleChange} 
+                        <input type="text" name="quotationId" value={formData.quotationId} onChange={handleChange}
                             className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
@@ -223,11 +228,11 @@ const AddPayment = ({onClose, finalFunction}) => {
                     </div>
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Upload File</label>
-                        <input 
-                            type="file" 
-                            name="upload_file" 
+                        <input
+                            type="file"
+                            name="upload_file"
                             onChange={handleChange}
-                            className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 p-1.5" 
+                            className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 p-1.5"
                         />
                     </div>
 
@@ -285,12 +290,12 @@ const AddPayment = ({onClose, finalFunction}) => {
                         <>
                             <div className="space-y-1 md:col-span-2">
                                 <label className="text-sm font-medium text-gray-700">Bank Name *</label>
-                                <input type="text" name="bankName" value={formData.bankName} onChange={handleChange} 
+                                <input type="text" name="bankName" value={formData.bankName} onChange={handleChange}
                                     className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                             </div>
                             <div className="space-y-1 md:col-span-2">
                                 <label className="text-sm font-medium text-gray-700">Bank Account *</label>
-                                <input type="text" name="bankAccount" value={formData.bankAccount} onChange={handleChange} 
+                                <input type="text" name="bankAccount" value={formData.bankAccount} onChange={handleChange}
                                     className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                             </div>
                         </>
@@ -299,26 +304,26 @@ const AddPayment = ({onClose, finalFunction}) => {
                     {formData.mode === "Online" && (
                         <div className="space-y-1 md:col-span-4">
                             <label className="text-sm font-medium text-gray-700">Payment Url *</label>
-                            <input type="text" name="paymentUrl" value={formData.paymentUrl} onChange={handleChange} 
+                            <input type="text" name="paymentUrl" value={formData.paymentUrl} onChange={handleChange}
                                 className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                         </div>
                     )}
 
                     <div className="space-y-1 ">
                         <label className="text-sm font-medium text-gray-700">Payment Date *</label>
-                        <input type="date" name="paymentDate" value={formData.paymentDate} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="date" name="paymentDate" max={new Date().toISOString().split("T")[0]} value={formData.paymentDate} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="md:col-span-4 flex items-center space-x-2">
-                        <input type="checkbox" id="includeSubscriptionPrice" name="includeSubscriptionPrice" 
-                            checked={formData.includeSubscriptionPrice} 
+                        <input type="checkbox" id="includeSubscriptionPrice" name="includeSubscriptionPrice"
+                            checked={formData.includeSubscriptionPrice}
                             onChange={handleChange}
                             className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
                         <label htmlFor="includeSubscriptionPrice" className="text-sm font-medium text-gray-700">Subscription Amount Included</label>
                     </div>
 
                     <div className="md:col-span-4 flex justify-end">
-                        <button type="submit" 
+                        <button type="submit"
                             className="w-48 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
                             Submit
                         </button>

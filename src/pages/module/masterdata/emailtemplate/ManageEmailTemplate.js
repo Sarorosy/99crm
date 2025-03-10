@@ -30,8 +30,8 @@ const ManageEmailTemplate = () => {
     const [assignUsers, setAssignUsers] = useState(() => {
         const userType = sessionStorage.getItem('user_type');
         const userId = sessionStorage.getItem('id');
-        return (userType != 'admin' && userType != 'sub-admin' && userId) 
-            ? [userId] 
+        return (userType != 'admin' && userType != 'sub-admin' && userId)
+            ? [userId]
             : [];
     });
 
@@ -69,14 +69,24 @@ const ManageEmailTemplate = () => {
     const fetchEmailTemplates = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getemailtemplates');
+            const response = await fetch('https://99crm.phdconsulting.in/api/getallemailtemplates', {
+                method: 'POST',
+                body: JSON.stringify({
+                    user_id: sessionStorage.getItem('id'),
+                    user_type: sessionStorage.getItem('user_type'),
+                    category: sessionStorage.getItem('category'),
+                }
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+                )
+            });
+
+
 
             const data = await response.json();
-            setSettings(data.data);
+            if(data.status){
+                setSettings(data.templateData);
+            }
+            
         } catch (error) {
             console.error('Error fetching Email templates:', error);
         } finally {
@@ -252,14 +262,12 @@ const ManageEmailTemplate = () => {
                 return `<div style="text-align: left;">${meta.row + 1}</div>`;
             },
         },
-        {
+        (sessionStorage.getItem('user_type') === 'admin') && {
             title: 'Category',
             orderable: false,
             data: 'category',
             width: "50px",
-            render: (data) => {
-                return `<div style="text-align: left;width:50px;">${data}</div>`;
-            },
+            render: (data) => `<div style="text-align: left;width:50px;">${data}</div>`,
         },
         {
             title: 'Template Name',
@@ -272,15 +280,16 @@ const ManageEmailTemplate = () => {
         {
             title: 'Website',
             orderable: false,
-            data: 'website',
+            data: 'website_name',
             width: "70px",
             render: (data) => {
                 return `<div style="text-align: left;">${data}</div>`;
             },
         },
+        (sessionStorage.getItem('user_type') != 'user') &&
         {
             title: 'Assign User',
-            data: 'assigned_users',
+            data: 'assign_user_name',
             orderable: false,
             render: (data) => {
                 // Check if data is empty
@@ -318,7 +327,7 @@ const ManageEmailTemplate = () => {
         </div>
       `,
         },
-    ];
+    ].filter(Boolean);;
 
 
     const handleCheckboxClick = (event) => {
@@ -499,26 +508,26 @@ const ManageEmailTemplate = () => {
                                 <label className="block text-sm font-medium text-gray-700">Mail Body</label>
 
                                 <ReactQuill
-  value={mailBody}
-  onChange={(content) => setMailBody(content)}
-  modules={{
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ align: [] }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link'],
-      ['clean']
-    ],
-  }}
-  formats={[
-    'bold', 'italic', 'underline', 'align',
-    'list', 'bullet', 'link', 'clean'
-  ]}
-  style={{ height: 350 }}
-  placeholder="Signature"
-/>
+                                    value={mailBody}
+                                    onChange={(content) => setMailBody(content)}
+                                    modules={{
+                                        toolbar: [
+                                            ['bold', 'italic', 'underline'],
+                                            [{ align: [] }],
+                                            [{ list: 'ordered' }, { list: 'bullet' }],
+                                            ['link'],
+                                            ['clean']
+                                        ],
+                                    }}
+                                    formats={[
+                                        'bold', 'italic', 'underline', 'align',
+                                        'list', 'bullet', 'link', 'clean'
+                                    ]}
+                                    style={{ height: 350 }}
+                                    placeholder="Signature"
+                                />
                             </div>
-                            <div className="mb-3" style={{display : sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "sub-admin" ? 'block' : 'none'}}>
+                            <div className="mb-3" style={{ display: sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "sub-admin" ? 'block' : 'none' }}>
                                 <label className="block text-sm font-medium text-gray-700">Assign Users</label>
                                 <select
                                     className="w-full p-2 border rounded"
@@ -563,7 +572,7 @@ const ManageEmailTemplate = () => {
                     onClose={() => setIssingleModalOpen(false)}
                 />
             )}
-           
+
 
         </div>
     );

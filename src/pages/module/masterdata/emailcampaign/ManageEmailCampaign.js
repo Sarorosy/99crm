@@ -40,10 +40,10 @@ const ManageEmailCampaign = () => {
         setIsEditingSetting(!isEditingSetting);
     };
 
-    const fetchTags = async () => {
+    const fetchAllCampaigns = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallcampaigns');
+            const response = await fetch('https://99crm.phdconsulting.in/api/getallcampaigns');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -61,7 +61,7 @@ const ManageEmailCampaign = () => {
 
     const handleDelete = () => {
         if (selectedTags.length === 0) {
-            toast.error("Please select at least one setting to delete.");
+            toast.error("Please select at least one data to delete.");
             return;
         }
         setIsModalOpen(true);
@@ -88,7 +88,7 @@ const ManageEmailCampaign = () => {
             setTags(tags.filter((setting) => !selectedTags.includes(setting.id)));
             toast.success('Campaigns deleted successfully!');
             setTimeout(() => {
-                fetchTags();
+                fetchAllCampaigns();
             }, 1000)
 
         } catch (error) {
@@ -122,7 +122,7 @@ const ManageEmailCampaign = () => {
     };
 
     useEffect(() => {
-        fetchTags();
+        fetchAllCampaigns();
     }, []);
 
     const columns = [
@@ -159,11 +159,11 @@ const ManageEmailCampaign = () => {
             },
         },
         {
-            title: 'Website',
+            title: 'Website/User',
             orderable: false,
-            data: 'website_name',
-            render: (data) => {
-                return `<div style="text-align: left;">${data}</div>`;
+            data: 'null',
+            render: (data, type, row) => {
+                return `<div style="text-align: left;">${row.website_name ?? ''} ${row.user_email ?? ''}</div>`;
             },
         },
         {
@@ -217,7 +217,7 @@ const ManageEmailCampaign = () => {
     };
 
     const handleRefresh = () => {
-        fetchTags();
+        fetchAllCampaigns();
     };
 
     return (
@@ -243,7 +243,7 @@ const ManageEmailCampaign = () => {
                         onClick={handleRefresh}
                         className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
                     >
-                        <RefreshCw size={15}/>
+                        <RefreshCw size={15} />
                     </button>
                 </div>
             </div>
@@ -270,7 +270,7 @@ const ManageEmailCampaign = () => {
                 <ConfirmationModal
                     context={{
                         title: 'Confirm Deletion',
-                        message: `Are you sure you want to delete ${selectedTags.length} setting(s)?`,
+                        message: `Are you sure you want to delete ${selectedTags.length} campaigns(s)?`,
                     }}
                     onConfirm={onConfirmDelete}
                     isReversible={false}
@@ -302,13 +302,13 @@ const ManageEmailCampaign = () => {
                     <AddEmailCampaign
                         onClose={() => { setIsAddingSetting(!isAddingSetting) }}
                         afterSave={handleRefresh}
-                        campaignId={selectedCampaignId}
+                        campaignId={null}
                     />
 
                 )}
                 {isCopyOpen && (
 
-                    <CopyEmailCampaign
+                    <AddEmailCampaign
                         onClose={() => { setIsCopyOpen(!isCopyOpen) }}
                         afterSave={handleRefresh}
                         campaignId={selectedCampaignId}

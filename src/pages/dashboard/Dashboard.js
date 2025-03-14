@@ -23,6 +23,7 @@ import QueryDetails from "../managequery/QueryDetails";
 import DashboardSummary from "./DashboardSummary";
 import AverageClaimedQueries from "./AverageClaimedQueries";
 import TodaysTasks from "./TodayTasks";
+import SpecificTransferredQueries from "./SpecificTransferredQueries";
 const Dashboard = () => {
     // State for the filter inputs
     const [endDate, setEndDate] = useState(moment());
@@ -74,6 +75,10 @@ const Dashboard = () => {
     const [showFilter, setShowFilter] = useState(false);
     const [showConversationSummary, setShowConversationSummary] = useState(false);
     const [showAverageClaimedQueries, setShowAverageClaimedQueries] = useState(false);
+
+    const [showSpecificTransferredQueries, setShowSpecificTransferredQueries] = useState(false);
+    const [reconnectSetquery, setReconnectSetquery] = useState([]);
+    const [showReconnectQueries, setShowReconnectQueries] = useState(false);
 
 
     const fetchTeams = async () => {
@@ -183,6 +188,7 @@ const Dashboard = () => {
             setDelayCount(DelayCount || 0);
             setInternalCommentPendingData(internalCommentPendingData || []);
             setInternalCommentResolvedData(internalCommentResolvedData || []);
+            setReconnectSetquery(response.data.reconnectSetquery || []);
 
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
@@ -426,6 +432,15 @@ const Dashboard = () => {
                         <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowAverageClaimedQueries(!showAverageClaimedQueries)}>
                             Show Average Claimed Queries
                         </button>
+                        {reconnectSetquery && reconnectSetquery.length > 0 && (
+                            <button className="bg-[#139cbb] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowReconnectQueries(!showReconnectQueries)}>
+                                Reconnect Queries
+                            </button>
+                        )}
+
+                        <button className="bg-[#e68414] text-[#ffffff] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowSpecificTransferredQueries(!showSpecificTransferredQueries)}>
+                            Specific Transferred Queries
+                        </button>
                     </div>
                 </div>
 
@@ -560,6 +575,21 @@ const Dashboard = () => {
                 )}
                 {showAverageClaimedQueries && (
                     <AverageClaimedQueries websiteId={website} onClose={() => setShowAverageClaimedQueries(false)} />
+                )}
+                {showSpecificTransferredQueries && (
+                    <SpecificTransferredQueries onClose={() => { setShowSpecificTransferredQueries(false) }} />
+                )}
+                {showReconnectQueries && (
+                    <div className="mt-2 flex flex-wrap gap-2 bg-gray-100 max-w-xl mx-auto p-2 rounded-lg">
+                        {reconnectSetquery.map((item, index) => (
+                            <span
+                                key={index}
+                                className="bg-orange-500 text-white px-1 py-0.5 rounded elevenpx"
+                            >
+                                {item.assign_id}
+                            </span>
+                        ))}
+                    </div>
                 )}
             </AnimatePresence>
 

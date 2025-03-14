@@ -596,9 +596,9 @@ const RemainderQuery = () => {
                         >
                             <Trash2 className='mr-2' size={14} />  Delete
                         </button> */}
-                        
+                        {sessionStorage.getItem('user_type') == 'admin' && (
                         <ExportButtonQuery selectedQueries={selectedQueries} users={reports}  clearSelectedUsers={clearSelectedUsers}/>
-
+                    )}
                     </div>
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
                         <DataTable

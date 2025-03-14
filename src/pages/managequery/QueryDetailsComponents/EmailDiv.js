@@ -9,14 +9,14 @@ import CommentForm from './CommentForm';
 import HistoryComponent from './HistoryComponent';
 import moment from "moment";
 
-const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions, after }) => {
+const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions, after, onClose }) => {
+  
   const [status, setStatus] = useState(queryInfo.update_status);
   const [remainderDate, setRemainderDate] = useState(
     queryInfo.remainder_date
       ? new Date(queryInfo.remainder_date * 1000).toISOString().split("T")[0]
       : ''
   );
-
   const [showRemainderDiv, setShowRemainderDiv] = useState(queryInfo.update_status === 7);
   const [showccField, setccShowField] = useState(false);
   const [showbccField, setbccShowField] = useState(false);
@@ -169,6 +169,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
   const handleCallOptionChange = (event) => {
     const selectedId = event.target.value;
+    setSelectedCallOption(selectedId);
     console.log(selectedId)
     if (selectedId == 5 || selectedId == 16 || selectedId == 18 || selectedId == 20 || selectedId == 22 || selectedId == 23 || selectedId == 24 || selectedId == 25) {
       setCallSubOptionDisplay(true)
@@ -178,7 +179,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         (opt) => opt.id === parseInt(selectedId)
       );
 
-      setSelectedCallOption(selectedId);
+      
 
 
       // Extract and split sub_options if available
@@ -459,7 +460,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
 
   const handleSubmitButtonClick = (queryInfo, arrTag, remainderDate) => {
-    const totalTag = (!arrTag || arrTag.length === 0) ? 0 : arrTag.length;
+    console.log("arr" + arrTag)
+    const totalTag = arrTag.length;
     const currentStatus = queryInfo.update_status;
 
 
@@ -666,6 +668,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         console.log("Form submitted successfully!", response);
         toast.success("Submitted successfully!");
         after();
+       // onClose();
 
       } else {
         console.error("Error submitting form:", response);
@@ -775,7 +778,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                             id="send_mail_type1"
                             className='h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed'
                             checked={emailCheckBoxChecked}
-                            onChange={() => { ClickAndCheckMailType(1, queryInfo.arrTags, queryInfo.update_status) }}
+                            onChange={() => { ClickAndCheckMailType(1, queryInfo.arrTags ?? [], queryInfo.update_status) }}
                           />
                         )}
                         <span className='ml-3 text-gray-800'>Email</span>
@@ -969,7 +972,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                         className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         checked={whatsappCheckBoxChecked}
                         disabled={whatsappCheckBoxDisabled}
-                        onChange={() => ClickAndCheckMailType(3, queryInfo.arrTags, queryInfo.update_status)}
+                        onChange={() => ClickAndCheckMailType(3, queryInfo.arrTags ?? [], queryInfo.update_status)}
                       />
                       <label htmlFor="whatsapp_checkbox" className="text-green-900 font-medium select-none mb-0">
                         WhatsApp
@@ -1103,7 +1106,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                         className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
                         checked={callCheckBoxChecked}
                         disabled={callCheckBoxDisabled}
-                        onChange={() => ClickAndCheckMailType(4, queryInfo.arrTags, queryInfo.update_status)}
+                        onChange={() => ClickAndCheckMailType(4, queryInfo.arrTags ?? [], queryInfo.update_status)}
                       />
                       <label htmlFor="call_checkbox" className="text-blue-900 font-medium select-none mb-0">
                         Call
@@ -1240,7 +1243,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
                   <button
                     type='button'
-                    onClick={() => handleSubmitButtonClick(queryInfo, queryInfo.arrTags, remainderDate)}
+                    onClick={() => handleSubmitButtonClick(queryInfo, queryInfo.arrTags ?? [], remainderDate)}
                     className="bg-orange-500 hover:bg-orange-600 text-white my-3 fssx py-1 px-2 rounded shadow-md transition duration-300"
                   >
                     Submit

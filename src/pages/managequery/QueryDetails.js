@@ -267,7 +267,7 @@ const QueryDetails = ({ refId, onClose }) => {
                         </div>
                     </div>
                     {queryInfo && queryInfo != null && (
-                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={fetchQueryDetails}/>
+                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={fetchQueryDetails} onClose={onClose}/>
                     )}
                 </div>
                 

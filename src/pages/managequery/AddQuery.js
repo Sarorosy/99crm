@@ -695,10 +695,6 @@ const AddQuery = () => {
             }
             
             
-        
-            
-            
-
         } catch (error) {
             console.error("Error submitting query:", error);
             toast.error("An unexpected error occurred. Please try again!");

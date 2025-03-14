@@ -1,10 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import moment from 'moment'; // To format the time as "X ago"
 import { CircleX } from 'lucide-react';
+import toast from 'react-hot-toast';
 
-const CommentDiv = ({ commentInfo, onClose }) => {
+const CommentDiv = ({ commentInfo, onClose, assignId }) => {
     const [isDetailsVisible, setIsDetailsVisible] = useState(false); // State to toggle visibility of the floating div
+    const [unArchiveData, setUnArchiveData] = useState({});
+    const [archiveData, setArchiveData] = useState({});
+    const userType = sessionStorage.getItem('user_type');
+    const [commentData, setCommentData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState('Loading..Please wait');
 
     const getProfilePicInitials = (name) => {
         const firstName = name.split(' ')[0]; // Get the first word of the name
@@ -14,6 +21,90 @@ const CommentDiv = ({ commentInfo, onClose }) => {
     const handleAdminClick = () => {
         setIsDetailsVisible(!isDetailsVisible); // Toggle the floating div visibility on admin name click
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('https://99crm.phdconsulting.in/api/getcommentsarchivetabs', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ assign_id: assignId }),
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+    
+                const data = await response.json();
+                if (data.status) {
+                    setUnArchiveData(data.UnArchiveData || {}); // Default to empty object if undefined
+                    setArchiveData(data.ArchiveData || {}); // Default to empty object if undefined
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        if (assignId) {
+            fetchData();
+        }
+    }, [assignId]); // Run effect when assignId changes
+    
+    const saveCommentsArchive = async (assignId) => {
+        try {
+            const response = await fetch('https://99crm.phdconsulting.in/api/savecommentsarchive', {
+                method: 'POST',
+                body: JSON.stringify({ assign_id: assignId })});
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.json();
+            if (data.status) {
+                toast.success('Comments archived successfully!');
+                setCommentData(data.CommentInfo);
+            }
+        }
+        catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
+
+    const getArchiveComments = async (archiveNo) => {
+        try {
+            setLoading(true);
+            const response = await fetch('https://99crm.phdconsulting.in/api/getquerycomments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ assign_qid: assignId, archive_no: archiveNo }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.status) {
+                console.log(data);
+                setCommentData(data.CommentInfo);
+                if(data.CommentInfo.length == 0){
+                    setLoadingMessage('No comments available!');
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }finally{
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getArchiveComments(0);
+    }, []);
+    
 
     return (
         <div className="bg-white rounded-lg shadow-lg p-4 relative col-md-12 mt-3">
@@ -26,8 +117,49 @@ const CommentDiv = ({ commentInfo, onClose }) => {
             
             <h2 className="text-lg font-semibold">Previous Comments</h2>
 
-            {commentInfo.length > 0 ? (
-                commentInfo.map((comment) => (
+            <div className="row">
+            {/* Archive Tabs Section */}
+            <div className="col-md-10">
+                {archiveData.length > 0 && (
+                    <ul className="nav nav-tabs tab-scetion">
+                        {archiveData.map((data) => (
+                            <li key={data.archive_no} id={`archiveList${data.archive_no}`}>
+                                <button
+                                    style={{ color: "#444", borderRadius: "0" }}
+                                    data-toggle="tab"
+                                    className='btn btn-warning btn-sm'
+                                    onClick={() => getArchiveComments(data.archive_no)}
+                                >
+                                    Archive {data.archive_no}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
+
+            {/* Save Archive Button Section */}
+            <div className="col-md-2">
+                {userType == "user" && unArchiveData.length > 0 && (
+                    <button
+                        style={{
+                            margin: "0px",
+                            padding: "2px",
+                            fontSize: "11px",
+                            float: "right",
+                        }}
+                        type="button"
+                        className="btn btn-primary btn-sm"
+                         onClick={() => saveCommentsArchive(assignId)}
+                    >
+                        Save Archive
+                    </button>
+                )}
+            </div>
+        </div>
+
+            {commentData.length > 0 ? (
+                commentData.map((comment) => (
                     <div key={comment.id} className="border-b p-4 mb-4 bg-gray-50 rounded-md relative">
                         <div className="flex items-center space-x-4 mb-4">
                             <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-semibold">
@@ -69,7 +201,7 @@ const CommentDiv = ({ commentInfo, onClose }) => {
                     </div>
                 ))
             ) : (
-                <p className='alert alert-danger mt-4 text-center'>No comments available.</p>
+                <p className={`alert ${loading ? 'alert-warning' : 'alert-danger'} mt-4 text-center`}>{loadingMessage}</p>
             )}
         </div>
     );

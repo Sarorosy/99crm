@@ -215,9 +215,7 @@ const Header = () => {
                             <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">User Data Specific Query</button>
 
                           )}
-                          {userType == "sub-admin" && (
-                            <button onClick={() => handleNavigation('/querysummary')} className="block px-4 py-2  w-full dropdownmenu bbnone">Query Summary</button>
-                          )}
+                          
 
                         </>
                       ) :

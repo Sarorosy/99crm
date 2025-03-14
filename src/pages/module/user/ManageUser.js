@@ -289,7 +289,7 @@ const ManageUser = () => {
 
   return (
     <div className="">
-      
+
       <div className="my-3 flex justify-between">
         <h1 className="text-md font-bold">Users List</h1>
         <div className='flex items-center'>
@@ -301,15 +301,19 @@ const ManageUser = () => {
             <ChartLine className="mr-2" size={14} />
             {statisticsVisible ? 'Hide Stats' : 'Show Stats'}
           </button>
-          <button
-            onClick={handleDelete}
-            className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
-          >
-            <Trash2 className='mr-2' size={14} />Delete
-          </button>
-          <div className='mr-3'>
-            <ExportButton selectedUsers={selectedUsers} users={users} clearSelectedUsers={clearSelectedUsers} />
-          </div>
+          {sessionStorage.getItem('user_type') == 'admin' && (
+            <button
+              onClick={handleDelete}
+              className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
+            >
+              <Trash2 className='mr-2' size={14} />Delete
+            </button>
+          )}
+          {sessionStorage.getItem('user_type') == 'admin' && (
+            <div className='mr-3'>
+              <ExportButton selectedUsers={selectedUsers} users={users} clearSelectedUsers={clearSelectedUsers} />
+            </div>
+          )}
           <button
             // onClick={() => navigate('/manageuser/adduser/')}
             onClick={toggleAddUserVisibility}

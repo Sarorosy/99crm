@@ -20,6 +20,8 @@ import QueryDetails from './QueryDetails';
 import AssignQueryCampaignModal from './AssignQUeryCampaignModal';
 import editsvg from '../../assets/edit-svgrepo-com.svg';
 import EditQuery from './EditQuery';
+import SpecificTransfer from './SpecificTransfer';
+import SpecificTransferredQueries from '../dashboard/SpecificTransferredQueries';
 
 const UserQuery = () => {
     DataTable.use(DT);
@@ -60,6 +62,8 @@ const UserQuery = () => {
     const [selectedRefIdPriority, setSelectedRefIdPriority] = useState('');
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [editPageOpen, setEditPageOpen] = useState(false);
+    const [specificTranferQueries, setSpecificTranferQueries] = useState([]);
+    const [showSpecificTransferredQueries, setShowSpecificTransferredQueries] = useState(false);
 
     const [selectedTeamForTransfer, setSelectedTeamForTransfer] = useState(null);
     const [transferUserType, setTransferUserType] = useState('');
@@ -74,6 +78,8 @@ const UserQuery = () => {
     const [campaignModalOpen, setCampaignModalOpen] = useState(false);
 
     const [showFilter, setShowFilter] = useState(false);
+
+    const [specificTranfer, setSpecificTranfer] = useState(false);
 
     const websiteRef = useRef(null);
     const tagsRef = useRef(null);
@@ -101,7 +107,7 @@ const UserQuery = () => {
     }, [websites]);
 
     const getTagNames = (tagIds) => {
-        if (!tagIds) return ""; 
+        if (!tagIds) return "";
         return tagIds
             .split(",") // Split the string into an array of IDs
             .map(id => {
@@ -111,7 +117,7 @@ const UserQuery = () => {
             .filter(name => name) // Remove any empty values
             .join(", "); // Join names with a comma separator
     };
-    
+
 
     useEffect(() => {
         // Calculate dynamic date range (last 1 month)
@@ -200,18 +206,18 @@ const UserQuery = () => {
                 user_type: sessionStorage.getItem('user_type'),
                 user_name: sessionStorage.getItem('name'),
                 team_id: sessionStorage.getItem('team_id'),
-                Website_id:sessionStorage.getItem('website_id'),
+                Website_id: sessionStorage.getItem('website_id'),
                 tags: selectedTags,
                 search_keywords: searchKeywords,
                 filter_date: filterDate,
                 ref_id: refId,
-                update_status:updateStatus,
-                icon_filter:iconFilter,
-                callwhatsappfilter:callWhatsapp,
-                state:selectedState,
-                city:selectedCity,
-                search_user_id:selectedUser,
-                website:selectedWebsites,
+                update_status: updateStatus,
+                icon_filter: iconFilter,
+                callwhatsappfilter: callWhatsapp,
+                state: selectedState,
+                city: selectedCity,
+                search_user_id: selectedUser,
+                website: selectedWebsites,
             };
 
             const response = await axios.post('https://99crm.phdconsulting.in/api/loaduserquery', payload, {
@@ -225,11 +231,12 @@ const UserQuery = () => {
             }
 
             setReports(response.data.data);
-            if(sessionStorage.getItem('user_type') == "user"){
+            if (sessionStorage.getItem('user_type') == "user") {
                 setUsers([]);
-            }else{
+            } else {
                 setUsers(response.data.userArr);
             }
+            setSpecificTranferQueries(response.data.specifictransferquery);
         } catch (error) {
             console.error('Error fetching reports:', error);
             toast.error(error.message || 'Error fetching reports');
@@ -579,7 +586,7 @@ const UserQuery = () => {
         }).on('change', async (e) => {
             const selectedValues = $(e.target).val(); // Use select2's value retrieval method
             setSelectedTeamForTransfer(selectedValues);
-            
+
         });
 
 
@@ -738,7 +745,7 @@ const UserQuery = () => {
                 return ''; // If conditions are not met, don't show checkbox
             },
         },
-        
+
         {
             title: 'Ref No.',
             orderable: false,
@@ -807,11 +814,11 @@ const UserQuery = () => {
             render: (data, type, row) => {
                 const tagNames = getTagNames(data);
                 if (!tagNames) return '<div style="text-align: left;">-</div>';
-                
-                const tagSpans = tagNames.split(', ').map(tag => 
+
+                const tagSpans = tagNames.split(', ').map(tag =>
                     `<span style="background-color: #B6CEFFFF; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block;">${tag}</span>`
                 ).join('');
-                
+
                 return `<div style="text-align: left;">${tagSpans}</div>`;
             },
         },
@@ -1140,10 +1147,6 @@ const UserQuery = () => {
         }
     };
 
-
-
-
-
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
@@ -1198,7 +1201,7 @@ const UserQuery = () => {
                 update_status: updateStatus,
                 search_keywords: searchKeywords,
                 transfer_type: transferType,
-                
+
             };
 
             const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/loaduserquery', {
@@ -1267,10 +1270,32 @@ const UserQuery = () => {
         <div>
             <div className='bg-white py-2 rounded mb-3'>
                 <div className="flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex w-full justify-start px-4 py-2'>
-                        <h1 className="text-md font-bold flex items-center">Query History </h1>
-                        <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
-                            <FilterIcon size={14} className="" /></button>
+                    <div className='flex flex-col w-full justify-start px-4 py-2'>
+                        <div className='flex w-full justify-start px-4 py-2'>
+                            <h1 className="text-md font-bold flex items-center">Query History </h1>
+                            <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
+                                <FilterIcon size={14} className="" /></button>
+                        </div>
+                        {(sessionStorage.user_type === 'admin' || sessionStorage.user_type === 'Data Manager') && (
+                            <div className="row">
+                                <h6 className="col-md-12">
+                                    <div className="alert alert-danger strip elevenpx py-1.5">
+                                        Specific Transfer Back Request  
+                                        {specificTranferQueries && specificTranferQueries.length > 0 &&
+                                            specificTranferQueries.map((query) => (
+                                                <button className="bg-orange-600 elevenpx px-1 py-0.5 rounded text-white mx-2"
+                                                
+                                                onClick={()=>{ setShowSpecificTransferredQueries(true)}}>
+                                                    {query.ref_id} <i className="fa fa-angle-double-right"></i>
+                                                </button>
+                                            ))
+                                        }
+                                    </div>
+                                </h6>
+                            </div>
+
+                        )}
+
                     </div>
                     <div style={{ display: showFilter ? "block" : "none" }}>
 
@@ -1564,7 +1589,7 @@ const UserQuery = () => {
 
 
                 <div className=" flex-wrap items-center justify-between mb-2 px-4 qhpage"
-                style={{display:(sessionStorage.getItem('user_type') == "admin" || (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryTransRepliShift') == "Yes")) ? "flex" : "none"}}
+                    style={{ display: (sessionStorage.getItem('user_type') == "admin" || (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryTransRepliShift') == "Yes")) ? "flex" : "none" }}
                 >
                     {/* Selects Container */}
                     <div className="flex flex-wrap items-center gap-2 flex-1">
@@ -1604,7 +1629,7 @@ const UserQuery = () => {
                                                     body: JSON.stringify({ team_id: selectedTeamForTransfer, user_type: e.target.value }),
                                                 }
                                             );
-                        
+
                                             const data = await response.json();
                                             setUsersForTransfer(data.data || []); // Ensure it sets an array
                                         } catch (error) {
@@ -1745,12 +1770,23 @@ const UserQuery = () => {
                                     >
                                         Remove Bell Icon
                                     </button>
+                                    <button
+                                        style={{ fontSize: "10px" }}
+                                        onClick={() => { setSpecificTranfer(!specificTranfer) }}
+                                        className="bg-orange-600 hover:bg-orange-700 text-white py-1 px-2 bradius shadow-md ml-2"
+                                    >
+                                        Specific Transfer
+                                    </button>
                                 </>
 
                             )}
                     </div>
                 </div>
             </div>
+            {specificTranfer && (
+                <SpecificTransfer selectedQuery={selectedQueries} after={fetchQueries} onClose={() => setSpecificTranfer(false)} />
+            )}
+
 
 
 
@@ -1822,6 +1858,9 @@ const UserQuery = () => {
                 }
                 {editPageOpen && (
                     <EditQuery queryId={selectedRefId} onClose={() => { setEditPageOpen(!editPageOpen) }} queryPriority={selectedRefIdPriority} />
+                )}
+                {showSpecificTransferredQueries && (
+                    <SpecificTransferredQueries onClose={() => { setShowSpecificTransferredQueries(false) }} />
                 )}
             </AnimatePresence>
             <Tooltip id="my-tooltip" />

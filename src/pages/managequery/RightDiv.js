@@ -5,7 +5,7 @@ import EmailDiv from "./QueryDetailsComponents/EmailDiv";
 import { AnimatePresence } from "framer-motion";
 import CommentDiv from "./QueryDetailsComponents/CommentDiv";
 
-const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOptions, after }) => {
+const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOptions, after,onClose }) => {
     const userType = sessionStorage.getItem('user_type');
     const [activeTab, setActiveTab] = useState('email');
     const [commentsDivVisible, setCommentsTabVisible] = useState(false);
@@ -73,7 +73,7 @@ const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOp
                             </div>
                         ) : (
                             <div className="box-body emailBodyArea">
-                                <EmailDiv queryInfo={queryInfo} templateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={after} />
+                                <EmailDiv queryInfo={queryInfo} templateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={after} onClose={onClose}/>
                             </div>
                         )}
                     </>
@@ -82,7 +82,7 @@ const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOp
                 {/* Show CommentDiv when commentsDivVisible is true */}
                 <AnimatePresence>
                     {commentsDivVisible && (
-                        <CommentDiv commentInfo={commentInfo} onClose={() => { setCommentsTabVisible(false) }} after={after}/>
+                        <CommentDiv assignId={queryInfo.assign_id} commentInfo={commentInfo} onClose={() => { setCommentsTabVisible(false) }} after={after}/>
                     )}
                 </AnimatePresence>
             </div>

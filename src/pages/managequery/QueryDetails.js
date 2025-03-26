@@ -8,6 +8,7 @@ import InternalComments from './QueryDetailsComponents/InternalComments';
 import CampaignComments from './QueryDetailsComponents/CampaignComments';
 import toast from 'react-hot-toast';
 import RightDiv from './RightDiv';
+import UserPriceQuote from '../module/pricequote/UserPriceQuote';
 
 const QueryDetails = ({ refId, onClose }) => {
     const [activeTab, setActiveTab] = useState(1);
@@ -108,7 +109,7 @@ const QueryDetails = ({ refId, onClose }) => {
                 </div>;
             case 2:
                 return <div className="text-sm text-gray-700">
-                    <GeneratePriceQuote refId={refId} />
+                    <UserPriceQuote refId={refId} />
                 </div>;
             case 3:
                 return <div className="text-sm text-gray-700">

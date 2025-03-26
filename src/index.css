@@ -1202,6 +1202,9 @@ span.product-description {
 .elevenpx{
   font-size: 11px !important;
 }
+.thirteenpx{
+  font-size: 13px !important;
+}
 .small-badge{
   font-size: 10px;;
   background-color: rgb(255, 255, 255);
@@ -1209,3 +1212,55 @@ span.product-description {
   border-radius: 3px;
   padding: 1px;
 }
+
+input{
+  accent-color: #006c81;
+  outline: none;
+}
+
+select{
+  accent-color: #006c81;
+}
+.Advanced-set-bg {
+  font-size: 15px;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  padding: 5px; /* Adjust padding as needed */
+  border: 4px solid transparent;
+  border-image: linear-gradient(90deg, rgba(186,148,62,1) 0%, rgba(236,172,32,1) 20%, rgba(186,148,62,1) 39%, rgba(249,244,180,1) 50%, rgba(186,148,62,1) 60%, rgba(236,172,32,1) 80%, rgba(186,148,62,1) 100%);
+  border-image-slice: 1;
+  border-radius:6px;
+  background-color: #fff8d8;
+}
+.Standard-set-bg {
+  font-size: 15px;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  padding: 5px;
+  border: 4px solid transparent;
+  border-image: linear-gradient(90deg, rgba(192,192,192,1) 0%, rgba(211,211,211,1) 20%, rgba(192,192,192,1) 39%, rgba(245,245,245,1) 50%, rgba(192,192,192,1) 60%, rgba(211,211,211,1) 80%, rgba(192,192,192,1) 100%);
+  border-image-slice: 1;
+  border-radius:6px;
+  background: #f9f9f9;
+}
+
+.Basic-set-bg {
+  font-size: 15px;
+  text-transform: uppercase;
+  line-height: 1;
+  text-align: center;
+  padding: 5px;
+  border: 4px solid transparent;
+  border-image: linear-gradient(90deg, rgb(62, 171, 186) 0%, rgb(32, 195, 236) 20%, rgb(62, 140, 186) 39%, rgb(180, 249, 243) 50%, rgb(62, 171, 186) 60%, rgb(32, 205, 236) 80%, rgb(62, 161, 186) 100%);
+  border-image-slice: 1;
+  border-radius:6px;
+  background: rgb(232 252 255);
+}
+
+/* @keyframes shine {
+  to {
+    border-image-source: linear-gradient(90deg, rgba(192,192,192,1) 100%, rgba(211,211,211,1) 80%, rgba(192,192,192,1) 60%, rgba(245,245,245,1) 50%, rgba(192,192,192,1) 39%, rgba(211,211,211,1) 20%, rgba(192,192,192,1) 0%);
+  }
+} */

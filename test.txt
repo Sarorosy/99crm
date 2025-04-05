@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import QueryInfoTab from './components/QueryInfoTab';
 import toast from 'react-hot-toast';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { X, CircleMinus, CirclePlus } from 'lucide-react';
+import { X } from 'lucide-react';
+import axios from 'axios';
 
-
-const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose, after }) => {
+const EditQuoteForm = ({ QueryInfo, selectedServiceId, serviceData, expandStatus, closable, onClose, after }) => {
     const [formData, setFormData] = useState({
         service_price_id: '',
         status: '',
@@ -37,6 +37,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     });
     const paymentData = QueryInfo.paymentData ? JSON.parse(QueryInfo.paymentData) : [];
 
+
     const handleCurrencyChange = (plan, value, url) => {
         setFormData((prev) => ({
             ...prev,
@@ -49,12 +50,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     const handleMilestoneNameChange = (plan, milestoneId, value) => {
         setMilestoneNames((prev) => ({
             ...prev,
-            [plan]: {
-                ...prev[plan],
-                [milestoneId]: value,
-            },
+            [plan.toLowerCase()]: {
+                ...(prev[plan.toLowerCase()] || {}),
+                [milestoneId]: value
+            }
         }));
-    };
+    };    
     const [subMilestoneData, setSubMilestoneData] = useState({});
     const handleSubMilestoneChange = (plan, milestoneId, subIndex, field, value) => {
         setSubMilestoneData((prev) => ({
@@ -175,115 +176,35 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
         Standard: [],
         Advanced: [],
     });
-
-
-    const [milestone, setMilestone] = useState({});
     const handleMilestoneChange = (plan, count) => {
-        if (!totalPrices[plan.charAt(0).toUpperCase() + plan.slice(1)]) {
-            toast.error("Please enter price for this plan.");
+        if (!totalPrices[plan] || totalPrices[plan].trim() === "") {
+            toast.error(`Please enter the price for ${plan.charAt(0).toUpperCase() + plan.slice(1)}`);
             return;
         }
 
-        const totalPrice = totalPrices[plan.charAt(0).toUpperCase() + plan.slice(1)];
-        const splitPrice = Array(count).fill(Math.floor(totalPrice / count));
+        setSelectedMilestones((prev) => ({ ...prev, [plan]: count }));
 
-        // Adjust any remainder
-        for (let i = 0; i < totalPrice % count; i++) {
-            splitPrice[i] += 1;
-        }
+        const totalPrice = parseFloat(totalPrices[plan]) || 0;
+        const basePrice = Math.floor(totalPrice / count); // Base price for each milestone
+        const remainder = totalPrice % count; // Remaining amount to be distributed
 
-        setMilestone((prev) => {
-            const existing = prev[plan.toLowerCase()] || { milestone_name: [], milestone_price: [], submilestoneData: [] };
+        const newMilestones = Array.from({ length: count }, (_, i) => ({
+            id: i + 1,
+            subMilestoneData: [{ parameters: "", no_of_words: "", time_frame: "" }],
+        }));
 
-            const newMilestoneName = [...existing.milestone_name];
-            const newSubmilestoneData = [...existing.submilestoneData];
+        setMilestones((prev) => ({ ...prev, [plan]: newMilestones }));
 
-            if (count > newMilestoneName.length) {
-                for (let i = newMilestoneName.length; i < count; i++) {
-                    newMilestoneName.push("");
-                    newSubmilestoneData.push({
-                        parameters: [],
-                        no_of_words: [],
-                        time_frame: [],
-                    });
-                }
-            } else {
-                newMilestoneName.length = count;
-                newSubmilestoneData.length = count;
-            }
-
-            return {
-                ...prev,
-                [plan.toLowerCase()]: {
-                    ...existing,
-                    count: count,
-                    milestone_name: newMilestoneName,
-                    milestone_price: splitPrice,  // Set evenly split prices
-                    submilestoneData: newSubmilestoneData,
-                },
-            };
-        });
-    };
-    const handleMilestoneInputChange = (plan, milestoneIndex, field, value) => {
-        setMilestone((prev) => {
-            const updatedMilestones = { ...prev };
-            const planKey = plan.toLowerCase();
-
-            if (!updatedMilestones[planKey]) return prev;
-
-            updatedMilestones[planKey][field][milestoneIndex] = value;
-
-            return { ...updatedMilestones };
-        });
+        setMilestonePrices((prev) => ({
+            ...prev,
+            [plan]: newMilestones.reduce((acc, milestone, index) => {
+                acc[milestone.id] = basePrice + (index < remainder ? 1 : 0); // Add 1 to first `remainder` milestones
+                return acc;
+            }, {}),
+        }));
     };
 
-    const handleParameterChange = (plan, milestoneIndex, paramIndex, field, value) => {
-        setMilestone((prevData) => {
-            const updatedMilestones = { ...prevData };
-            if (!updatedMilestones[plan.toLowerCase()]) return prevData;
-            if (!updatedMilestones[plan.toLowerCase()].submilestoneData[milestoneIndex]) return prevData;
-
-            updatedMilestones[plan.toLowerCase()].submilestoneData[milestoneIndex][field][paramIndex] = value;
-
-            return { ...updatedMilestones };
-        });
-    };
-    const handleAddParameter = (plan, milestoneIndex) => {
-        setMilestone((prevMilestone) => {
-            return {
-                ...prevMilestone,
-                [plan.toLowerCase()]: {
-                    ...prevMilestone[plan.toLowerCase()],
-                    submilestoneData: {
-                        ...prevMilestone[plan.toLowerCase()]?.submilestoneData,
-                        [milestoneIndex]: {
-                            parameters: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.parameters || []), ""],
-                            no_of_words: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.no_of_words || []), ""],
-                            time_frame: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.time_frame || []), ""]
-                        }
-                    }
-                }
-            };
-        });
-    };
-
-    const handleRemoveParameter = (plan, milestoneIndex, paramIndex) => {
-        setMilestone((prevMilestone) => {
-            const updatedMilestone = { ...prevMilestone };
-            const planKey = plan.toLowerCase();
-
-            if (updatedMilestone[planKey]?.submilestoneData?.[milestoneIndex]) {
-                updatedMilestone[planKey].submilestoneData[milestoneIndex].parameters.splice(paramIndex, 1);
-                updatedMilestone[planKey].submilestoneData[milestoneIndex].no_of_words.splice(paramIndex, 1);
-                updatedMilestone[planKey].submilestoneData[milestoneIndex].time_frame.splice(paramIndex, 1);
-            }
-
-            return { ...updatedMilestone };
-        });
-    };
-    useEffect(() => {
-        console.log(milestone)
-    }, [milestone])
+    
 
 
 
@@ -319,38 +240,16 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     const handleMilestonePriceChange = (plan, milestoneId, value) => {
         setMilestonePrices((prev) => {
             const currentPlanPrices = { ...prev[plan] };
-            const totalPrice = parseFloat(totalPrices[plan]) || 0;
-
-            // Convert the input value to a number
+    
+            // Convert input value to a number
             const newValue = parseInt(value, 10) || 0;
-
-            // Update the selected milestone price
             currentPlanPrices[milestoneId] = newValue;
-
-            // Calculate total assigned amount
-            const totalAssigned = Object.values(currentPlanPrices).reduce((sum, val) => sum + val, 0);
-            const remaining = totalPrice - totalAssigned;
-
-            // Find first and last milestone IDs
-            const milestoneIds = Object.keys(currentPlanPrices).map(Number).sort((a, b) => a - b);
-            const firstMilestoneId = milestoneIds[0];
-            const lastMilestoneId = milestoneIds[milestoneIds.length - 1];
-
-            if (milestoneId === lastMilestoneId) {
-                // If last milestone is changed, adjust the first milestone
-                currentPlanPrices[firstMilestoneId] += remaining;
-            } else {
-                // If any other milestone is changed, adjust the last milestone
-                currentPlanPrices[lastMilestoneId] += remaining;
-            }
-
+    
             return { ...prev, [plan]: currentPlanPrices };
         });
     };
-
-
-
-
+     
+    
     const formatSubmilestoneData = (data) => {
         return Object.keys(data).map((milestoneId) => {
             return {
@@ -360,8 +259,226 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             };
         });
     };
+    const [loading, setLoading] = useState(false);
+    const [mileStoneData, setMileStoneData] = useState({});
+    const [serviceMilestoneData, setServiceMilestoneData] = useState({});
 
-    
+    // Function to fetch the quote data
+    const fetchQuoteData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.post(
+                'https://99crm.phdconsulting.in/api/userpricequote',
+                { ref_id: QueryInfo.assign_id, priceServiceId: selectedServiceId }
+            );
+
+            // setQuoteData(response.data.quoteData);
+            // setQueryInfo(response.data.queryInfo);
+            // setServiceData(response.data.quoteServiceData);
+            setFormData(prev => ({
+                ...prev,
+                service_price_id: response.data.serviceInfo.id || '',
+                status: response.data.serviceInfo.status || '',
+                quotation_id: response.data.serviceInfo.quotation_id || '',
+                ref_id: response.data.serviceInfo.ref_id || '',
+                quote_heading: response.data.serviceInfo.quote_heading || '',
+                quote_service_id: response.data.serviceInfo.quote_service_id || '',
+                select_plan: response.data.serviceInfo.select_plan ? JSON.parse(response.data.serviceInfo.select_plan) : [],
+                recommended_plan: response.data.serviceInfo.recommended_plan || '',
+                currency_type_basic: response.data.serviceInfo.currency_type ? JSON.parse(response.data.serviceInfo.currency_type).basic : '',
+                currency_type_standard: response.data.serviceInfo.currency_type ? JSON.parse(response.data.serviceInfo.currency_type).standard : '',
+                total_price_basic: response.data.serviceInfo.total_price ? JSON.parse(response.data.serviceInfo.total_price).basic : '',
+                total_price_standard: response.data.serviceInfo.total_price ? JSON.parse(response.data.serviceInfo.total_price).standard : '',
+                no_of_milestone_basic: response.data.serviceInfo.milestone ? JSON.parse(response.data.serviceInfo.milestone).basic : '',
+                no_of_milestone_standard: response.data.serviceInfo.milestone ? JSON.parse(response.data.serviceInfo.milestone).standard : '',
+                discount_type: response.data.serviceInfo.discount_type ? JSON.parse(response.data.serviceInfo.discount_type).basic : '',
+                discount_value: response.data.serviceInfo.discount_value ? JSON.parse(response.data.serviceInfo.discount_value).basic : '',
+                coupon_code: response.data.serviceInfo.coupon_code ? JSON.parse(response.data.serviceInfo.coupon_code).basic : '',
+                expiry_date: response.data.serviceInfo.expiry_date ? new Date(response.data.serviceInfo.expiry_date * 1000) : null,
+                order_summary_basic: response.data.serviceInfo.order_summary ? JSON.parse(response.data.serviceInfo.order_summary).basic : '',
+                order_summary_standard: response.data.serviceInfo.order_summary ? JSON.parse(response.data.serviceInfo.order_summary).standard : '',
+                notSendOnlinePayment: response.data.serviceInfo.notSendOnlinePayment == 1 ? true : false,
+                payment_details: response.data.serviceInfo.payment_details || ''
+            }));
+            setTotalPrices({
+                Basic: response.data.serviceInfo.total_price
+                    ? JSON.parse(response.data.serviceInfo.total_price).basic
+                    : '',
+                Standard: response.data.serviceInfo.total_price
+                    ? JSON.parse(response.data.serviceInfo.total_price).standard
+                    : '',
+                Advanced: response.data.serviceInfo.total_price
+                    ? JSON.parse(response.data.serviceInfo.total_price).advanced ?? ""
+                    : ''
+            });
+            // Store milestone data in state
+            setMileStoneData(response.data.serviceInfo.milestone ? JSON.parse(response.data.serviceInfo.milestone) : {});
+            setServiceMilestoneData(response.data.serviceMilestoneData ? response.data.serviceMilestoneData : []);
+
+            
+            
+
+            let discountres = response.data.serviceInfo.discount_type
+                ? JSON.parse(response.data.serviceInfo.discount_type)
+                : {};
+
+            setDiscountType(prev => ({
+                ...prev,
+                Basic: discountres.basic || "",
+                Standard: discountres.standard || "",
+                Advanced: discountres.advanced || ""
+            }));
+
+            let discountValRes = response.data.serviceInfo.discount_value
+                ? JSON.parse(response.data.serviceInfo.discount_value)
+                : {};
+
+            let couponCodeRes = response.data.serviceInfo.coupon_code
+                ? JSON.parse(response.data.serviceInfo.coupon_code)
+                : {};
+
+            setDiscountValue(prev => ({
+                ...prev,
+                Basic: discountValRes.basic || "",
+                Standard: discountValRes.standard || "",
+                Advanced: discountValRes.advanced || ""
+            })); 
+
+            setCouponCode(prev => ({
+                ...prev,
+                Basic: couponCodeRes.basic || "",
+                Standard: couponCodeRes.standard || "",
+                Advanced: couponCodeRes.advanced || ""
+            }));
+
+            console.log(response.data)
+
+        } catch (error) {
+            console.error("Error fetching quote data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    // Trigger fetch on RefId change or on component mount
+    useEffect(() => {
+        if (QueryInfo.assign_id) {
+            fetchQuoteData();
+        }
+    }, [QueryInfo.assign_id]);
+    useEffect(() => {
+        if (mileStoneData) {
+            setSelectedMilestones({
+                Basic: mileStoneData.basic || '',
+                Standard: mileStoneData.standard || '',
+                Advanced: mileStoneData.advanced || ''
+            });
+
+            // Call handleMilestoneChange after a small delay
+            setTimeout(() => {
+                Object.entries(mileStoneData).forEach(([plan, value]) => {
+                    console.log(plan.charAt(0).toUpperCase() + plan.slice(1), value);
+                    handleMilestoneChange(plan.charAt(0).toUpperCase() + plan.slice(1), value);
+                });
+            }, 500);
+        }
+    }, [totalPrices]);
+
+    const setMilesStoneNamesData = () =>{
+        
+    }
+    useEffect(() => {
+        if (!Array.isArray(serviceMilestoneData)) {
+            console.error("serviceMilestoneData is not an array", serviceMilestoneData);
+            return;
+        }
+
+        const milestoneNames = serviceMilestoneData.reduce((acc, milestone) => {
+            const planType = milestone.plan_type;
+            if (!acc[planType]) acc[planType] = {}; // Initialize plan type object
+        
+            acc[planType][milestone.id] = milestone.milestone_name; // Use milestone ID as key
+        
+            return acc;
+        }, {});
+        
+        console.log("milestone names is", JSON.stringify(milestoneNames));
+        setMilestoneNames(milestoneNames);
+
+        const milestonePrices = serviceMilestoneData.reduce((acc, milestone) => {
+            const planType = milestone.plan_type;
+            if (!acc[planType]) acc[planType] = {}; // Initialize plan type object
+        
+            acc[planType][milestone.id] = milestone.milestone_price; // Use milestone ID as key
+        
+            return acc;
+        }, {});
+        
+        console.log("milestone names is", JSON.stringify(milestoneNames));
+        setMilestonePrices(milestonePrices);
+        
+
+    }, [serviceMilestoneData]);
+
+    const[allset, setallset] = useState(false);
+    const setParsedMilestones = () => {
+        // if (allset) return; 
+        setallset(false);
+        const parsedData = [];
+        serviceMilestoneData.forEach((item) => {
+            if (item.plan_type) {
+                const data = item.subMilestoneData ? JSON.parse(item.subMilestoneData) : {};
+                if (Array.isArray(data)) {
+                    parsedData.push(...data);
+                } else {
+                    parsedData.push(data);
+                }
+            }
+        }); 
+        console.log("milest " + JSON.stringify(milestones));
+        ["basic", "standard", "advanced"].forEach((plan) => {
+            if (milestones[plan]) { // Ensure the plan exists in milestones
+                milestones[plan].forEach((milestone, milestoneIndex) => {
+                    if (Array.isArray(milestone.subMilestoneData)) { // Ensure it's an array before mapping
+                        milestone.subMilestoneData.forEach((_, subIndex) => {
+                            const subMilestoneInput = document.getElementById(`submilestone_${plan.toLowerCase()}_${milestone.id}_${subIndex}`);
+                            const wordsInput = document.getElementById(`no_of_words_${plan.toLowerCase()}_${milestone.id}_${subIndex}`);
+                            const timeFrameInput = document.getElementById(`time_frame_${plan.toLowerCase()}_${milestone.id}_${subIndex}`);
+
+                            if (subMilestoneInput){
+                                console.log("found")
+                                console.log("not found " + JSON.stringify(milestone))
+                            }else{
+                                console.log(`submilestone_${plan.toLowerCase()}_${milestone.ref_id}_${subIndex}`)
+                                console.log("not found " + JSON.stringify(milestone))
+                            }
+                            if (subMilestoneInput) subMilestoneInput.value = parsedData[milestone.id - 1]?.parameters || "";
+                            if (wordsInput) wordsInput.value = parsedData[milestone.id - 1]?.no_of_words || "";
+                            if (timeFrameInput) timeFrameInput.value = parsedData[milestone.id - 1]?.time_frame || "";
+
+                        });
+                    }
+                });
+            }
+        });
+        setallset(true);
+        console.log("parseddd" + parsedData) 
+
+    }
+
+    const milestoneRef = useRef(null);
+    useEffect(() => {
+        if (milestoneRef.current) {
+            setParsedMilestones();
+        }
+    }, [serviceMilestoneData]);
+
+    useEffect(() => {
+        if (!Array.isArray(serviceMilestoneData)) {
+            console.error("serviceMilestoneData is not an array", serviceMilestoneData);
+            return;
+        }
+
+    }, [serviceMilestoneData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -390,7 +507,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 toast.error('Please enter Total Price for Basic Plan');
                 return;
             }
-            if (!milestone.basic.count) {
+            if (!selectedMilestones.Basic) {
                 toast.error('Please select No of Milestones for Basic Plan');
                 return;
             }
@@ -425,7 +542,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 toast.error('Please enter Total Price for Standard Plan');
                 return;
             }
-            if (!milestone.standard.count) {
+            if (!selectedMilestones.Standard) {
                 toast.error('Please select No of Milestones for Standard Plan');
                 return;
             }
@@ -459,7 +576,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 toast.error('Please enter Total Price for Advanced Plan');
                 return;
             }
-            if (!milestone.advanced.count) {
+            if (!selectedMilestones.Advanced) {
                 toast.error('Please select No of Milestones for Advanced Plan');
                 return;
             }
@@ -504,6 +621,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             user_name: sessionStorage.getItem('name'),
             user_type: sessionStorage.getItem('user_type'),
             accessQuoteApproval: sessionStorage.getItem('accessQuoteApproval'),
+            isdraftform: document.getElementById('isdraftform').value,
 
 
             service_price_id: formData.service_price_id,
@@ -519,10 +637,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             currency_type_basic: formData.currency_type_basic,
             total_price_basic: formData.total_price_basic,
             payment_url_basic: formData.payment_url_basic,
-            no_of_milestone_basic: milestone.basic ? milestone.basic.count : 0,
-            milestone_name_basic: milestone.basic ? milestone.basic.milestone_name : [],
-            milestone_price_basic: milestone.basic ? milestone.basic.milestone_price : [],
-            submilestone_basic: milestone.basic ? milestone.basic.submilestoneData : [],
+            no_of_milestone_basic: selectedMilestones.Basic,
+            milestone_name_basic: Object.values(milestoneNames.Basic || {}),
+            milestone_price_basic: Object.values(milestonePrices.Basic || {}),
+            submilestone_basic: formattedSubmilestoneBasic,
             order_summary_basic: additionalRemarks.Basic,
             milestone_remark_basic: [],
 
@@ -530,10 +648,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             currency_type_standard: formData.currency_type_standard,
             total_price_standard: formData.total_price_standard,
             payment_url_standard: formData.payment_url_standard,
-            no_of_milestone_standard: milestone.standard ? milestone.standard.count : 0,
-            milestone_name_standard: milestone.standard ? milestone.standard.milestone_name : [],
-            milestone_price_standard: milestone.standard ? milestone.standard.milestone_price : [],
-            submilestone_standard: milestone.standard ? milestone.standard.submilestoneData : [],
+            no_of_milestone_standard: selectedMilestones.Basic,
+            milestone_name_standard: Object.values(milestoneNames.Standard || {}),
+            milestone_price_standard: Object.values(milestonePrices.Standard || {}),
+            submilestone_standard: formattedSubmilestoneStandard,
             order_summary_standard: additionalRemarks.Standard,
             milestone_remark_standard: [],
 
@@ -541,10 +659,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             currency_type_advanced: formData.currency_type_advanced,
             total_price_advanced: formData.total_price_advanced,
             payment_url_advanced: formData.payment_url_advanced,
-            no_of_milestone_advanced: milestone.advanced ? milestone.advanced.count : 0,
-            milestone_name_advanced: milestone.advanced ? milestone.advanced.milestone_name : [],
-            milestone_price_advanced: milestone.advanced ? milestone.advanced.milestone_price : [],
-            submilestone_advanced: milestone.advanced ? milestone.advanced.submilestoneData : [],
+            no_of_milestone_advanced: selectedMilestones.Basic,
+            milestone_name_advanced: Object.values(milestoneNames.Advanced || {}),
+            milestone_price_advanced: Object.values(milestonePrices.Advanced || {}),
+            submilestone_advanced: formattedSubmilestoneAdvanced,
             order_summary_advanced: additionalRemarks.Advanced,
             milestone_remark_advanced: [],
 
@@ -593,8 +711,13 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             }
         } catch (error) {
             console.error("Error:", error);
+            toast.error("An error occurred while sending the quote.");
         }
     };
+
+    useEffect(() => {
+        document.getElementById("test").value = "test"
+    }, [])
 
     return (
         <div className='flex flex-col space-y-2 p-1 border'>
@@ -610,6 +733,8 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 <input type="hidden" name="status" value={formData.status} />
                 <input type="hidden" name="quotation_id" value={formData.quotation_id} />
                 <input type="hidden" name="ref_id" value={formData.ref_id} />
+                <input type="hidden" id="isdraftform" name="isdraftform" value="no" />
+                <input type="hidden" id="test" name="test" value="no" />
                 <div className="box-body">
                     <QueryInfoTab QueryInfo={QueryInfo} expandStatus={expandStatus} />
 
@@ -729,7 +854,9 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 </label>
 
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label 
+                                    
+                                    className="block text-sm font-medium text-gray-700">
                                         Total Price ({plan})
                                     </label>
                                     <div className="flex space-x-3">
@@ -775,9 +902,8 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     <select
                                         name={`no_of_milestone_${plan}`}
                                         className="w-full p-2 border rounded-md "
-                                        onClick={() => { console.log(selectedMilestones[plan]) }}
-                                        value={milestone[plan.toLowerCase()]?.count || ""}
-                                        onChange={(e) => handleMilestoneChange(plan.toLowerCase(), parseInt(e.target.value))}
+                                        value={selectedMilestones[plan] || ""}
+                                        onChange={(e) => handleMilestoneChange(plan, parseInt(e.target.value))}
                                     >
                                         <option value="">Select Milestones</option>
                                         {[...Array(10)].map((_, i) => (
@@ -788,138 +914,99 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     </select>
                                 </div>
 
-                                {milestone[plan.toLowerCase()] &&
-                                    Array.from({ length: milestone[plan.toLowerCase()].count }).map((_, milestoneIndex) => (
-                                        <div key={milestone.id} className="mb-4 border rounded-md p-3 bg-gray-100">
-                                            {/* Milestone Name */}
-                                            <input
-                                                className="form-control w-full mb-2 p-1 border rounded-md"
-                                                name={`milestone_name_${plan}[]`}
-                                                id={`milestone_name_${plan}_${milestone.id}`}
-                                                placeholder={`Milestone Name `}
-                                                value={milestone[plan.toLowerCase()].milestone_name[milestoneIndex]}
-                                                onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_name", e.target.value)}
+                                {milestones[plan].map((milestone, milestoneIndex) => (
+                                    (milestone.plan_type == plan.toLowerCase()) && (
+                                    <div key={milestone.id}  className="mb-4 border rounded-md p-1 bg-gray-100">
+                                        <input
+                                            className="form-control w-full mb-2 p-1 border rounded-md elevenpx"
+                                            name={`milestone_name_${plan}[]`}
+                                            id={`milestone_name_${plan}_${milestone.id}`}
+                                            placeholder={`Milestone Name ${milestone.id}`}
 
-                                                required
-                                            />
+                                            value={milestoneNames[plan.toLowerCase()]?.[milestone.id] || ""} 
+                                            required
+                                            onChange={(e) => handleMilestoneNameChange(plan.toLowerCase(), milestone.id, e.target.value)}
+                                        />
+                                         
+                                        <input
+                                            className="form-control w-full mb-2 p-1 border rounded-md elevenpx"
+                                            name={`milestone_price_${plan}[]`}
+                                            id={`milestone_price_${plan}_${milestone.id}`}
+                                            value={milestonePrices[plan.toLowerCase()]?.[milestone.id] || ""}
+                                            required
+                                            onChange={(e) => handleMilestonePriceChange(plan.toLowerCase(), milestone.id, e.target.value)}
+                                        />
 
-                                            {/* Milestone Price */}
-                                            <input
-                                                className="form-control w-full mb-2 p-1 border rounded-md"
-                                                name={`milestone_price_${plan}[]`}
-                                                id={`milestone_price_${plan}_${milestone.id}`}
-                                                placeholder="Milestone Price"
-                                                value={milestone[plan.toLowerCase()].milestone_price[milestoneIndex]}
-                                                onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_price", e.target.value)}
-                                            />
+                                        {JSON.parse(milestone.subMilestoneData).parameters.map((_, subIndex) => {
+                                            
+                                            return (
+                                                <>
+                                                <div ref={milestoneRef} key={subIndex} className="mb-2 py-1 border rounded-md bg-white flex items-center gap-1">
+                                                    <textarea
+                                                        id={`submilestone_${plan.toLocaleLowerCase()}_${milestone.id}_${subIndex}`}
+                                                        name={`submilestone_${plan}[subMilestoneData][${milestone.id}][parameters][]`}
+                                                        className="form-control w-full p-2 border rounded-md elevenpx"
 
-                                            {/* Parameters Table */}
-                                            <table className="w-full border bg-white rounded-md">
-                                                <thead>
-                                                    <tr className="bg-blue-100">
-                                                        <th className="p-2 border">Parameters</th>
-                                                        <th className="p-2 border">No. of Words</th>
-                                                        <th className="p-2 border">Time Frame</th>
-                                                        <th className="p-2 border">Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {milestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex] &&
-                                                        (milestone[plan.toLowerCase()].submilestoneData[milestoneIndex]?.parameters.length > 0
-                                                            ? milestone[plan.toLowerCase()].submilestoneData[milestoneIndex].parameters.map((parameter, paramIndex) => (
-                                                                <tr key={`${milestoneIndex}-${paramIndex}`}>
-                                                                    <td className="p-2 border">
-                                                                        <textarea
-                                                                            name={`submilestone_${plan}[subMilestoneData][${milestone.id}][parameters][]`}
-                                                                            className="form-control w-full p-1"
-                                                                            defaultValue={parameter || ""}
-                                                                            onChange={(e) => handleParameterChange(plan, milestoneIndex, paramIndex, 'parameters', e.target.value)}
-                                                                        />
-                                                                    </td>
-                                                                    <td className="p-2 border">
-                                                                        <input
-                                                                            type="text"
-                                                                            name={`submilestone_${plan}[subMilestoneData][${milestone.id}][no_of_words][]`}
-                                                                            className="form-control w-full p-1"
-                                                                            defaultValue={milestone[plan.toLowerCase()].submilestoneData[milestoneIndex]?.no_of_words?.[paramIndex] || ""}
-                                                                            onChange={(e) => handleParameterChange(plan, milestoneIndex, paramIndex, 'no_of_words', e.target.value)}
-                                                                        />
-                                                                    </td>
-                                                                    <td className="p-2 border">
-                                                                        <input
-                                                                            type="text"
-                                                                            name={`submilestone_${plan}[subMilestoneData][${milestone.id}][time_frame][]`}
-                                                                            className="form-control w-full p-1"
-                                                                            defaultValue={milestone[plan.toLowerCase()].submilestoneData[milestoneIndex]?.time_frame?.[paramIndex] || ""}
-                                                                            onChange={(e) => handleParameterChange(plan, milestoneIndex, paramIndex, 'time_frame', e.target.value)}
-                                                                        />
-                                                                    </td>
-                                                                    <td className="p-2 border">
-                                                                        {paramIndex != 0 ? (
-                                                                            <button className="btn btn-danger btn-sm" onClick={() => handleRemoveParameter(plan, milestoneIndex, paramIndex)}>
-                                                                                <CircleMinus size={18} className="text-white" />
-                                                                            </button>
-                                                                        ) : (
-                                                                            <button
-                                                                                type='button'
-                                                                                className="btn btn-info btn-sm"
-                                                                                onClick={() => handleAddParameter(plan, milestoneIndex)}
-                                                                            >
-                                                                                <CirclePlus size={18} className="text-white" />
-                                                                            </button>
-                                                                        )}
-                                                                    </td>
-                                                                </tr>
-                                                            ))
-                                                            : // If no parameters exist, render an empty row with default values
-                                                            <tr key={`${milestoneIndex}-empty`}>
-                                                                <td className="p-2 border">
-                                                                    <textarea
-                                                                        name={`submilestone_${plan}[subMilestoneData][${milestone.id}][parameters][]`}
-                                                                        className="form-control w-full p-1"
-                                                                        defaultValue=""
-                                                                        onChange={(e) => handleParameterChange(plan, milestoneIndex, 0, 'parameters', e.target.value)}
-                                                                    />
-                                                                </td>
-                                                                <td className="p-2 border">
-                                                                    <input
-                                                                        type="text"
-                                                                        name={`submilestone_${plan}[subMilestoneData][${milestone.id}][no_of_words][]`}
-                                                                        className="form-control w-full p-1"
-                                                                        defaultValue=""
-                                                                        onChange={(e) => handleParameterChange(plan, milestoneIndex, 0, 'no_of_words', e.target.value)}
-                                                                    />
-                                                                </td>
-                                                                <td className="p-2 border">
-                                                                    <input
-                                                                        type="text"
-                                                                        name={`submilestone_${plan}[subMilestoneData][${milestone.id}][time_frame][]`}
-                                                                        className="form-control w-full p-1"
-                                                                        defaultValue=""
-                                                                        onChange={(e) => handleParameterChange(plan, milestoneIndex, 0, 'time_frame', e.target.value)}
-                                                                    />
-                                                                </td>
-                                                                <td className="p-2 border">
-                                                                    <button
-                                                                        type='button'
-                                                                        className="btn btn-info btn-sm"
-                                                                        onClick={() => handleAddParameter(plan, milestoneIndex)}
-                                                                    //onClick={() => addMoreSubMilestone(plan.toLowerCase(), milestone.id)}
-                                                                    >
-                                                                        <CirclePlus size={18} className="text-white" />
-                                                                    </button>
-                                                                </td>
-                                                            </tr>
-                                                        )
-                                                    }
+                                                        rows={3}
+                                                        required
+                                                        onChange={(e) =>
+                                                            handleSubMilestoneChange(plan, milestone.id, subIndex, "parameters", e.target.value)
+                                                        }
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        id={`no_of_words_${plan.toLocaleLowerCase()}_${milestone.id}_${subIndex}`}
+                                                        name={`submilestone_${plan}[subMilestoneData][${milestone.id}][no_of_words][]`}
+                                                        className="form-control w-full p-2 border rounded-md elevenpx"
+                                                        placeholder="No of Words"
+                                                        onChange={(e) =>
+                                                            handleSubMilestoneChange(plan, milestone.id, subIndex, "no_of_words", e.target.value)
+                                                        }
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        required
+                                                        id={`time_frame_${plan.toLocaleLowerCase()}_${milestone.id}_${subIndex}`}
+                                                        name={`submilestone_${plan}[subMilestoneData][${milestone.id}][time_frame][]`}
+                                                        className="form-control w-full p-2 border rounded-md elevenpx"
+                                                        placeholder="Time Frame"
+                                                        onChange={(e) =>
+                                                            handleSubMilestoneChange(plan, milestone.id, subIndex, "time_frame", e.target.value)
+                                                        }
+                                                    />
+
+                                                    {subIndex === 0 ? (
+                                                        <button
+                                                            className="p-2 bg-green-500 text-white rounded"
+                                                            onClick={() => addMoreSubmilestone(plan, milestoneIndex)}
+                                                            type="button"
+                                                        >
+                                                            +
+                                                        </button>
+                                                    ) : (
+                                                        <button
+                                                            className="p-2 bg-red-500 text-white rounded"
+                                                            onClick={() => removeSubmilestone(plan, milestoneIndex, subIndex)}
+                                                            type="button"
+                                                        >
+                                                            -
+                                                        </button>
+                                                    )}
+                                                </div>
+                                               
+                                                </>
+                                                
+                                            );
+
+                                            
+                                        })}
 
 
-
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    ))
-                                }
+                                        
+                                    </div>
+                                    )
+                                ))}
 
                                 <div className="mb-4" id={`${plan}_remark_div`}>
                                     <label className="block text-sm font-medium text-gray-700">
@@ -934,6 +1021,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     ></textarea>
 
                                 </div >
+
                                 <div className="flex items-end justify-between space-x-1 mb-4">
                                     <div className="w-50">
                                         <label className="text-left block text-sm font-medium text-gray-700">{plan} Discount Type</label>
@@ -1028,16 +1116,45 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                         )}
                     </div>
 
-
-                    <div className="form-group mt-2">
-                        <div className="col-sm-12 flex justify-end">
-                            <button type="submit" className="btn btn-primary" >Submit</button>
+                    {(sessionStorage.getItem("user_type") == "admin" || sessionStorage.getItem("user_type") == "sub-admin") && (serviceData && serviceData.status == 2) ? (
+                        <div className="form-group mt-2">
+                            <div className="col-sm-12 flex justify-end">
+                                <button type="submit" className="btn btn-primary"
+                                    onClick={(e) => {
+                                        document.getElementById("isdraftform").value = "no";
+                                    }}
+                                >Submit</button>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className='flex items-center justify-between'>
+                            <div className="form-group mt-2">
+                                <div className="col-sm-12 flex justify-end">
+                                    <button type="submit"
+                                        className="btn btn-primary"
+                                        onClick={(e) => {
+                                            document.getElementById("isdraftform").value = "yes";
+                                        }}
+                                    >Save as draft</button>
+                                </div>
+                            </div>
+                            <div className="form-group mt-2">
+                                <div className="col-sm-12 flex justify-end">
+                                    <button type="submit"
+                                        className="btn btn-primary"
+                                        onClick={(e) => {
+                                            document.getElementById("isdraftform").value = "no";
+                                        }}
+                                    >Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddQuoteForm;
+export default EditQuoteForm;

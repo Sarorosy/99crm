@@ -4,6 +4,7 @@ import { Expand, Frown, Loader, Minimize, RefreshCcw } from 'lucide-react';
 import { motion } from "framer-motion";
 import AddQuoteForm from './AddQuoteForm';
 import ServiceDetails from './ServiceDetails';
+import EditQuoteForm from './EditQuoteForm';
 
 const UserPriceQuote = ({ refId }) => {
     const [quoteData, setQuoteData] = useState([]);
@@ -72,10 +73,18 @@ const UserPriceQuote = ({ refId }) => {
 
     const handleViewdetails = (service) => {
         fetchServiceDetails(service);
-        
-
     }
 
+    const [editFormOpen, setEditFormOpen] = useState(false);
+    const [selectedServiceId, setSelectedServiceId] = useState(null);
+    const [selectedRefId, setSelectedRefId] = useState(null);
+    const EditAndAddServicePrice = (service_id, ref_id) => {
+        setDetailsOpen(false);
+        setAddFormOpen(false);
+        setEditFormOpen(true);
+        setSelectedServiceId(service_id);
+        setSelectedRefId(ref_id);
+    }
 
     return (
         <div className="relative">
@@ -197,7 +206,7 @@ const UserPriceQuote = ({ refId }) => {
                                 
                                 </div>
                                 {detailsOpen && selectedService && (
-                                    <ServiceDetails serviceId={selectedService} serviceInfo={serviceDetails} serviceMilestoneData={mileStoneDetails}  onClose={() => setDetailsOpen(false)} />
+                                    <ServiceDetails serviceId={selectedService} serviceInfo={serviceDetails} serviceMilestoneData={mileStoneDetails}  onClose={() => setDetailsOpen(false)} after={handleViewdetails} EditAndAddServicePrice={EditAndAddServicePrice} finalFunction={fetchQuoteData}/>
                                 )}
                             </div>
 
@@ -205,6 +214,7 @@ const UserPriceQuote = ({ refId }) => {
                         )
                         }
                         {addFormOpen && queryInfo && <AddQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} onClose={()=>{setAddFormOpen(false)}} />}
+                        {editFormOpen && queryInfo && <EditQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} selectedServiceId={selectedServiceId} onClose={()=>{setEditFormOpen(false)}} />}
                     </div>
                 )}
             </motion.div>

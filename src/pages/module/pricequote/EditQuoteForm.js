@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import QueryInfoTab from './components/QueryInfoTab';
 import toast from 'react-hot-toast';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { X, CircleMinus, CirclePlus } from 'lucide-react';
+import { CircleMinus, CirclePlus, X } from 'lucide-react';
+import axios from 'axios';
 
-
-const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose, after }) => {
+const EditQuoteForm = ({ QueryInfo, selectedServiceId, serviceData, expandStatus, closable, onClose, after }) => {
     const [formData, setFormData] = useState({
         service_price_id: '',
         status: '',
@@ -37,6 +37,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     });
     const paymentData = QueryInfo.paymentData ? JSON.parse(QueryInfo.paymentData) : [];
 
+
     const handleCurrencyChange = (plan, value, url) => {
         setFormData((prev) => ({
             ...prev,
@@ -49,10 +50,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     const handleMilestoneNameChange = (plan, milestoneId, value) => {
         setMilestoneNames((prev) => ({
             ...prev,
-            [plan]: {
-                ...prev[plan],
-                [milestoneId]: value,
-            },
+            [plan.toLowerCase()]: {
+                ...(prev[plan.toLowerCase()] || {}),
+                [milestoneId]: value
+            }
         }));
     };
     const [subMilestoneData, setSubMilestoneData] = useState({});
@@ -175,19 +176,15 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
         Standard: [],
         Advanced: [],
     });
+    const handleMilestoneChangeOld = (plan, count) => {
 
-
-    const [milestone, setMilestone] = useState({});
-    const handleMilestoneChange = (plan, count) => {
         if (!totalPrices[plan.charAt(0).toUpperCase() + plan.slice(1)]) {
-            toast.error("Please enter price for this plan.");
+            toast.error("Total price not available for this plan.");
             return;
         }
 
         const totalPrice = totalPrices[plan.charAt(0).toUpperCase() + plan.slice(1)];
         const splitPrice = Array(count).fill(Math.floor(totalPrice / count));
-
-        // Adjust any remainder
         for (let i = 0; i < totalPrice % count; i++) {
             splitPrice[i] += 1;
         }
@@ -196,8 +193,62 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             const existing = prev[plan.toLowerCase()] || { milestone_name: [], milestone_price: [], submilestoneData: [] };
 
             const newMilestoneName = [...existing.milestone_name];
+            const newMilestonePrice = [...existing.milestone_price];
             const newSubmilestoneData = [...existing.submilestoneData];
 
+            if (count > newMilestoneName.length) {
+                // Append new empty values
+                for (let i = newMilestoneName.length; i < count; i++) {
+                    newMilestoneName.push("");
+                    newMilestonePrice.push("");
+                    newSubmilestoneData.push({
+                        parameters: [],
+                        no_of_words: [],
+                        time_frame: [],
+                    });
+                }
+            } else {
+                // Remove excess items
+                newMilestoneName.length = count;
+                newMilestonePrice.length = count;
+                newSubmilestoneData.length = count;
+            }
+
+            return {
+                ...prev,
+                [plan.toLowerCase()]: {
+                    ...existing,
+                    count: count,
+                    milestone_name: newMilestoneName,
+                    milestone_price: newMilestonePrice,
+                    submilestoneData: newSubmilestoneData,
+                },
+            };
+        });
+
+
+    };
+
+    const handleMilestoneChange = (plan, count) => {
+        if (!totalPrices[plan.charAt(0).toUpperCase() + plan.slice(1)]) {
+            toast.error("Please enter price for this plan.");
+            return;
+        }
+    
+        const totalPrice = totalPrices[plan.charAt(0).toUpperCase() + plan.slice(1)];
+        const splitPrice = Array(count).fill(Math.floor(totalPrice / count));
+        
+        // Adjust any remainder
+        for (let i = 0; i < totalPrice % count; i++) {
+            splitPrice[i] += 1;
+        }
+    
+        setMilestone((prev) => {
+            const existing = prev[plan.toLowerCase()] || { milestone_name: [], milestone_price: [], submilestoneData: [] };
+    
+            const newMilestoneName = [...existing.milestone_name];
+            const newSubmilestoneData = [...existing.submilestoneData];
+    
             if (count > newMilestoneName.length) {
                 for (let i = newMilestoneName.length; i < count; i++) {
                     newMilestoneName.push("");
@@ -211,7 +262,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 newMilestoneName.length = count;
                 newSubmilestoneData.length = count;
             }
-
+    
             return {
                 ...prev,
                 [plan.toLowerCase()]: {
@@ -224,66 +275,31 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             };
         });
     };
-    const handleMilestoneInputChange = (plan, milestoneIndex, field, value) => {
-        setMilestone((prev) => {
-            const updatedMilestones = { ...prev };
-            const planKey = plan.toLowerCase();
-
-            if (!updatedMilestones[planKey]) return prev;
-
-            updatedMilestones[planKey][field][milestoneIndex] = value;
-
-            return { ...updatedMilestones };
-        });
-    };
-
+    
     const handleParameterChange = (plan, milestoneIndex, paramIndex, field, value) => {
         setMilestone((prevData) => {
             const updatedMilestones = { ...prevData };
             if (!updatedMilestones[plan.toLowerCase()]) return prevData;
             if (!updatedMilestones[plan.toLowerCase()].submilestoneData[milestoneIndex]) return prevData;
-
+    
             updatedMilestones[plan.toLowerCase()].submilestoneData[milestoneIndex][field][paramIndex] = value;
-
+    
             return { ...updatedMilestones };
         });
     };
-    const handleAddParameter = (plan, milestoneIndex) => {
-        setMilestone((prevMilestone) => {
-            return {
-                ...prevMilestone,
-                [plan.toLowerCase()]: {
-                    ...prevMilestone[plan.toLowerCase()],
-                    submilestoneData: {
-                        ...prevMilestone[plan.toLowerCase()]?.submilestoneData,
-                        [milestoneIndex]: {
-                            parameters: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.parameters || []), ""],
-                            no_of_words: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.no_of_words || []), ""],
-                            time_frame: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.time_frame || []), ""]
-                        }
-                    }
-                }
-            };
-        });
-    };
-
-    const handleRemoveParameter = (plan, milestoneIndex, paramIndex) => {
-        setMilestone((prevMilestone) => {
-            const updatedMilestone = { ...prevMilestone };
+    const handleMilestoneInputChange = (plan, milestoneIndex, field, value) => {
+        setMilestone((prev) => {
+            const updatedMilestones = { ...prev };
             const planKey = plan.toLowerCase();
-
-            if (updatedMilestone[planKey]?.submilestoneData?.[milestoneIndex]) {
-                updatedMilestone[planKey].submilestoneData[milestoneIndex].parameters.splice(paramIndex, 1);
-                updatedMilestone[planKey].submilestoneData[milestoneIndex].no_of_words.splice(paramIndex, 1);
-                updatedMilestone[planKey].submilestoneData[milestoneIndex].time_frame.splice(paramIndex, 1);
-            }
-
-            return { ...updatedMilestone };
+    
+            if (!updatedMilestones[planKey]) return prev;
+    
+            updatedMilestones[planKey][field][milestoneIndex] = value;
+    
+            return { ...updatedMilestones };
         });
     };
-    useEffect(() => {
-        console.log(milestone)
-    }, [milestone])
+    
 
 
 
@@ -319,36 +335,14 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     const handleMilestonePriceChange = (plan, milestoneId, value) => {
         setMilestonePrices((prev) => {
             const currentPlanPrices = { ...prev[plan] };
-            const totalPrice = parseFloat(totalPrices[plan]) || 0;
 
-            // Convert the input value to a number
+            // Convert input value to a number
             const newValue = parseInt(value, 10) || 0;
-
-            // Update the selected milestone price
             currentPlanPrices[milestoneId] = newValue;
-
-            // Calculate total assigned amount
-            const totalAssigned = Object.values(currentPlanPrices).reduce((sum, val) => sum + val, 0);
-            const remaining = totalPrice - totalAssigned;
-
-            // Find first and last milestone IDs
-            const milestoneIds = Object.keys(currentPlanPrices).map(Number).sort((a, b) => a - b);
-            const firstMilestoneId = milestoneIds[0];
-            const lastMilestoneId = milestoneIds[milestoneIds.length - 1];
-
-            if (milestoneId === lastMilestoneId) {
-                // If last milestone is changed, adjust the first milestone
-                currentPlanPrices[firstMilestoneId] += remaining;
-            } else {
-                // If any other milestone is changed, adjust the last milestone
-                currentPlanPrices[lastMilestoneId] += remaining;
-            }
 
             return { ...prev, [plan]: currentPlanPrices };
         });
     };
-
-
 
 
     const formatSubmilestoneData = (data) => {
@@ -360,8 +354,232 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             };
         });
     };
+    const [loading, setLoading] = useState(false);
+    const [mileStoneData, setMileStoneData] = useState({});
+    const [serviceInfo, setServiceInfo] = useState(null);
+    const [serviceMilestoneData, setServiceMilestoneData] = useState({});
+    const [milestone, setMilestone] = useState({});
 
-    
+    useEffect(() => {
+        console.log(milestone)
+    }, [milestone])
+
+    // Function to fetch the quote data
+    const fetchQuoteData = async () => {
+        setLoading(true);
+        try {
+            const response = await axios.post(
+                'https://99crm.phdconsulting.in/api/userpricequote',
+                { ref_id: QueryInfo.assign_id, priceServiceId: selectedServiceId }
+            );
+
+            // setQuoteData(response.data.quoteData);
+            // setQueryInfo(response.data.queryInfo);
+            // setServiceData(response.data.quoteServiceData);
+            setFormData(prev => ({
+                ...prev,
+                service_price_id: response.data.serviceInfo.id || '',
+                status: response.data.serviceInfo.status || '',
+                quotation_id: response.data.serviceInfo.quotation_id || '',
+                ref_id: response.data.serviceInfo.ref_id || '',
+                quote_heading: response.data.serviceInfo.quote_heading || '',
+                quote_service_id: response.data.serviceInfo.quote_service_id || '',
+                select_plan: response.data.serviceInfo.select_plan ? JSON.parse(response.data.serviceInfo.select_plan) : [],
+                recommended_plan: response.data.serviceInfo.recommended_plan || '',
+                currency_type_basic: response.data.serviceInfo.currency_type ? JSON.parse(response.data.serviceInfo.currency_type).basic : '',
+                currency_type_standard: response.data.serviceInfo.currency_type ? JSON.parse(response.data.serviceInfo.currency_type).standard : '',
+                total_price_basic: response.data.serviceInfo.total_price ? JSON.parse(response.data.serviceInfo.total_price).basic : '',
+                total_price_standard: response.data.serviceInfo.total_price ? JSON.parse(response.data.serviceInfo.total_price).standard : '',
+                no_of_milestone_basic: response.data.serviceInfo.milestone ? JSON.parse(response.data.serviceInfo.milestone).basic : '',
+                no_of_milestone_standard: response.data.serviceInfo.milestone ? JSON.parse(response.data.serviceInfo.milestone).standard : '',
+                discount_type: response.data.serviceInfo.discount_type ? JSON.parse(response.data.serviceInfo.discount_type).basic : '',
+                discount_value: response.data.serviceInfo.discount_value ? JSON.parse(response.data.serviceInfo.discount_value).basic : '',
+                coupon_code: response.data.serviceInfo.coupon_code ? JSON.parse(response.data.serviceInfo.coupon_code).basic : '',
+                expiry_date: response.data.serviceInfo.expiry_date ? new Date(response.data.serviceInfo.expiry_date * 1000) : null,
+                order_summary_basic: response.data.serviceInfo.order_summary ? JSON.parse(response.data.serviceInfo.order_summary).basic : '',
+                order_summary_standard: response.data.serviceInfo.order_summary ? JSON.parse(response.data.serviceInfo.order_summary).standard : '',
+                notSendOnlinePayment: response.data.serviceInfo.notSendOnlinePayment == 1 ? true : false,
+                payment_details: response.data.serviceInfo.payment_details || ''
+            }));
+            setTotalPrices({
+                Basic: response.data.serviceInfo.total_price
+                    ? JSON.parse(response.data.serviceInfo.total_price).basic
+                    : '',
+                Standard: response.data.serviceInfo.total_price
+                    ? JSON.parse(response.data.serviceInfo.total_price).standard
+                    : '',
+                Advanced: response.data.serviceInfo.total_price
+                    ? JSON.parse(response.data.serviceInfo.total_price).advanced ?? ""
+                    : ''
+            });
+            // Store milestone data in state
+            setMileStoneData(response.data.serviceInfo.milestone ? JSON.parse(response.data.serviceInfo.milestone) : {});
+            setServiceMilestoneData(response.data.serviceMilestoneData ? response.data.serviceMilestoneData : []);
+            setServiceInfo(response.data.serviceInfo ? response.data.serviceInfo : [])
+            setMilestone(response.data.milestone ?? {})
+
+
+            let discountres = response.data.serviceInfo.discount_type
+                ? JSON.parse(response.data.serviceInfo.discount_type)
+                : {};
+
+            setDiscountType(prev => ({
+                ...prev,
+                Basic: discountres.basic || "",
+                Standard: discountres.standard || "",
+                Advanced: discountres.advanced || ""
+            }));
+
+            let discountValRes = response.data.serviceInfo.discount_value
+                ? JSON.parse(response.data.serviceInfo.discount_value)
+                : {};
+
+            let couponCodeRes = response.data.serviceInfo.coupon_code
+                ? JSON.parse(response.data.serviceInfo.coupon_code)
+                : {};
+
+            setDiscountValue(prev => ({
+                ...prev,
+                Basic: discountValRes.basic || "",
+                Standard: discountValRes.standard || "",
+                Advanced: discountValRes.advanced || ""
+            }));
+
+            setCouponCode(prev => ({
+                ...prev,
+                Basic: couponCodeRes.basic || "",
+                Standard: couponCodeRes.standard || "",
+                Advanced: couponCodeRes.advanced || ""
+            }));
+
+            console.log(response.data)
+
+        } catch (error) {
+            console.error("Error fetching quote data:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    // Trigger fetch on RefId change or on component mount
+    useEffect(() => {
+        if (QueryInfo.assign_id) {
+            fetchQuoteData();
+        }
+    }, [QueryInfo.assign_id]);
+    useEffect(() => {
+        if (mileStoneData) {
+            setSelectedMilestones({
+                Basic: mileStoneData.basic || '',
+                Standard: mileStoneData.standard || '',
+                Advanced: mileStoneData.advanced || ''
+            });
+
+            // Call handleMilestoneChange after a small delay
+            setTimeout(() => {
+                Object.entries(mileStoneData).forEach(([plan, value]) => {
+                    console.log(plan.charAt(0).toUpperCase() + plan.slice(1), value);
+                    // handleMilestoneChange(plan.charAt(0).toUpperCase() + plan.slice(1), value);
+                });
+            }, 500);
+        }
+    }, [totalPrices]);
+
+    const setMilesStoneNamesData = () => {
+
+    }
+    useEffect(() => {
+        if (!Array.isArray(serviceMilestoneData)) {
+            console.error("serviceMilestoneData is not an array", serviceMilestoneData);
+            return;
+        }
+
+        const milestoneNames = serviceMilestoneData.reduce((acc, milestone) => {
+            const planType = milestone.plan_type;
+            if (!acc[planType]) acc[planType] = {}; // Initialize plan type object
+
+            acc[planType][milestone.id] = milestone.milestone_name; // Use milestone ID as key
+
+            return acc;
+        }, {});
+
+        console.log("milestone names is", JSON.stringify(milestoneNames));
+        setMilestoneNames(milestoneNames);
+
+        const milestonePrices = serviceMilestoneData.reduce((acc, milestone) => {
+            const planType = milestone.plan_type;
+            if (!acc[planType]) acc[planType] = {}; // Initialize plan type object
+
+            acc[planType][milestone.id] = milestone.milestone_price; // Use milestone ID as key
+
+            return acc;
+        }, {});
+
+        console.log("milestone names is", JSON.stringify(milestoneNames));
+        setMilestonePrices(milestonePrices);
+
+
+    }, [serviceMilestoneData]);
+
+    const [allset, setallset] = useState(false);
+    const setParsedMilestones = () => {
+        // if (allset) return; 
+        setallset(false);
+        const parsedData = [];
+        serviceMilestoneData.forEach((item) => {
+            if (item.plan_type) {
+                const data = item.subMilestoneData ? JSON.parse(item.subMilestoneData) : {};
+                if (Array.isArray(data)) {
+                    parsedData.push(...data);
+                } else {
+                    parsedData.push(data);
+                }
+            }
+        });
+        console.log("milest " + JSON.stringify(milestones));
+        ["basic", "standard", "advanced"].forEach((plan) => {
+            if (milestones[plan]) { // Ensure the plan exists in milestones
+                milestones[plan].forEach((milestone, milestoneIndex) => {
+                    if (Array.isArray(milestone.subMilestoneData)) { // Ensure it's an array before mapping
+                        milestone.subMilestoneData.forEach((_, subIndex) => {
+                            const subMilestoneInput = document.getElementById(`submilestone_${plan.toLowerCase()}_${milestone.id}_${subIndex}`);
+                            const wordsInput = document.getElementById(`no_of_words_${plan.toLowerCase()}_${milestone.id}_${subIndex}`);
+                            const timeFrameInput = document.getElementById(`time_frame_${plan.toLowerCase()}_${milestone.id}_${subIndex}`);
+
+                            if (subMilestoneInput) {
+                                console.log("found")
+                                console.log("not found " + JSON.stringify(milestone))
+                            } else {
+                                console.log(`submilestone_${plan.toLowerCase()}_${milestone.ref_id}_${subIndex}`)
+                                console.log("not found " + JSON.stringify(milestone))
+                            }
+                            if (subMilestoneInput) subMilestoneInput.value = parsedData[milestone.id - 1]?.parameters || "";
+                            if (wordsInput) wordsInput.value = parsedData[milestone.id - 1]?.no_of_words || "";
+                            if (timeFrameInput) timeFrameInput.value = parsedData[milestone.id - 1]?.time_frame || "";
+
+                        });
+                    }
+                });
+            }
+        });
+        setallset(true);
+        console.log("parseddd" + parsedData)
+
+    }
+
+    const milestoneRef = useRef(null);
+    useEffect(() => {
+        if (milestoneRef.current) {
+            setParsedMilestones();
+        }
+    }, [serviceMilestoneData]);
+
+    useEffect(() => {
+        if (!Array.isArray(serviceMilestoneData)) {
+            console.error("serviceMilestoneData is not an array", serviceMilestoneData);
+            return;
+        }
+
+    }, [serviceMilestoneData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -388,10 +606,6 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             }
             if (!formData.total_price_basic) {
                 toast.error('Please enter Total Price for Basic Plan');
-                return;
-            }
-            if (!milestone.basic.count) {
-                toast.error('Please select No of Milestones for Basic Plan');
                 return;
             }
             if (!additionalRemarks.Basic) {
@@ -425,10 +639,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 toast.error('Please enter Total Price for Standard Plan');
                 return;
             }
-            if (!milestone.standard.count) {
-                toast.error('Please select No of Milestones for Standard Plan');
-                return;
-            }
+            
             if (!additionalRemarks.Standard) {
                 toast.error('Please enter Additional Remarks for Standard Plan');
                 return;
@@ -459,10 +670,6 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 toast.error('Please enter Total Price for Advanced Plan');
                 return;
             }
-            if (!milestone.advanced.count) {
-                toast.error('Please select No of Milestones for Advanced Plan');
-                return;
-            }
             if (!additionalRemarks.Advanced) {
                 toast.error('Please enter Additional Remarks for Advanced Plan');
                 return;
@@ -489,6 +696,9 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             return;
         }
 
+        // console.log(milestone['basic'].submilestoneData)
+        // return;
+
         const formattedSubmilestoneBasic = formatSubmilestoneData(subMilestoneData.Basic || {});
         const formattedSubmilestoneStandard = formatSubmilestoneData(subMilestoneData.Standard || {});
         const formattedSubmilestoneAdvanced = formatSubmilestoneData(subMilestoneData.Advanced || {});
@@ -498,13 +708,17 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             day: '2-digit',
             year: 'numeric'
         });
+        // console.log(milestone.basic);
+        //     return
 
         const data = {
             user_id: sessionStorage.getItem('id'),
             user_name: sessionStorage.getItem('name'),
             user_type: sessionStorage.getItem('user_type'),
             accessQuoteApproval: sessionStorage.getItem('accessQuoteApproval'),
+            isdraftform: document.getElementById('isdraftform').value,
 
+            
 
             service_price_id: formData.service_price_id,
             status: formData.status,
@@ -564,6 +778,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             expiry_date: formattedExpiryDate,
             notSendOnlinePayment: formData.notSendOnlinePayment ? 1 : 0,
             payment_details: formData.payment_details,
+            mile_stone : milestone
 
         };
 
@@ -596,6 +811,46 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
         }
     };
 
+    useEffect(() => {
+        document.getElementById("test").value = "test"
+    }, [])
+
+    const handleAddParameter = (plan, milestoneIndex) => {
+        setMilestone((prevMilestone) => {
+            return {
+                ...prevMilestone,
+                [plan.toLowerCase()]: {
+                    ...prevMilestone[plan.toLowerCase()],
+                    submilestoneData: {
+                        ...prevMilestone[plan.toLowerCase()]?.submilestoneData,
+                        [milestoneIndex]: {
+                            parameters: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.parameters || []), ""],
+                            no_of_words: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.no_of_words || []), ""],
+                            time_frame: [...(prevMilestone[plan.toLowerCase()]?.submilestoneData?.[milestoneIndex]?.time_frame || []), ""]
+                        }
+                    }
+                }
+            };
+        });
+    };
+
+    const handleRemoveParameter = (plan, milestoneIndex, paramIndex) => {
+        setMilestone((prevMilestone) => {
+            const updatedMilestone = { ...prevMilestone };
+            const planKey = plan.toLowerCase();
+
+            if (updatedMilestone[planKey]?.submilestoneData?.[milestoneIndex]) {
+                updatedMilestone[planKey].submilestoneData[milestoneIndex].parameters.splice(paramIndex, 1);
+                updatedMilestone[planKey].submilestoneData[milestoneIndex].no_of_words.splice(paramIndex, 1);
+                updatedMilestone[planKey].submilestoneData[milestoneIndex].time_frame.splice(paramIndex, 1);
+            }
+
+            return { ...updatedMilestone };
+        });
+    };
+
+
+
     return (
         <div className='flex flex-col space-y-2 p-1 border'>
             {closable && (
@@ -610,6 +865,8 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 <input type="hidden" name="status" value={formData.status} />
                 <input type="hidden" name="quotation_id" value={formData.quotation_id} />
                 <input type="hidden" name="ref_id" value={formData.ref_id} />
+                <input type="hidden" id="isdraftform" name="isdraftform" value="no" />
+                <input type="hidden" id="test" name="test" value="no" />
                 <div className="box-body">
                     <QueryInfoTab QueryInfo={QueryInfo} expandStatus={expandStatus} />
 
@@ -729,7 +986,9 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 </label>
 
                                 <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                    <label
+
+                                        className="block text-sm font-medium text-gray-700">
                                         Total Price ({plan})
                                     </label>
                                     <div className="flex space-x-3">
@@ -799,7 +1058,6 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                 placeholder={`Milestone Name `}
                                                 value={milestone[plan.toLowerCase()].milestone_name[milestoneIndex]}
                                                 onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_name", e.target.value)}
-
                                                 required
                                             />
 
@@ -921,6 +1179,8 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     ))
                                 }
 
+
+
                                 <div className="mb-4" id={`${plan}_remark_div`}>
                                     <label className="block text-sm font-medium text-gray-700">
                                         {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
@@ -934,6 +1194,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     ></textarea>
 
                                 </div >
+
                                 <div className="flex items-end justify-between space-x-1 mb-4">
                                     <div className="w-50">
                                         <label className="text-left block text-sm font-medium text-gray-700">{plan} Discount Type</label>
@@ -1028,16 +1289,45 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                         )}
                     </div>
 
-
-                    <div className="form-group mt-2">
-                        <div className="col-sm-12 flex justify-end">
-                            <button type="submit" className="btn btn-primary" >Submit</button>
+                    {(sessionStorage.getItem("user_type") == "admin" || sessionStorage.getItem("user_type") == "sub-admin") && (serviceData && serviceData.status == 2) ? (
+                        <div className="form-group mt-2">
+                            <div className="col-sm-12 flex justify-end">
+                                <button type="submit" className="btn btn-primary"
+                                    onClick={(e) => {
+                                        document.getElementById("isdraftform").value = "no";
+                                    }}
+                                >Submit</button>
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        <div className='flex items-center justify-between'>
+                            <div className="form-group mt-2">
+                                <div className="col-sm-12 flex justify-end">
+                                    <button type="submit"
+                                        className="btn btn-primary"
+                                        onClick={(e) => {
+                                            document.getElementById("isdraftform").value = "yes";
+                                        }}
+                                    >Save as draft</button>
+                                </div>
+                            </div>
+                            <div className="form-group mt-2">
+                                <div className="col-sm-12 flex justify-end">
+                                    <button type="submit"
+                                        className="btn btn-primary"
+                                        onClick={(e) => {
+                                            document.getElementById("isdraftform").value = "no";
+                                        }}
+                                    >Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </form>
         </div>
     );
 };
 
-export default AddQuoteForm;
+export default EditQuoteForm;

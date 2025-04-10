@@ -215,7 +215,7 @@ const Header = () => {
                             <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">User Data Specific Query</button>
 
                           )}
-                          
+
 
                         </>
                       ) :
@@ -301,28 +301,31 @@ const Header = () => {
                   Validation
                 </button>
               )}
+            {(userType == "admin" || userType == "sub-admin" || userType == "Operations Manager" || userType == "Data Manager") && (
+              <button onClick={() => handleNavigation('/workspace')} className="">WorkSpace</button>
+            )}
 
           </nav>
         </div>
 
         {/* User Session Info */}
-        
+
         <div className="relative z-50 flex space-x-2 navpop">
-        {(userType != "Data Manager") && (
-          <button
-            onClick={() => {
-              setShowNoti(false)
-              setShowFiles(!showFiles)
-            }}
-            className="text-white relative p-2 ">
-            <File size={16} />
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white fssx 
+          {(userType != "Data Manager") && (
+            <button
+              onClick={() => {
+                setShowNoti(false)
+                setShowFiles(!showFiles)
+              }}
+              className="text-white relative p-2 ">
+              <File size={16} />
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center noti
                   shadow-lg">
-              {notifications.totalAttacheFile}
-            </span>
-          </button>
-        )}
+                {notifications.totalAttacheFile}
+              </span>
+            </button>
+          )}
 
           {(userType === "admin" || userType === "user") && (
             <button

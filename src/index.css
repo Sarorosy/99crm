@@ -1199,6 +1199,9 @@ span.product-description {
     width: 16.2rem;
 }
 }
+.tenpx{
+  font-size: 10px !important;
+}
 .elevenpx{
   font-size: 11px !important;
 }

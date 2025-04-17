@@ -144,7 +144,7 @@ const AddPayment = ({ onClose, finalFunction }) => {
                     formDataToSend.append('upload_file', formData.upload_file);
                 }
 
-                const response = await fetch('https://99crm.phdconsulting.in/api/addpayment', {
+                const response = await fetch('https://99crm.phdconsulting.in/zend/api/addpayment', {
                     method: 'POST',
                     body: formDataToSend,
                 });

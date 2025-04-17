@@ -36,7 +36,7 @@ const QueryDetails = ({ refId, onClose }) => {
         };
 
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/queryDetails', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/queryDetails', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -73,7 +73,7 @@ const QueryDetails = ({ refId, onClose }) => {
 
     const fetchWhatsappOptions = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/getwhatsappoptions");
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/getwhatsappoptions");
             const data = await response.json();
             if (data.status) {
                 setWhatsappOptions(data.options);  // Set the options to state
@@ -87,7 +87,7 @@ const QueryDetails = ({ refId, onClose }) => {
 
     const fetchCallOptions = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/getcalloptions");
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/getcalloptions");
             const data = await response.json();
             if (data.status) {
                 setCallOptions(data.options);  // Set the options to state
@@ -142,7 +142,7 @@ const QueryDetails = ({ refId, onClose }) => {
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/update-escalation-status", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/update-escalation-status", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

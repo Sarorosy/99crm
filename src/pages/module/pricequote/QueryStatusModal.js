@@ -21,7 +21,7 @@ const QueryStatusModal = ({ onClose, onSubmit, selectedId, after }) => {
         if (!window.confirm('Are You Sure? Please confirm')) return;
     
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/updatequotestatus", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/updatequotestatus", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

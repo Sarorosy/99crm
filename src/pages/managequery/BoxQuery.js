@@ -138,7 +138,7 @@ const BoxQuery = () => {
                 user_type: sessionStorage.getItem('user_type')
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loadboxquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loadboxquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -173,7 +173,7 @@ const BoxQuery = () => {
             const payload = { whereStr }
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/phdwebsites', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -208,7 +208,7 @@ const BoxQuery = () => {
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/tags', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -388,7 +388,7 @@ const BoxQuery = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteboxquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteboxquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -437,7 +437,7 @@ const BoxQuery = () => {
 
             };
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/loadboxquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadboxquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -487,7 +487,7 @@ const BoxQuery = () => {
             team_id: sessionStorage.getItem('team_id'),
 
         }
-        const response = await fetch('https://99crm.phdconsulting.in/api/claimboxquery', {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/api/claimboxquery', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

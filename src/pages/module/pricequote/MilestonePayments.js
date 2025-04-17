@@ -31,7 +31,7 @@ const MilestonePayments = () => {
 
     useEffect(() => {
         // Fetch managers data from the API
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusers')
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusers')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
@@ -86,7 +86,7 @@ const MilestonePayments = () => {
     const fetchFilteredQuotes = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/loadpaymentmilestones', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadpaymentmilestones', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

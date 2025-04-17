@@ -34,7 +34,7 @@ const CommentForm = ({ queryInfo, onClose , status, after}) => {
     
         try {
             // Make the POST request using fetch
-            const response = await fetch('https://99crm.phdconsulting.in/api/onlycommentsubmit', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/onlycommentsubmit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

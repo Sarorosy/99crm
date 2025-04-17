@@ -77,7 +77,7 @@ const ManagePayment = () => {
                 payload.status_filter = statusFilter;
             }
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/getpayments', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/getpayments', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }

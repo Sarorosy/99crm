@@ -134,7 +134,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     // Fetch websites from the API
     const fetchWebsites = async () => {
         try {
-            const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/websites');
+            const response = await axios.get('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites');
             setWebsites(response.data.data); // Assuming response.data is the list of websites
         } catch (error) {
             console.error('Error fetching websites', error);
@@ -144,7 +144,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     // Fetch status from the API
     const fetchStatus = async () => {
         try {
-            const response = await axios.get('https://99crm.phdconsulting.in/api/getallstatus');
+            const response = await axios.get('https://99crm.phdconsulting.in/zend/api/getallstatus');
             setAllStatus(response.data.data); // Assuming response.data is the list of websites
         } catch (error) {
             console.error('Error fetching websites', error);
@@ -155,7 +155,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     const fetchProfiles = async (websiteId, userId) => {
 
         try {
-            const response = await axios.post('https://99crm.phdconsulting.in/api/getuserprofiles',
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/getuserprofiles',
                 {
                     website: websiteId,
                     user_id: userId
@@ -173,7 +173,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
         if (!websiteId) return;
 
         try {
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofilewebsite', { website_id: websiteId });
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getuserprofilewebsite', { website_id: websiteId });
             setProfiles(response.data.data);
         } catch (error) {
             console.error('Error fetching profiles', error);
@@ -244,7 +244,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
 
         try {
             // POST request to the API
-            const response = await fetch('https://99crm.phdconsulting.in/api/addemailcampaign', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/addemailcampaign', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',  // Set Content-Type to application/json
@@ -294,7 +294,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
         setAssignType(assignType);
 
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/specificuser', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/specificuser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

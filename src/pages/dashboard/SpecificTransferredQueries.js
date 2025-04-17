@@ -26,7 +26,7 @@ const SpecificTransferredQueries = ({ onClose }) => {
     const fetchQueries = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/api/loadspecifictransferredqueries', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadspecifictransferredqueries', {
                 method: 'POST',
                 body: JSON.stringify({ user_id: sessionStorage.getItem('id'), user_type: sessionStorage.getItem('user_type') }),
             });
@@ -140,7 +140,7 @@ const SpecificTransferredQueries = ({ onClose }) => {
         setLoading(true);
         
         try {
-          const response = await fetch(`https://99crm.phdconsulting.in/api/reclaimqueryback`, {
+          const response = await fetch(`https://99crm.phdconsulting.in/zend/api/reclaimqueryback`, {
             method: "POST",
             body: JSON.stringify({ user_id : sessionStorage.getItem('id'), user_name : sessionStorage.getItem('name') ,req_id: reqId }),
           });
@@ -166,7 +166,7 @@ const SpecificTransferredQueries = ({ onClose }) => {
         setLoading(true);
     
         try {
-          const response = await fetch(`https://99crm.phdconsulting.in/api/approvereclaimquery`, {
+          const response = await fetch(`https://99crm.phdconsulting.in/zend/api/approvereclaimquery`, {
             method: "POST",
             body: JSON.stringify({user_id : sessionStorage.getItem('id'), user_name : sessionStorage.getItem('name'), req_id: reqId }),
           });

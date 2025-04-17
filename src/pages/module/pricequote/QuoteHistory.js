@@ -34,7 +34,7 @@ const QuoteHistory = () => {
 
     useEffect(() => {
         // Fetch managers data from the API
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusers')
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusers')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
@@ -91,7 +91,7 @@ const QuoteHistory = () => {
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/loadquotehistory',
+                'https://99crm.phdconsulting.in/zend/api/loadquotehistory',
                 {
                     get_user_id: sessionStorage.getItem('id'),
                     user_type: sessionStorage.getItem('user_type'),

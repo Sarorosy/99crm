@@ -52,9 +52,9 @@ const AddUser = ({ onClose, after }) => {
         const fetchData = async () => {
             try {
                 const [teamResponse, websiteResponse, managerResponse] = await Promise.all([
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/teams'),
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/websites'),
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/opsmanagers')
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/teams'),
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites'),
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/opsmanagers')
                 ]);
 
                 const teamData = await teamResponse.json();
@@ -157,7 +157,7 @@ const AddUser = ({ onClose, after }) => {
         const username = e.target.value;
 
         if (username.length > 2) {  // Only check after 3 characters are entered
-            fetch('https://99crm.phdconsulting.in/99crmwebapi/api/checkusername', {
+            fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/checkusername', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -437,7 +437,7 @@ const AddUser = ({ onClose, after }) => {
 
         // Proceed with form submission if everything is valid
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/createuser', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/createuser', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

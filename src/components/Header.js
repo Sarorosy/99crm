@@ -41,7 +41,7 @@ const Header = () => {
     };
 
     try {
-      const response = await fetch('https://99crm.phdconsulting.in/api/common-notification', {
+      const response = await fetch('https://99crm.phdconsulting.in/zend/api/common-notification', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

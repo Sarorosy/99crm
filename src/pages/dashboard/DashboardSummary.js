@@ -14,7 +14,7 @@ const DashboardSummary = ({ filterDate, onClose }) => {
         const fetchData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.post("https://99crm.phdconsulting.in/api/dashboardsummary", {
+                const response = await axios.post("https://99crm.phdconsulting.in/zend/api/dashboardsummary", {
                     date_type: "ass_qr.update_status_date",
                     filter_date: filterDate,
                     user_id: userId,

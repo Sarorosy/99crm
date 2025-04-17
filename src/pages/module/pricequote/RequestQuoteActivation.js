@@ -37,7 +37,7 @@ const RequestQuoteActivation = () => {
         };
 
         // Fetch managers data from the API using POST method
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusersforpricequote', {
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersforpricequote', {
             method: 'POST', // Use POST method
             headers: {
                 'Content-Type': 'application/json', // Set content type to JSON
@@ -100,7 +100,7 @@ const RequestQuoteActivation = () => {
     
         try {
             const response = await fetch(
-                'https://99crm.phdconsulting.in/99crmwebapi/api/request-quote-activation',
+                'https://99crm.phdconsulting.in/zend/99crmwebapi/api/request-quote-activation',
                 {
                     method: 'POST', // Use POST method
                     headers: {
@@ -129,7 +129,7 @@ const RequestQuoteActivation = () => {
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/99crmwebapi/api/quote-history',
+                'https://99crm.phdconsulting.in/zend/99crmwebapi/api/quote-history',
                 {
                     filter_date: filterDate,
                     ref_id: refId,

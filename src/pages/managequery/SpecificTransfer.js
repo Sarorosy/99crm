@@ -19,7 +19,7 @@ const SpecificTransfer = ({selectedQuery, after, onClose}) => {
         }
     }
     const fetchUsers = async () => {
-        const response = await fetch('https://99crm.phdconsulting.in/api/specificuser', {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/api/specificuser', {
             method: 'POST',
             body: JSON.stringify({
                 assignType: crmType
@@ -41,7 +41,7 @@ const SpecificTransfer = ({selectedQuery, after, onClose}) => {
     }
 
     const fetchProfiles = async () => {
-        const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofiles', {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getuserprofiles', {
             method: 'POST',
             body: JSON.stringify({
                 user_id: selectedUser
@@ -74,7 +74,7 @@ const SpecificTransfer = ({selectedQuery, after, onClose}) => {
             return;
         }
 
-        const response = await fetch('https://99crm.phdconsulting.in/api/transferspecific', {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/api/transferspecific', {
             method: 'POST',
             body: JSON.stringify({
                 queryIds:selectedQuery,

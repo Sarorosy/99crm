@@ -35,7 +35,7 @@ const ManageTags = () => {
     const fetchTags = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getalltags');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getalltags');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -62,7 +62,7 @@ const ManageTags = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected tags IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deletetag', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deletetag', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ const ManageTags = () => {
             orderable: false,
             render: (data, type, row) => `
         <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" />
         </button>
       `,
         },

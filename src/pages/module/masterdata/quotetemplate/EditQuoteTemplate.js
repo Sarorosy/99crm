@@ -17,7 +17,7 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
 
     const fetchWebsites = async () => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/websites');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites');
             const data = await response.json();
             if (data.status) {
                 setWebsites(data.data); // Assuming data.data contains the websites
@@ -33,7 +33,7 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
     const fetchTemplateDetails = async (id) => {
         try {
             setLoading(true)
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getquotetemplate/${id}`);
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getquotetemplate/${id}`);
             const data = await response.json();
             if (data.status && data.data) {
                 const template = data.data;
@@ -92,7 +92,7 @@ const EditQuoteTemplate = ({ onClose, afterSave, templateId }) => {
             website_id: selectedWebsite,
         };
 
-        fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/updatequotetemplate/${templateId.id}`, {
+        fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatequotetemplate/${templateId.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

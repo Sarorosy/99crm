@@ -43,7 +43,7 @@ const ManageQuoteTemplate = () => {
                 setLoading(false);
                 return;
             }
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getquotetemplates');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getquotetemplates');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -114,10 +114,10 @@ const ManageQuoteTemplate = () => {
             orderable: false,
             render: (data, type, row) => `
         <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" class="h-4 w-auto" alt="edit" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" class="h-4 w-auto" alt="edit" />
         </button>
         <button class="delete-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/0.png" alt="edit" class="h-4 w-auto" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/0.png" alt="edit" class="h-4 w-auto" />
         </button>
       `,
         },
@@ -141,7 +141,7 @@ const ManageQuoteTemplate = () => {
     }
     const onConfirmSingleDelete = async () => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/deletequotetemplate/${selectedTemplate}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/deletequotetemplate/${selectedTemplate}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

@@ -19,7 +19,7 @@ const AddBoxTag = ({ onClose, afterSave }) => {
 
         try {
             // POST request to the API
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/createboxtag', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/createboxtag', {
                 method: 'POST',
                 body: formData,
             });

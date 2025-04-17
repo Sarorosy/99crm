@@ -17,7 +17,7 @@ const ChangePassword = () => {
         }
         
         try {
-            const response = await axios.post("https://99crm.phdconsulting.in/api/changepassword/", {
+            const response = await axios.post("https://99crm.phdconsulting.in/zend/api/changepassword/", {
                 old_password: oldPassword,
                 new_password: newPassword,
                 user_id: sessionStorage.getItem("id")

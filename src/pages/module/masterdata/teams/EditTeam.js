@@ -18,7 +18,7 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
     // Fetch Managers
     const fetchManagers = async () => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getmanagers');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getmanagers');
             const data = await response.json();
             if (data.status) {
                 setManagers(data.data); // Assuming data.data contains the managers
@@ -34,7 +34,7 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
     const fetchTeamDetails = async (id) => {
         try {
             setLoading(true);
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getteam/${id}`);
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getteam/${id}`);
             const data = await response.json();
             if (data.status && data.data) {
                 const team = data.data;
@@ -94,7 +94,7 @@ const EditTeam = ({ onClose, afterSave, teamId }) => {
             manager_ids: selectedManagers.join(','),
         };
 
-        fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/updateteam/${teamId.id}`, {
+        fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updateteam/${teamId.id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

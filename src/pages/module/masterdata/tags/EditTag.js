@@ -16,7 +16,7 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
         const fetchTagDetails = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/tagdetails/${tagId.id}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/tagdetails/${tagId.id}`);
                 const data = await response.json();
 
                 if (response.ok && data) {
@@ -48,7 +48,7 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
         };
 
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/updatetag/${tagId.id}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatetag/${tagId.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

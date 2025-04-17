@@ -50,7 +50,7 @@ const ManageUser = () => {
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/users');
+      const response = await axios.get('https://99crm.phdconsulting.in/zend/99crmwebapi/api/users');
       setUsers(response.data.data);
       computeUserStatistics(response.data.data);
       // Store users data in sessionStorage
@@ -89,7 +89,7 @@ const ManageUser = () => {
     setIsDeleting(true); // Show the deleting modal
 
     try {
-      const response = await axios.post("https://99crm.phdconsulting.in/99crmwebapi/api/deleteusers", {
+      const response = await axios.post("https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteusers", {
         user_ids: selectedUsers,
       });
       setUsers(users.filter((user) => !selectedUsers.includes(user.id)));
@@ -276,7 +276,7 @@ const ManageUser = () => {
       render: (data, type, row) => {
         return `
           <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" />
           </button>
         `;
       },
@@ -377,7 +377,7 @@ const ManageUser = () => {
                     const userId = $(event.target).data('id');
                     try {
                       const response = await axios.post(
-                        'https://99crm.phdconsulting.in/99crmwebapi/api/togglestatus',
+                        'https://99crm.phdconsulting.in/zend/99crmwebapi/api/togglestatus',
                         { id: userId }
                       );
                       toast.success(`Status updated successfully!`);

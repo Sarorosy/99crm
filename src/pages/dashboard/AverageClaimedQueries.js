@@ -12,7 +12,7 @@ const AverageClaimedQueries = ({ websiteId , onClose}) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post('https://99crm.phdconsulting.in/api/averageclaimedqueries', {
+        const response = await axios.post('https://99crm.phdconsulting.in/zend/api/averageclaimedqueries', {
           user_id: '1',
           user_type: 'admin',
           team_id: '',

@@ -20,11 +20,11 @@ const AddQuerySideDetails = ({ TodayCreatedQuery }) => {
 
             // API calls
             const [pendingTaskResponse, createdQueryResponse] = await Promise.all([
-                axios.post("https://99crm.phdconsulting.in/99crmwebapi/api/userpendingtodaytask", {
+                axios.post("https://99crm.phdconsulting.in/zend/99crmwebapi/api/userpendingtodaytask", {
                     currentDate: currentDateInSeconds,  // Send in seconds
                     category: category, // Replace with appropriate category
                 }),
-                axios.post("https://99crm.phdconsulting.in/99crmwebapi/api/todaycreatedquery", {
+                axios.post("https://99crm.phdconsulting.in/zend/99crmwebapi/api/todaycreatedquery", {
                     currentDate: todayDateInSeconds, // Send in seconds
                 }),
             ]);

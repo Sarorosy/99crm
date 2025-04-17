@@ -12,7 +12,7 @@ const HistoryComponent = ({ queryInfo }) => {
     const fetchCallHistory = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/getcalloptvaluehistory', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getcalloptvaluehistory', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,7 +39,7 @@ const HistoryComponent = ({ queryInfo }) => {
     const fetchWhatsappHistory = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/getwhatsappoptvaluehistory', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getwhatsappoptvaluehistory', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

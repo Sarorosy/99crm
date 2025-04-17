@@ -37,7 +37,7 @@ const ManageWebsite = () => {
                 setLoading(false);
                 return;
             }
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/phdwebsites');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -145,7 +145,7 @@ const ManageWebsite = () => {
             orderable: false,
             render: (data, type, row) => `
                 <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
-                    <img src="https://99crm.phdconsulting.in/public/images/edit.gif" class="h-4 w-auto" alt="edit" />
+                    <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" class="h-4 w-auto" alt="edit" />
                 </button>
             `,
         },
@@ -163,7 +163,7 @@ const ManageWebsite = () => {
     }
     const onConfirmSingleDelete = async () => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/deletequotetemplate/${selectedWebsite}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/deletequotetemplate/${selectedWebsite}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',

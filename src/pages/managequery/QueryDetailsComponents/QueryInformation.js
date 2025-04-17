@@ -38,7 +38,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/tags', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -116,7 +116,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
 
         setError(null);
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/updatefieldvalues", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatefieldvalues", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -158,7 +158,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/markinconversation", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/markinconversation", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

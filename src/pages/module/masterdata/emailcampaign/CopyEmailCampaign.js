@@ -31,7 +31,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     // Fetch websites from the API
     const fetchWebsites = async () => {
         try {
-            const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/websites');
+            const response = await axios.get('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites');
             setWebsites(response.data.data); // Assuming response.data is the list of websites
         } catch (error) {
             console.error('Error fetching websites', error);
@@ -43,7 +43,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
         if (!websiteId) return; // If no website is selected, skip the API call
 
         try {
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofilewebsite', { website_id: websiteId });
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getuserprofilewebsite', { website_id: websiteId });
             setProfiles(response.data.data); // Assuming response.data is the list of profiles
         } catch (error) {
             console.error('Error fetching profiles', error);
@@ -54,7 +54,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     const fetchDetails = async () => {
 
         try {
-            const response = await axios.get(`https://99crm.phdconsulting.in/99crmwebapi/api/getcampaigndetails/${campaignId.id}`);
+            const response = await axios.get(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getcampaigndetails/${campaignId.id}`);
             setCampTitle(response.data.data.camp_title);
             setMailBody(response.data.data.email_body)
         } catch (error) {
@@ -102,7 +102,7 @@ const CopyEmailCampaign = ({ onClose, afterSave, campaignId }) => {
 
         try {
             // POST request to the API
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/addemailcampaign', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/addemailcampaign', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',  // Set Content-Type to application/json

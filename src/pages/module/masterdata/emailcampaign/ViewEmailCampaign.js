@@ -16,7 +16,7 @@ const ViewEmailCampaign = ({ campaignId, afterSave, onClose }) => {
         // Fetch campaign details
         const fetchCampaignDetails = async () => {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/api/getcampaigndetails/`, {
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/api/getcampaigndetails/`, {
                     method: 'POST',
                     body: JSON.stringify({ emailcampaignid: campaignId.id }),
                 });
@@ -43,7 +43,7 @@ const ViewEmailCampaign = ({ campaignId, afterSave, onClose }) => {
     useEffect(() => {
         const fetchBounces = async () => {
             try {
-                const response = await fetch("https://99crm.phdconsulting.in/api/getbouncedemails", {
+                const response = await fetch("https://99crm.phdconsulting.in/zend/api/getbouncedemails", {
                     method: "GET",
                 });
 

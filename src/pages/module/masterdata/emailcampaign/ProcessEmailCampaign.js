@@ -16,7 +16,7 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
         // Fetch campaign details
         const fetchCampaignDetails = async () => {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/api/getcampaigndetails/`, {
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/api/getcampaigndetails/`, {
                     method: 'POST',
                     body: JSON.stringify({ emailcampaignid: campaignId.id }),
                 });
@@ -42,7 +42,7 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
     useEffect(() => {
         const fetchBounces = async () => {
             try {
-                const response = await fetch("https://99crm.phdconsulting.in/api/getbouncedemails", {
+                const response = await fetch("https://99crm.phdconsulting.in/zend/api/getbouncedemails", {
                     method: "GET",
                 });
 
@@ -64,7 +64,7 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
         if (!window.confirm("Please confirm to mark as delivered?")) return;
 
         try {
-            const response = await axios.post("https://99crm.phdconsulting.in/api/processemailcampaign",
+            const response = await axios.post("https://99crm.phdconsulting.in/zend/api/processemailcampaign",
                  { emailcampaignid: campaignId.id,
                     post_user_id : sessionStorage.getItem("id"),
                     post_user_name : sessionStorage.getItem("name"),

@@ -162,7 +162,7 @@ const UserQuery = () => {
 
 
             const response = await fetch(
-                'https://99crm.phdconsulting.in/99crmwebapi/api/getallusersforpricequoteid',
+                'https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersforpricequoteid',
                 {
                     method: 'POST',
                     headers: {
@@ -220,7 +220,7 @@ const UserQuery = () => {
                 website: selectedWebsites,
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loaduserquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loaduserquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -261,7 +261,7 @@ const UserQuery = () => {
             };
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/teams', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/teams', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -294,7 +294,7 @@ const UserQuery = () => {
             };
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getallcampaignusers', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallcampaignusers', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -325,7 +325,7 @@ const UserQuery = () => {
             const payload = { whereStr }
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/phdwebsites', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -358,7 +358,7 @@ const UserQuery = () => {
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/tags', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -384,7 +384,7 @@ const UserQuery = () => {
 
             const payload = { whereStr };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/status', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/status', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -419,7 +419,7 @@ const UserQuery = () => {
 
 
             const response = await fetch(
-                'https://99crm.phdconsulting.in/99crmwebapi/api/getallusersforpricequote',
+                'https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersforpricequote',
                 {
                     method: 'POST',
                     headers: {
@@ -446,7 +446,7 @@ const UserQuery = () => {
     const fetchStates = async () => {
         try {
 
-            const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/states', {
+            const response = await axios.get('https://99crm.phdconsulting.in/zend/99crmwebapi/api/states', {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -465,7 +465,7 @@ const UserQuery = () => {
     const fetchCallOptions = async () => {
         try {
 
-            const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/callopt', {
+            const response = await axios.get('https://99crm.phdconsulting.in/zend/99crmwebapi/api/callopt', {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -485,7 +485,7 @@ const UserQuery = () => {
         try {
 
 
-            const response = await axios.get('https://99crm.phdconsulting.in/99crmwebapi/api/whatsappopt', {
+            const response = await axios.get('https://99crm.phdconsulting.in/zend/99crmwebapi/api/whatsappopt', {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -529,7 +529,7 @@ const UserQuery = () => {
 
     useEffect(() => {
         // Fetch states when the component mounts
-        axios.get("https://99crm.phdconsulting.in/99crmwebapi/api/states")
+        axios.get("https://99crm.phdconsulting.in/zend/99crmwebapi/api/states")
             .then(response => {
                 setStates(response.data.data);
             })
@@ -562,7 +562,7 @@ const UserQuery = () => {
 
         // Fetch cities based on the selected state
         if (selectedStateId) {
-            axios.post(`https://99crm.phdconsulting.in/99crmwebapi/api/cities/${selectedStateId}`)
+            axios.post(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/cities/${selectedStateId}`)
                 .then(response => {
                     setCities(response.data.data);
                 })
@@ -625,7 +625,7 @@ const UserQuery = () => {
         if (selectedUserId) {
             try {
                 const response = await fetch(
-                    "https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofiles",
+                    "https://99crm.phdconsulting.in/zend/99crmwebapi/api/getuserprofiles",
                     {
                         method: "POST",
                         headers: {
@@ -670,7 +670,7 @@ const UserQuery = () => {
         }
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/deletequeries", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/deletequeries", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -705,7 +705,7 @@ const UserQuery = () => {
 
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/removebellicon", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/removebellicon", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -754,7 +754,7 @@ const UserQuery = () => {
                 return `
                     <div style="text-align: left; display: flex; align-items: center; gap: 10px; width:80px;">
                         <span class="view-btn bg-blue-400 hover:bg-blue-600" style="padding: 2px 3px; border: none; color: white; border-radius: 4px; cursor: pointer;">${data}</span>
-                        <span class=" fssx edit-btn " style="cursor: pointer;"><img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" /></span>
+                        <span class=" fssx edit-btn " style="cursor: pointer;"><img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" /></span>
                     </div>
                 `;
             },
@@ -909,7 +909,7 @@ const UserQuery = () => {
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/multipleshiftquery", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/multipleshiftquery", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -1006,7 +1006,7 @@ const UserQuery = () => {
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/multiplereplicatequery", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/multiplereplicatequery", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -1076,7 +1076,7 @@ const UserQuery = () => {
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/multipleshiftcondidate", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/multipleshiftcondidate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -1150,7 +1150,7 @@ const UserQuery = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteboxtag', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteboxtag', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1204,7 +1204,7 @@ const UserQuery = () => {
 
             };
 
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/loaduserquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/loaduserquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -1620,7 +1620,7 @@ const UserQuery = () => {
                                     if (selectedTeamForTransfer) {
                                         try {
                                             const response = await fetch(
-                                                "https://99crm.phdconsulting.in/99crmwebapi/api/getallusersbyteamid",
+                                                "https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersbyteamid",
                                                 {
                                                     method: "POST",
                                                     headers: {

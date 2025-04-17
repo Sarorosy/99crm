@@ -45,7 +45,7 @@ const AddFollowupSetting = ({ onClose, afterSave }) => {
 
         try {
             // POST request to the API
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/createpriority', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/createpriority', {
                 method: 'POST',
                 body: formData,
             });

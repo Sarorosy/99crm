@@ -35,7 +35,7 @@ const MilestonePaymentDetails = ({ paymentDetails, onClose, finalFunction }) => 
         const fetchMilestoneDetails = async () => {
             if (paymentDetails?.id) {
                 try {
-                    const response = await fetch(`https://99crm.phdconsulting.in/api/milestonedetails`, {
+                    const response = await fetch(`https://99crm.phdconsulting.in/zend/api/milestonedetails`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -81,7 +81,7 @@ const MilestonePaymentDetails = ({ paymentDetails, onClose, finalFunction }) => 
         }
 
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/confirmpayment', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/confirmpayment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ const MilestonePaymentDetails = ({ paymentDetails, onClose, finalFunction }) => 
             const data = await response.json();
             if (data.status) {
                 // Refresh milestone details
-                const updatedResponse = await fetch(`https://99crm.phdconsulting.in/api/milestonedetails`, {
+                const updatedResponse = await fetch(`https://99crm.phdconsulting.in/zend/api/milestonedetails`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

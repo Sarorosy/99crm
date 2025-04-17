@@ -153,7 +153,7 @@ const ImportQuery = () => {
             };
 
             // Make the POST request with the 'team_id' in the body
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/teamsbyids', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/teamsbyids', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Ensure the request is sent as JSON
@@ -175,7 +175,7 @@ const ImportQuery = () => {
     };
     const fetchPriorities = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/getfollowupsetting");
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/getfollowupsetting");
             const data = await response.json();
             if (data.status) {
                 setPriorities(data.data);
@@ -209,7 +209,7 @@ const ImportQuery = () => {
         const teamId = teams.find((t) => t.id === team)?.id;
         if (teamId) {
             try {
-                const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusersbyteamid/',{
+                const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersbyteamid/',{
                  
                         method: 'POST',
                         headers: {
@@ -239,7 +239,7 @@ const ImportQuery = () => {
         const selectedUser = allocatedUsers.find((user) => user.id == allocated_to);
         if (selectedUser) {
             try {
-                const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofiles/', {
+                const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getuserprofiles/', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -353,7 +353,7 @@ const ImportQuery = () => {
         }
 
         // Construct the API URL
-        const apiUrl = "https://99crm.phdconsulting.in/api/importquery";
+        const apiUrl = "https://99crm.phdconsulting.in/zend/api/importquery";
 
         try {
             const response = await fetch(apiUrl, {

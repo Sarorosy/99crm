@@ -11,7 +11,7 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
     const fetchAttachedFiles = async () => {
         try {
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/api/getattachedfiles",
+                "https://99crm.phdconsulting.in/zend/api/getattachedfiles",
                 {
                     ref_id: refId,
                     user_type: sessionStorage.getItem("user_type"),
@@ -55,7 +55,7 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
 
         try {
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/api/upload-query-attached-files",
+                "https://99crm.phdconsulting.in/zend/api/upload-query-attached-files",
                 formData,
                 {
                     headers: {

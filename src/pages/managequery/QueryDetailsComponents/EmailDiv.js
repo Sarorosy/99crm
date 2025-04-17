@@ -295,7 +295,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
   // Function to handle template change
   const handleTemplateChange = async (templateId) => {
     try {
-      const response = await fetch('https://99crm.phdconsulting.in/api/get-template-info', {
+      const response = await fetch('https://99crm.phdconsulting.in/zend/api/get-template-info', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -657,7 +657,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
     // Example: formData.append("comments_file[]", selectedFile);
 
     try {
-      const response = await fetch("https://99crm.phdconsulting.in/api/commentsubmit", {
+      const response = await fetch("https://99crm.phdconsulting.in/zend/api/commentsubmit", {
         method: "POST",
         body: formData,
       });

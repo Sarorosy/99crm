@@ -25,7 +25,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://99crm.phdconsulting.in/api/getcommentsarchivetabs', {
+                const response = await fetch('https://99crm.phdconsulting.in/zend/api/getcommentsarchivetabs', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
     
     const saveCommentsArchive = async (assignId) => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/savecommentsarchive', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/savecommentsarchive', {
                 method: 'POST',
                 body: JSON.stringify({ assign_id: assignId })});
             if (!response.ok) {
@@ -74,7 +74,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
     const getArchiveComments = async (archiveNo) => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/api/getquerycomments', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getquerycomments', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ const BoxQueryDetails = ({ onClose, queryId }) => {
 
     useEffect(() => {
         const fetchQueryDetails = async () => {
-            const response = await fetch('https://99crm.phdconsulting.in/api/getboxquerydetails', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getboxquerydetails', {
                 method: 'POST',
                 body: JSON.stringify({
                     query_id: queryId,
@@ -47,7 +47,7 @@ const BoxQueryDetails = ({ onClose, queryId }) => {
             toast.error("Please select a website");
             return;
         }
-        const response = await fetch('https://99crm.phdconsulting.in/api/claimboxquery', {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/api/claimboxquery', {
             method: 'POST',
             body: JSON.stringify({
                 query_id: queryId,

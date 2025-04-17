@@ -131,7 +131,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
             try {
                 const response = await fetch(
-                    "https://99crm.phdconsulting.in/api/queryDetails",
+                    "https://99crm.phdconsulting.in/zend/api/queryDetails",
                     {
                         method: "POST",
                         headers: {
@@ -383,7 +383,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
     const fetchLocations = async () => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/country');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/country');
             const data = await response.json();
             if (data.status) {
                 setCountries(data.data); // Assuming data.data contains the companies
@@ -397,7 +397,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
     const fetchTags = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/tags");
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags");
             const data = await response.json();
             if (data.status) {
                 setTags(data.data);
@@ -411,7 +411,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
     const fetchCompanies = async () => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/companies');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/companies');
             const data = await response.json();
             if (data.status) {
                 setCompanies(data.data); // Assuming data.data contains the companies
@@ -425,7 +425,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
     const fetchServices = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/getAllServices/" );
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/getAllServices/" );
             const data = await response.json();
             if (data.status) {
                 setServices(data.data);
@@ -438,7 +438,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
     };
     const fetchQueryBefore30 = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/getallsearchquery/");
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallsearchquery/");
             const data = await response.json();
             if (data.status) {
                 setQueryBefore30(data.data);
@@ -461,7 +461,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
             };
 
             // Make the POST request with the 'team_id' in the body
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/teamsbyids', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/teamsbyids', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json', // Ensure the request is sent as JSON
@@ -483,7 +483,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
     };
     const fetchPriorities = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/99crmwebapi/api/getfollowupsetting");
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/getfollowupsetting");
             const data = await response.json();
             if (data.status) {
                 setPriorities(data.data);
@@ -542,7 +542,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         const countryId = countries.find((country) => country.nicename == location)?.id;
         if (countryId) {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/states/${countryId}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/states/${countryId}`);
                 const data = await response.json();
                 setStates(data.data);
             } catch (err) {
@@ -563,7 +563,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         const stateId = states.find((stateItem) => stateItem.id == state)?.id;
         if (stateId) {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/cities/${stateId}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/cities/${stateId}`);
                 const data = await response.json();
                 setCities(data.data);
             } catch (err) {
@@ -583,7 +583,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         const countryId = countries.find((country) => country.nicename == location)?.id;
         if (countryId) {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/states/${countryId}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/states/${countryId}`);
                 const data = await response.json();
                 setStates(data.data);
             } catch (err) {
@@ -604,7 +604,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         const stateId = states.find((stateItem) => stateItem.id == state)?.id;
 
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/cities/${e}`);
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/cities/${e}`);
             const data = await response.json();
             setCities(data.data);
         } catch (err) {
@@ -622,7 +622,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
         if (companyId) {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getwebsitebycompanyid/${companyId}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getwebsitebycompanyid/${companyId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setWebsites(data.data || []); // Update websites if data exists
@@ -643,7 +643,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
         if (companyId) {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getwebsitebycompanyid/${companyId}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getwebsitebycompanyid/${companyId}`);
                 if (response.ok) {
                     const data = await response.json();
                     setWebsites(data.data || []); // Update websites if data exists
@@ -661,7 +661,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
     const fetchUsers = async (teamId) => {
 
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusersbyteamid', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersbyteamid', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -725,7 +725,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
     // Fetch user profiles based on allocated_to and website
     const fetchUserProfiles = async (allocatedTo, website) => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getuserprofiles', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getuserprofiles', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -857,7 +857,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         }
 
         // Construct the API URL
-        const apiUrl = "https://99crm.phdconsulting.in/api/update-query-details";
+        const apiUrl = "https://99crm.phdconsulting.in/zend/api/update-query-details";
 
         try {
             const response = await fetch(apiUrl, {

@@ -45,9 +45,9 @@ const ManageEmailTemplate = () => {
 
     const fetchTagsAndWebsitesAndUsers = async () => {
         try {
-            const tagResponse = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/tags');
-            const websiteResponse = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/websites');
-            const userResponse = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusers');
+            const tagResponse = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags');
+            const websiteResponse = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites');
+            const userResponse = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusers');
 
             if (!tagResponse.ok || !websiteResponse.ok || !userResponse) {
                 throw new Error('Failed to fetch tags or websites or users');
@@ -69,7 +69,7 @@ const ManageEmailTemplate = () => {
     const fetchEmailTemplates = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/api/getallemailtemplates', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getallemailtemplates', {
                 method: 'POST',
                 body: JSON.stringify({
                     user_id: sessionStorage.getItem('id'),
@@ -96,7 +96,7 @@ const ManageEmailTemplate = () => {
 
     const fetchTemplateDetails = async (id) => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getemailtemplate/${id}`);
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getemailtemplate/${id}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -145,7 +145,7 @@ const ManageEmailTemplate = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected settings IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteemailtemps', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteemailtemps', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -187,7 +187,7 @@ const ManageEmailTemplate = () => {
     }
     const onConfirmSingleDelete = async () => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/deleteemailtemplate/${selectedTemplate}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteemailtemplate/${selectedTemplate}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -319,10 +319,10 @@ const ManageEmailTemplate = () => {
             <i class="far fa-clone hover:text-green-400"></i>
         </button>
         <button class="edit-btn mx-1 fsm" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
         </button>
         <button class="delete-btn mx-1 fsm" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/0.png" alt="edit" class="h-4 w-auto" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/0.png" alt="edit" class="h-4 w-auto" />
         </button>
         </div>
       `,
@@ -359,11 +359,11 @@ const ManageEmailTemplate = () => {
 
             if (selectedTemplate) {
                 // Edit existing template
-                url = `https://99crm.phdconsulting.in/99crmwebapi/api/updateemailtemplate/${selectedTemplate}`;
+                url = `https://99crm.phdconsulting.in/zend/99crmwebapi/api/updateemailtemplate/${selectedTemplate}`;
                 method = 'PUT';
             } else {
                 // Add new template
-                url = `https://99crm.phdconsulting.in/99crmwebapi/api/addemailtemplate`;
+                url = `https://99crm.phdconsulting.in/zend/99crmwebapi/api/addemailtemplate`;
                 method = 'POST';
             }
 

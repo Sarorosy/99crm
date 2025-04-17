@@ -16,7 +16,7 @@ const EditFollowupSetting = ({ onClose, afterSave, settingId }) => {
         const fetchSettings = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/followupsettingdetails/${settingId.id}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/followupsettingdetails/${settingId.id}`);
                 const data = await response.json();
 
                 if (response.ok && data) {
@@ -81,7 +81,7 @@ const EditFollowupSetting = ({ onClose, afterSave, settingId }) => {
         };
 
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/updatefollowupsetting/${settingId.id}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatefollowupsetting/${settingId.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -15,7 +15,7 @@ const AddTeam = ({ onClose, afterSave }) => {
 
     useEffect(() => {
         // Fetch managers data from the API
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getmanagers')
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getmanagers')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
@@ -59,7 +59,7 @@ const AddTeam = ({ onClose, afterSave }) => {
             manager_ids: selectedManagers.join(','),
         };
 
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/addteam', {
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/addteam', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

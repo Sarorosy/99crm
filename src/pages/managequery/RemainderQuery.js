@@ -137,7 +137,7 @@ const RemainderQuery = () => {
                 client_type: sessionStorage.getItem('user_type')
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loadremainderquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loadremainderquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -172,7 +172,7 @@ const RemainderQuery = () => {
             const payload = { whereStr }
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/phdwebsites', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -207,7 +207,7 @@ const RemainderQuery = () => {
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getallusers', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusers', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -389,7 +389,7 @@ const RemainderQuery = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/api/deletereminderqueryyy', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/deletereminderqueryyy', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -439,7 +439,7 @@ const RemainderQuery = () => {
 
             };
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/loadremainderquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadremainderquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

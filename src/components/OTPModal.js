@@ -17,7 +17,7 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
     setIsLoading(true);
     try {
       const username = sessionStorage.getItem('username'); // Retrieve username from sessionStorage
-      const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/validate-otp', {
+      const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/validate-otp', {
         username,
         otp_code: otp,
       });

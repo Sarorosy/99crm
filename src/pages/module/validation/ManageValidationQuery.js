@@ -45,7 +45,7 @@ const ManageValidationQuery = () => {
 
     useEffect(() => {
         // Fetch managers data from the API
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/websites')
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
@@ -102,7 +102,7 @@ const ManageValidationQuery = () => {
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/loadvalidation', {
+                'https://99crm.phdconsulting.in/zend/api/loadvalidation', {
                 user_id: sessionStorage.getItem('id'),
                 user_type: sessionStorage.getItem('user_type'),
                 crmroletype: sessionStorage.getItem('crmRoleType'),
@@ -131,7 +131,7 @@ const ManageValidationQuery = () => {
     }, []);
 
     const fetchUsers = async () => {
-        const response = await axios.post('https://99crm.phdconsulting.in/api/teampresentuser', {
+        const response = await axios.post('https://99crm.phdconsulting.in/zend/api/teampresentuser', {
             team_id: "opsuser",
             assignType: "opsuser"
         });
@@ -297,7 +297,7 @@ const ManageValidationQuery = () => {
 
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/multipleshiftqueryopsuser',
+                'https://99crm.phdconsulting.in/zend/api/multipleshiftqueryopsuser',
                 {
                     assign_opsuser: selectedUser,
                     checkid: selectedQueries
@@ -326,7 +326,7 @@ const ManageValidationQuery = () => {
 
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/deletevalidatequery',
+                'https://99crm.phdconsulting.in/zend/api/deletevalidatequery',
                 {
                     checkid: selectedQueries
                 }

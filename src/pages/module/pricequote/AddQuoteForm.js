@@ -570,11 +570,11 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
         const accessQuoteApproval = sessionStorage.getItem('accessQuoteApproval') == 'Yes';
 
         const apiUrl = accessQuoteApproval
-            ? "https://99crm.phdconsulting.in/api/send-price-quote-"
-            : "https://99crm.phdconsulting.in/api/send-price-quote-for-approval-";
+            ? "https://99crm.phdconsulting.in/zend/api/send-price-quote-"
+            : "https://99crm.phdconsulting.in/zend/api/send-price-quote-for-approval-";
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/send-price-quote-for-approval", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/send-price-quote-for-approval", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

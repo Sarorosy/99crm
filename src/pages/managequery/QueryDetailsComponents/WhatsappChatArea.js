@@ -21,7 +21,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
         const fetchTemplates = async () => {
             try {
                 const response = await axios.post(
-                    "https://99crm.phdconsulting.in/api/getwhatsappchatarea",
+                    "https://99crm.phdconsulting.in/zend/api/getwhatsappchatarea",
                     { ref_id: refId }
                 );
 
@@ -42,7 +42,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
         const fetchChatMessages = async () => {
             try {
                 const response = await axios.post(
-                    "https://99crm.phdconsulting.in/api/getwhatsappchat",
+                    "https://99crm.phdconsulting.in/zend/api/getwhatsappchat",
                     {
                         ref_id: refId,
                         lastId: lastId,
@@ -144,7 +144,7 @@ const WhatsappChatArea = ({ company_id, refId }) => {
 
         try {
             // Use axios to send the form data
-            const response = await axios.post('https://99crm.phdconsulting.in/api/submitwhatsappchat', formData, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/submitwhatsappchat', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

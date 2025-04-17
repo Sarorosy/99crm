@@ -13,7 +13,7 @@ const MailDetailsTab = ({ mailid, onClose }) => {
     useEffect(() => {
         const fetchMailDetails = async () => {
             try {
-                const response = await axios.post("https://99crm.phdconsulting.in/api/getmaildetails", {
+                const response = await axios.post("https://99crm.phdconsulting.in/zend/api/getmaildetails", {
                     mail_id: mailid,
                 });
 
@@ -122,7 +122,7 @@ const MailDetailsTab = ({ mailid, onClose }) => {
                                         return (
                                             <div key={index} className="flex items-center gap-2 text-blue-600 hover:text-blue-800">
                                                 <i className="fa fa-paperclip"></i>
-                                                <a target="_blank" href={`https://99crm.phdconsulting.in/public/UploadFolder/${file}`} download>
+                                                <a target="_blank" href={`https://99crm.phdconsulting.in/zend/public/UploadFolder/${file}`} download>
                                                     {fileName}
                                                 </a>
                                             </div>

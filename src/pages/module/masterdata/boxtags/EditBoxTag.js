@@ -14,7 +14,7 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
         const fetchTagDetails = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/boxtagdetails/${tagId.id}`);
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/boxtagdetails/${tagId.id}`);
                 const data = await response.json();
 
                 if (response.ok && data) {
@@ -42,7 +42,7 @@ const EditBoxTag = ({ onClose, afterSave, tagId }) => {
         };
 
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/updateboxtag/${tagId.id}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updateboxtag/${tagId.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

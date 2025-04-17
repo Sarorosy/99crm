@@ -48,7 +48,7 @@ const CampHistory = () => {
                 user_type: sessionStorage.getItem('user_type')
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loadcampaignhistory', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loadcampaignhistory', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -82,7 +82,7 @@ const CampHistory = () => {
                 camp_id: id
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/campaignstatuschange', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/campaignstatuschange', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -266,7 +266,7 @@ const CampHistory = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/api/deletecampaigns', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/deletecampaigns', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

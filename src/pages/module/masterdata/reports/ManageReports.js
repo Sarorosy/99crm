@@ -70,7 +70,7 @@ const ManageReports = () => {
                 payload.filter_date = `${start.format('MM/DD/YYYY')} - ${end.format('MM/DD/YYYY')}`;
             }
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/reports', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/reports', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -111,7 +111,7 @@ const ManageReports = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected tags IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteboxtag', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteboxtag', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

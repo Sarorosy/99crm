@@ -97,7 +97,7 @@ const Dashboard = () => {
             };
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/teams', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/teams', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -129,7 +129,7 @@ const Dashboard = () => {
             };
 
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/api/dashboardqueries",
+                "https://99crm.phdconsulting.in/zend/api/dashboardqueries",
                 payload,
                 { headers: { "Content-Type": "application/json" } }
             );
@@ -210,7 +210,7 @@ const Dashboard = () => {
             if (selectedValues) {
                 try {
                     const response = await fetch(
-                        "https://99crm.phdconsulting.in/99crmwebapi/api/getallusersbyteamid",
+                        "https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersbyteamid",
                         {
                             method: "POST",
                             headers: {
@@ -308,7 +308,7 @@ const Dashboard = () => {
             const payload = { whereStr }
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/phdwebsites', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/phdwebsites', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -340,7 +340,7 @@ const Dashboard = () => {
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/tags', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -396,7 +396,7 @@ const Dashboard = () => {
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/dashboardqueries", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/dashboardqueries", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

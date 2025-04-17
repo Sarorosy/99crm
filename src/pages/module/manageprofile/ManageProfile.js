@@ -26,7 +26,7 @@ const ManageProfile = () => {
     const fetchProfiles = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/api/getprofiles', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getprofiles', {
                 method: 'POST',
                 body: JSON.stringify({ user_id: sessionStorage.getItem('id') })
             });
@@ -47,7 +47,7 @@ const ManageProfile = () => {
 
     const fetchProfileDetails = async (id) => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/api/getprofiledetails/`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/api/getprofiledetails/`, {
                 method: 'POST',
                 body: JSON.stringify({ id: id })
             });
@@ -135,7 +135,7 @@ const ManageProfile = () => {
             render: (data, type, row) => `
             <div class="flex space-x-1">
         <button class="edit-btn mx-1 fsm" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
         </button>
         </div>
       `,
@@ -163,7 +163,7 @@ const ManageProfile = () => {
                 user_id : sessionStorage.getItem("id")
             };
 
-            url = `https://99crm.phdconsulting.in/api/saveprofile`;
+            url = `https://99crm.phdconsulting.in/zend/api/saveprofile`;
             method = 'POST';
 
             const response = await fetch(url, {

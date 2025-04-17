@@ -15,7 +15,7 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
                 toast.error('Please fill all the fields');
                 return;
             }
-            const response = await fetch('https://99crm.phdconsulting.in/api/updatepayment', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/updatepayment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

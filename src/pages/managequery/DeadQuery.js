@@ -115,7 +115,7 @@ const DeadQuery = () => {
                 user_type: sessionStorage.getItem('user_type')
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/loaddeadquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loaddeadquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -149,7 +149,7 @@ const DeadQuery = () => {
             }
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/getallusersforpricequote', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusersforpricequote', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -184,7 +184,7 @@ const DeadQuery = () => {
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/99crmwebapi/api/tags', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/99crmwebapi/api/tags', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -356,7 +356,7 @@ const DeadQuery = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected reports IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deletedeadqueries', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deletedeadqueries', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -405,7 +405,7 @@ const DeadQuery = () => {
                 allocated_to: sessionStorage.getItem('allocated_to'),
             };
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/loaddeadquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loaddeadquery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

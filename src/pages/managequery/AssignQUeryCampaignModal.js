@@ -26,7 +26,7 @@ const AssignQueryCampaignModal = ({
     };
 
     try {
-      const response = await fetch("https://99crm.phdconsulting.in/api/assign-query-campaign", {
+      const response = await fetch("https://99crm.phdconsulting.in/zend/api/assign-query-campaign", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

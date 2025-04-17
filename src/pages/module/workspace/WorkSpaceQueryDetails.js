@@ -52,7 +52,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
         const fetchQueryDetails = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('https://99crm.phdconsulting.in/api/getworkspacequerydetails', {
+                const response = await fetch('https://99crm.phdconsulting.in/zend/api/getworkspacequerydetails', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
         setWebsites([]);
         try {
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/api/getcompanywisewebsite",
+                "https://99crm.phdconsulting.in/zend/api/getcompanywisewebsite",
                 { company_id: companyId }
             );
             if (response.data.status) {
@@ -134,7 +134,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
         setUserProfiles([]);
         try {
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/api/getuserprofiles",
+                "https://99crm.phdconsulting.in/zend/api/getuserprofiles",
                 { user_id: allocatedTo, website_id: queryInfo?.website_id }
             );
             if (response.data.status) {
@@ -150,7 +150,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
     const handleMarkAsDuplicate = async (queryId) => {
         try {
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/workspaceduplicate', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/workspaceduplicate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -184,7 +184,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                 }
             }
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/claimworkspacequery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/claimworkspacequery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -222,7 +222,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                 return;
             }
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/generictoworkspacequery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/generictoworkspacequery', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

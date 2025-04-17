@@ -30,7 +30,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
 
     const fetchCompanies = async () => {
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/companies');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/companies');
             const data = await response.json();
             if (data.status) {
                 setCompanies(data.data); // Assuming data.data contains the companies
@@ -46,7 +46,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
     const fetchWebsiteDetails = async (id) => {
         try {
             setLoading(true)
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getwebsite/${id}`);
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getwebsite/${id}`);
             const data = await response.json();
             if (data.status && data.data) {
                 const website = data.data[0]; // Access the first item in the data array
@@ -303,7 +303,7 @@ const EditWebsite = ({ onClose, afterSave, websiteId }) => {
                             {logo && (
                                 <div className="form-group w-1/3 mx-2 logimg">
                                     <img
-                                        src={logo instanceof File ? URL.createObjectURL(logo) : `https://99crm.phdconsulting.in/public/images/logos/${logo}`}
+                                        src={logo instanceof File ? URL.createObjectURL(logo) : `https://99crm.phdconsulting.in/zend/public/images/logos/${logo}`}
                                         alt="Website Logo"
                                         onLoad={() => logo instanceof File && URL.revokeObjectURL(URL.createObjectURL(logo))} // Free memory for blob URL
                                         className="rounded-md shadow-lg max-w-full"

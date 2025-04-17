@@ -44,7 +44,7 @@ const ManageWorkSpace = () => {
 
     useEffect(() => {
         // Fetch managers data from the API
-        fetch('https://99crm.phdconsulting.in/99crmwebapi/api/websites')
+        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites')
             .then(response => response.json())
             .then(data => {
                 if (data.status) {
@@ -101,7 +101,7 @@ const ManageWorkSpace = () => {
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/load-workspace-data', {
+                'https://99crm.phdconsulting.in/zend/api/load-workspace-data', {
                 user_id: sessionStorage.getItem('id'),
                 user_type: sessionStorage.getItem('user_type'),
                 assignType: assignType,
@@ -249,7 +249,7 @@ const ManageWorkSpace = () => {
 
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/deleteworkspacequery',
+                'https://99crm.phdconsulting.in/zend/api/deleteworkspacequery',
                 {
                     checkid: selectedQueries
                 }

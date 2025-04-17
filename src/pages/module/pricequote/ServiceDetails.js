@@ -45,7 +45,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
     const createDuplicateQuote = async () => {
         console.log(`Creating duplicate quote for service ${serviceInfo.id}`);
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/create-duplicate-quote", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/create-duplicate-quote", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -84,7 +84,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
 
     const handleSaveExpiryDate = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/update-service-link-expirydate", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/update-service-link-expirydate", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -143,7 +143,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/add-extra-milestone", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/add-extra-milestone", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -204,7 +204,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         };
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/update-milestone-amount", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/update-milestone-amount", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -255,7 +255,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         const isConfirmed = window.confirm("Are you sure you want to delete this milestone?");
         if (!isConfirmed) return;
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/delete-milestone", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/delete-milestone", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -291,7 +291,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         try {
 
 
-            const response = await fetch("https://99crm.phdconsulting.in/api/send-reminder-to-client", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/send-reminder-to-client", {
                 method: "POST",
                 body: JSON.stringify({
                     service_price_id: serviceId,
@@ -321,7 +321,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         if (!window.confirm("Are you sure? You want to send for payment?")) return;
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/price-quote-crm-send-client", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/price-quote-crm-send-client", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -359,7 +359,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         const formData = new FormData(formElement);
 
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/api/change-milestone-status", {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/change-milestone-status", {
                 method: "POST",
                 body: formData,
             });

@@ -31,7 +31,7 @@ const ManageTeams = () => {
     const fetchteams = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getteams');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getteams');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -58,7 +58,7 @@ const ManageTeams = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected settings IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deleteteams', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deleteteams', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -156,7 +156,7 @@ const ManageTeams = () => {
             orderable: false,
             render: (data, type, row) => `
         <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" />
         </button>
       `,
         },

@@ -20,7 +20,7 @@ const CampaignDetails = ({ onClose, CampaignId }) => {
         // Fetch campaign details using CampaignId via POST request
         const fetchCampaignDetails = async () => {
             try {
-                const response = await fetch(`https://99crm.phdconsulting.in/api/camp-details`, {
+                const response = await fetch(`https://99crm.phdconsulting.in/zend/api/camp-details`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

@@ -101,7 +101,7 @@ const ClientMailPage = () => {
 
         try {
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/api/loadclientmail",
+                "https://99crm.phdconsulting.in/zend/api/loadclientmail",
                 requestData
             );
             if (response.data.status) {
@@ -136,7 +136,7 @@ const ClientMailPage = () => {
 
 
 
-            const response = await axios.post('https://99crm.phdconsulting.in/api/getuserprofilesemail', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/getuserprofilesemail', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -242,7 +242,7 @@ const ClientMailPage = () => {
                 return;
             }
 
-            const response = await axios.post("https://99crm.phdconsulting.in/api/deleteclientmail", { mail_id: selectedQueries });
+            const response = await axios.post("https://99crm.phdconsulting.in/zend/api/deleteclientmail", { mail_id: selectedQueries });
           
           if (response.data.status) {
             setClientMailExternal(prevMails =>
@@ -263,7 +263,7 @@ const ClientMailPage = () => {
                 return;
             }
             
-            const response = await axios.post("https://99crm.phdconsulting.in/api/readunreadmail", { 
+            const response = await axios.post("https://99crm.phdconsulting.in/zend/api/readunreadmail", { 
                 mail_id: selectedQueries, 
                 type: "read" 
             });
@@ -289,7 +289,7 @@ const ClientMailPage = () => {
                 return;
             }
             
-            const response = await axios.post("https://99crm.phdconsulting.in/api/readunreadmail", { 
+            const response = await axios.post("https://99crm.phdconsulting.in/zend/api/readunreadmail", { 
                 mail_id: selectedQueries, 
                 type: "unread" 
             });

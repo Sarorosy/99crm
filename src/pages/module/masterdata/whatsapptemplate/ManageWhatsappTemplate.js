@@ -37,7 +37,7 @@ const ManageWhatsappTemplate = () => {
 
     const fetchCompanies = async () => {
         try {
-            const companyResponse = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/companies');
+            const companyResponse = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/companies');
 
 
             if (!companyResponse.ok) {
@@ -56,7 +56,7 @@ const ManageWhatsappTemplate = () => {
     const fetchWhatsappTemplates = async () => {
         try {
             setLoading(true);
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getwhatsapptemplates');
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getwhatsapptemplates');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -73,7 +73,7 @@ const ManageWhatsappTemplate = () => {
 
     const fetchTemplateDetails = async (id) => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/getwhatsapptemplate/${id}`);
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/getwhatsapptemplate/${id}`);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -112,7 +112,7 @@ const ManageWhatsappTemplate = () => {
     const onConfirmDelete = async () => {
         try {
             // Constructing the request body with the selected settings IDs
-            const response = await fetch('https://99crm.phdconsulting.in/99crmwebapi/api/deletewhatsapptemps', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/deletewhatsapptemps', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ const ManageWhatsappTemplate = () => {
     }
     const onConfirmSingleDelete = async () => {
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/deletewhatsapptemplate/${selectedTemplate}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/deletewhatsapptemplate/${selectedTemplate}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -247,10 +247,10 @@ const ManageWhatsappTemplate = () => {
             <i class="far fa-clone hover:text-green-400"></i>
         </button>
         <button class="edit-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/edit.gif" alt="edit" class="h-4 w-auto" />
         </button>
         <button class="delete-btn btn btn-sm mx-1" data-id="${row.id}">
-            <img src="https://99crm.phdconsulting.in/public/images/0.png" alt="edit" class="h-4 w-auto" />
+            <img src="https://99crm.phdconsulting.in/zend/public/images/0.png" alt="edit" class="h-4 w-auto" />
         </button>
         </div>
       `,
@@ -286,11 +286,11 @@ const ManageWhatsappTemplate = () => {
 
             if (selectedTemplate) {
                 // Edit existing template
-                url = `https://99crm.phdconsulting.in/99crmwebapi/api/updatewhatsapptemplate/${selectedTemplate}`;
+                url = `https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatewhatsapptemplate/${selectedTemplate}`;
                 method = 'PUT';
             } else {
                 // Add new template
-                url = `https://99crm.phdconsulting.in/99crmwebapi/api/addwhatsapptemplate`;
+                url = `https://99crm.phdconsulting.in/zend/99crmwebapi/api/addwhatsapptemplate`;
                 method = 'POST';
             }
 

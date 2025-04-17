@@ -70,11 +70,11 @@ const EditUser = ({ id, onClose, after }) => {
             try {
                 setloading(true);
                 const [teamResponse, websiteResponse, managerResponse, userResponse, backupusersResponse] = await Promise.all([
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/teams'),
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/websites'),
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/opsmanagers'),
-                    fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/edituser/${id}`),
-                    fetch('https://99crm.phdconsulting.in/99crmwebapi/api/getallusers'),
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/teams'),
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/websites'),
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/opsmanagers'),
+                    fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/edituser/${id}`),
+                    fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusers'),
                 ]);
 
                 const teamData = await teamResponse.json();
@@ -328,7 +328,7 @@ const EditUser = ({ id, onClose, after }) => {
         const username = e.target.value;
 
         if (username.length > 2) {  // Only check after 3 characters are entered
-            fetch('https://99crm.phdconsulting.in/99crmwebapi/api/checkusername', {
+            fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/checkusername', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -551,7 +551,7 @@ const EditUser = ({ id, onClose, after }) => {
 
         // Proceed with form submission if everything is valid
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/99crmwebapi/api/updateuser/${id}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updateuser/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

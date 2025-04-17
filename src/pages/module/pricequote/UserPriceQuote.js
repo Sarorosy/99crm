@@ -25,7 +25,7 @@ const UserPriceQuote = ({ refId }) => {
         setLoading(true);
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/userpricequote',
+                'https://99crm.phdconsulting.in/zend/api/userpricequote',
                 { ref_id: refId }
             );
 
@@ -44,7 +44,7 @@ const UserPriceQuote = ({ refId }) => {
     const fetchServiceDetails = async (serviceId) => {
         try {
             const response = await axios.post(
-                'https://99crm.phdconsulting.in/api/getservicedetails',
+                'https://99crm.phdconsulting.in/zend/api/getservicedetails',
                 { service_id: serviceId }
             );
             //setExpandedService(response.data);

@@ -44,7 +44,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
         const fetchQueryDetails = async () => {
             try {
                 setLoading(true);
-                const response = await fetch('https://99crm.phdconsulting.in/api/validationquerydetails', {
+                const response = await fetch('https://99crm.phdconsulting.in/zend/api/validationquerydetails', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
         setAllocatedToProfile(selectedOption.getAttribute('data-profile_id'));
 
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/api/checkexistemailandwebsite', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/checkexistemailandwebsite', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,7 +178,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
             const profileId = selectedOption?.getAttribute('data-profile_id') || '';
             formData.append('profile_id', queryInfo.validation_email_userid);
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/claimvalidationquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/claimvalidationquery', {
                 method: 'POST',
                 body: formData
             });
@@ -256,7 +256,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
                 formData.append('comments_file', file);
             }
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/submitemailvalidate', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/submitemailvalidate', {
                 method: 'POST',
                 body: formData
             });
@@ -302,7 +302,7 @@ const ValidationQueryDetails = ({ queryId, onClose, finalFunction }) => {
             formData.append('post_user_id', sessionStorage.getItem('id'));
             formData.append('post_user_name', sessionStorage.getItem('name'));
 
-            const response = await fetch('https://99crm.phdconsulting.in/api/claimrejectedvalidationquery', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/claimrejectedvalidationquery', {
                 method: 'POST',
                 body: formData
             });

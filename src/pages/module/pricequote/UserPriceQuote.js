@@ -110,8 +110,10 @@ const UserPriceQuote = ({ refId }) => {
                     </>
                 ) : (
                     <div className='overflow-x-hidden custom-scrollbar h-full'>
-                        {quoteData && quoteData.length == 0 && queryInfo ? (
+                        {(quoteData && quoteData.length == 0 && queryInfo ) ? (
+                            sessionStorage.getItem("user_type") == "user" ? 
                             <AddQuoteForm QueryInfo={queryInfo} serviceData={serviceData} expandStatus={isExpanded} closeable={false} after={fetchQuoteData} />
+                            : <p className='text-red-500'>No Price Quote Found</p>
                         ) : (
                             <div className="overflow-x-auto ">
                                 <table className="w-full border-collapse border border-gray-200 text-[11px] shadow-md">
@@ -197,6 +199,7 @@ const UserPriceQuote = ({ refId }) => {
                                         ))}
                                     </tbody>
                                 </table>
+
                                 <div className='w-full flex items-center justify-end'>
                                     {!addFormOpen && sessionStorage.getItem('user_type') == 'user' && (
                                         <button className='bg-yellow-500 text-white px-2 py-1 rounded-sm mt-2' onClick={() => setAddFormOpen(true)}>

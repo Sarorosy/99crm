@@ -249,25 +249,27 @@ const ManagePayment = () => {
                 <div className='ml-3 flex items-center justify-end'>
 
 
-                        <button
-                            onClick={handleRefresh}
-                            className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
-                        >
-                            <RefreshCw size={15} />
-                        </button>
-                        <button
-                            onClick={fetchReports}
-                            className="bg-green-600 w-36 px-2 ml-3 text-white rounded hover:bg-green-700"
-                        >
-                            Apply
-                        </button>
-                    
                     <button
-                        onClick={handleAddPayment}
-                        className="bg-orange-600 w-36 px-2 ml-3 text-white rounded hover:bg-orange-700"
+                        onClick={handleRefresh}
+                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
                     >
-                        Add Payment
+                        <RefreshCw size={15} />
                     </button>
+                    <button
+                        onClick={fetchReports}
+                        className="bg-green-600 w-36 px-2 ml-3 text-white rounded hover:bg-green-700"
+                    >
+                        Apply
+                    </button>
+                    {sessionStorage.getItem('user_type') === 'user' && (
+                        <button
+                            onClick={handleAddPayment}
+                            className="bg-orange-600 w-36 px-2 ml-3 text-white rounded hover:bg-orange-700"
+                        >
+                            Add Payment
+                        </button>
+                    )}
+
 
                 </div>
             </div>

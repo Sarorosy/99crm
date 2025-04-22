@@ -17,6 +17,10 @@ const AssignQueryCampaignModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if(!campTitle || !campDate || !campWebsite) {
+      toast.error("All fields are required.");
+      return;
+    }
     const payload = {
       queryIds: selectedQueries, 
       campaign_user_id: selectedCampaignUser, 
@@ -60,7 +64,7 @@ const AssignQueryCampaignModal = ({
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       {/* Modal Container */}
-      <div className="bg-white rounded-lg shadow-lg z-50 p-6 w-96">
+      <div className="bg-white rounded-lg shadow-lg z-50 p-6 w-96 elevenpx">
         <h2 className="text-xl font-bold mb-4">Assign Query Campaign</h2>
         <form onSubmit={handleSubmit}>
           {/* Campaign Title */}

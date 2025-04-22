@@ -9,6 +9,7 @@ import CampaignComments from './QueryDetailsComponents/CampaignComments';
 import toast from 'react-hot-toast';
 import RightDiv from './RightDiv';
 import UserPriceQuote from '../module/pricequote/UserPriceQuote';
+import ShowHoldQuery from './QueryDetailsComponents/ShowHoldQuery';
 
 const QueryDetails = ({ refId, onClose }) => {
     const [activeTab, setActiveTab] = useState(1);
@@ -46,12 +47,12 @@ const QueryDetails = ({ refId, onClose }) => {
 
             const data = await response.json();
             setQueryInfo(data.queryInfo);
-            setEscalationMark(data.queryInfo.escalation_mark);
+            setEscalationMark(data.queryInfo?.escalation_mark);
             setQueryFiles(data.QueryFilesData);
             setLoading(false);
             setAllPriority(data.priorityArr);
             setInternalCommentsData(data.internalCommentData)
-            setCampaginCommentData(data.campaginCommentData.comments);
+            setCampaginCommentData(data.campaginCommentData?.comments);
             setTatScore(data.TatScore);
             setTemplateInfo(data.templateInfo);
             setCommentInfo(data.CommentInfo);
@@ -123,6 +124,10 @@ const QueryDetails = ({ refId, onClose }) => {
                 return <div className="text-sm text-gray-700">
                     <CampaignComments campaginCommentData={campaginCommentData} />
                 </div>;
+            case 6:
+                return <div className="text-sm text-gray-700">
+                    <ShowHoldQuery queryInfo={queryInfo} finalFunction={fetchQueryDetails}/>
+                </div>;
             default:
                 return <div className="text-sm text-gray-700">Query Information</div>;
         }
@@ -160,6 +165,16 @@ const QueryDetails = ({ refId, onClose }) => {
             alert("An error occurred while updating escalation status.");
         }
     };
+
+    const currentTime = Math.floor(Date.now() / 1000); // current UNIX timestamp in seconds
+    const expiryTime = parseInt(queryInfo?.inConversationMarkExpiry, 10) || 0;
+
+    const shouldShowHoldQuery =
+        ((queryInfo?.hold_query == 1 || queryInfo?.hold_query == 3) && sessionStorage.getItem("crmRoleType") == 'opsuser') ||
+        ((queryInfo?.hold_query != 1 && queryInfo?.hold_query != 3) &&
+            sessionStorage.getItem("user_type") == 'Data Manager' &&
+            (!expiryTime || expiryTime <= currentTime)) ||
+        sessionStorage.getItem("user_type") == 'admin';
 
     return (
         <motion.div
@@ -234,44 +249,60 @@ const QueryDetails = ({ refId, onClose }) => {
                             >
                                 Query Information
                             </button>
-                            <button
-                                onClick={() => setActiveTab(2)}
-                                style={{ fontSize: "11px" }}
-                                className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 2 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
-                            >
-                                Generate Price
-                            </button>
-                            <button
-                                onClick={() => setActiveTab(3)}
-                                style={{ fontSize: "11px" }}
-                                className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 3 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
-                            >
-                                Attached Files
-                            </button>
-                            <button
-                                onClick={() => setActiveTab(4)}
-                                style={{ fontSize: "11px" }}
-                                className={` inact flex items-center font-medium px-2 py-1 transition-colors ${activeTab === 4 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
-                            >
-                                Internal Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{internalCommentsData.length}</span>
-                            </button>
-                            <button
-                                onClick={() => setActiveTab(5)}
-                                style={{ fontSize: "11px" }}
-                                className={`inact flex items-center  font-medium px-2 py-1  transition-colors ${activeTab === 5 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
-                            >
-                                Campaign Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{campaginCommentData.length}</span>
-                            </button>
+                            {queryInfo && queryInfo != null && queryInfo.hold_query != 1 && queryInfo.hold_query != 3 && (
+                                <>
+
+                                    <button
+                                        onClick={() => setActiveTab(2)}
+                                        style={{ fontSize: "11px" }}
+                                        className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 2 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                    >
+                                        Generate Price
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTab(3)}
+                                        style={{ fontSize: "11px" }}
+                                        className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 3 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                    >
+                                        Attached Files
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTab(4)}
+                                        style={{ fontSize: "11px" }}
+                                        className={` inact flex items-center font-medium px-2 py-1 transition-colors ${activeTab === 4 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                    >
+                                        Internal Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{internalCommentsData.length}</span>
+                                    </button>
+                                    <button
+                                        onClick={() => setActiveTab(5)}
+                                        style={{ fontSize: "11px" }}
+                                        className={`inact flex items-center  font-medium px-2 py-1  transition-colors ${activeTab === 5 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                    >
+                                        Campaign Comments <span className='bg-yellow-500 py-1 px-2 ml-1 rounded-full text-white'>{campaginCommentData.length}</span>
+                                    </button>
+                                </>
+                            )}
+                            {shouldShowHoldQuery && (
+                                <button
+                                    onClick={() => setActiveTab(6)} // assuming you want to make this the 6th tab
+                                    style={{ fontSize: "11px" }}
+                                    className={`inact font-medium px-2 py-1 transition-colors ${activeTab === 6 ? 'border-b-2 border-green-400 theme' : 'text-gray-500 hover:text-green-600'}`}
+                                >
+                                    Hold Query
+                                </button>
+                            )}
+
+
                         </div>
                         <div className="px-1 py-6">
                             <TabContent />
                         </div>
                     </div>
-                    {queryInfo && queryInfo != null && (
-                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={fetchQueryDetails} onClose={onClose}/>
+                    {queryInfo && queryInfo != null && queryInfo.hold_query != 1 && queryInfo.hold_query != 3 && (
+                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={fetchQueryDetails} onClose={onClose} />
                     )}
                 </div>
-                
+
                 {/* Tab Content */}
 
             </div>

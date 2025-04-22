@@ -14,7 +14,7 @@ import MilestonePaymentDetails from './MilestonePaymentDetails';
 import { AnimatePresence } from 'framer-motion';
 
 
-const MilestonePayments = () => {
+const PaymentMilestones = () => {
     const [quotes, setQuotes] = useState([]);
     const [filterDate, setFilterDate] = useState('');
     const [refId, setRefId] = useState('');
@@ -86,7 +86,7 @@ const MilestonePayments = () => {
     const fetchFilteredQuotes = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadmilestonepayments', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadpaymentmilestones', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -118,13 +118,21 @@ const MilestonePayments = () => {
     };
 
     const columns = [
-
+        {
+            title: 'Sr. No.',
+            data: null,
+            orderable: false,
+            width: '50px',
+            render: (data, type, row, meta) => {
+                return `<div style="text-align: left;">${meta.row + 1}</div>`;
+            },
+        },
         {
             title: 'Ref Id',
             data: 'ref_id',
             orderable: true,
             render: (data, type, row, meta) => {
-                return `<div class="" style="text-align: center;background-color:#172554;color:white; padding:1px;border-radius:5px;" >${data}</div>`;
+                return `<div class="view-btn" style="text-align: center;background-color:#172554;color:white; padding:1px;border-radius:5px;cursor:pointer;" >${data}</div>`;
             },
         },
         {
@@ -140,20 +148,8 @@ const MilestonePayments = () => {
             render: (data) => `<div style="text-align: left;">${data}</div>`,
         },
         {
-            title: 'Client Name',
-            data: 'name',
-            orderable: false,
-            render: (data) => `<div style="text-align: left;">${data}</div>`,
-        },
-        {
             title: 'Service Name',
             data: 'service_name',
-            orderable: false,
-            render: (data) => `<div style="text-align: left;">${data}</div>`,
-        },
-        {
-            title: 'Milestone Name',
-            data: 'milestone_name',
             orderable: false,
             render: (data) => `<div style="text-align: left;">${data}</div>`,
         },
@@ -161,35 +157,21 @@ const MilestonePayments = () => {
             title: 'Milestone Price',
             data: 'milestone_price',
             orderable: false,
-            render: (data, type, row) => {
-                let currencyType = '';
-
-                try {
-                    const currencyTypeParsed = JSON.parse(row.currency_type);
-                    const selectedPlan = row.plan_type || '';
-
-                    if (
-                        typeof currencyTypeParsed === 'object' &&
-                        currencyTypeParsed !== null &&
-                        selectedPlan in currencyTypeParsed
-                    ) {
-                        currencyType = currencyTypeParsed[selectedPlan];
-                    } else {
-                        currencyType = row.currency_type;
-                    }
-                } catch (e) {
-                    currencyType = row.currency_type;
-                }
-
-                return `<div style="text-align: left;">${currencyType || ''} ${data || 'N/A'}</div>`;
-            },
+            render: (data, type, row) => `<div style="text-align: left;">${row.currency_type || ''} ${data || 'N/A'}</div>`,
+        },
+        {
+            title: 'Planner Status',
+            data: 'PhdPlanerPayment',
+            orderable: false,
+            width: '80px',
+            render: (data) => `<div style="text-align: left;">${data ? 'Yes' : 'No'}</div>`,
         },
         {
             title: 'Paid Date',
             data: 'paid_date',
             orderable: false,
             render: (data) => {
-                return data ? new Date(data * 1000).toLocaleDateString() : '';
+                return data ? new Date(data * 1000).toLocaleDateString() : 'N/A';
             },
         },
         {
@@ -198,22 +180,32 @@ const MilestonePayments = () => {
             orderable: false,
             render: (data) => {
                 let statusLabel = '';
-
-                if (data == 1 || data == '1') {
-                    statusLabel = '<span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Paid</span>';
-                } else if (data == 0 || data == '0' || data == '') {
-                    statusLabel = '<span class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">Pending</span>';
-                } else if (data == 3 || data == '3') {
-                    statusLabel = '<span class="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">Rejected</span>';
-                } else {
-                    statusLabel = `<span class="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 rounded-full">${data || ''}</span>`;
+                switch (data) {
+                    case 1:
+                    case '1':
+                        statusLabel = '<span class="label label-warning">Paid</span>';
+                        break;
+                    case 2:
+                    case '2':
+                        statusLabel = '<span class="label label-success">Confirmed</span>';
+                        break;
+                    case 3:
+                    case '3':
+                        statusLabel = '<span class="label label-danger">Rejected</span>';
+                        break;
+                    default:
+                        statusLabel = `<span class="label">${data || ''}</span>`;
                 }
-
-                return `<div class="text-left">${statusLabel}</div>`;
+                return `<div style="text-align: left;">${statusLabel}</div>`;
             },
-        }
-
-
+        },
+        {
+            title: 'Milestone Name',
+            data: 'milestone_name',
+            orderable: false,
+            width: '250px',
+            render: (data) => `<div style="text-align: left;">${data || ''}</div>`,
+        },
     ];
 
     const resetFilters = () => {
@@ -324,4 +316,4 @@ const MilestonePayments = () => {
     );
 };
 
-export default MilestonePayments;
+export default PaymentMilestones;

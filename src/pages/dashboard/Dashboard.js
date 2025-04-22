@@ -427,16 +427,16 @@ const Dashboard = () => {
 
                     <div className="flex items-center mb-1">
                         <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowConversationSummary(!showConversationSummary)}>
-                            Show Conversation Summary
+                            Show Conversion Summary
                         </button>
                         <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowAverageClaimedQueries(!showAverageClaimedQueries)}>
                             Show Average Claimed Queries
                         </button>
-                        {reconnectSetquery && reconnectSetquery.length > 0 && (
+                       
                             <button className="bg-[#139cbb] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowReconnectQueries(!showReconnectQueries)}>
                                 Reconnect Queries
                             </button>
-                        )}
+                        
 
                         <button className="bg-[#e68414] text-[#ffffff] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowSpecificTransferredQueries(!showSpecificTransferredQueries)}>
                             Specific Transferred Queries
@@ -580,6 +580,7 @@ const Dashboard = () => {
                     <SpecificTransferredQueries onClose={() => { setShowSpecificTransferredQueries(false) }} />
                 )}
                 {showReconnectQueries && (
+                    reconnectSetquery && reconnectSetquery.length > 0 ?
                     <div className="mt-2 flex flex-wrap gap-2 bg-gray-100 max-w-xl mx-auto p-2 rounded-lg">
                         {reconnectSetquery.map((item, index) => (
                             <span
@@ -590,6 +591,8 @@ const Dashboard = () => {
                             </span>
                         ))}
                     </div>
+                    :
+                    <p className="text-gray-500 text-center mx-auto">No Queries Found</p>
                 )}
             </AnimatePresence>
 

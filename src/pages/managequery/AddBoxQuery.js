@@ -389,10 +389,10 @@ const AddBoxQuery = () => {
     const handleEmailIdChange = (e) => {
         const emailIdInput = e.target.value;
         let emailId = emailIdInput.trim();
-
-        // If email has a domain part (e.g., user@domain.com), remove it
-        if (emailId.includes('@')) {
-            emailId = emailId.split('@')[0];
+        if (formData.email_domain != "other") {
+            if (emailId.includes('@')) {
+                emailId = emailId.split('@')[0];
+            }
         }
 
         // Update the email_id without domain part

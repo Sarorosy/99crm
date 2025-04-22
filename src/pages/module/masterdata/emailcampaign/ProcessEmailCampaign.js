@@ -51,6 +51,7 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
                 if (result.status) {
                     setBouncedEmails(result.data);
                 }
+                console.log(result.data);
 
             } catch (error) {
                 console.error("Error fetching bounced emails:", error);
@@ -161,41 +162,47 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
                         <div className="mb-4">
                             <strong className="block text-gray-700">Mail To:</strong>
                             {campaignDetails.queryIds &&
-                                campaignDetails.queryIds.split("~").map((queryId, index) => {
-                                    const arrayClients = queryId.split("||");
-                                    const sentEmails = campaignDetails.sentEmails.split("||");
+  campaignDetails.queryIds.split("~").map((queryId, index) => {
+    const arrayClients = queryId.split("||");
+    const sentEmails = campaignDetails.sentEmails?.split("||") || [];
+    const email = arrayClients[5];
 
-                                    if (!bouncedEmails.includes(arrayClients[5])) {
-                                        return (
-                                            <div key={index}>
-                                                <p>
-                                                    {arrayClients[4]} {" => "} {arrayClients[5]}
-                                                </p>
+    // Ensure bouncedEmails is defined and arrayClients[5] exists
+    if (
+      Array.isArray(arrayClients) &&
+      arrayClients.length >= 6 &&
+      email &&
+      (!Array.isArray(bouncedEmails) || !bouncedEmails.includes(email))
+    ) {
+      return (
+        <div key={index}>
+          <p>
+            {arrayClients[4]} {" => "} {email}
+          </p>
 
-                                                {campaignDetails.status === "Delivered" && (
-                                                    <>
-                                                        <br />
-                                                    </>
-                                                )}
+          {campaignDetails.status === "Delivered" && <br />}
 
-                                                {arrayClients[5] !== "" &&
-                                                    arrayClients[5] !== null &&
-                                                    campaignDetails.status === "In Process" &&
-                                                    (!sentEmails.includes(arrayClients[5]) ? (
-                                                        <button
-                                                            className="btn btn-warning bg-yellow-500 text-white py-1 px-3 rounded-md"
-                                                            onClick={() => sendSingleEmail(arrayClients[5], index)}
-                                                        >
-                                                            Send Email
-                                                        </button>
-                                                    ) : (
-                                                        <button className="btn btn-success bg-green-600 text-white py-1 px-3 rounded-md">Mail Sent</button>
-                                                    ))}
-                                            </div>
-                                        );
-                                    }
-                                    return null;
-                                })}
+          {email &&
+            campaignDetails.status === "In Process" &&
+            (!sentEmails.includes(email) ? (
+              <button
+                className="btn btn-warning bg-yellow-500 text-white py-1 px-3 rounded-md"
+                onClick={() => sendSingleEmail(email, index)}
+              >
+                Send Email
+              </button>
+            ) : (
+              <button className="btn btn-success bg-green-600 text-white py-1 px-3 rounded-md">
+                Mail Sent
+              </button>
+            ))}
+        </div>
+      );
+    }
+
+    return null;
+  })}
+
 
                         </div>
 

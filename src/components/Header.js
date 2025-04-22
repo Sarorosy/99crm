@@ -142,7 +142,7 @@ const Header = () => {
               </button>
             ) : userType == "Accountant" ? (
               <button onClick={() => handleNavigation('/payment-milestone')} className="">
-                Payment Milestone
+                Payment Milestones
               </button>
             ) : userType == "Data Manager" ? (
               null
@@ -212,7 +212,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/dead-query')} className="block px-4 py-2  w-full dropdownmenu">Dead Query</button>
                           {userType == "admin" && (
-                            <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">User Data Specific Query</button>
+                            <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">Data Specific Query</button>
 
                           )}
 
@@ -224,6 +224,9 @@ const Header = () => {
                           <>
                             <button onClick={() => handleNavigation('/queryhistory')} className="block px-4 py-2  w-full dropdownmenu">Query History</button>
                           </>
+                        )}
+                        {(sessionStorage.getItem("crmRoleType") == "opsuser" || userType == "admin") && (
+                          <button onClick={() => handleNavigation('/holdquery')} className="block px-4 py-2  w-full dropdownmenu">Hold Query</button>
                         )}
                     </div>
                   )}
@@ -259,6 +262,11 @@ const Header = () => {
                               <button onClick={() => handleNavigation('/email-template')} className="block px-4 py-2  w-full dropdownmenu">Email Template</button>
 
                             </>
+                          )}
+                          {userType == "admin" && (
+                            <button onClick={() => handleNavigation('/milestone-payments')} className="block px-4 py-2  w-full dropdownmenu">
+                              Milestone Payments
+                            </button>
                           )}
 
                           {(userType == "admin" || userType == "sub-admin") && (

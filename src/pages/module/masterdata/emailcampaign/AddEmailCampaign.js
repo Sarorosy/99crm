@@ -40,6 +40,51 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
     const websiteRef = useRef(null);
     const statusRef = useRef(null);
     const allocatedUserRef = useRef(null);
+    const [searching, setSearching] = useState(false);
+    const [searchedQueries, setSearchedQueries] = useState([]);
+
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [signatures, setSignatures] = useState({});
+    const [selectAll, setSelectAll] = useState(false);
+
+    const handleCheckAll = (e) => {
+        const isChecked = e.target.checked;
+        setSelectAll(isChecked);
+        let ids = isChecked ? searchedQueries.slice(0, 200).map((q) => q.assign_id) : [];
+        setSelectedIds(ids);
+    };
+
+    const handleCheckboxChange = (assignId) => {
+        setSelectedIds((prev) => {
+            let updated = prev.includes(assignId)
+                ? prev.filter((id) => id !== assignId)
+                : prev.length < 200
+                    ? [...prev, assignId]
+                    : prev;
+            return updated;
+        });
+    };
+
+    useEffect(() => {
+        let collected = selectedIds.reduce((acc, id) => {
+            const q = searchedQueries.find((q) => q.assign_id === id);
+            if (q) acc[id] = q.signature;
+            return acc;
+        }, {});
+        setSignatures(collected);
+    }, [selectedIds, searchedQueries]);
+
+    const formattedAssignIds = selectedIds
+        .map((id) => {
+            const q = searchedQueries.find((q) => q.assign_id === id);
+            return q
+                ? `${q.assign_id}||${q.id}||${q.user_id}||${q.update_status}||${q.name}||${q.email_id}||${q.website_email}`
+                : '';
+        })
+        .filter(Boolean)
+        .join('~');
+
+    const formattedSignatures = Object.values(signatures).reverse().join('|||');
 
 
 
@@ -255,13 +300,15 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                     assignType: assignType,
                     allocated_to: allocatedTo,
                     select_limit: selectLimit,
-                    camp_website : selectedWebsite,
+                    camp_website: selectedWebsite,
                     website: selectedWebsite, // Use selectedWebsite value
                     profile_id: selectedProfile,
-                    filterDate : `${startDate.format('YYYY-MM-DD')} - ${endDate.format('YYYY-MM-DD')}`,
+                    filterDate: `${startDate.format('YYYY-MM-DD')} - ${endDate.format('YYYY-MM-DD')}`,
                     update_status: status,
                     camp_website: selectedWebsite, // Use selectedWebsite value
                     email_body: mailBody, // Ensure you are sending a valid email body
+                    assign_id: formattedAssignIds,
+                    signatures: formattedSignatures 
                 }),
             });
 
@@ -309,6 +356,48 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
             }
         } catch (error) {
             console.error('Error during API call:', error);
+        }
+    }
+
+    const handleSearch = async (e) => {
+        try {
+            setSearching(true);
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/campaignloaduserquery', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    camp_title: camptitle,
+                    camp_type: campType,
+                    assignType: assignType,
+                    allocated_to: allocatedTo,
+                    select_limit: selectLimit,
+                    camp_website: selectedWebsite,
+                    website: selectedWebsite, // Use selectedWebsite value
+                    profile_id: selectedProfile,
+                    filterDate: `${startDate.format('YYYY-MM-DD')} - ${endDate.format('YYYY-MM-DD')}`,
+                    update_status: status,
+                    camp_website: selectedWebsite, // Use selectedWebsite value
+                    email_body: mailBody,
+                    user_id: sessionStorage.getItem("id"),
+                    user_name: sessionStorage.getItem("name"),
+                    team_id: sessionStorage.getItem("team_id"),
+
+                }),
+            });
+            const data = await response.json();
+            // if (data.status) {
+            //     console.log(data.QueryUsers);
+            // }
+            if (data.status) {
+                setSearchedQueries(data.QueryUsers);
+            }
+            console.log('Success:', response);
+        } catch (e) {
+            console.error('Error during API call:', e);
+        } finally {
+            setSearching(false);
         }
     }
 
@@ -403,7 +492,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                                 ))}
                             </select>
                         </div>
-                        <div className='col-md-3' style={{ display: campType === 'User Camp' ? 'block' : 'none' }}>
+                        <div className='col-md-3' >
                             <label htmlFor="select_limit" className="block text-gray-700 font-medium mb-2">
                                 Select Limit
                             </label>
@@ -494,6 +583,96 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                                 ))}
                             </select>
                         </div>
+                        <div className='w-full flex items-center justify-end'>
+                            <button
+                                className='bg-orange-500 text-white py-1 px-2 rounded flex items-center'
+                                type='button'
+                                onClick={handleSearch}
+                            >
+                                search
+                            </button>
+                        </div>
+
+                        <div className="p-4">
+                        {searching && (
+                                <div className="flex  items-center justify-center h-64">
+                                    <CustomLoader />
+                                </div>
+                            )}
+                            {searchedQueries.length > 0 && !searching && (
+                                <div className="mb-2">
+                                    <input
+                                        type="checkbox"
+                                        checked={selectAll}
+                                        onChange={handleCheckAll}
+                                    />{' '}
+                                    <span id="selectedRecord">Total Selected Records {selectedIds.length}</span>
+                                </div>
+                            )}
+                            
+                            {searchedQueries.length > 0 && !searching && (
+                            <div className="h-64 overflow-y-auto border border-gray-300 rounded-lg text-sm">
+                                <table className="table-fixed min-w-full text-left text-sm">
+                                    <thead className="bg-gray-100 sticky top-0 z-10">
+                                        <tr>
+                                            <th className="w-8 p-2">
+                                                <input
+                                                    type="checkbox"
+                                                    checked={selectedIds.length === searchedQueries.length}
+                                                    onChange={(e) => handleCheckAll(e)}
+                                                />
+                                            </th>
+                                            <th className="w-12 px-2 py-1">Name</th>
+                                            <th className="w-18 px-2 py-1">Email</th>
+                                            <th className="w-36 px-2 py-1">Website</th>
+                                            <th className="w-24 px-2 py-1">Status</th>
+                                            <th className="w-24 px-2 py-1">Assigned At</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {searchedQueries.map((query) => (
+                                            <tr
+                                                key={query.assign_id}
+                                                id={`deleteRow_${query.assign_id}`}
+                                                className="odd:bg-white even:bg-gray-50  text-sm"
+                                                style={{ backgroundColor: query.color_code || undefined }}
+                                            >
+                                                <td className="px-1 py-1">
+                                                    <input
+                                                        type="checkbox"
+                                                        className="queryrow_data"
+                                                        checked={selectedIds.includes(query.assign_id)}
+                                                        onChange={() => handleCheckboxChange(query.assign_id)}
+                                                    />
+                                                </td>
+                                                <td className="px-1 py-1 truncate">{query.name}</td>
+                                                <td className="px-1 py-1 truncate">
+                                                    <a href="#" title={query.name}>
+                                                        {query.email_id}
+                                                    </a>
+                                                    {query.showBellicon === 1 && <span className="fa fa-bell-o ml-1" />}
+                                                </td>
+                                                <td className="px-1 py-1 truncate">
+                                                    {query.website_name === 'others' ? query.other_website : query.website_name}
+                                                </td>
+                                                <td className="px-1 py-1 truncate">{query.status_name}</td>
+                                                <td className="px-1 py-1">{new Date(query.assign_date * 1000).toLocaleString()}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            )}
+
+
+                            <textarea
+                                name="signature"
+                                id="signature"
+                                className="hidden"
+                                value={Object.values(signatures).reverse().join('|||')}
+                                readOnly
+                            />
+                        </div>
 
                         {/* Mail Body Editor */}
                         <div>
@@ -521,6 +700,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                                 placeholder="Compose your email..."
                             />
                         </div>
+
 
                         {/* Submit Button */}
                         <div className='flex justify-end mt-4'>

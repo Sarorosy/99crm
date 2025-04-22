@@ -23,7 +23,7 @@ import EditQuery from './EditQuery';
 import SpecificTransfer from './SpecificTransfer';
 import SpecificTransferredQueries from '../dashboard/SpecificTransferredQueries';
 
-const UserQuery = () => {
+const HoldQuery = () => {
     DataTable.use(DT);
 
 
@@ -220,7 +220,7 @@ const UserQuery = () => {
                 website: selectedWebsites,
             };
 
-            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loaduserquery', payload, {
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loadholdquery', payload, {
                 headers: {
                     'Content-Type': 'application/json',
                 }
@@ -230,13 +230,12 @@ const UserQuery = () => {
                 throw new Error('Failed to fetch reports');
             }
 
-            setReports(response.data.data);
+            setReports(response.data.QueryUsers);
             if (sessionStorage.getItem('user_type') == "user") {
-                setUsers([]);
+              //  setUsers([]);
             } else {
-                setUsers(response.data.userArr);
+               // setUsers(response.data.userArr);
             }
-            setSpecificTranferQueries(response.data.specifictransferquery);
         } catch (error) {
             console.error('Error fetching reports:', error);
             toast.error(error.message || 'Error fetching reports');
@@ -774,14 +773,14 @@ const UserQuery = () => {
                 `;
             },
         },
-        {
-            title: 'Username',
-            orderable: false,
-            data: 'user_name',
-            render: (data, type, row) => {
-                return `<div style="text-align: left;">${data} <br />${row.inConversationMarkOn && row.inConversationMarkOn != null ? '<span class="small-badge">In Conversation</span>' : ''}</div>`;
-            },
-        },
+        // {
+        //     title: 'Username',
+        //     orderable: false,
+        //     data: 'user_name',
+        //     render: (data, type, row) => {
+        //         return `<div style="text-align: left;">${data} <br />${row.inConversationMarkOn && row.inConversationMarkOn != null ? '<span class="small-badge">In Conversation</span>' : ''}</div>`;
+        //     },
+        // },
         {
             title: 'Email ID',
             orderable: false,
@@ -1287,29 +1286,11 @@ const UserQuery = () => {
                 <div className="flex justify-between flex-col mx-auto qhpage ">
                     <div className='flex flex-col w-full justify-start px-4 py-2'>
                         <div className='flex w-full justify-start px-4 py-2'>
-                            <h1 className="text-md font-bold flex items-center">Query History </h1>
+                            <h1 className="text-md font-bold flex items-center">Hold Queries</h1>
                             <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
                                 <FilterIcon size={14} className="" /></button>
                         </div>
-                        {(sessionStorage.user_type === 'admin' || sessionStorage.user_type === 'Data Manager') && (
-                            <div className="row">
-                                <h6 className="col-md-12">
-                                    <div className="alert alert-danger strip elevenpx py-1.5">
-                                        Specific Transfer Back Request  
-                                        {specificTranferQueries && specificTranferQueries.length > 0 &&
-                                            specificTranferQueries.map((query) => (
-                                                <button className="bg-orange-600 elevenpx px-1 py-0.5 rounded text-white mx-2"
-                                                
-                                                onClick={()=>{ setShowSpecificTransferredQueries(true)}}>
-                                                    {query.ref_id} <i className="fa fa-angle-double-right"></i>
-                                                </button>
-                                            ))
-                                        }
-                                    </div>
-                                </h6>
-                            </div>
-
-                        )}
+                   
 
                     </div>
                     <div style={{ display: showFilter ? "block" : "none" }}>
@@ -1883,4 +1864,4 @@ const UserQuery = () => {
     );
 };
 
-export default UserQuery;
+export default HoldQuery;

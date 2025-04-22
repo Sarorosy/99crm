@@ -21,6 +21,30 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
 
     const [editingField, setEditingField] = useState(null); // To track which field is being edited
     const [updatedValue, setUpdatedValue] = useState("");
+    // Close on outside click
+    const popupRef = useRef(null);
+    const buttonRef = useRef(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(event.target) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target)
+            ) {
+                setHistoryVisible(false);
+            }
+        };
+
+        if (historyVisible) {
+            document.addEventListener('click', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        };
+    }, [historyVisible]);
 
 
     const fetchTags = async () => {
@@ -91,7 +115,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
             setError(null);
 
             const response = await axios.post(
-                "https://99crm.phdconsulting.in/dashboard/api/get-activity-history",
+                "https://99crm.phdconsulting.in/zend/dashboard/api/get-activity-history",
                 { assign_id: refId }
             );
 
@@ -204,17 +228,21 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
             </div>
         );
     }
+    const handleButtonClick = () => {
+        setHistoryVisible((prev) => {
+            const newValue = !prev;
+            if (newValue) fetchActivityHistory();
+            return newValue;
+        });
+    };
+
 
 
     if (!queryInfo) {
         return <div>No data available</div>;
     }
-    const handleButtonClick = () => {
-        setHistoryVisible(!historyVisible);
-        if (!historyVisible) {
-            fetchActivityHistory();
-        }
-    };
+
+
     return (
         <div className="query-info-container bg-white  px-8 py-4 rounded-lg shadow-lg relative">
             <div className="query-detail space-y-4">
@@ -317,6 +345,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                             )}
                             {label === "Ref. No." && (
                                 <button
+                                    ref={buttonRef}
                                     onClick={() => handleButtonClick()}
                                     style={{
                                         border: "none",
@@ -333,6 +362,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                         </div>
                         {historyVisible && (
                             <div
+                                ref={popupRef}
                                 className="absolute histqd bg-white rounded-md border p-2 z-50 overflow-y-auto custom-scrollbar fsx "
                             >
                                 {historyloading && (

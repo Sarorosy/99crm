@@ -34,10 +34,12 @@ import ClientMailPage from './pages/managequery/mail/ClientEmailPage';
 import ManageProfile from './pages/module/manageprofile/ManageProfile';
 import QuerySummary from './pages/managequery/QuerySummary';
 import ManagePayment from './pages/module/payments/ManagePayment';
-import MilestonePayments from './pages/module/pricequote/MilestonePayments';
 import ChangePassword from './pages/ChangePassword';
 import ManageValidationQuery from './pages/module/validation/ManageValidationQuery';
 import ManageWorkSpace from './pages/module/workspace/ManageWorkSpace';
+import PaymentMilestones from './pages/module/pricequote/PaymentMilestones';
+import MilestonePayments from './pages/module/pricequote/MilestonePayments';
+import HoldQuery from './pages/managequery/HoldQuery';
 
 const App = () => {
 
@@ -95,7 +97,8 @@ const App = () => {
 
           <Route path="/validation" element={<ManageValidationQuery />} />
           <Route path="/quote-history" element={<QuoteHistory />} />
-          <Route path="/payment-milestone" element={<MilestonePayments />} />
+          <Route path="/payment-milestone" element={<PaymentMilestones />} />
+          <Route path="/milestone-payments" element={<MilestonePayments />} />
           <Route path="/email-template" element={<ManageEmailTemplate />} />
           <Route path="/email-campaign" element={<ManageEmailCampaign />} />
           <Route path="/quote-template" element={<ManageQuoteTemplate />} />
@@ -107,6 +110,7 @@ const App = () => {
           <Route path="/request-quote-activation" element={<RequestQuoteActivation />} />
 
           <Route path="/queryhistory" element={<UserQuery />} />
+          <Route path="/holdquery" element={<HoldQuery />} />
           <Route path="/addquery" element={<AddQuery />} />
           <Route path="/addboxquery" element={<AddBoxQuery />} />
           <Route path="/import-query" element={<ImportQuery />} />

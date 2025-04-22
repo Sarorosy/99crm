@@ -628,6 +628,19 @@ const AddQuery = () => {
             toast.error("Please specify the requirement!");
             return;
         }
+        if(!formData.team){
+            toast.error("Please select the team!");
+            return;
+        }
+        if(!formData.allocated_to){
+            toast.error("Please select the allocated to!");
+            return;
+        }
+
+        if(!formData.profile_id){
+            toast.error("Please select the profile!");
+            return;
+        }
 
         if (!formData.priority) {
             toast.error("Please select a priority level!");

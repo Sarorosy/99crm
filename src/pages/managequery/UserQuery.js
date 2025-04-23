@@ -22,11 +22,13 @@ import editsvg from '../../assets/edit-svgrepo-com.svg';
 import EditQuery from './EditQuery';
 import SpecificTransfer from './SpecificTransfer';
 import SpecificTransferredQueries from '../dashboard/SpecificTransferredQueries';
+import { getSocket } from '../../Socket';
+
 
 const UserQuery = () => {
     DataTable.use(DT);
 
-
+    const socket = getSocket();
     const [teamUsers, setTeamUsers] = useState([])
     const [tags, setTags] = useState([]);
     const [reports, setReports] = useState([]);
@@ -85,6 +87,98 @@ const UserQuery = () => {
     const tagsRef = useRef(null);
 
     const navigate = useNavigate();
+
+    /////////////////////////////////////////////////////////////////////////
+    useEffect(() => {
+        socket.on('new_query_emit', (data) => {
+            console.log("Socket data received:", data);
+
+            if (sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager" || sessionStorage.getItem('user_type') == "sub-admin") {
+                fetchQueriesForSocket();
+            } else if (sessionStorage.getItem('user_type') == "user" && data.user_id == sessionStorage.getItem('id')) {
+                fetchQueriesForSocket();
+            }
+        });
+
+        return () => {
+            socket.off('new_query_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('query_status_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+            const statusMap = {
+                1: "Lead In",
+                2: "Contact Made",
+                3: "Quoted",
+                4: "Negotiating",
+                5: "Converted",
+                6: "Client Not Interested",
+                7: "Reminder",
+                8: "Lost Deals",
+                9: "Contact Not Made",
+                10: "Cross Sell"
+            };
+
+            const statusName = statusMap[Number(data.status)] || "Unknown";
+            console.log("coming data", data.status);
+            console.log("Status Name:", statusName);
+
+            setReports((prevReports) =>
+                prevReports.map((report) =>
+                    report.assign_id == data.query_id
+                        ? { ...report, status_name: statusName }
+                        : report
+                )
+            );
+        });
+
+        return () => {
+            socket.off('query_status_updated_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('query_tags_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+
+
+            setReports((prevReports) =>
+                prevReports.map((report) =>
+                    report.assign_id == data.query_id
+                        ? { ...report, tags: data.tags }
+                        : report
+                )
+            );
+        });
+
+        return () => {
+            socket.off('query_status_updated_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('query_hold_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (data.given_back == "yes") {
+                fetchQueriesForSocket();
+            } else {
+                setReports((prevReports) =>
+                    prevReports.filter((report) => report.assign_id !== data.query_id)
+                );
+            }
+
+        });
+
+        return () => {
+            socket.off('query_hold_updated_emit'); // Clean up on component unmount
+        };
+    }, []);
+
+
+
+    ///////////////////////////////////////////////////////////////////////////
 
     useEffect(() => {
         // Initialize select2 for Select Team
@@ -231,11 +325,67 @@ const UserQuery = () => {
             }
 
             setReports(response.data.data);
+            console.log(response.data.data); // Log the fetched data
+
             if (sessionStorage.getItem('user_type') == "user") {
                 setUsers([]);
             } else {
                 setUsers(response.data.userArr);
             }
+
+            setSpecificTranferQueries(response.data.specifictransferquery);
+        } catch (error) {
+            console.error('Error fetching reports:', error);
+            toast.error(error.message || 'Error fetching reports');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchQueriesForSocket = async (teamUsers) => {
+        try {
+
+            setSelectedQueries([]);
+
+            const payload = {
+                team_id: teamUsers,
+                user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                user_name: sessionStorage.getItem('name'),
+                team_id: sessionStorage.getItem('team_id'),
+                Website_id: sessionStorage.getItem('website_id'),
+                tags: selectedTags,
+                search_keywords: searchKeywords,
+                filter_date: filterDate,
+                ref_id: refId,
+                update_status: updateStatus,
+                icon_filter: iconFilter,
+                callwhatsappfilter: callWhatsapp,
+                state: selectedState,
+                city: selectedCity,
+                search_user_id: selectedUser,
+                website: selectedWebsites,
+            };
+
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loaduserquery', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.status !== 200) {
+                throw new Error('Failed to fetch reports');
+            }
+
+            setReports(response.data.data);
+            console.log(response.data.data); // Log the fetched data
+
+            if (sessionStorage.getItem('user_type') == "user") {
+                setUsers([]);
+            } else {
+                setUsers(response.data.userArr);
+            }
+
             setSpecificTranferQueries(response.data.specifictransferquery);
         } catch (error) {
             console.error('Error fetching reports:', error);
@@ -1287,7 +1437,7 @@ const UserQuery = () => {
                 <div className="flex justify-between flex-col mx-auto qhpage ">
                     <div className='flex flex-col w-full justify-start px-4 py-2'>
                         <div className='flex w-full justify-start px-4 py-2'>
-                            <h1 className="text-md font-bold flex items-center">Query History </h1>
+                            <h1 className="text-md font-bold flex items-center" >Query History</h1>
                             <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
                                 <FilterIcon size={14} className="" /></button>
                         </div>
@@ -1295,12 +1445,12 @@ const UserQuery = () => {
                             <div className="row">
                                 <h6 className="col-md-12">
                                     <div className="alert alert-danger strip elevenpx py-1.5">
-                                        Specific Transfer Back Request  
+                                        Specific Transfer Back Request
                                         {specificTranferQueries && specificTranferQueries.length > 0 &&
                                             specificTranferQueries.map((query) => (
                                                 <button className="bg-orange-600 elevenpx px-1 py-0.5 rounded text-white mx-2"
-                                                
-                                                onClick={()=>{ setShowSpecificTransferredQueries(true)}}>
+
+                                                    onClick={() => { setShowSpecificTransferredQueries(true) }}>
                                                     {query.ref_id} <i className="fa fa-angle-double-right"></i>
                                                 </button>
                                             ))

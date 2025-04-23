@@ -8,9 +8,11 @@ import 'select2';
 import AddQuerySideDetails from "./AddQuerySideDetails";
 import { motion } from "framer-motion";
 import { X } from "lucide-react";
+import { getSocket } from "../../Socket";
 
 const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
+    const socket = getSocket();
     const entryType = sessionStorage.getItem('category') || '';
     const currentDate = new Date();
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
@@ -777,6 +779,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         setFormData({ ...formData, upload_file: newUploadFile });
     };
 
+    
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
@@ -888,6 +891,9 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
             
             toast.success("Query submitted successfully!");
+            socket.emit("query_edited", {
+                query_id: formData.assign_query_id 
+            })
             onClose();
 
 

@@ -9,9 +9,11 @@ import 'react-quill/dist/quill.snow.css';
 import { motion } from 'framer-motion';
 import { X } from "lucide-react";
 import axios from 'axios';
+import { getSocket } from "../../../Socket";
 
 const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
 
+    const socket = getSocket();
     const entryType = sessionStorage.getItem('category') || '';
     const currentDate = new Date();
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
@@ -684,7 +686,20 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
             const data = await response.json();
             if(data.status && !data.warning){
                 toast.success( data.message || "Query added successfully!");
+
+                if(formData.hold_query){
+                    socket.emit("new_hold_query", { 
+                        data: data.message || "workspace Query Added succesfully",
+                    });
+                }else{
+                    socket.emit("new_query", { 
+                        data: data.message || "workspace Query Added succesfully",
+                        user_id: formData.assign_user,
+                    });
+                }
+
                 setFormData(initialFormData);
+                
                 onClose();
                 finalFunction();
 

@@ -8,9 +8,11 @@ import { CheckCircle, Settings, Plus, Minus } from 'lucide-react';
 import CommentForm from './CommentForm';
 import HistoryComponent from './HistoryComponent';
 import moment from "moment";
+import { getSocket } from '../../../Socket';
 
 const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions, after, onClose }) => {
   
+  const socket = getSocket();
   const [status, setStatus] = useState(queryInfo.update_status);
   const [remainderDate, setRemainderDate] = useState(
     queryInfo.remainder_date
@@ -666,6 +668,11 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
       if (result.status) {
         console.log("Form submitted successfully!", response);
+          socket.emit("query_status_updated", {
+            query_id: queryInfo.assign_id,
+            user_id: queryInfo.user_id,
+            status : status,
+          })
         toast.success("Submitted successfully!");
         after();
        // onClose();

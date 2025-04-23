@@ -24,7 +24,11 @@ import DashboardSummary from "./DashboardSummary";
 import AverageClaimedQueries from "./AverageClaimedQueries";
 import TodaysTasks from "./TodayTasks";
 import SpecificTransferredQueries from "./SpecificTransferredQueries";
+import { getSocket } from "../../Socket";
+
 const Dashboard = () => {
+
+    const socket = getSocket(); // Initialize socket connection
     // State for the filter inputs
     const [endDate, setEndDate] = useState(moment());
     const [startDate, setStartDate] = useState(moment().subtract(7, "days"));
@@ -125,6 +129,7 @@ const Dashboard = () => {
                 date_type: "ass_qr.update_status_date",
                 filter_date: filterDate,
                 teamid: teamId,
+                ref_id: refId,
                 userid: userId
             };
 
@@ -198,6 +203,119 @@ const Dashboard = () => {
         }
     };
 
+    const fetchDashboardQueriesForSocket = async () => {
+        try {
+
+            const payload = {
+                user_id: sessionStorage.getItem("id"),
+                user_type: sessionStorage.getItem("user_type"),
+                team_id: sessionStorage.getItem("team_id"),
+                date_type: "ass_qr.update_status_date",
+                filter_date: filterDate,
+                teamid: teamId,
+                userid: userId
+            };
+
+            const response = await axios.post(
+                "https://99crm.phdconsulting.in/zend/api/dashboardqueries",
+                payload,
+                { headers: { "Content-Type": "application/json" } }
+            );
+
+            if (response.status !== 200) {
+                throw new Error("Failed to fetch dashboard data");
+            }
+
+            const {
+                openTask,
+                leads,
+                fileAttachedUnread,
+                LeadsData,
+                LeadsCount,
+                ContactMadeData,
+                ContactMadeCount,
+                ContactNotMadeData,
+                ContactNotMadeCount,
+                QuotedData,
+                QuotedCount,
+                ConvertedData,
+                ConvertedCount,
+                NotInterestedData,
+                NotInterestedCount,
+                LostDealsData,
+                LostDealsCount,
+                escalationTask,
+                todayTask,
+                DelayData,
+                DelayCount,
+                internalCommentPendingData,
+                internalCommentResolvedData
+            } = response.data;
+
+            // Set fetched data into states
+            setOpenTasks(openTask || []);
+            setLeads(leads || []);
+            setFileAttachedUnread(fileAttachedUnread || []);
+            setLeadsData(LeadsData || []);
+            setLeadsCount(LeadsCount || 0);
+            setContactMadeData(ContactMadeData || []);
+            setContactMadeCount(ContactMadeCount || 0);
+            setContactNotMadeData(ContactNotMadeData || []);
+            setContactNotMadeCount(ContactNotMadeCount || 0);
+            setQuotedData(QuotedData || []);
+            setQuotedCount(QuotedCount || 0);
+            setConvertedData(ConvertedData || []);
+            setConvertedCount(ConvertedCount || 0);
+            setNotInterestedData(NotInterestedData || []);
+            setNotInterestedCount(NotInterestedCount || 0);
+            setLostDealsData(LostDealsData || []);
+            setLostDealsCount(LostDealsCount || 0);
+            setEscalationTask(escalationTask || []);
+            setTodayTasks(todayTask || []);
+            setDelayData(DelayData || []);
+            setDelayCount(DelayCount || 0);
+            setInternalCommentPendingData(internalCommentPendingData || []);
+            setInternalCommentResolvedData(internalCommentResolvedData || []);
+            setReconnectSetquery(response.data.reconnectSetquery || []);
+
+        } catch (error) {
+            console.error("Error fetching dashboard data:", error);
+            toast.error(error.message || "Error fetching dashboard data");
+        } finally {
+            setLoading(false);
+        }
+    };
+    ////////////////////////////////////////////////////////////
+    useEffect(() => {
+        socket.on('new_query_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager" || sessionStorage.getItem('user_type') == "sub-admin") {
+                fetchDashboardQueriesForSocket();
+            } else if (sessionStorage.getItem('user_type') == "user" && data.user_id == sessionStorage.getItem('id')) {
+                fetchDashboardQueriesForSocket();
+            }
+        });
+    
+        return () => {
+          socket.off('new_query_emit');  // Clean up on component unmount
+        };
+      }, []);
+
+      useEffect(() => {
+        socket.on('query_status_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager" || sessionStorage.getItem('user_type') == "sub-admin") {
+                fetchDashboardQueriesForSocket();
+            } else if (sessionStorage.getItem('user_type') == "user" && data.user_id == sessionStorage.getItem('id')) {
+                fetchDashboardQueriesForSocket();
+            }
+        });
+    
+        return () => {
+          socket.off('query_status_updated_emit');  // Clean up on component unmount
+        };
+      }, []);
+      ////////////////////////////////////////////////////////////
 
     useEffect(() => {
         // Initialize select2 for Select Team

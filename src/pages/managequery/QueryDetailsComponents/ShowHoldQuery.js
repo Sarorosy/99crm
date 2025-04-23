@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import { getSocket } from "../../../Socket";
 
 const ShowHoldQuery = ({ queryInfo, finalFunction }) => {
+    const socket = getSocket();
     const [allocatedTo, setAllocatedTo] = useState("");
     const [comments, setComments] = useState("");
     const [loading, setLoading] = useState(false);
@@ -66,6 +68,10 @@ const ShowHoldQuery = ({ queryInfo, finalFunction }) => {
 
                 if (result.status) {
                     toast.success("Assigned successfully!");
+                    socket.emit("query_hold_updated", {
+                        query_id: queryInfo.assign_id,
+                        given_back : "yes"
+                    });
                     finalFunction();
                     // You can do a redirect or refetch logic here
                 } else {
@@ -87,6 +93,10 @@ const ShowHoldQuery = ({ queryInfo, finalFunction }) => {
 
                 if (result.status) {
                     toast.success("Assigned successfully!");
+                    socket.emit("query_hold_updated", {
+                        query_id: queryInfo.assign_id,
+                        given_back : "no"
+                    });
                     finalFunction();
                     // You can do a redirect or refetch logic here
                 } else {

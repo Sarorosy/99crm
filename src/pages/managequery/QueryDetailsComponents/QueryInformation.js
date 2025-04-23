@@ -6,11 +6,11 @@ import $ from 'jquery';
 import "select2/dist/css/select2.css";
 import "select2";
 import toast from 'react-hot-toast';
+import { getSocket } from '../../../Socket';
+const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, fetchQueryDetails, fetchSocket }) => {
 
-const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, fetchQueryDetails }) => {
 
-
-
+    const socket = getSocket();
     const [allTags, setAllTags] = useState([]);
 
     const [historyVisible, setHistoryVisible] = useState(false);
@@ -82,6 +82,26 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
     useEffect(() => {
         fetchTags();
     }, []);
+
+    //////////////////////////////////////////////////
+    useEffect(() => {
+        socket.on('query_tags_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (data.query_id == refId) {
+                fetchSocket();
+            }
+        });
+
+        return () => {
+            socket.off('query_tags_updated_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+
+    
+
+    ///////////////////////////////////////////////////////
+
     const initializeSelect2 = () => {
         // Check if selectRef.current is initialized
         if (selectRef.current && !$(selectRef.current).hasClass("select2-hidden-accessible")) {
@@ -157,6 +177,14 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
             const data = await response.json();
             if (response.ok) {
                 console.log(`${field} updated successfully`);
+                if (field == "tags") {
+                    socket.emit("query_tags_updated", {
+                        query_id: refId,
+                        user_id: sessionStorage.getItem('id'),
+                        tags: updatedValue.join(','),
+                    });
+                }
+
                 setEditingField(null);  // Stop editing after success
                 fetchQueryDetails();
                 setEditingField("");
@@ -241,6 +269,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
     if (!queryInfo) {
         return <div>No data available</div>;
     }
+
 
 
     return (

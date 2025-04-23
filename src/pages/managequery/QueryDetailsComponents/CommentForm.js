@@ -1,8 +1,10 @@
 import { X } from "lucide-react";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { getSocket } from "../../../Socket";
 
 const CommentForm = ({ queryInfo, onClose , status, after}) => {
+    const socket = getSocket();
     const [comments, setComments] = useState("");
     const [shiftToLead, setShiftToLead] = useState(false);
     const [shiftToOpen, setShiftToOpen] = useState(false);
@@ -47,6 +49,13 @@ const CommentForm = ({ queryInfo, onClose , status, after}) => {
             // Check if response is successful
             if (data.status) {
                 toast.success("Comment Submitted!");
+                if(status != queryInfo.update_status) {
+                    socket.emit("query_status_updated",{
+                        query_id: queryInfo.assign_id,
+                        user_id : queryInfo.user_id,
+                        status: status,
+                    });
+                }
                 after();
                 onClose(); // Close the form after successful submission
             } else {

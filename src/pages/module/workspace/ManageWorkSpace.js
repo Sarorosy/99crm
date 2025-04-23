@@ -15,8 +15,10 @@ import toast from 'react-hot-toast';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
 import WorkSpaceQueryDetails from './WorkSpaceQueryDetails';
 import AddWorkSpaceQuery from './AddWorkSpaceQuery';
+import { getSocket } from '../../../Socket';
 
 const ManageWorkSpace = () => {
+    const socket = getSocket();
     const [quotes, setQuotes] = useState([]);
     const [totalQuotes, setTotalQuotes] = useState([]);
     const [approvedQuotes, setApprovedQuotes] = useState([]);
@@ -120,6 +122,31 @@ const ManageWorkSpace = () => {
         }
     };
 
+    const fetchQuotesForSocket = async () => {
+        try {
+            const response = await axios.post(
+                'https://99crm.phdconsulting.in/zend/api/load-workspace-data', {
+                user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                assignType: assignType,
+                search_keywords: keywords,
+                filter_date: filterDate,
+                website: selectedWebsite,
+            }
+            );
+            if (response.data.status) {
+                setQuotes(response.data.queryData ?? []);
+            }
+        } catch (error) {
+            console.error('Error fetching quotes:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const clickSocket = () => {
+        socket.emit('new_query', { message: 'New query added' });
+    }
 
     const handleViewClick = (quote) => {
         setSelectedQuote(quote);
@@ -265,14 +292,41 @@ const ManageWorkSpace = () => {
         } catch (error) {
             console.error('Error deleting queries:', error);
             toast.error('Failed to delete queries');
-        }finally{
+        } finally {
             setIsModalOpen(false)
         }
     }
+    /////////////////////////////////////////////
+    useEffect(() => {
+        socket.on('new_query_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager" || sessionStorage.getItem('user_type') == "sub-admin") {
+                fetchQuotesForSocket();
+            } else if (sessionStorage.getItem('user_type') == "user" && data.user_id == sessionStorage.getItem('id')) {
+                fetchQuotesForSocket();
+            }
+        });
+
+        return () => {
+            socket.off('new_query');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('new_hold_query_emit', (data) => {
+            console.log("Socket data received:", data);
+            fetchQuotesForSocket();
+        });
+
+        return () => {
+            socket.off('new_hold_query_emit');  // Clean up on component unmount
+        };
+    }, []);
+    /////////////////////////////////////////////
 
     return (
         <div className="container bg-white w-full add">
-            <h1 className='text-md font-bold ml-1'>WorkSpace</h1>
+            <h1 className='text-md font-bold ml-1' >WorkSpace</h1>
 
             {/* Filter Section */}
             <div className="flex items-center space-x-2 my-2 bg-gray-50 p-2 rounded">
@@ -390,7 +444,7 @@ const ManageWorkSpace = () => {
                     />
                 )}
                 {isAddQueryModalOpen && (
-                    <AddWorkSpaceQuery onClose={() => setIsAddQueryModalOpen(false)} finalFunction={fetchQuotes}/>
+                    <AddWorkSpaceQuery onClose={() => setIsAddQueryModalOpen(false)} finalFunction={fetchQuotes} />
                 )}
 
             </AnimatePresence>

@@ -22,11 +22,12 @@ import editsvg from '../../assets/edit-svgrepo-com.svg';
 import EditQuery from './EditQuery';
 import SpecificTransfer from './SpecificTransfer';
 import SpecificTransferredQueries from '../dashboard/SpecificTransferredQueries';
+import { getSocket } from '../../Socket';
 
 const HoldQuery = () => {
     DataTable.use(DT);
 
-
+    const socket = getSocket();
     const [teamUsers, setTeamUsers] = useState([])
     const [tags, setTags] = useState([]);
     const [reports, setReports] = useState([]);
@@ -198,6 +199,53 @@ const HoldQuery = () => {
     const fetchQueries = async (teamUsers) => {
         try {
             setLoading(true);
+            setSelectedQueries([]);
+
+            const payload = {
+                team_id: teamUsers,
+                user_id: sessionStorage.getItem('id'),
+                user_type: sessionStorage.getItem('user_type'),
+                user_name: sessionStorage.getItem('name'),
+                team_id: sessionStorage.getItem('team_id'),
+                Website_id: sessionStorage.getItem('website_id'),
+                tags: selectedTags,
+                search_keywords: searchKeywords,
+                filter_date: filterDate,
+                ref_id: refId,
+                update_status: updateStatus,
+                icon_filter: iconFilter,
+                callwhatsappfilter: callWhatsapp,
+                state: selectedState,
+                city: selectedCity,
+                search_user_id: selectedUser,
+                website: selectedWebsites,
+            };
+
+            const response = await axios.post('https://99crm.phdconsulting.in/zend/api/loadholdquery', payload, {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.status !== 200) {
+                throw new Error('Failed to fetch reports');
+            }
+
+            setReports(response.data.QueryUsers);
+            if (sessionStorage.getItem('user_type') == "user") {
+              //  setUsers([]);
+            } else {
+               // setUsers(response.data.userArr);
+            }
+        } catch (error) {
+            console.error('Error fetching reports:', error);
+            toast.error(error.message || 'Error fetching reports');
+        } finally {
+            setLoading(false);
+        }
+    };
+    const fetchQueriesForSocket = async (teamUsers) => {
+        try {
             setSelectedQueries([]);
 
             const payload = {
@@ -1279,6 +1327,19 @@ const HoldQuery = () => {
         setSelectedRefIdPriority(data.priority);
         setEditPageOpen(true);
     }
+
+    //////////////////////////////////////////////
+     useEffect(() => {
+            socket.on('new_hold_query_emit', (data) => {
+                console.log("Socket data received:", data);
+                fetchQueriesForSocket();
+            });
+    
+            return () => {
+                socket.off('new_hold_query_emit');  // Clean up on component unmount
+            };
+        }, []);
+    ///////////////////////////////////////////////
 
     return (
         <div>

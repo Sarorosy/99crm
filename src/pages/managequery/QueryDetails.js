@@ -10,8 +10,10 @@ import toast from 'react-hot-toast';
 import RightDiv from './RightDiv';
 import UserPriceQuote from '../module/pricequote/UserPriceQuote';
 import ShowHoldQuery from './QueryDetailsComponents/ShowHoldQuery';
+import { getSocket } from '../../Socket';
 
 const QueryDetails = ({ refId, onClose }) => {
+    const socket = getSocket();
     const [activeTab, setActiveTab] = useState(1);
     const [queryInfo, setQueryInfo] = useState(null);
     const [tempateInfo, setTemplateInfo] = useState(null);
@@ -67,6 +69,48 @@ const QueryDetails = ({ refId, onClose }) => {
         }
     };
 
+    const fetchQueryDetailsForSocket = async () => {
+        setLoading(false);
+        console.log("fetching query details from socket")
+        const id = sessionStorage.getItem('id');
+        const category = sessionStorage.getItem('category');
+
+        const payload = {
+            query_id: refId,
+            category: category,
+            user_id: id
+        };
+
+        try {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/queryDetails', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+            setQueryInfo(data.queryInfo);
+            setEscalationMark(data.queryInfo?.escalation_mark);
+            setQueryFiles(data.QueryFilesData);
+            setLoading(false);
+            setAllPriority(data.priorityArr);
+            setInternalCommentsData(data.internalCommentData)
+            setCampaginCommentData(data.campaginCommentData?.comments);
+            setTatScore(data.TatScore);
+            setTemplateInfo(data.templateInfo);
+            setCommentInfo(data.CommentInfo);
+
+
+        } catch (error) {
+            console.error('Error fetching query details:', error);
+            
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
 
         fetchQueryDetails();
@@ -100,13 +144,52 @@ const QueryDetails = ({ refId, onClose }) => {
         }
     };
 
+    useEffect(() => {
+        socket.on('query_status_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (refId == data.query_id) {
+                fetchQueryDetailsForSocket();
+            }
+        });
+
+        return () => {
+            socket.off('query_status_updated_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('query_edited_emit', (data) => {
+         console.log("Socket data received for query_edited_emit: data :", data );
+         console.log("Socket data received for query_edited_emit: refId :", refId );
+            if (refId == data.query_id) {
+                fetchQueryDetailsForSocket();
+            }
+        });
+
+        return () => {
+            socket.off('query_edited_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
+        socket.on('query_hold_updated_emit', (data) => {
+            console.log("Socket data received:", data);
+            if (data.query_id == refId) {
+                fetchQueryDetailsForSocket();
+            }
+        });
+
+        return () => {
+            socket.off('query_hold_updated_emit');  // Clean up on component unmount
+        };
+    }, []);
 
     // Dummy content for each tab
     const TabContent = () => {
         switch (activeTab) {
             case 1:
                 return <div className="text-sm text-gray-700">
-                    <QueryInformation refId={refId} queryInfo={queryInfo} queryFiles={queryFiles} loading={loading} allPriority={allPriority} fetchQueryDetails={fetchQueryDetails} />
+                    <QueryInformation refId={refId} queryInfo={queryInfo} queryFiles={queryFiles} loading={loading} allPriority={allPriority} fetchQueryDetails={fetchQueryDetails} fetchSocket={fetchQueryDetailsForSocket} />
                 </div>;
             case 2:
                 return <div className="text-sm text-gray-700">

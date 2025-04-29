@@ -5,7 +5,7 @@ let socket;
 
 export const getSocket = () => {
     if (!socket) {
-        socket = io("http://localhost:5000", { //https://looppanelsocket-qlcd.onrender.com
+        socket = io("https://nine9crmsocket.onrender.com", { //https://looppanelsocket-qlcd.onrender.com
             reconnection: true,
             reconnectionAttempts: 1,
             reconnectionDelay: 3000,

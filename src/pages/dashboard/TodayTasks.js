@@ -6,7 +6,7 @@ import QueryDetails from '../managequery/QueryDetails';
 import { useState } from 'react';
 import { Tooltip } from 'react-tooltip'
 
-const TodayTasks = ({ queries , loading}) => {
+const TodayTasks = ({ queries , loading, fetchDashboardQueriesForSocket}) => {
 
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [selectedRefId, setSelectedRefId] = useState('');
@@ -101,7 +101,7 @@ const TodayTasks = ({ queries , loading}) => {
             </ul>
             <AnimatePresence>
                 {detailsOpen && (
-                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
+                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 )}
         </AnimatePresence>
         <Tooltip id="my-tooltip" />

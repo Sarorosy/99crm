@@ -70,6 +70,9 @@ const OTPModal = ({ setIsOTPVerified, closeModal }) => {
       sessionStorage.setItem('verifyotp', user.verifyotp);
       sessionStorage.setItem('app_login_time', user.app_login_time);
       sessionStorage.setItem('app_logout_time', user.app_logout_time);
+      sessionStorage.setItem('daily_work_status', user.daily_work_status);
+      sessionStorage.setItem('is_workstatus_selected', user.is_workstatus_selected);
+      sessionStorage.setItem('workstatus_selected_at', user.workstatus_selected_at);
       sessionStorage.setItem('isAuthenticated',true);
 
         // Display success toast notification

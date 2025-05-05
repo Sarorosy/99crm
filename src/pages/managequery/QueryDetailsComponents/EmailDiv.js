@@ -10,7 +10,7 @@ import HistoryComponent from './HistoryComponent';
 import moment from "moment";
 import { getSocket } from '../../../Socket';
 
-const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions, after, onClose }) => {
+const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callOptions, after, onClose, fetchDashboardQueriesForSocket }) => {
   
   const socket = getSocket();
   const [status, setStatus] = useState(queryInfo.update_status);
@@ -19,7 +19,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       ? new Date(queryInfo.remainder_date * 1000).toISOString().split("T")[0]
       : ''
   );
-  const [showRemainderDiv, setShowRemainderDiv] = useState(queryInfo.update_status === 7);
+  const [showRemainderDiv, setShowRemainderDiv] = useState(queryInfo.update_status == 7);
   const [showccField, setccShowField] = useState(false);
   const [showbccField, setbccShowField] = useState(false);
   const [emailBody, setEmailBody] = useState(queryInfo.email_body || '');
@@ -567,16 +567,16 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
       return false;
     } else if (
       queryInfo.update_status != status &&
-      status !== 4 &&
-      status !== 5 &&
-      status !== 6 &&
-      status !== 7 &&
-      status !== 8 &&
+      status != 4 &&
+      status != 5 &&
+      status != 6 &&
+      status != 7 &&
+      status != 8 &&
       !whatsappCheckBoxChecked &&
       !callCheckBoxChecked &&
-      status !== 9 &&
-      queryInfo.update_status !== 9 &&
-      status !== 10
+      status != 9 &&
+      queryInfo.update_status != 9 &&
+      status != 10
     ) {
       toast.error("Please check at least one option: Call box or Whatsapp box.");
       return false;
@@ -674,7 +674,17 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
             status : status,
           })
         toast.success("Submitted successfully!");
+        setEmailCheckBoxChecked(false);
+        setEmailDivVisible(false);
+        setTemplateApproved(false);
+        setEmailBody('')
+        setWhatsappCheckBoxChecked(false);
+        setCallCheckBoxChecked(false);
         after();
+        if(fetchDashboardQueriesForSocket){
+          fetchDashboardQueriesForSocket();
+        }
+        
        // onClose();
 
       } else {

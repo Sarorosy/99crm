@@ -191,7 +191,7 @@ const AddPayment = ({ onClose, finalFunction }) => {
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Client Type *</label>
                         <select name="clientType" value={formData.clientType} onChange={handleChange}
-                            className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Client Type</option>
                             <option value="New Client">New Client</option>
                             <option value="Existing Client">Existing Client</option>
@@ -201,30 +201,30 @@ const AddPayment = ({ onClose, finalFunction }) => {
                     {formData.clientType === "Existing Client" && (
                         <div className="space-y-1">
                             <label className="text-sm font-medium text-gray-700">Ref Id *</label>
-                            <input type="text" name="refId" value={formData.refId} onChange={handleChange}
-                                className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                            <input type="number" name="refId" value={formData.refId} onChange={handleChange}
+                                className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 number-only" />
                         </div>
                     )}
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Quotation Id *</label>
                         <input type="text" name="quotationId" value={formData.quotationId} onChange={handleChange}
-                            className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                            className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Client Name *</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Client Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Service Name *</label>
-                        <input type="text" name="serviceName" value={formData.serviceName} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="text" name="serviceName" value={formData.serviceName} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Upload File</label>
@@ -232,23 +232,23 @@ const AddPayment = ({ onClose, finalFunction }) => {
                             type="file"
                             name="upload_file"
                             onChange={handleChange}
-                            className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 p-1.5"
+                            className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 p-1.5"
                         />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Client Address *</label>
-                        <input type="text" name="clientAddress" value={formData.clientAddress} onChange={handleChange} className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="text" name="clientAddress" value={formData.clientAddress} onChange={handleChange} className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Pin Code *</label>
-                        <input type="text" name="pincode" value={formData.pincode} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="number" name="pincode" value={formData.pincode} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 number-only" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Currency *</label>
-                        <select name="currency" value={formData.currency} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <select name="currency" value={formData.currency} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Currency</option>
                             <option value="USD">USD</option>
                             <option value="INR">INR</option>
@@ -264,22 +264,22 @@ const AddPayment = ({ onClose, finalFunction }) => {
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Amount *</label>
-                        <input type="text" name="amount" value={formData.amount} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="number" name="amount" value={formData.amount} onChange={handleChange} className="px-1 py-0.5 number-only w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Deal Amount *</label>
-                        <input type="text" name="dealAmount" value={formData.dealAmount} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="number" name="dealAmount" value={formData.dealAmount} onChange={handleChange} className="px-1 py-0.5 number-only w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Payment Terms *</label>
-                        <input type="text" name="terms" value={formData.terms} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="text" name="terms" value={formData.terms} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="space-y-1">
                         <label className="text-sm font-medium text-gray-700">Payment Mode *</label>
-                        <select name="mode" value={formData.mode} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <select name="mode" value={formData.mode} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
                             <option value="">Select Mode</option>
                             <option value="Bank">Bank</option>
                             <option value="Online">Online</option>
@@ -291,12 +291,12 @@ const AddPayment = ({ onClose, finalFunction }) => {
                             <div className="space-y-1 md:col-span-2">
                                 <label className="text-sm font-medium text-gray-700">Bank Name *</label>
                                 <input type="text" name="bankName" value={formData.bankName} onChange={handleChange}
-                                    className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                    className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                             </div>
                             <div className="space-y-1 md:col-span-2">
                                 <label className="text-sm font-medium text-gray-700">Bank Account *</label>
                                 <input type="text" name="bankAccount" value={formData.bankAccount} onChange={handleChange}
-                                    className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                    className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                             </div>
                         </>
                     )}
@@ -305,26 +305,26 @@ const AddPayment = ({ onClose, finalFunction }) => {
                         <div className="space-y-1 md:col-span-4">
                             <label className="text-sm font-medium text-gray-700">Payment Url *</label>
                             <input type="text" name="paymentUrl" value={formData.paymentUrl} onChange={handleChange}
-                                className="w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                         </div>
                     )}
 
                     <div className="space-y-1 ">
                         <label className="text-sm font-medium text-gray-700">Payment Date *</label>
-                        <input type="date" name="paymentDate" max={new Date().toISOString().split("T")[0]} value={formData.paymentDate} onChange={handleChange} className="w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <input type="date" name="paymentDate" max={new Date().toISOString().split("T")[0]} value={formData.paymentDate} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
                     </div>
 
                     <div className="md:col-span-4 flex items-center space-x-2">
                         <input type="checkbox" id="includeSubscriptionPrice" name="includeSubscriptionPrice"
                             checked={formData.includeSubscriptionPrice}
                             onChange={handleChange}
-                            className="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+                            className="px-1 py-0.5 rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
                         <label htmlFor="includeSubscriptionPrice" className="text-sm font-medium text-gray-700">Subscription Amount Included</label>
                     </div>
 
                     <div className="md:col-span-4 flex justify-end">
                         <button type="submit"
-                            className="w-48 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
+                            className="w-36 bg-blue-600 text-white py-1 px-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
                             Submit
                         </button>
                     </div>

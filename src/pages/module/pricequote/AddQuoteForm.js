@@ -4,7 +4,8 @@ import toast from 'react-hot-toast';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { X, CircleMinus, CirclePlus } from 'lucide-react';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose, after }) => {
     const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
         quotation_id: '',
         ref_id: '',
         quote_heading: '',
+        ask_scope_quote : '',
         quote_service_id: '',
         select_plan: [],
         recommended_plan: '',
@@ -144,12 +146,18 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     3. Modifications should be asked on the current milestone, and we will not be able to make the changes to the previous milestones post approval. Change in the topic, objectives, or results will not be possible after the approval.`,
     });
 
+
     const handleRemarkChange = (plan, value) => {
         setAdditionalRemarks((prev) => ({
             ...prev,
             [plan]: value,
         }));
     };
+    const [additionalRemarksBasic, setAdditionalRemarksBasic] = useState('');
+    const [additionalRemarksStandard, setAdditionalRemarksStandard] = useState('');
+    const [additionalRemarksAdvanced, setAdditionalRemarksAdvanced] = useState('');
+
+
     const handleDateChange = (date) => {
         setFormData((prev) => ({
             ...prev,
@@ -361,12 +369,16 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
         });
     };
 
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.quote_heading) {
             toast.error('Please enter Quote Heading');
+            return;
+        }
+        if(!formData.ask_scope_quote){
+            toast.error('Please enter AskForScope ID');
             return;
         }
         if (!formData.quote_service_id) {
@@ -381,6 +393,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             toast.error('Please select Recommended Plan');
             return;
         }
+
         if (formData.select_plan.includes('Basic')) {
             if (!formData.currency_type_basic) {
                 toast.error('Please select Currency Type for Basic Plan');
@@ -395,6 +408,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 return;
             }
             if (!additionalRemarks.Basic) {
+                toast.error('Please enter Additional Remarks for Basic Plan');
+                return;
+            }
+            if(!additionalRemarksBasic){
                 toast.error('Please enter Additional Remarks for Basic Plan');
                 return;
             }
@@ -433,6 +450,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 toast.error('Please enter Additional Remarks for Standard Plan');
                 return;
             }
+            if(!additionalRemarksStandard){
+                toast.error('Please enter Additional Remarks for Standard Plan');
+                return;
+            }
             if (!discountType.Standard) {
                 toast.error('Please select a Discount Type for Standard Plan');
                 return;
@@ -464,6 +485,10 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 return;
             }
             if (!additionalRemarks.Advanced) {
+                toast.error('Please enter Additional Remarks for Advanced Plan');
+                return;
+            }
+            if(!additionalRemarksAdvanced){
                 toast.error('Please enter Additional Remarks for Advanced Plan');
                 return;
             }
@@ -511,6 +536,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             quotation_id: formData.quotation_id,
             ref_id: QueryInfo.assign_id,
             quote_heading: formData.quote_heading,
+            ask_scope_quote : formData.ask_scope_quote,
             quote_service_id: formData.quote_service_id,
             select_plan: formData.select_plan,
             recommended_plan: formData.recommended_plan,
@@ -524,6 +550,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             milestone_price_basic: milestone.basic ? milestone.basic.milestone_price : [],
             submilestone_basic: milestone.basic ? milestone.basic.submilestoneData : [],
             order_summary_basic: additionalRemarks.Basic,
+            additional_remarks_basic : additionalRemarksBasic,
             milestone_remark_basic: [],
 
             //for standard
@@ -535,6 +562,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             milestone_price_standard: milestone.standard ? milestone.standard.milestone_price : [],
             submilestone_standard: milestone.standard ? milestone.standard.submilestoneData : [],
             order_summary_standard: additionalRemarks.Standard,
+            additional_remarks_standard : additionalRemarksStandard,
             milestone_remark_standard: [],
 
             //for advanced
@@ -546,6 +574,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
             milestone_price_advanced: milestone.advanced ? milestone.advanced.milestone_price : [],
             submilestone_advanced: milestone.advanced ? milestone.advanced.submilestoneData : [],
             order_summary_advanced: additionalRemarks.Advanced,
+            additional_remarks_advanced : additionalRemarksAdvanced,
             milestone_remark_advanced: [],
 
             discount_type_basic: discountType.Basic,
@@ -586,8 +615,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
 
             if (result.status) {
                 toast.success("Quote sent successfully!");
-                onClose();
                 after();
+                if (onClose) {
+                    onClose();
+                }
+
+
             } else {
                 toast.error(result.message || "Failed to send quote.");
             }
@@ -629,6 +662,19 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                             <span id="quote_headingError" className="text-red-500 text-xs"></span>
                         </div>
 
+                        <div className="flex items-center justify-between space-y-1">
+                            <label className="text-gray-900 font-semibold text-sm">Ask Scope ID</label>
+                            <input
+                                type="text"
+                                id="ask_scope_quote"
+                                name="ask_scope_quote"
+                                className="border border-gray-300  w-64 rounded-lg px-3 py-1 outline-none text-sm"
+                                placeholder="Enter AskForScope Id"
+                                value={formData.ask_scope_quote}
+                                onChange={handleChange}
+                            />
+                            <span id="ask_scope_quoteError" className="text-red-500 text-xs"></span>
+                        </div>
                         {/* Service Selection */}
                         <div className="flex items-center justify-between space-y-1">
                             <label className="text-gray-900 font-semibold text-sm">Service</label>
@@ -922,18 +968,88 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 }
 
                                 <div className="mb-4" id={`${plan}_remark_div`}>
-                                    <label className="block text-sm font-medium text-gray-700">
-                                        {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
+                                    <label className="text-left block text-sm font-medium text-gray-700">
+                                        {plan.charAt(0).toUpperCase() + plan.slice(1)} Plan Details
                                     </label>
                                     <textarea
                                         name={`order_summary_${plan}`}
-                                        className="w-full p-2 border rounded-md"
+                                        className="w-full p-2 border rounded-md cursor-not-allowed"
+                                        readOnly
                                         value={additionalRemarks[plan]} // Controlled Component
                                         onChange={(e) => handleRemarkChange(plan, e.target.value)}
                                         rows={12}
                                     ></textarea>
 
                                 </div >
+                                {plan.toLowerCase().includes("basic") && (
+                                    <div className="mb-4 bg-white" id={`${plan}_remark_div`}>
+                                        <label className="text-left block text-sm font-medium text-gray-700">
+                                            {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
+                                        </label>
+                                        <ReactQuill
+                                            theme="snow"
+                                            value={additionalRemarksBasic}
+                                            onChange={setAdditionalRemarksBasic}
+                                            modules={{
+                                                toolbar: [
+                                                    ['bold', 'italic', 'underline'],
+                                                    [{ align: [] }],
+                                                    [{ list: 'ordered' }, { list: 'bullet' }],
+                                                    ['link'],
+                                                    ['clean']
+                                                ]
+                                            }}
+                                            placeholder="Enter additional remarks"
+                                        />
+                                    </div>
+                                )}
+
+                                {plan.toLowerCase().includes("standard") && (
+                                    <div className="mb-4 bg-white" id={`${plan}_remark_div`}>
+                                        <label className="text-left block text-sm font-medium text-gray-700">
+                                            {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
+                                        </label>
+                                        <ReactQuill
+                                            theme="snow"
+                                            value={additionalRemarksStandard}
+                                            onChange={setAdditionalRemarksStandard}
+                                            modules={{
+                                                toolbar: [
+                                                    ['bold', 'italic', 'underline'],
+                                                    [{ align: [] }],
+                                                    [{ list: 'ordered' }, { list: 'bullet' }],
+                                                    ['link'],
+                                                    ['clean']
+                                                ]
+                                            }}
+                                            placeholder="Enter additional remarks"
+                                        />
+                                    </div>
+                                )}
+
+                                {plan.toLowerCase().includes("advanced") && (
+                                    <div className="mb-4 bg-white" id={`${plan}_remark_div`}>
+                                        <label className="text-left block text-sm font-medium text-gray-700">
+                                            {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
+                                        </label>
+                                        <ReactQuill
+                                            theme="snow"
+                                            value={additionalRemarksAdvanced}
+                                            onChange={setAdditionalRemarksAdvanced}
+                                            modules={{
+                                                toolbar: [
+                                                    ['bold', 'italic', 'underline'],
+                                                    [{ align: [] }],
+                                                    [{ list: 'ordered' }, { list: 'bullet' }],
+                                                    ['link'],
+                                                    ['clean']
+                                                ]
+                                            }}
+                                            placeholder="Enter additional remarks"
+                                        />
+                                    </div>
+                                )}
+
                                 <div className="flex items-end justify-between space-x-1 mb-4">
                                     <div className="w-50">
                                         <label className="text-left block text-sm font-medium text-gray-700">{plan} Discount Type</label>
@@ -990,6 +1106,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 selected={formData.expiry_date}
                                 onChange={handleDateChange}
                                 dateFormat="MM/dd/yyyy"
+                                minDate={new Date()}
                                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300"
                                 placeholderText="Select Expiry Date"
                             />

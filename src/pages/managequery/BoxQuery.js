@@ -468,6 +468,8 @@ const BoxQuery = () => {
         setEndDate(null);
         $(websiteRef.current).val(null).trigger('change');
         $(tagsRef.current).val(null).trigger('change');
+
+        fetchQueries();
     };
     const handleAddQuery = () => {
         navigate('/addboxquery');

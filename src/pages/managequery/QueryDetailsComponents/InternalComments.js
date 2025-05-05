@@ -55,7 +55,10 @@ const InternalComments = ({ internalCommentsData }) => {
 
                     {comment.comments && (
                         <p className="mt-2 text-gray-700">
-                            <span className="font-medium">Comments:</span> {comment.comments}
+                            <span className="font-medium">Comments:</span> 
+                            <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
+                                <div dangerouslySetInnerHTML={{ __html: comment.comments }} />
+                            </div>
                         </p>
                     )}
                     {comment.email_body && (

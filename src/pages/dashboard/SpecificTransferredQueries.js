@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { motion } from 'framer-motion';
+import { getSocket } from '../../Socket';
 
 const SpecificTransferredQueries = ({ onClose }) => {
     DataTable.use(DT);
@@ -17,6 +18,7 @@ const SpecificTransferredQueries = ({ onClose }) => {
     const [websites, setWebsites] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedTemplate, setselectedTemplate] = useState(null);
+    const socket = getSocket();
 
     const [profileName, setProfileName] = useState('');
     const [websiteId, setWebsiteId] = useState('');
@@ -55,6 +57,15 @@ const SpecificTransferredQueries = ({ onClose }) => {
             orderable: false,
             width: "80px",
             render: (data, type, row, meta) => {
+                return `<div style="text-align: left;">${data}</div>`;
+            },
+        },
+        {
+            title: 'CRM Name',
+            orderable: false,
+            data: 'user_name',
+            width: "200px",
+            render: (data) => {
                 return `<div style="text-align: left;">${data}</div>`;
             },
         },
@@ -150,6 +161,9 @@ const SpecificTransferredQueries = ({ onClose }) => {
           if (result.status) {
             toast.success("Request sent successfully");
             fetchQueries();
+            socket.emit("reclaim_request_sent", {
+                req_id: reqId,
+              })
           } else {
             toast.error("Request already sent");
           }
@@ -222,7 +236,7 @@ const SpecificTransferredQueries = ({ onClose }) => {
             {loading ? (
                 <CustomLoader />
             ) : (
-                <div className="w-[90%] bg-white p-2 rounded mx-auto overflow-x-auto">
+                <div className="w-[95%] bg-white p-2 rounded mx-auto overflow-x-auto">
                     <DataTable
                         data={queries}
                         columns={columns}

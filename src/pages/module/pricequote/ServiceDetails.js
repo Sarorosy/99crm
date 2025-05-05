@@ -1,8 +1,9 @@
 import { Trash2 } from 'lucide-react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
+import { getSocket } from '../../../Socket';
 
-const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData, after , finalFunction,  EditAndAddServicePrice}) => {
+const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMilestoneData, after, finalFunction, EditAndAddServicePrice, onComplete }) => {
     const [showEditServiceAmount, setShowEditServiceAmount] = useState(false);
     const [showEditExpiryDate, setShowEditExpiryDate] = useState(false);
     const [editServiceAmount, setEditServiceAmount] = useState(serviceInfo.total_price || '');
@@ -34,13 +35,25 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         return groupedMilestones;
     };
 
-    // Event handlers
-    const handlePrintDiv = () => {
-        // Implement print functionality
-        console.log(`Printing quotation ${serviceInfo.quotation_id}`);
-    };
-
+    const handlePrintDiv = (quotationId) => {
+        const content = document.getElementById(`pdf${quotationId}`);
+        if (!content) return;
     
+        const printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Print Quote</title>');
+        printWindow.document.write('<style>table { width: 100%; border-collapse: collapse; } td, th { padding: 8px; border: 1px solid #ddd; }</style>'); // optional styles
+        printWindow.document.write('</head><body>');
+        printWindow.document.write(content.outerHTML);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.focus();
+        printWindow.print();
+        printWindow.close();
+    };
+    
+
+    console.log("queryinfo update sttaus is" + queryInfo?.update_status)
+
 
     const createDuplicateQuote = async () => {
         console.log(`Creating duplicate quote for service ${serviceInfo.id}`);
@@ -50,7 +63,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({service_price_id :serviceInfo.id }),
+                body: JSON.stringify({ service_price_id: serviceInfo.id }),
             });
 
             const result = await response.json();
@@ -233,7 +246,11 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
     const [milestoneStatus, setMilestoneStatus] = useState({});
 
     const ChangeMilestoneStatus = (milest_id, status) => {
-
+        if(queryInfo.update_status != 5){
+            toast.error("Please update query status first");
+            
+            return;
+        }
         var statustochange = document.getElementById(`milestone_status${milest_id}`);
         if (statustochange) {
             statustochange.value = status;
@@ -312,9 +329,30 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
     };
 
 
-    const handlePriceQuoteAdminApproved = (serviceId, refId) => {
-        // Implement admin approval functionality
-        console.log(`Approving quote ${serviceId}, ref ${refId}`);
+    const priceQuoteAdminApproved = async (serviceId, refId) => {
+        if (!window.confirm("Are you sure? You want to approve?")) return;
+
+        try {
+            const response = await fetch("https://99crm.phdconsulting.in/zend/api/admin-approve-pricequote-action", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ quote_service_id: serviceId, ref_id: refId, user_id: sessionStorage.getItem("id"), user_name: sessionStorage.getItem("name") }),
+            });
+
+            const data = await response.json();
+
+            if (data.status) {
+                toast.success(data.message);
+                after(serviceId);
+                finalFunction();
+            } else {
+                toast.error(data.message);
+            }
+        } catch (error) {
+            toast.error("Something went wrong! " + error.message);
+        }
     };
 
     const priceQuoteCrmSendClient = async (quoteServiceId, refId) => {
@@ -332,8 +370,10 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
             const data = await response.json();
 
             if (data.status) {
-                toast.error(data.message);
+                toast.success(data.message);
                 after(serviceId);
+                finalFunction();
+                onComplete();
             } else {
                 toast.error(data.message);
             }
@@ -383,7 +423,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
         }
     };
 
-   
+
 
     const formatDate = (timestamp) => {
         if (!timestamp) return '';
@@ -420,6 +460,13 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                         <td colSpan="2" style={{ padding: '3px 5px', fontSize: '14px', textAlign: 'left' }}><b>Quotation ID</b></td>
                         <td colSpan="2" style={{ padding: '3px 10px', fontSize: '14px', textAlign: 'left' }}>{serviceInfo.quotation_id}</td>
                     </tr>
+                    {serviceInfo.ask_scope_quote && (
+                        <tr>
+                            <td colSpan="2" style={{ padding: '3px 5px', fontSize: '14px', textAlign: 'left' }}><b>Ask Scope ID</b></td>
+                            <td colSpan="2" style={{ padding: '3px 10px', fontSize: '14px', textAlign: 'left' }}>{serviceInfo.ask_scope_quote}</td>
+                        </tr>
+                    )}
+
                     <tr className="hide">
                         <td colSpan="4" height="15" style={{ fontSize: '12px', lineHeight: '15px' }}>&nbsp;</td>
                     </tr>
@@ -539,7 +586,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
 
                     {/* Additional Remarks */}
                     <tr>
-                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Additional Remarks</b></td>
+                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Plan Details</b></td>
                         <td colSpan="2" style={{ padding: '5px 15px' }}>
                             {typeof order_summary == 'object' && order_summary != null ? (
                                 Object.keys(order_summary).map(key => (
@@ -552,6 +599,31 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                             )}
                         </td>
                     </tr>
+                    {(() => {
+                        try {
+                            const plans = JSON.parse(serviceInfo.select_plan || '[]');
+                            return plans.map((plan) => {
+                                const planKey = plan.toLowerCase();
+                                const content = serviceInfo[`additional_order_summary_${planKey}`];
+
+                                return content ? (
+                                    <tr key={plan}>
+                                        <td colSpan="2" style={{ padding: '5px 5px' }}>
+                                            <strong>{plan} Additional Remarks</strong>
+                                        </td>
+                                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                                            <div dangerouslySetInnerHTML={{ __html: content }} />
+                                        </td>
+                                    </tr>
+                                ) : null;
+                            });
+                        } catch (e) {
+                            console.error("Error parsing select_plan", e);
+                            return null;
+                        }
+                    })()}
+
+
                     <tr className="hide">
                         <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
                     </tr>
@@ -938,7 +1010,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                                                         <select
                                                                             style={{ width: "90px" }}
                                                                             onChange={(e) => ChangeMilestoneStatus(milestone.id, e.target.value)}
-                                                                            disabled={milestone.status == 1 || serviceInfo.status < 4}
+                                                                            disabled={(milestone.status == 1 || serviceInfo.status < 4) && queryInfo.update_status != 5}
                                                                         >
                                                                             <option value="1" selected={milestone.status == 1}>Paid</option>
                                                                             <option value="0" selected={milestone.status == 0}>Pending</option>
@@ -980,9 +1052,9 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                                                 </>
                                                             )}
                                                             <tr id={`pendingFileDiv${milestone.id}`} className={rowClass} style={{ display: "none" }}>
-                                                                <td colSpan="4">
+                                                                <td >
                                                                     <form method="post" id={`jvalidate${milestone.id}`} name={`jvalidate${milestone.id}`}>
-                                                                        <div className="flex flex-col gap-4 p-4">
+                                                                        <div className="flex flex-col gap-4 py-3 px-1 w-full">
                                                                             <div className="flex items-center gap-4">
                                                                                 <label className="font-medium">Upload File</label>
                                                                                 <input
@@ -1062,7 +1134,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                                 {sessionStorage.getItem("accessQuoteApproval") == "Yes" ? (
                                                     <button
                                                         className="bg-gray-200 hover:bg-gray-300 text-black px-4 py-2 rounded-md"
-                                                    onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
+                                                        onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
                                                     >
                                                         Edit & Approve
                                                     </button>
@@ -1079,7 +1151,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                                 {sessionStorage.getItem("accessQuoteApproval") == "Yes" && (
                                                     <button
                                                         className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
-                                                    //onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
+                                                        onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
                                                     >
                                                         Approve
                                                     </button>
@@ -1092,7 +1164,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                             <td colSpan="3">
                                                 <button
                                                     className="bg-gray-300 border border-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded-md"
-                                                onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
+                                                    onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
                                                 >
                                                     Edit & Save
                                                 </button>
@@ -1101,7 +1173,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                                 {sessionStorage.getItem("accessQuoteApproval") != "Yes" && (
                                                     <button
                                                         className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
-                                                    //onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
+                                                        onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
                                                     >
                                                         Approve
                                                     </button>
@@ -1114,7 +1186,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                             <td colSpan="3">
                                                 <button
                                                     className="bg-gray-300 border border-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded-md"
-                                                onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
+                                                    onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
                                                 >
                                                     Edit & Save
                                                 </button>
@@ -1123,7 +1195,7 @@ const ServiceDetails = ({ serviceId, onClose, serviceInfo, serviceMilestoneData,
                                                 {sessionStorage.getItem("accessQuoteApproval") != "Yes" && (
                                                     <button
                                                         className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
-                                                    //onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
+                                                        onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
                                                     >
                                                         Approve
                                                     </button>

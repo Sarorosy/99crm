@@ -6,7 +6,7 @@ import AddQuoteForm from './AddQuoteForm';
 import ServiceDetails from './ServiceDetails';
 import EditQuoteForm from './EditQuoteForm';
 
-const UserPriceQuote = ({ refId }) => {
+const UserPriceQuote = ({ refId, after }) => {
     const [quoteData, setQuoteData] = useState([]);
     const [queryInfo, setQueryInfo] = useState(null); 
     const [serviceData, setServiceData] = useState([]); 
@@ -209,15 +209,15 @@ const UserPriceQuote = ({ refId }) => {
                                 
                                 </div>
                                 {detailsOpen && selectedService && (
-                                    <ServiceDetails serviceId={selectedService} serviceInfo={serviceDetails} serviceMilestoneData={mileStoneDetails}  onClose={() => setDetailsOpen(false)} after={handleViewdetails} EditAndAddServicePrice={EditAndAddServicePrice} finalFunction={fetchQuoteData}/>
+                                    <ServiceDetails serviceId={selectedService} queryInfo={queryInfo} serviceInfo={serviceDetails} serviceMilestoneData={mileStoneDetails}  onClose={() => setDetailsOpen(false)} after={handleViewdetails} EditAndAddServicePrice={EditAndAddServicePrice} finalFunction={fetchQuoteData} onComplete={after}/>
                                 )}
                             </div>
 
 
                         )
                         }
-                        {addFormOpen && queryInfo && <AddQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} onClose={()=>{setAddFormOpen(false)}} />}
-                        {editFormOpen && queryInfo && <EditQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} selectedServiceId={selectedServiceId} onClose={()=>{setEditFormOpen(false)}} />}
+                        {addFormOpen && queryInfo && <AddQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} onClose={()=>{setAddFormOpen(false)}} after={fetchQuoteData} />}
+                        {editFormOpen && queryInfo && <EditQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} selectedServiceId={selectedServiceId} onClose={()=>{setEditFormOpen(false)}} after={fetchQuoteData} />}
                     </div>
                 )}
             </motion.div>

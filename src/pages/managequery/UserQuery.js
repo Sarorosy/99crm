@@ -106,6 +106,18 @@ const UserQuery = () => {
     }, []);
 
     useEffect(() => {
+        socket.on('reclaim_request_sent_emit', (data) => {
+            console.log("Socket data received:", data);
+
+            fetchQueriesForSocket();
+        });
+
+        return () => {
+            socket.off('reclaim_request_sent_emit');  // Clean up on component unmount
+        };
+    }, []);
+
+    useEffect(() => {
         socket.on('query_status_updated_emit', (data) => {
             console.log("Socket data received:", data);
             const statusMap = {

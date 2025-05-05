@@ -48,6 +48,7 @@ const EditUser = ({ id, onClose, after }) => {
         accessQueryDelete: '',
         disabledQuery: [],
         profiles: [],
+        daily_work_status: 0
     });
 
     const [teams, setTeams] = useState([]);
@@ -162,7 +163,7 @@ const EditUser = ({ id, onClose, after }) => {
                         ...userCheckboxes,
                         team_id: teamIds
                     }));
-                    
+
                 } else {
                     const { team_id } = userData.data;
                     const teamIds = team_id ? team_id.split(',') : []; // Convert to array
@@ -189,7 +190,7 @@ const EditUser = ({ id, onClose, after }) => {
         // Initialize select2 for Select Team
         if (selectTeamRef.current) {
             const $select = $(selectTeamRef.current);
-            
+
             // Only initialize if not already initialized
             if (!$select.data('select2')) {
                 $select.select2({
@@ -200,7 +201,7 @@ const EditUser = ({ id, onClose, after }) => {
                     const selectedValues = $(e.target).val();
                     setFormData(prevData => ({
                         ...prevData,
-                        team_id: selectedValues || [], 
+                        team_id: selectedValues || [],
                     }));
                 });
 
@@ -224,7 +225,7 @@ const EditUser = ({ id, onClose, after }) => {
         // Initialize select2 for Operations Manager
         if (selectBackUsersRef.current) {
             const $select = $(selectBackUsersRef.current);
-            
+
             // Only initialize if not already initialized
             if (!$select.data('select2')) {
                 $select.select2({
@@ -257,7 +258,7 @@ const EditUser = ({ id, onClose, after }) => {
         // Initialize select2 for Select Website
         if (selectWebsiteRef.current) {
             const $select = $(selectWebsiteRef.current);
-            
+
             // Only initialize if not already initialized
             if (!$select.data('select2')) {
                 $select.select2({
@@ -291,7 +292,7 @@ const EditUser = ({ id, onClose, after }) => {
         // Initialize select2 for Operations Manager
         if (selectManagerRef.current) {
             const $select = $(selectManagerRef.current);
-            
+
             // Only initialize if not already initialized
             if (!$select.data('select2')) {
                 $select.select2({
@@ -911,7 +912,7 @@ const EditUser = ({ id, onClose, after }) => {
                                                 </div>
 
                                             </div>
-                                            
+
 
                                             {formData.user_type === 'user' && (
                                                 <div>
@@ -1001,7 +1002,7 @@ const EditUser = ({ id, onClose, after }) => {
                                                                             return { ...prevData, profiles: updatedProfiles };
                                                                         });
                                                                     }}
-                                                                    
+
                                                                     modules={{
                                                                         toolbar: [
                                                                             ['bold', 'italic', 'underline'],
@@ -1019,7 +1020,7 @@ const EditUser = ({ id, onClose, after }) => {
                                                                 />
                                                             </div>
 
-                                                            { addnewProfile && index === formData.profiles.length - 1 && (
+                                                            {addnewProfile && index === formData.profiles.length - 1 && (
                                                                 <button
                                                                     type="button"
                                                                     className=" text-red-500 hover:text-red-700 bg-red-300 rounded-full p-1"
@@ -1040,29 +1041,29 @@ const EditUser = ({ id, onClose, after }) => {
 
                                                     {/* Add new profile button */}
                                                     {!addnewProfile && (
-                                                    <div className="flex justify-end mt-2">
-                                                        <button
-                                                            type="button"
-                                                            className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
-                                                            onClick={() => {
-                                                                setFormData({
-                                                                    ...formData,
-                                                                    profiles: [
-                                                                        ...formData.profiles,
-                                                                        {
-                                                                            profile_name: '',
-                                                                            website: '',
-                                                                            website_email: '',
-                                                                            signature: ''
-                                                                        }
-                                                                    ]
-                                                                });
-                                                                setAddNewProfile(true);
-                                                            }}
-                                                        >
-                                                            + Add Another Profile
-                                                        </button>
-                                                    </div>
+                                                        <div className="flex justify-end mt-2">
+                                                            <button
+                                                                type="button"
+                                                                className="px-4 py-2 text-sm text-blue-600 hover:text-blue-800"
+                                                                onClick={() => {
+                                                                    setFormData({
+                                                                        ...formData,
+                                                                        profiles: [
+                                                                            ...formData.profiles,
+                                                                            {
+                                                                                profile_name: '',
+                                                                                website: '',
+                                                                                website_email: '',
+                                                                                signature: ''
+                                                                            }
+                                                                        ]
+                                                                    });
+                                                                    setAddNewProfile(true);
+                                                                }}
+                                                            >
+                                                                + Add Another Profile
+                                                            </button>
+                                                        </div>
                                                     )}
                                                 </div>
                                             )}
@@ -1161,8 +1162,23 @@ const EditUser = ({ id, onClose, after }) => {
                                                         onChange={handleCheckboxChange}
                                                     /> Disable Claim Box Query
                                                 </label>
+
                                             </div>
                                         )}
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                name="daily_work_status"
+                                                checked={formData.daily_work_status == 1}
+                                                onChange={() => {
+                                                    setFormData(prevState => ({
+                                                        ...prevState,
+                                                        daily_work_status: prevState.daily_work_status == 1 ? 0 : 1
+                                                    }));
+                                                }}
+                                            /> Ask Daily Work Status
+                                        </label>
+
 
                                     </div>
                                     <div className="flex justify-end mt-4">

@@ -12,30 +12,31 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
+    const fetchCampaignDetails = async () => {
+        try {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/api/getcampaigndetails/`, {
+                method: 'POST',
+                body: JSON.stringify({ emailcampaignid: campaignId.id }),
+            });
+            const data = await response.json();
+            if (data.status) {
+                setCampaignDetails(data.emailcampaignInfo);
+                setCampUserInfo(data.camp_userInfo);
+                setWebsites(data.websites);
+            } else {
+                toast.error(data.message || "Failed to fetch campaign details.");
+            }
+
+        } catch (err) {
+            setError("Failed to fetch campaign details.");
+            console.error(err);
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
         // Fetch campaign details
-        const fetchCampaignDetails = async () => {
-            try {
-                const response = await fetch(`https://99crm.phdconsulting.in/zend/api/getcampaigndetails/`, {
-                    method: 'POST',
-                    body: JSON.stringify({ emailcampaignid: campaignId.id }),
-                });
-                const data = await response.json();
-                if (data.status) {
-                    setCampaignDetails(data.emailcampaignInfo);
-                    setCampUserInfo(data.camp_userInfo);
-                    setWebsites(data.websites);
-                } else {
-                    toast.error(data.message || "Failed to fetch campaign details.");
-                }
-
-            } catch (err) {
-                setError("Failed to fetch campaign details.");
-                console.error(err);
-            } finally {
-                setLoading(false);
-            }
-        };
+        
 
         fetchCampaignDetails();
     }, [campaignId]);
@@ -66,10 +67,11 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
 
         try {
             const response = await axios.post("https://99crm.phdconsulting.in/zend/api/processemailcampaign",
-                 { emailcampaignid: campaignId.id,
-                    post_user_id : sessionStorage.getItem("id"),
-                    post_user_name : sessionStorage.getItem("name"),
-                  });
+                {
+                    emailcampaignid: campaignId.id,
+                    post_user_id: sessionStorage.getItem("id"),
+                    post_user_name: sessionStorage.getItem("name"),
+                });
             if (response.data.status) {
                 toast.success("Campaign marked as delivered!");
                 setCampaignDetails({ ...campaignDetails, status: "Delivered" });
@@ -85,24 +87,22 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
 
     const sendSingleEmail = async (email, key) => {
         try {
-            const response = await axios.post("/api/sendsingleemail", {
+            const response = await axios.post("https://99crm.phdconsulting.in/zend/api/sendsinglecampaign", {
                 email,
                 key,
-                campaignId,
+                user_name : sessionStorage.getItem('name'),
+                campaignId : campaignId.id,
             });
 
-            if (response.data.success) {
-                alert(`Email sent to ${email}`);
-                setCampaignDetails((prevDetails) => ({
-                    ...prevDetails,
-                    sentEmails: [...prevDetails.sentEmails, email],
-                }));
+            if (response.data.status) {
+                toast.success(`Email sent to ${email}`);
+                fetchCampaignDetails();
             } else {
-                alert(`Failed to send email to ${email}`);
+                toast.error(`Failed to send email to ${email}`);
             }
         } catch (err) {
             console.error(err);
-            alert("An error occurred while sending the email.");
+            toast.error("An error occurred while sending the email.");
         }
     };
 
@@ -162,46 +162,46 @@ const ProcessEmailCampaign = ({ campaignId, afterSave, onClose }) => {
                         <div className="mb-4">
                             <strong className="block text-gray-700">Mail To:</strong>
                             {campaignDetails.queryIds &&
-  campaignDetails.queryIds.split("~").map((queryId, index) => {
-    const arrayClients = queryId.split("||");
-    const sentEmails = campaignDetails.sentEmails?.split("||") || [];
-    const email = arrayClients[5];
+                                campaignDetails.queryIds.split("~").map((queryId, index) => {
+                                    const arrayClients = queryId.split("||");
+                                    const sentEmails = campaignDetails.sentEmails?.split("||") || [];
+                                    const email = arrayClients[5];
 
-    // Ensure bouncedEmails is defined and arrayClients[5] exists
-    if (
-      Array.isArray(arrayClients) &&
-      arrayClients.length >= 6 &&
-      email &&
-      (!Array.isArray(bouncedEmails) || !bouncedEmails.includes(email))
-    ) {
-      return (
-        <div key={index}>
-          <p>
-            {arrayClients[4]} {" => "} {email}
-          </p>
+                                    // Ensure bouncedEmails is defined and arrayClients[5] exists
+                                    if (
+                                        Array.isArray(arrayClients) &&
+                                        arrayClients.length >= 6 &&
+                                        email &&
+                                        (!Array.isArray(bouncedEmails) || !bouncedEmails.includes(email))
+                                    ) {
+                                        return (
+                                            <div key={index}>
+                                                <p>
+                                                    {arrayClients[4]} {" => "} {email}
+                                                </p>
 
-          {campaignDetails.status === "Delivered" && <br />}
+                                                {campaignDetails.status === "Delivered" && <br />}
 
-          {email &&
-            campaignDetails.status === "In Process" &&
-            (!sentEmails.includes(email) ? (
-              <button
-                className="btn btn-warning bg-yellow-500 text-white py-1 px-3 rounded-md"
-                onClick={() => sendSingleEmail(email, index)}
-              >
-                Send Email
-              </button>
-            ) : (
-              <button className="btn btn-success bg-green-600 text-white py-1 px-3 rounded-md">
-                Mail Sent
-              </button>
-            ))}
-        </div>
-      );
-    }
+                                                {email &&
+                                                    campaignDetails.status === "In Process" &&
+                                                    (!sentEmails.includes(email) ? (
+                                                        <button
+                                                            className="btn btn-warning bg-yellow-500 text-white py-1 px-3 rounded-md"
+                                                            onClick={() => sendSingleEmail(email, index)}
+                                                        >
+                                                            Send Email
+                                                        </button>
+                                                    ) : (
+                                                        <button className="btn btn-success bg-green-600 text-white py-1 px-3 rounded-md">
+                                                            Mail Sent
+                                                        </button>
+                                                    ))}
+                                            </div>
+                                        );
+                                    }
 
-    return null;
-  })}
+                                    return null;
+                                })}
 
 
                         </div>

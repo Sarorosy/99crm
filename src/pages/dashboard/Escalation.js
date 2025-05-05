@@ -6,7 +6,7 @@ import QueryDetails from '../managequery/QueryDetails';
 import { useState } from 'react';
 import { Tooltip } from 'react-tooltip'
 
-const Escalation = ({ queries, loading }) => {
+const Escalation = ({ queries, loading, fetchDashboardQueriesForSocket }) => {
 
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [selectedRefId, setSelectedRefId] = useState('');
@@ -109,7 +109,7 @@ const Escalation = ({ queries, loading }) => {
             </ul>
             <AnimatePresence>
                 {detailsOpen && (
-                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
+                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket}/>
                 )}
             </AnimatePresence>
             <Tooltip id="my-tooltip" />

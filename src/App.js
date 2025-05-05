@@ -40,6 +40,7 @@ import ManageWorkSpace from './pages/module/workspace/ManageWorkSpace';
 import PaymentMilestones from './pages/module/pricequote/PaymentMilestones';
 import MilestonePayments from './pages/module/pricequote/MilestonePayments';
 import HoldQuery from './pages/managequery/HoldQuery';
+import ManageDailyWorkStatus from './pages/module/user/ManageDailyWorkStatus';
 
 const App = () => {
 
@@ -99,6 +100,7 @@ const App = () => {
           <Route path="/quote-history" element={<QuoteHistory />} />
           <Route path="/payment-milestone" element={<PaymentMilestones />} />
           <Route path="/milestone-payments" element={<MilestonePayments />} />
+          <Route path="/daily-work-status" element={<ManageDailyWorkStatus />} />
           <Route path="/email-template" element={<ManageEmailTemplate />} />
           <Route path="/email-campaign" element={<ManageEmailCampaign />} />
           <Route path="/quote-template" element={<ManageQuoteTemplate />} />

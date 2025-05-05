@@ -302,19 +302,29 @@ const Dashboard = () => {
       }, []);
 
       useEffect(() => {
-        socket.on('query_status_updated_emit', (data) => {
-            console.log("Socket data received:", data);
-            if (sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager" || sessionStorage.getItem('user_type') == "sub-admin") {
-                fetchDashboardQueriesForSocket();
-            } else if (sessionStorage.getItem('user_type') == "user" && data.user_id == sessionStorage.getItem('id')) {
-                fetchDashboardQueriesForSocket();
+        const handleSocketData = async (data) => {
+            console.log("Socket data received for status update:", data);
+    
+            const sessionUserId = sessionStorage.getItem('id');
+            const userType = sessionStorage.getItem('user_type');
+    
+            if (
+                sessionUserId == data.user_id ||
+                userType === "admin" ||
+                userType === "Data Manager" ||
+                userType === "sub-admin"
+            ) {
+                await fetchDashboardQueriesForSocket(); // Await the async function
             }
-        });
+        };
+    
+        socket.on('query_status_updated_emit', handleSocketData);
     
         return () => {
-          socket.off('query_status_updated_emit');  // Clean up on component unmount
+            socket.off('query_status_updated_emit', handleSocketData); // Clean up properly
         };
-      }, []);
+    }, []);
+    
       ////////////////////////////////////////////////////////////
 
     useEffect(() => {
@@ -716,21 +726,21 @@ const Dashboard = () => {
 
             <div className=" px-2 row items-start">
                 {(sessionStorage.getItem("user_type") == "admin" || sessionStorage.getItem("user_type") == "sub-admin") ? (
-                    <Escalation queries={escalationTask} loading={loading} />
+                    <Escalation queries={escalationTask} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 ) : (
-                    <TodaysTasks queries={todayTasks} loading={loading} />
+                    <TodaysTasks queries={todayTasks} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 )}
 
-                <OpenTasks queries={openTasks} loading={loading} />
-                <LeadIn queries={leadsData} loading={loading} />
-                <BucketList queries={delayData} loading={loading} />
-                <ContactMade queries={contactMadeData} loading={loading} />
+                <OpenTasks queries={openTasks} loading={loading}  fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket}/>
+                <LeadIn queries={leadsData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
+                <BucketList queries={delayData} loading={loading}  fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket}/>
+                <ContactMade queries={contactMadeData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 <div className="mb-2 w-full "></div>
-                <Quoted queries={quotedData} loading={loading} />
-                <Converted queries={convertedData} loading={loading} />
-                <ClientNotInterested queries={notInterestedData} loading={loading} />
-                <LostDeals queries={lostDealsData} loading={loading} />
-                <ContactNotMade queries={contactNotMadeData} loading={loading} />
+                <Quoted queries={quotedData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
+                <Converted queries={convertedData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
+                <ClientNotInterested queries={notInterestedData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
+                <LostDeals queries={lostDealsData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
+                <ContactNotMade queries={contactNotMadeData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
             </div>
 
 

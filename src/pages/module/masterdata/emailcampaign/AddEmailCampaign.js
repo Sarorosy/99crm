@@ -391,8 +391,13 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
             //     console.log(data.QueryUsers);
             // }
             if (data.status) {
-                setSearchedQueries(data.QueryUsers);
+                const normalizedQueries = Array.isArray(data.QueryUsers)
+                    ? data.QueryUsers
+                    : Object.values(data.QueryUsers || {});
+                
+                setSearchedQueries(normalizedQueries);
             }
+            
             console.log('Success:', response);
         } catch (e) {
             console.error('Error during API call:', e);
@@ -400,6 +405,10 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
             setSearching(false);
         }
     }
+
+    const normalizedQueries = Array.isArray(searchedQueries)
+  ? searchedQueries
+  : Object.values(searchedQueries || {});
 
     return (
         <motion.div

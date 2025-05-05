@@ -1267,3 +1267,15 @@ select{
     border-image-source: linear-gradient(90deg, rgba(192,192,192,1) 100%, rgba(211,211,211,1) 80%, rgba(192,192,192,1) 60%, rgba(245,245,245,1) 50%, rgba(192,192,192,1) 39%, rgba(211,211,211,1) 20%, rgba(192,192,192,1) 0%);
   }
 } */
+.number-only::-webkit-outer-spin-button,
+.number-only::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.number-only[type='number'] {
+  -moz-appearance: textfield; /* Firefox */
+}
+.ql-editor {
+  text-transform: none !important;
+}

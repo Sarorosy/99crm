@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { Tooltip } from 'react-tooltip'
 
 
-const Quoted = ({ queries, loading }) => {
+const Quoted = ({ queries, loading, fetchDashboardQueriesForSocket }) => {
     const [detailsOpen, setDetailsOpen] = useState(false);
     const [selectedRefId, setSelectedRefId] = useState('');
 
@@ -99,7 +99,7 @@ const Quoted = ({ queries, loading }) => {
             </ul>
             <AnimatePresence>
                 {detailsOpen && (
-                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
+                    <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 )}
             </AnimatePresence>
 

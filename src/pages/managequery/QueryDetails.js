@@ -12,7 +12,7 @@ import UserPriceQuote from '../module/pricequote/UserPriceQuote';
 import ShowHoldQuery from './QueryDetailsComponents/ShowHoldQuery';
 import { getSocket } from '../../Socket';
 
-const QueryDetails = ({ refId, onClose }) => {
+const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
     const socket = getSocket();
     const [activeTab, setActiveTab] = useState(1);
     const [queryInfo, setQueryInfo] = useState(null);
@@ -193,7 +193,7 @@ const QueryDetails = ({ refId, onClose }) => {
                 </div>;
             case 2:
                 return <div className="text-sm text-gray-700">
-                    <UserPriceQuote refId={refId} />
+                    <UserPriceQuote refId={refId} after={fetchQueryDetails}/>
                 </div>;
             case 3:
                 return <div className="text-sm text-gray-700">
@@ -382,7 +382,7 @@ const QueryDetails = ({ refId, onClose }) => {
                         </div>
                     </div>
                     {queryInfo && queryInfo != null && queryInfo.hold_query != 1 && queryInfo.hold_query != 3 && (
-                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={fetchQueryDetails} onClose={onClose} />
+                        <RightDiv queryInfo={queryInfo} tempateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={fetchQueryDetails} onClose={onClose} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                     )}
                 </div>
 

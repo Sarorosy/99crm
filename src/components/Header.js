@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import QueryDetails from '../pages/managequery/QueryDetails';
+import LeadsUpdateForm from './LeadsUpdateForm';
 
 const Header = () => {
   const [detailsOpen, setDetailsOpen] = useState(false);
@@ -26,6 +27,34 @@ const Header = () => {
   if (!userType) {
     navigate("/login")
   }
+
+  const [showForm, setShowForm] = useState(false);
+
+  const checkDailyStatus = () =>{
+    
+    const isSelected = sessionStorage.getItem('is_workstatus_selected');
+    const selectedAt = sessionStorage.getItem('workstatus_selected_at');
+    const isDailyWkStatus = sessionStorage.getItem('daily_work_status');
+
+    const today = new Date().toISOString().slice(0, 10);
+    console.log("checking daily status" + today);
+    const selectedDate = selectedAt ? selectedAt.slice(0, 10) : null;
+    console.log("checking daily selectedAT" + selectedDate);
+
+    if (
+      (isSelected != '1' || selectedDate != today) &&
+      isDailyWkStatus == '1'
+    ) {
+      setShowForm(true);
+    }else{
+      setShowForm(false)
+    }
+  }
+  useEffect(() => {
+    checkDailyStatus()
+  }, []);
+
+  
 
   const toggleDropdown = () => {
 
@@ -268,6 +297,11 @@ const Header = () => {
                               Milestone Payments
                             </button>
                           )}
+                          {(userType == "admin" || userType == "sub-admin") && (
+                            <button onClick={() => handleNavigation('/daily-work-status')} className="block px-4 py-2  w-full dropdownmenu">
+                              Daily Work Status
+                            </button>
+                          )}
 
                           {(userType == "admin" || userType == "sub-admin") && (
                             <>
@@ -423,6 +457,9 @@ const Header = () => {
       <AnimatePresence>
         {detailsOpen && (
           <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
+        )}
+        {showForm && (
+          <LeadsUpdateForm finalFunction={checkDailyStatus}/>
         )}
       </AnimatePresence>
     </header>

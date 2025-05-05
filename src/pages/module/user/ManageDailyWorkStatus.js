@@ -10,15 +10,15 @@ import 'select2/dist/css/select2.css';
 import 'select2';
 import CustomLoader from '../../../components/CustomLoader';
 import { RefreshCcw, FilterIcon } from 'lucide-react';
-import MilestonePaymentDetails from './MilestonePaymentDetails';
 import { AnimatePresence } from 'framer-motion';
 import QueryDetails from '../../managequery/QueryDetails';
 
 
-const MilestonePayments = () => {
+const ManageDailyWorkStatus = () => {
     const [quotes, setQuotes] = useState([]);
     const [filterDate, setFilterDate] = useState('');
     const [refId, setRefId] = useState('');
+    const [dateFilter, setDateFilter] = useState('today');
     const [status, setStatus] = useState('');
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState('')
@@ -29,21 +29,6 @@ const MilestonePayments = () => {
 
     DataTable.use(DT);
 
-
-    useEffect(() => {
-        // Fetch managers data from the API
-        fetch('https://99crm.phdconsulting.in/zend/99crmwebapi/api/getallusers')
-            .then(response => response.json())
-            .then(data => {
-                if (data.status) {
-                    setUsers(data.data); // Assuming data.data contains the managers
-                } else {
-                    console.error('Failed to fetch users');
-                }
-            })
-            .catch(err => console.error('Error fetching users:', err));
-
-    }, []);
     useEffect(() => {
         // Initialize select2 for Select Team
         $(selectTeamRef.current).select2({
@@ -87,23 +72,25 @@ const MilestonePayments = () => {
     const fetchFilteredQuotes = async () => {
         setLoading(true);
         try {
-            const response = await fetch('https://99crm.phdconsulting.in/zend/api/loadmilestonepayments', {
+            const response = await fetch('https://99crm.phdconsulting.in/zend/api/getalldailyworkstatus', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    filter_date: filterDate,
-                    ref_id: refId,
+                    date_filter: dateFilter,
                     user_id: selectedUser,
                     status: status,
+                    team_id : sessionStorage.getItem('team_id'),
+                    user_type: sessionStorage.getItem('user_type')
                 }),
             });
 
             const data = await response.json(); // Parse the response as JSON
 
             if (data.status) {
-                setQuotes(data.quoteData); // Update quotes state
+                setQuotes(data.userArr); // Update quotes state
+                setUsers(data.userData);
             }
         } catch (error) {
             console.error('Error fetching filtered quotes:', error);
@@ -141,115 +128,73 @@ const MilestonePayments = () => {
 
     const columns = [
 
+        
         {
-            title: 'Ref Id',
-            data: 'ref_id',
-            orderable: true,
-            render: (data, type, row, meta) => {
-                return `<div style="display: flex; justify-content: center; align-items: center; gap: 5px;">
-                <div class="view-query-btn cursor-pointer" style="background-color:#172554;color:white;padding:1px 6px;border-radius:5px;">${data}</div>
-                <button 
-                    class="copy-btn" 
-                    data-ref="${data}" 
-                    title="Copy Ref ID"
-                    style="background: none; border: none; cursor: pointer; color: #2563eb;"
-                >
-                    📋
-                </button>
-            </div>`;
-            },
-        },
-        {
-            title: 'Company ',
-            data: 'display_name',
-            orderable: false,
-            render: (data) => `<div style="text-align: left;">${data}</div>`,
-        },
-        {
-            title: 'CRM Name',
-            data: 'crm_name',
-            orderable: false,
-            render: (data) => `<div style="text-align: left;">${data}</div>`,
-        },
-        {
-            title: 'Client Name',
+            title: 'Name ',
             data: 'name',
             orderable: false,
             render: (data) => `<div style="text-align: left;">${data}</div>`,
         },
         {
-            title: 'Service Name',
-            data: 'service_name',
+            title: 'Username',
+            data: 'username',
             orderable: false,
             render: (data) => `<div style="text-align: left;">${data}</div>`,
         },
         {
-            title: 'Milestone Name',
-            data: 'milestone_name',
+            title: 'Email',
+            data: 'email_id',
             orderable: false,
             render: (data) => `<div style="text-align: left;">${data}</div>`,
         },
         {
-            title: 'Milestone Price',
-            data: 'milestone_price',
+            title: 'Work Status',
+            data: 'selected_work_status',
             orderable: false,
-            render: (data, type, row) => {
-                let currencyType = '';
-
-                try {
-                    const currencyTypeParsed = JSON.parse(row.currency_type);
-                    const selectedPlan = row.plan_type || '';
-
-                    if (
-                        typeof currencyTypeParsed === 'object' &&
-                        currencyTypeParsed !== null &&
-                        selectedPlan in currencyTypeParsed
-                    ) {
-                        currencyType = currencyTypeParsed[selectedPlan];
-                    } else {
-                        currencyType = row.currency_type;
-                    }
-                } catch (e) {
-                    currencyType = row.currency_type;
+            render: (data) => {
+                let label = '';
+                if (data == 1) {
+                    label = 'Need Max Fresh Enquiries';
+                } else if (data == 2) {
+                    label = 'Need Few Fresh Enquiries';
+                } else if (data == 3) {
+                    label = 'No Leads Required';
                 }
-
-                return `<div style="text-align: left;">${currencyType || ''} ${data || 'N/A'}</div>`;
+                return `<div style="text-align: left;">${label}</div>`;
             },
         },
         {
-            title: 'Paid Date',
-            data: 'paid_date',
+            title: 'Submitted Date',
+            data: 'selected_at',
             orderable: false,
             render: (data) => {
-                return data ? new Date(data * 1000).toLocaleDateString() : '';
+                if (!data) return '';
+        
+                const date = new Date(data);
+                return date.toLocaleString('en-GB', {
+                    day: '2-digit',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true,
+                });
             },
         },
         {
-            title: 'Status',
-            data: 'status',
+            title: 'Assigned Lead Count',
+            data: 'lead_count',
             orderable: false,
-            render: (data) => {
-                let statusLabel = '';
-
-                if (data == 1 || data == '1') {
-                    statusLabel = '<span class="px-2 py-1 text-xs font-semibold text-green-800 bg-green-100 rounded-full">Paid</span>';
-                } else if (data == 0 || data == '0' || data == '') {
-                    statusLabel = '<span class="px-2 py-1 text-xs font-semibold text-yellow-800 bg-yellow-100 rounded-full">Pending</span>';
-                } else if (data == 3 || data == '3') {
-                    statusLabel = '<span class="px-2 py-1 text-xs font-semibold text-red-800 bg-red-100 rounded-full">Rejected</span>';
-                } else {
-                    statusLabel = `<span class="px-2 py-1 text-xs font-semibold text-gray-800 bg-gray-100 rounded-full">${data || ''}</span>`;
-                }
-
-                return `<div class="text-left">${statusLabel}</div>`;
-            },
-        }
+            render: (data) => `<div style="text-align: left;">${data}</div>`,
+        },
+        
+        
 
 
     ];
 
     const resetFilters = () => {
-        setFilterDate('');
+        setDateFilter('today');
         setRefId('');
         setSelectedUser('');
 
@@ -264,25 +209,7 @@ const MilestonePayments = () => {
 
             {/* Filter Section */}
             <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded">
-                <div className="w-1/2">
-                    <input
-                        id="filterDate"
-                        type="text"
-                        className="form-control"
-                        placeholder="From Date - To Date"
-                        value={filterDate}
-                        readOnly // Make the input read-only as it's controlled by daterangepicker
-                    />
-                </div>
-                <div className="w-1/2">
-                    <input
-                        type="text"
-                        className="form-control"
-                        placeholder='Enter Ref. Id'
-                        value={refId}
-                        onChange={(e) => setRefId(e.target.value)}
-                    />
-                </div>
+                
                 <div className="w-1/2">
                     <select
                         id="user_id"
@@ -306,12 +233,23 @@ const MilestonePayments = () => {
                         value={status}
                         onChange={(e) => setStatus(e.target.value)}
                     >
-                        <option value="">Select Status</option>
-                        <option value="1">Draft</option>
-                        <option value="2">Approval Awaitng</option>
-                        <option value="3">Approved</option>
-                        <option value="4">Published</option>
-                        <option value="5">Paid</option>
+                        <option value="">All Status</option>
+                        <option value="1">Need Max Fresh Enquiries</option>
+                        <option value="2">Need Few Fresh Enquiries</option>
+                        <option value="3">No Leads Required</option>
+                    </select>
+                </div>
+
+                <div className="w-1/2">
+
+                    <select
+                        className="form-control"
+                        value={dateFilter}
+                        onChange={(e) => setDateFilter(e.target.value)}
+                    >
+                        <option value="today">Today</option>
+                        <option value="last_3_days">Last 3 Days</option>
+                        <option value="last_7_days">Last 7 Days</option>
                     </select>
                 </div>
                 <div className="w-1/2 flex items-center space-x-2 last">
@@ -352,9 +290,6 @@ const MilestonePayments = () => {
             )}
 
             <AnimatePresence>
-                {showModal && selectedQuote && (
-                    <MilestonePaymentDetails paymentDetails={selectedQuote} onClose={() => setShowModal(false)} finalFunction={fetchFilteredQuotes} />
-                )}
                 {detailsOpen && (
                     <QueryDetails refId={selectedRefId} onClose={() => setDetailsOpen(!detailsOpen)} />
                 )}
@@ -363,4 +298,4 @@ const MilestonePayments = () => {
     );
 };
 
-export default MilestonePayments;
+export default ManageDailyWorkStatus;

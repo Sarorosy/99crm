@@ -18,8 +18,10 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
         return firstName.charAt(0).toUpperCase(); // Return the first letter
     };
 
-    const handleAdminClick = () => {
-        setIsDetailsVisible(!isDetailsVisible); // Toggle the floating div visibility on admin name click
+    const [visibleCommentId, setVisibleCommentId] = useState(null);
+
+    const handleAdminClick = (id) => {
+        setVisibleCommentId(prevId => (prevId === id ? null : id));
     };
     const fetchData = async () => {
         try {
@@ -36,7 +38,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
             }
 
             const data = await response.json();
-            if (data.status) { 
+            if (data.status) {
                 setUnArchiveData(data.UnArchiveData || []); // Default to empty object if undefined
                 setArchiveData(data.ArchiveData || []); // Default to empty object if undefined
             }
@@ -46,7 +48,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
     };
 
     useEffect(() => {
-        
+
 
         if (assignId) {
             fetchData();
@@ -107,12 +109,12 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
         getArchiveComments(0);
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("unarchieve" + unArchiveData)
-    },[unArchiveData])
-    useEffect(()=>{
+    }, [unArchiveData])
+    useEffect(() => {
         console.log("archieve" + Archive)
-    },[Archive])
+    }, [Archive])
 
 
     return (
@@ -128,15 +130,15 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
 
             <div className="row">
                 {/* Archive Tabs Section */}
-                <div className="col-md-10">
+                <div className="col-md-10 mb-2">
                     {archiveData.length > 0 && (
-                        <ul className="nav nav-tabs tab-scetion space-x-1 ">
+                        <ul className=" space-x-1 ">
                             {archiveData.map((data) => (
                                 <li key={data.archive_no} id={`archiveList${data.archive_no}`}>
                                     <button
                                         style={{ color: "#444", borderRadius: "0" }}
                                         data-toggle="tab"
-                                        className='btn btn-warning btn-sm'
+                                        className='btn btn-warning btn-sm my-2'
                                         onClick={() => getArchiveComments(data.archive_no)}
                                     >
                                         Archive {data.archive_no}
@@ -147,9 +149,9 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                     )}
                 </div>
 
-                {/* Save Archive Button Section saveCommentsArchive(assignId)*/ }
+                {/* Save Archive Button Section saveCommentsArchive(assignId)*/}
                 <div className="col-md-2">
-                {userType === "user" && Array.isArray(unArchiveData) && unArchiveData.length > 0 && (
+                    {userType === "user" && Array.isArray(unArchiveData) && unArchiveData.length > 0 && (
                         <button
                             style={{
                                 margin: "0px",
@@ -166,67 +168,70 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                     )}
                 </div>
             </div>
+            <div className='h-[500px] overflow-y-scroll'>
+                {commentData.length > 0 ? (
+                    commentData.map((comment) => (
+                        <div key={comment.id} className="border-b p-4 mb-4 bg-gray-50 rounded-md relative "
 
-            {commentData.length > 0 ? (
-                commentData.map((comment) => (
-                    <div key={comment.id} className="border-b p-4 mb-4 bg-gray-50 rounded-md relative">
-                        <div className="flex items-center space-x-4 mb-4">
-                            <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-semibold">
-                                {comment.comments_sent_type == "user" ? getProfilePicInitials(comment.name) : getProfilePicInitials(comment.FromName)}
+                        >
+                            <div className="flex items-center space-x-4 mb-4">
+                                <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-semibold">
+                                    {comment.comments_sent_type == "user" ? getProfilePicInitials(comment.name) : getProfilePicInitials(comment.FromName)}
+                                </div>
+                                <div>
+                                    <h6 className="font-semibold" style={{ fontSize: "16px" }}>{comment.subject}</h6>
+                                    <p
+                                        onClick={() => comment.comments_sent_type === "user" && handleAdminClick(comment.id)}// Add onClick handler for the admin name
+                                        className="text-sm text-blue-500 cursor-pointer mt-1"
+                                    >
+                                        {comment.comments_sent_type == "user" ? comment.name : "From: " + comment.FromName}
+                                    </p>
+                                </div>
+                                <div className="flex justify-end text-sm text-gray-500 items-center mt-4 w-50">
+                                    {moment.unix(comment.date).fromNow()}
+                                    {comment.track_status.trim() != "" && (
+                                        <span className='text-green-600 font-semibold ml-5 tenpx'>{comment.track_status}</span>
+                                    )}
+                                </div>
                             </div>
-                            <div>
-                                <h3 className="text-lg font-semibold">{comment.subject}</h3>
-                                <p
-                                    onClick={comment.comments_sent_type == "user" && handleAdminClick} // Add onClick handler for the admin name
-                                    className="text-sm text-blue-500 cursor-pointer"
-                                >
-                                    {comment.comments_sent_type == "user" ? comment.name :  "From: " + comment.FromName}
-                                </p>
-                            </div>
-                            <div className="ml-auto text-sm text-gray-500 flex items-center">
-                                {moment.unix(comment.date).fromNow()}
-                                {comment.track_status.trim() != "" && (
-                                    <span className='text-green-600 font-semibold ml-2 tenpx'>{comment.track_status}</span>
-                                )}
-                            </div>
-                        </div>
 
-                        {
-                            comment.email_body && (
+                            {
+                                comment.email_body && (
+                                    <div
+                                        className="mt-4"
+                                        dangerouslySetInnerHTML={{ __html: comment.email_body }}
+                                    />
+                                )
+                            }
+
+                            {comment.comments && (
                                 <div
-                                    className="mt-4"
-                                    dangerouslySetInnerHTML={{ __html: comment.email_body }}
-                                />
-                            )
-                        }
-
-                        {comment.comments && (
-                            <div
                                     className="mt-4"
                                     dangerouslySetInnerHTML={{ __html: comment.comments }}
                                 />
-                        )}
+                            )}
 
 
-                        {isDetailsVisible && (
-                            <div style={{ fontSize: "12px" }} className="absolute top-12 left-0 bg-white shadow-md rounded-lg p-4 mt-4 w-lg border">
-                                <button
-                                    onClick={() => { setIsDetailsVisible(!isDetailsVisible) }}
-                                    className="text-white flex items-center hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500 float-right"
-                                >
-                                    <X size={15} />
-                                </button>
-                                <p className="font-semibold">From: <span className='font-normal'>{comment.from_email}</span></p>
-                                <p className="font-semibold">To: <span className='font-normal'>{comment.to_email}</span></p>
-                                <p className="font-semibold">Date: <span className='font-normal'>{moment.unix(comment.date).format('MMM DD, YYYY, hh:mm A')}</span></p>
-                                <p className="font-semibold">Subject: <span className='font-normal'>{comment.subject}</span></p>
-                            </div>
-                        )}
-                    </div>
-                ))
-            ) : (
-                <p className={`alert ${loading ? 'alert-warning' : 'alert-danger'} mt-4 text-center`}>{loadingMessage}</p>
-            )}
+                            {visibleCommentId == comment.id && (
+                                <div style={{ fontSize: "12px" }} className="absolute top-12 left-0 bg-white rounded p-2 mt-4 ms-4 w-lg border z-50">
+                                    <button
+                                        onClick={() => { setVisibleCommentId(null) }}
+                                        className="text-white flex items-center hover:text-red-500 transition-colors p-1 rounded-full bg-red-600 hover:bg-red-500 float-right"
+                                    >
+                                        <X size={15} />
+                                    </button>
+                                    <p className="font-semibold">From: <span className='font-normal'>{comment.from_email}</span></p>
+                                    <p className="font-semibold">To: <span className='font-normal'>{comment.to_email}</span></p>
+                                    <p className="font-semibold">Date: <span className='font-normal'>{moment.unix(comment.date).format('MMM DD, YYYY, hh:mm A')}</span></p>
+                                    <p className="font-semibold">Subject: <span className='font-normal'>{comment.subject}</span></p>
+                                </div>
+                            )}
+                        </div>
+                    ))
+                ) : (
+                    <p className={`alert ${loading ? 'alert-warning' : 'alert-danger'} mt-4 text-center`}>{loadingMessage}</p>
+                )}
+            </div>
         </div>
     );
 };

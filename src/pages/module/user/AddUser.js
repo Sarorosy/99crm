@@ -493,7 +493,7 @@ const AddUser = ({ onClose, after }) => {
                                     <div className="box-body qhpage">
                                         <div className="my-2 flex items-center justify-between mb-2">
                                             <div className='col-md-6'>
-                                                <div className='mtminus1'>
+                                                <div className=''>
                                                     <label>Name<span className="error">*</span></label>
                                                     <input
                                                         type="text"
@@ -504,7 +504,7 @@ const AddUser = ({ onClose, after }) => {
                                                     /></div>
                                             </div>
                                             <div className='col-md-6'>
-                                                <label>Username<span className="error">*</span></label>
+                                                <label>Username<span className="error">*</span> {usernameStatus && <span className='mt-5'>{usernameStatus}</span>}</label>
                                                 <input
                                                     type="text"
                                                     name="username"
@@ -513,7 +513,7 @@ const AddUser = ({ onClose, after }) => {
                                                     onChange={handleFormDataChange}
                                                     onKeyUp={handleUsernameCheck}
                                                 />
-                                                {usernameStatus && <span className='mt-5'>{usernameStatus}</span>}
+                                               
                                             </div>
                                         </div>
                                         <div className="my-2 flex items-center justify-between mb-2">
@@ -757,7 +757,7 @@ const AddUser = ({ onClose, after }) => {
                                                 {formData.profiles.map((profile, index) => (
                                                     <div key={index} className='relative border p-4 rounded-lg bg-gray-50'>
                                                         <div className='flex my-2'>
-                                                            <div className="w-1/4 mx-1">
+                                                            <div className="w-1/3 mx-1">
                                                                 <label>Profile Name</label>
                                                                 <input
                                                                     type="text"
@@ -767,7 +767,7 @@ const AddUser = ({ onClose, after }) => {
                                                                 />
                                                             </div>
 
-                                                            <div className="w-1/4 mx-1">
+                                                            <div className="w-1/3 mx-1">
                                                                 <label>Select Website</label>
                                                                 <select
                                                                     className="form-control"
@@ -783,7 +783,7 @@ const AddUser = ({ onClose, after }) => {
                                                                 </select>
                                                             </div>
 
-                                                            <div className='w-1/4 mx-1'>
+                                                            <div className='w-1/3 mx-1'>
                                                                 <label>Website Email</label>
                                                                 <input
                                                                     type="text"
@@ -793,7 +793,9 @@ const AddUser = ({ onClose, after }) => {
                                                                 />
                                                             </div>
 
-                                                            <div className='w-1/4'>
+                                                            
+                                                        </div>
+                                                        <div className='w-full'>
                                                                 <label className="font-medium text-gray-700">Signature</label>
                                                                 <ReactQuill
                                                                 className='bg-white'
@@ -815,7 +817,6 @@ const AddUser = ({ onClose, after }) => {
                                                                     placeholder="Signature"
                                                                 />
                                                             </div>
-                                                        </div>
                                                         
                                                         {formData.profiles.length > 1 && (
                                                             <button
@@ -833,7 +834,7 @@ const AddUser = ({ onClose, after }) => {
                                                     <button
                                                         type="button"
                                                         onClick={handleAddProfile}
-                                                        className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 flex items-center gap-2"
+                                                        className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 flex items-center gap-2"
                                                     >
                                                         <span>Add Profile</span>
                                                         <span>+</span>

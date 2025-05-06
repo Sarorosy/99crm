@@ -1345,8 +1345,8 @@ const HoldQuery = () => {
         <div>
             <div className='bg-white py-2 rounded mb-3'>
                 <div className="flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex flex-col w-full justify-start px-4 py-2'>
-                        <div className='flex w-full justify-start px-4 py-2'>
+                    <div className='flex flex-col w-full justify-start py-2'>
+                        <div className='flex w-full justify-start py-2'>
                             <h1 className="text-md font-bold flex items-center">Hold Queries</h1>
                             <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
                                 <FilterIcon size={14} className="" /></button>
@@ -1356,7 +1356,7 @@ const HoldQuery = () => {
                     </div>
                     <div style={{ display: showFilter ? "block" : "none" }}>
 
-                        <div className="w-full flex flex-wrap gap-1 px-4 pt-2 qhpage mb-1" id="filterDiv" >
+                        <div className="w-full flex flex-wrap gap-1 pt-2 qhpage mb-1" id="filterDiv" >
                             {/* Team Selection */}
                             {userType != "user" && userType != "Operations Manager" && (
                                 <select
@@ -1577,7 +1577,7 @@ const HoldQuery = () => {
 
                         </div>
 
-                        <div class="col-md-12 px-4 py-0 qhpage mb-4">
+                        <div class="col-md-12  py-0 qhpage mb-4">
                             <div className='row'>
                                 <div className='col-md-6 flex gap-1'>
                                     <div className='col-md-6 przero'>
@@ -1645,7 +1645,7 @@ const HoldQuery = () => {
 
 
 
-                <div className=" flex-wrap items-center justify-between mb-2 px-4 qhpage"
+                <div className=" flex-wrap items-center justify-between mb-2  qhpage"
                     style={{ display: (sessionStorage.getItem('user_type') == "admin" || (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryTransRepliShift') == "Yes")) ? "flex" : "none" }}
                 >
                     {/* Selects Container */}
@@ -1782,7 +1782,7 @@ const HoldQuery = () => {
                         </button>
                     </div>
                 </div>
-                <div className=' flex items-center justify-between mb-2 px-4 qhpage'>
+                <div className=' flex items-center justify-between mb-2  qhpage'>
                     {(sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "sub-admin") && (
                         <div className="flex items-center justify-start space-x-1">
                             <div className="">
@@ -1817,8 +1817,8 @@ const HoldQuery = () => {
                                     <button
                                         onClick={handleDelete}
                                         className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-1 flex items-center"
-                                    ><Trash2 className="mr-2" size={12} />
-                                        Delete
+                                    ><Trash2 className="" size={12} />
+                                        
                                     </button>
 
                                     <button

@@ -10,7 +10,7 @@ const Layout = () => {
        <Header  />
 
       {/* Main Content */}
-      <main className="flex-1 mx-5 px-2 py-4 ">
+      <main className="flex-1 mx-5 px-2 py-2 ">
        
         <Outlet /> 
         

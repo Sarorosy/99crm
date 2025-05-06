@@ -52,8 +52,8 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         creater_name: sessionStorage.getItem('name')
     };
     const [formData, setFormData] = useState({
-        assign_query_id : "",
-        query_id : "",
+        assign_query_id: "",
+        query_id: "",
         specific_query_type: "",
         query_code: "",
         name: "",
@@ -77,14 +77,14 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         requirement: "",
         other_requirement: "",
         referred_by: "",
-        priority : "",
+        priority: "",
         academic_level: "",
         entry_type: entryType,
         requirement_line: "",
         date: formattedDate,
         paragraph_format: "",
         line_format: "",
-        remarks : "",
+        remarks: "",
         ifCampTag: false,
         withoutemail: false,
         upload_file: [],
@@ -147,8 +147,8 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                 if (data.queryInfo) {
                     setFormData((prev) => ({
                         ...prev,
-                        query_id : data.queryInfo.id || "",
-                        assign_query_id : data.queryInfo.assign_id || "",
+                        query_id: data.queryInfo.id || "",
+                        assign_query_id: data.queryInfo.assign_id || "",
                         entry_type: data.queryInfo.entrytype || "",
                         query_code: data.queryInfo.query_code || "",
                         name: data.queryInfo.name || "",
@@ -176,7 +176,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                         date: data.queryInfo.date || formattedDate,
                         paragraph_format: data.queryInfo.paragraph_format || "",
                         line_format: data.queryInfo.line_format || "",
-                        remarks : data.queryInfo.remarks || "",
+                        remarks: data.queryInfo.remarks || "",
                         ifCampTag: data.queryInfo.ifCampTag === 1,
                         withoutemail: false,
                         upload_file: [],
@@ -187,16 +187,16 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                     // **Prevent triggering API calls when setting default values**
 
                     handleLocationChangeApi(data.queryInfo.location, data.queryInfo.state_id);
-                    
-                    
+
+
 
                     $(locationRef.current).val(data.queryInfo.location).trigger("change.select2");
                     $(stateRef.current).val(data.queryInfo.state_id).trigger("change.select2");
                     $(cityRef.current).val(data.queryInfo.city).trigger("change.select2");
                     $(tagsRef.current).val(data.queryInfo.tags).trigger("change.select2");
 
-                    
-                    
+
+
                 }
 
             } catch (error) {
@@ -239,17 +239,17 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
     useEffect(() => {
         if (formData.allocated_to && formData.website && typeof fetchUserProfiles === "function") {
-            fetchUserProfiles(formData.allocated_to , formData.website);
+            fetchUserProfiles(formData.allocated_to, formData.website);
         }
     }, [formData.allocated_to]);
-    
+
 
 
     useEffect(() => {
         // Set PhD status from sessionStorage
         const userCategory = sessionStorage.getItem("category");
         setIsPhD(userCategory == "PhD");
-        
+
         fetchPriorities();
         fetchLocations();
         fetchTags();
@@ -427,7 +427,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
     const fetchServices = async () => {
         try {
-            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/getAllServices/" );
+            const response = await fetch("https://99crm.phdconsulting.in/zend/99crmwebapi/api/getAllServices/");
             const data = await response.json();
             if (data.status) {
                 setServices(data.data);
@@ -513,7 +513,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
             ...prevState,
             [name]: type === "checkbox" ? !prevState.withoutemail : value, // Toggle the checkbox value
         }));
-    
+
     };
 
 
@@ -779,7 +779,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
         setFormData({ ...formData, upload_file: newUploadFile });
     };
 
-    
+
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevent the default form submission behavior
 
@@ -789,7 +789,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
             return;
         }
 
-       
+
         if (!formData.email_id) {
             toast.error("Please provide an email ID!");
             return;
@@ -827,7 +827,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
             return;
         }
 
-        if(formData.requirement == 20 && !formData.other_requirement){
+        if (formData.requirement == 20 && !formData.other_requirement) {
             toast.error("Please specify Other requirement!");
             return;
         }
@@ -889,10 +889,10 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                 return;
             }
 
-            
+
             toast.success("Query submitted successfully!");
             socket.emit("query_edited", {
-                query_id: formData.assign_query_id 
+                query_id: formData.assign_query_id
             })
             onClose();
 
@@ -933,7 +933,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
                     <div className="row form-group anq">
                         {formData.entry_type == "PhD" && (
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                                 <label htmlFor="query_code">Query Code<span className="error">*</span></label>
                                 <select
                                     name="query_code"
@@ -952,7 +952,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </div>
                         )}
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="name">Client Name<span className="error">*</span></label>
                             <input
                                 type="text"
@@ -964,7 +964,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             />
                         </div>
                         <>
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                                 <label htmlFor="email_id">Client Email ID<span className="error">*</span></label>
                                 <input
                                     type="text"
@@ -977,7 +977,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                                 />
                             </div>
 
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                                 <label htmlFor="alt_email_id">Alternate Email ID</label>
                                 <input
                                     type="email"
@@ -991,7 +991,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
 
                         </>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="phone">Contact No.</label>
                             <input
                                 type="text"
@@ -1002,7 +1002,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="alt_contact_no">Alternate Contact Number</label>
                             <input
                                 type="text"
@@ -1014,7 +1014,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             />
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="area_of_study">Topic/Area of Study</label>
                             <input
                                 type="text"
@@ -1026,7 +1026,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             />
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="location">Location</label>
                             <select
                                 name="location"
@@ -1044,7 +1044,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="state">State</label>
                             <select
                                 name="state"
@@ -1062,7 +1062,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="city">City</label>
                             <select
                                 name="city"
@@ -1080,7 +1080,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="company_id">Company</label>
                             <select
                                 name="company_id"
@@ -1098,7 +1098,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4" style={{display : sessionStorage.getItem('user_type') == "user" ? "none" : "block"}}>
+                        <div className="col-sm-3" style={{ display: sessionStorage.getItem('user_type') == "user" ? "none" : "block" }}>
                             <label htmlFor="website">Website</label>
                             <select
                                 name="website"
@@ -1116,20 +1116,20 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
                         {formData.website == "42" && (
-                            <div className="col-sm-4">
-                            <label htmlFor="phone">Other Website.</label>
-                            <input
-                                type="text"
-                                name="other_website"
-                                id="other_website"
-                                value={formData.other_website}
-                                className="form-control"
-                                onChange={handleChange}
-                            />
-                        </div>
+                            <div className="col-sm-3">
+                                <label htmlFor="phone">Other Website.</label>
+                                <input
+                                    type="text"
+                                    name="other_website"
+                                    id="other_website"
+                                    value={formData.other_website}
+                                    className="form-control"
+                                    onChange={handleChange}
+                                />
+                            </div>
                         )}
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="requirement">Service</label>
                             <select
                                 name="requirement"
@@ -1147,20 +1147,20 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
                         {formData.requirement == 20 && (
-                            <div className="col-sm-4">
-                            <label htmlFor="phone">Other Requirement</label>
-                            <input
-                                type="text"
-                                name="other_requirement"
-                                id="other_requirement"
-                                value={formData.other_requirement}
-                                className="form-control"
-                                onChange={handleChange}
-                            />
-                        </div>
+                            <div className="col-sm-3">
+                                <label htmlFor="phone">Other Requirement</label>
+                                <input
+                                    type="text"
+                                    name="other_requirement"
+                                    id="other_requirement"
+                                    value={formData.other_requirement}
+                                    className="form-control"
+                                    onChange={handleChange}
+                                />
+                            </div>
                         )}
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-3">
                             <label htmlFor="tags">Tags</label>
                             <select
                                 className="form-control"
@@ -1178,11 +1178,11 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
 
-                        
 
-                        
-                            <div style={{display : sessionStorage.getItem('user_type') != "user" ? 'flex' : "hide"}}>
-                            <div className="col-sm-4">
+
+
+                        <div className="col-sm-12 space-x-2 justify-between flex" style={{ display: sessionStorage.getItem('user_type') != "user" ? 'flex' : "hide" }}>
+                            <div className="col-sm-3">
                                 <label htmlFor="team">Team</label>
                                 <select
                                     name="team"
@@ -1199,7 +1199,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                                 <label htmlFor="allocated_to">Allocated To</label>
                                 <select
                                     name="allocated_to"
@@ -1216,7 +1216,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                                     ))}
                                 </select>
                             </div>
-                            <div className="col-sm-4">
+                            <div className="col-sm-3">
                                 <label htmlFor="profile_id">Select Profile</label>
                                 <select
                                     name="profile_id"
@@ -1233,27 +1233,28 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                                     ))}
                                 </select>
                             </div>
-                        </div>
-                    
-                        <div className="col-sm-4">
-                            <label htmlFor="priority">Select Priority</label>
-                            <select
-                                name="priority"
-                                id="priority"
-                                className="form-control select2"
-                                value={formData.priority}
-                                onChange={handleChange}
-                            >
-                                <option value="">Please Priority</option>
-                                {priorities.map((priority) => (
-                                    <option key={priority.id}  data-priority={priority.priority} value={`${priority.priority}|${priority.follow_up_day}|${priority.contact_by}`}>
-                                        {priority.priority}
-                                    </option>
-                                ))}
-                            </select>
+                            <div className="col-sm-3">
+                                <label htmlFor="priority">Select Priority</label>
+                                <select
+                                    name="priority"
+                                    id="priority"
+                                    className="form-control select2"
+                                    value={formData.priority}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">Please Priority</option>
+                                    {priorities.map((priority) => (
+                                        <option key={priority.id} data-priority={priority.priority} value={`${priority.priority}|${priority.follow_up_day}|${priority.contact_by}`}>
+                                            {priority.priority}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
 
-                        <div className="col-sm-4">
+
+
+                        <div className="col-sm-3">
                             <label htmlFor="academic_level">Academic Level</label>
                             <select
                                 className="form-control"
@@ -1269,9 +1270,9 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </select>
                         </div>
 
-                        
 
-                        <div className="col-sm-4" disabled>
+
+                        <div className="col-sm-3" disabled>
                             <div className="form-group" style={{ marginTop: "23px", display: "flex", alignItems: "center" }}>
                                 <input
                                     type="checkbox"
@@ -1290,20 +1291,20 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                             </div>
                         </div>
 
-                        
-                        
-                            <div className="col-sm-12 mt-3">
-                                <label className="font-medium text-gray-700">Remarks</label>
-                                <textarea
-                                    name="remarks"
-                                    value={formData.remarks}
-                                    onChange={handleChange}
-                                    placeholder="Enter Remarks"
-                                    rows="4"
-                                    className="form-control"
-                                />
-                            </div>
-                        
+
+
+                        <div className="col-sm-12 mt-3">
+                            <label className="font-medium text-gray-700">Remarks</label>
+                            <textarea
+                                name="remarks"
+                                value={formData.remarks}
+                                onChange={handleChange}
+                                placeholder="Enter Remarks"
+                                rows="4"
+                                className="form-control"
+                            />
+                        </div>
+
 
                         <div className="flex justify-end mt-4">
                             <button

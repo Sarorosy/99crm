@@ -993,7 +993,7 @@ const UserQuery = () => {
                 if (!tagNames) return '<div style="text-align: left;">-</div>';
 
                 const tagSpans = tagNames.split(', ').map(tag =>
-                    `<span style="background-color: #B6CEFFFF; padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block;">${tag}</span>`
+                    `<span style="border:1px solid #282828;background-color:rgb(231, 239, 255); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block;">${tag}</span>`
                 ).join('');
 
                 return `<div style="text-align: left;">${tagSpans}</div>`;
@@ -1445,18 +1445,14 @@ const UserQuery = () => {
 
     return (
         <div>
-            <div className='bg-white py-2 rounded mb-3'>
+            <div className='bg-white pb-2 rounded mb-3'>
                 <div className="flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex flex-col w-full justify-start px-4 py-2'>
-                        <div className='flex w-full justify-start px-4 py-2'>
-                            <h1 className="text-md font-bold flex items-center" >Query History</h1>
-                            <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
-                                <FilterIcon size={14} className="" /></button>
-                        </div>
+                    <div className='flex flex-col w-full justify-start  py-2'>
+                        
                         {(sessionStorage.user_type === 'admin' || sessionStorage.user_type === 'Data Manager') && (
                             <div className="row">
-                                <h6 className="col-md-12">
-                                    <div className="alert alert-danger strip elevenpx py-1.5">
+                                <h6 className="col-md-12 ">
+                                    <div className="alert alert-danger strip elevenpx py-1.5 padding-0">
                                         Specific Transfer Back Request
                                         {specificTranferQueries && specificTranferQueries.length > 0 &&
                                             specificTranferQueries.map((query) => (
@@ -1472,11 +1468,16 @@ const UserQuery = () => {
                             </div>
 
                         )}
+                        <div className='flex w-full justify-start  py-2'>
+                            <h1 className="text-md font-bold flex items-center" >Query History</h1>
+                            <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
+                                <FilterIcon size={14} className="" /></button>
+                        </div>
 
                     </div>
                     <div style={{ display: showFilter ? "block" : "none" }}>
 
-                        <div className="w-full flex flex-wrap gap-1 px-4 pt-2 qhpage mb-1" id="filterDiv" >
+                        <div className="w-full flex flex-wrap gap-1 qhpage mb-1 justify-between" id="filterDiv" >
                             {/* Team Selection */}
                             {userType != "user" && userType != "Operations Manager" && (
                                 <select
@@ -1499,7 +1500,7 @@ const UserQuery = () => {
                             <input
                                 id="filterDate"
                                 type="text"
-                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="form-control w-full sm:w-auto mb-2 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 placeholder="From Date - To Date"
                                 value={filterDate}
                                 readOnly
@@ -1510,7 +1511,7 @@ const UserQuery = () => {
                                 type="text"
                                 name="search_keywords"
                                 id="search_keywords"
-                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="form-control w-40 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 placeholder="Enter Keywords Name or Email or Phone"
                                 value={searchKeywords}
                                 onChange={(e) => setSearchKeywords(e.target.value)}
@@ -1520,7 +1521,7 @@ const UserQuery = () => {
                             <input
                                 type="text"
                                 name="ref_id"
-                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="form-control w-32 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 placeholder="Enter Ref. Id"
                                 value={refId}
                                 onChange={(e) => setRefId(e.target.value)}
@@ -1549,7 +1550,7 @@ const UserQuery = () => {
                             <select
                                 name="icon_filter"
                                 id="icon_filter"
-                                className="form-select w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="form-select w-32 py-2 mb-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={iconFilter}
                                 onChange={(e) => setIconFilter(e.target.value)}
                             >
@@ -1580,7 +1581,7 @@ const UserQuery = () => {
                             <select
                                 name="user_id"
                                 id="user_id"
-                                className="form-select select2 w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="form-select select2 w-40 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 value={selectedUser}
                                 onChange={(e) => setSelectedUser(e.target.value)}
                             >
@@ -1697,9 +1698,9 @@ const UserQuery = () => {
 
                         </div>
 
-                        <div class="col-md-12 px-4 py-0 qhpage mb-4">
+                        <div class="col-md-12 py-0 qhpage mb-4">
                             <div className='row'>
-                                <div className='col-md-6 flex gap-1'>
+                                <div className='col-md-6 flex gap-2'>
                                     <div className='col-md-6 przero'>
                                         {/* Website Selection */}
                                         <select
@@ -1765,7 +1766,7 @@ const UserQuery = () => {
 
 
 
-                <div className=" flex-wrap items-center justify-between mb-2 px-4 qhpage"
+                <div className=" flex-wrap items-center justify-between mb-2 qhpage"
                     style={{ display: (sessionStorage.getItem('user_type') == "admin" || (sessionStorage.getItem('user_type') == "sub-admin" && sessionStorage.getItem('accessQueryTransRepliShift') == "Yes")) ? "flex" : "none" }}
                 >
                     {/* Selects Container */}
@@ -1902,14 +1903,14 @@ const UserQuery = () => {
                         </button>
                     </div>
                 </div>
-                <div className=' flex items-center justify-between mb-2 px-4 qhpage'>
+                <div className=' flex items-center justify-between mb-2  qhpage'>
                     {(sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "sub-admin") && (
                         <div className="flex items-center justify-start space-x-1">
                             <div className="">
                                 <select
                                     name="campaignuser"
                                     id="campaignuser"
-                                    className="form-select select2 w-full py-1 px-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                    className="form-select select2 wt-32 py-1 px-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                     value={selectedCampaignUser}
                                     onChange={(e) => setSelectedcampaignUser(e.target.value)}
                                 >
@@ -1937,8 +1938,8 @@ const UserQuery = () => {
                                     <button
                                         onClick={handleDelete}
                                         className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-1 flex items-center"
-                                    ><Trash2 className="mr-2" size={12} />
-                                        Delete
+                                    ><Trash2 className="    " size={12} />
+                                        
                                     </button>
 
                                     <button

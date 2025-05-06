@@ -322,7 +322,7 @@ const CampHistory = () => {
                             onClick={handleDelete}
                             className=" bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                         >
-                            <Trash2 className='mr-2' size={14} />  Delete
+                            <Trash2 className='' size={14} /> 
                         </button>
                         <button
                             onClick={fetchQueries}

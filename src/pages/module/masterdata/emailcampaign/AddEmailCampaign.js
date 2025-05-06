@@ -449,7 +449,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
 
                     </div>
 
-                    <div className='d-flex row '>
+                    <div className='d-flex row'>
                         <div className='col-md-3'>
                             <label htmlFor="camp_type" className="block text-gray-700 font-medium mb-2">
                                 Camp Type
@@ -565,7 +565,7 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                             <input
                                 id="filterDate"
                                 type="text"
-                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="form-control w-full py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 placeholder="From Date - To Date"
                                 value={filterDate}
                                 readOnly
@@ -592,13 +592,13 @@ const AddEmailCampaign = ({ onClose, afterSave, campaignId }) => {
                                 ))}
                             </select>
                         </div>
-                        <div className='w-full flex items-center justify-end'>
+                        <div className='w-full flex items-center justify-end' style={{ fontSize: "12px" }}>
                             <button
                                 className='bg-orange-500 text-white py-1 px-2 rounded flex items-center'
                                 type='button'
                                 onClick={handleSearch}
                             >
-                                search
+                                Search
                             </button>
                         </div>
 

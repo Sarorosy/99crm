@@ -724,7 +724,7 @@ const Dashboard = () => {
                 )}
             </AnimatePresence>
 
-            <div className=" px-2 row items-start">
+            <div className=" px-2 row items-start justify-between">
                 {(sessionStorage.getItem("user_type") == "admin" || sessionStorage.getItem("user_type") == "sub-admin") ? (
                     <Escalation queries={escalationTask} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 ) : (

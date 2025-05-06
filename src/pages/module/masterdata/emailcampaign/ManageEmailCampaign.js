@@ -229,8 +229,8 @@ const ManageEmailCampaign = () => {
                         onClick={handleDelete}
                         className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-3 flex items-center"
                     >
-                        <Trash2 className="mr-2" size={12} />
-                        Delete
+                        <Trash2 className="" size={12} />
+                        
                     </button>
                     <button
                         onClick={toggleAddSettingVisibility}

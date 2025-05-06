@@ -241,7 +241,7 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/dead-query')} className="block px-4 py-2  w-full dropdownmenu">Dead Query</button>
                           {userType == "admin" && (
-                            <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">Data Specific Query</button>
+                            <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu ">Data Specific Query</button>
 
                           )}
 
@@ -255,7 +255,7 @@ const Header = () => {
                           </>
                         )}
                         {(sessionStorage.getItem("crmRoleType") == "opsuser" || userType == "admin") && (
-                          <button onClick={() => handleNavigation('/holdquery')} className="block px-4 py-2  w-full dropdownmenu">Hold Query</button>
+                          <button onClick={() => handleNavigation('/holdquery')} className="block px-4 py-2  w-full dropdownmenu bbnone">Hold Query</button>
                         )}
                     </div>
                   )}

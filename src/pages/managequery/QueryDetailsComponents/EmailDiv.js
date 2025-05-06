@@ -778,7 +778,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
             {userType !== 'Data Manager' && queryInfo.email_id && (
               <>
                 <div>
-                  <div className=" bg-white p-2 rounded-lg shadow-md border border-gray-200 qhpage">
+                  <div className=" bg-white p-2 rounded-lg  border border-gray-200 qhpage">
                     <div className="checkbox">
                       <label className='flex items-center space-x-3 mb-0'>
                         {queryInfo.update_status == '1' ? (
@@ -981,7 +981,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
                 <div className='mt-3'>
-                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200 qhpage">
+                  <div className="bg-white p-2 rounded-lg  border border-gray-200 qhpage">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
@@ -1115,7 +1115,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
                 <div className='mt-3'>
-                  <div className="bg-white p-2 rounded-lg shadow-md border border-gray-200 qhpage">
+                  <div className="bg-white p-2 rounded-lg  border border-gray-200 qhpage">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"

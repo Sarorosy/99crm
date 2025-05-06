@@ -237,7 +237,7 @@ table.dataTable {
   font-family: 'Font Awesome 5 Free';  
   font-weight: 900; 
   margin-left: 5px;  
-  font-size: 8px;  
+  font-size: 9px;  
 }
 
 .bg-gray-5000::after {
@@ -970,7 +970,7 @@ div::selection {
 }
 
 .wnav{
-  width:13rem;
+  width:12rem;
 }
 
 .bbnone{
@@ -1200,7 +1200,7 @@ span.product-description {
 }
 }
 .tenpx{
-  font-size: 10px !important;
+  font-size: 11px !important;
 }
 .elevenpx{
   font-size: 11px !important;
@@ -1278,4 +1278,18 @@ select{
 }
 .ql-editor {
   text-transform: none !important;
+}
+.padding-0{
+  margin: 5px 0px !important;
+  padding: 6px 10px !important;
+}
+.w-40{
+  width: 21rem !important;
+}
+.wt-32 {
+  width: 11rem !important;
+}
+table.dataTable>thead>tr>th, table.dataTable>thead>tr>td {
+  padding: 10px 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }

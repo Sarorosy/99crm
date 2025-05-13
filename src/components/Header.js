@@ -154,7 +154,7 @@ const Header = () => {
 
   return (
     <header className="navv">
-      <div className="w-full flex justify-between items-center container">
+      <div className="w-full flex justify-between items-center pe-3">
         {/* Logo and Navigation Links */}
         <div className="flex items-center">
           <div className="relative inline-block">

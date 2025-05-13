@@ -118,21 +118,23 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
 
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-4 relative col-md-12 mt-3">
-            <button
-                onClick={onClose}
-                className="absolute trx p-2 text-gray-600 hover:text-red-600 transition-colors cremove"
-            >
-                <CircleX size={32} />
-            </button>
+        <div className="bg-light p-3 relative col-md-12 mt-3">
+            
 
-            <h2 className="text-lg font-semibold">Previous Comments</h2>
-
+            <div className='flex justify-content-between align-items-end border-bottom pb-2 mb-2'>
+                <h2 className="text-lg font-semibold">Previous Comments</h2>
+                <button
+                    onClick={onClose}
+                    className="btn btn-danger btn-sm"
+                >
+                    <X size={13} />
+                </button>
+            </div>
             <div className="row">
                 {/* Archive Tabs Section */}
                 <div className="col-md-10 mb-2">
                     {archiveData.length > 0 && (
-                        <ul className=" space-x-1 ">
+                        <ul className=" space-x-1 flex">
                             {archiveData.map((data) => (
                                 <li key={data.archive_no} id={`archiveList${data.archive_no}`}>
                                     <button
@@ -171,10 +173,10 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
             <div className='h-[500px] overflow-y-scroll'>
                 {commentData.length > 0 ? (
                     commentData.map((comment) => (
-                        <div key={comment.id} className="border-b p-4 mb-4 bg-gray-50 rounded-md relative "
+                        <div key={comment.id} className="border-b p-3 mb-4 bg-white rounded-md relative "
 
                         >
-                            <div className="flex items-center space-x-4 mb-4">
+                            <div className="flex items-start space-x-4 mb-4">
                                 <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-semibold">
                                     {comment.comments_sent_type == "user" ? getProfilePicInitials(comment.name) : getProfilePicInitials(comment.FromName)}
                                 </div>
@@ -187,7 +189,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                                         {comment.comments_sent_type == "user" ? comment.name : "From: " + comment.FromName}
                                     </p>
                                 </div>
-                                <div className="flex justify-end text-sm text-gray-500 items-center mt-4 w-50">
+                                <div className="flex justify-end text-sm text-gray-500 items-center w-50">
                                     {moment.unix(comment.date).fromNow()}
                                     {comment.track_status.trim() != "" && (
                                         <span className='text-green-600 font-semibold ml-5 tenpx'>{comment.track_status}</span>
@@ -198,7 +200,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                             {
                                 comment.email_body && (
                                     <div
-                                        className="mt-4"
+                                        className="mt-2 px-2"
                                         dangerouslySetInnerHTML={{ __html: comment.email_body }}
                                     />
                                 )

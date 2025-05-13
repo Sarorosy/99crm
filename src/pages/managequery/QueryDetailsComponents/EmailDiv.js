@@ -697,7 +697,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
 
   return (
-    <div className='px-3 py-2'>
+    <div className='px-3 py-2 bg-light'>
       <form name="viewDetailsForm" id="viewDetailsForm" method="post" style={{ width: '100%' }}>
         <input type="hidden" name="in_time" value={queryInfo.open_date} />
         <input type="hidden" name="assign_id" value={queryInfo.assign_id} />
@@ -705,14 +705,10 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         <input type="hidden" name="old_status" value={queryInfo.update_status} />
 
         {userType !== 'Data Manager' && (
-          <div className="flex flex-row items-start justify-content-between gap-4 qhpage">
+          <div className="flex flex-row items-start justify-content-between gap-4 qhpage my-2">
             {/* Left Side - Label */}
-            <div className="w-1/4">
-              <label className="text-sm font-medium text-gray-700">Status</label>
-            </div>
-
-            {/* Right Side - Select and Additional Elements */}
-            <div className="col-md-3 space-y-2">
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-900 mb-0">Status</label>
               {/* Select Dropdown */}
               <select
                 name="update_status1"
@@ -734,6 +730,11 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 )}
                 <option value="10">Cross Sell</option>
               </select>
+            </div>
+
+            {/* Right Side - Select and Additional Elements */}
+            <div className="col-md-3 space-y-2">
+              
 
               <div className='flex items-center justify-end space-x-3 my-2'>
                 {showRemainderDiv && (
@@ -778,7 +779,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
             {userType !== 'Data Manager' && queryInfo.email_id && (
               <>
                 <div>
-                  <div className=" bg-white p-2 rounded-lg  border border-gray-200 qhpage">
+                  <div className=" bg-white p-2 py-1 rounded-lg  border border-gray-200 qhpage">
                     <div className="checkbox">
                       <label className='flex items-center space-x-3 mb-0'>
                         {queryInfo.update_status == '1' ? (
@@ -981,7 +982,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
                 <div className='mt-3'>
-                  <div className="bg-white p-2 rounded-lg  border border-gray-200 qhpage">
+                  <div className="bg-white p-2 py-1 rounded-lg  border border-gray-200 qhpage">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"
@@ -1115,7 +1116,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
                 <div className='mt-3'>
-                  <div className="bg-white p-2 rounded-lg  border border-gray-200 qhpage">
+                  <div className="bg-white p-2 py-1 rounded-lg  border border-gray-200 qhpage">
                     <div className="flex items-center space-x-3">
                       <input
                         type="checkbox"

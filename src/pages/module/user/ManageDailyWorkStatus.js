@@ -205,7 +205,7 @@ const ManageDailyWorkStatus = () => {
 
     return (
         <div className="container bg-gray-100 w-full add">
-            <h1 className='text-xl font-bold'>Milestone Payments</h1>
+            <h1 className='text-xl font-bold'>Daily Work Status</h1>
 
             {/* Filter Section */}
             <div className="flex items-center space-x-2 my-4 bg-white p-2 rounded">

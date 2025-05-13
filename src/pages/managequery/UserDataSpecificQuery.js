@@ -450,7 +450,7 @@ const UserDataSpecificQuery = () => {
         <div>
             <div className="my-3 flex justify-between flex-col mx-auto">
                 <div className='flex w-full justify-between px-0'>
-                    <h1 className="text-md font-bold">UserData Specific Query History</h1>
+                    <h1 className="text-md font-bold">Data Specific Query History</h1>
                 </div>
                 
             </div>

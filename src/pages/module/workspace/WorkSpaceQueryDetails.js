@@ -257,7 +257,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
             exit={{ opacity: 0 }}
         >
             <motion.div
-                className="h-full w-1/2 bg-white shadow-lg"
+                className="h-full w-30 bg-white shadow-lg"
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}

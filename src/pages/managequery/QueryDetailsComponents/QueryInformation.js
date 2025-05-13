@@ -273,7 +273,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
 
 
     return (
-        <div className="query-info-container bg-white  px-8 py-4 rounded-lg shadow-lg relative">
+        <div className="query-info-container bg-light p-3 rounded-lg relative">
             <div className="query-detail space-y-4">
                 {[
                     { label: "Ref. No.", value: queryInfo.assign_id, editable: false },

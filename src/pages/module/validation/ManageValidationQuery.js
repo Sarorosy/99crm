@@ -452,20 +452,6 @@ const ManageValidationQuery = () => {
                         )}
                     </div>
                 </div>
-                <div className='bg-white p-2 border-t-2 border-green-400 rounded shadow-xl'>
-                <DataTable
-                    data={quotes}
-                    columns={columns}
-                    options={{
-                        pageLength: 50,
-                        createdRow: (row, data) => {
-                            $(row).find('.view-btn').click(function() {
-                                handleViewClick(data);
-                            });
-                        },
-                    }}
-                />
-                </div>
                     {(sessionStorage.getItem('user_type') == "admin"  || sessionStorage.getItem('user_type') == "Data Manager" )&& (
                         
                         <div className='bg-white flex items-center justify-end my-2 p-2 rounded'>

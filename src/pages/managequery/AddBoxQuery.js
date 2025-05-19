@@ -6,13 +6,14 @@ import 'select2/dist/css/select2.min.css'; // Import Select2 CSS
 import 'select2';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { useNavigate } from "react-router-dom";
 
 const AddBoxQuery = () => {
 
     const entryType = sessionStorage.getItem('category') || '';
     const currentDate = new Date();
     const formattedDate = `${currentDate.getMonth() + 1}/${currentDate.getDate()}/${currentDate.getFullYear()}`;
-
+    const navigate = useNavigate();
     const initialFormData = {
         query_code: "",
         name: "",
@@ -679,9 +680,14 @@ const AddBoxQuery = () => {
             }
 
             const data = await response.json();
-            toast.success("Box Query submitted successfully!");
+            if(data.status){
+                toast.success("Box Query submitted successfully!");
+                navigate('/boxquery')
+            }else{
+                toast.error(data.message || "Submission failed!");
+            }
 
-            setFormData(initialFormData);
+            
 
         } catch (error) {
             console.error("Error submitting query:", error);

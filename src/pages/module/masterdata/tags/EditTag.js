@@ -45,10 +45,11 @@ const EditTag = ({ onClose, afterSave, tagId }) => {
             tag_name: tagName,
             category,
             tag_type: tagType,
+            id : tagId.id
         };
 
         try {
-            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatetag/${tagId.id}`, {
+            const response = await fetch(`https://99crm.phdconsulting.in/zend/99crmwebapi/api/updatetagnew`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

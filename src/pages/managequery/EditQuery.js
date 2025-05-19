@@ -1054,7 +1054,7 @@ const EditQuery = ({ queryId, onClose, queryPriority }) => {
                                 onChange={handleStateChange}
                             >
                                 <option value="">Select State</option>
-                                {states.map((state) => (
+                                {states && states.map((state) => (
                                     <option key={state.id} value={state.id}>
                                         {state.name}
                                     </option>

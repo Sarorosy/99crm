@@ -26,7 +26,7 @@ const ManagePayment = () => {
     const [filterDate, setFilterDate] = useState('');
     const [startDate, setStartDate] = useState(null); // Store start date
     const [endDate, setEndDate] = useState(null); // Store end date
-    const [statusFilter, setStatusFilter] = useState('');
+    const [statusFilter, setStatusFilter] = useState('1');
 
 
     const tableRef = useRef(null);
@@ -185,7 +185,7 @@ const ManagePayment = () => {
                 if (data === 1) {
                     statusLabel = '<span class="inline-block px-1  bg-gray-700 text-white rounded-full px-2">Pending</span>';
                 } else if (data === 2) {
-                    statusLabel = '<span class="inline-block px-1  bg-yellow-700 text-white rounded-full px-2">On Hold</span>';
+                    statusLabel = '<span class="inline-block px-1  bg-yellow-700 text-white rounded-full px-2 elevenpx">On Hold</span>';
                 } else if (data === 3) {
                     statusLabel = '<span class="inline-block px-1  bg-green-700 text-white rounded-full px-2">Confirm</span>';
                 } else if (data === 4) {
@@ -257,14 +257,14 @@ const ManagePayment = () => {
                     </button>
                     <button
                         onClick={fetchReports}
-                        className="bg-green-600 w-36 px-2 ml-3 text-white rounded hover:bg-green-700"
+                        className="bg-green-500  px-1 py-0.5 ml-3 text-white rounded hover:bg-green-600 thirteenpx"
                     >
                         Apply
                     </button>
                     {sessionStorage.getItem('user_type') === 'user' && (
                         <button
                             onClick={handleAddPayment}
-                            className="bg-orange-600 w-36 px-2 ml-3 text-white rounded hover:bg-orange-700"
+                            className="bg-orange-500  px-1 py-0.5 ml-3 text-white rounded hover:bg-orange-600 thirteenpx"
                         >
                             Add Payment
                         </button>

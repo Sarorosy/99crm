@@ -101,7 +101,7 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
                                 )}
                                 {paymentDetails.upload_file && (
                                     <p className="flex items-center"><span className="font-medium text-gray-700 min-w-32">Upload File:</span>
-                                        <a href={"https://99crm.phdconsulting.in/" + paymentDetails.upload_file} target='_blank' className="text-blue-600 hover:text-blue-800 hover:underline ml-2">
+                                        <a href={"https://99crm.phdconsulting.in/zend/" + paymentDetails.upload_file} target='_blank' className="text-blue-600 hover:text-blue-800 hover:underline ml-2">
                                             Download File
                                         </a>
                                     </p>

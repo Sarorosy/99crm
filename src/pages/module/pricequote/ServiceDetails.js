@@ -443,10 +443,12 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
     const SITEURL = 'https://99crm.phdconsulting.in/';
 
     return (
-        <div className='bg-gray-100 p-2 rounded my-3'>
-            <button onClick={() => handlePrintDiv(serviceInfo.quotation_id)}>
-                <i className="fa fa-download"></i>
-            </button>
+        <div className='bg-white border p-3 rounded my-3'>
+            <div className='flex justify-end'>
+                <button onClick={() => handlePrintDiv(serviceInfo.quotation_id)} className='btn btn-info btn-sm'>
+                    <i className="fa fa-download f-11"></i>
+                </button>
+            </div>
             <div style={{ marginRight: '25px' }} className="pull-right" id={`loadDuplicateBtnDiv${serviceInfo.id}`}>
                 {sessionStorage.getItem("user_type") == 'user' && (
                     <button onClick={() => createDuplicateQuote(serviceInfo.id)} className="btn btn-info btn-sm">
@@ -454,41 +456,37 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                     </button>
                 )}
             </div>
-            <table id={`pdf${serviceInfo.quotation_id}`} width="100%" cellPadding="0" cellSpacing="0" style={{ padding: '10px 15px' }}>
-                <tbody>
-                    <tr>
-                        <td colSpan="2" style={{ padding: '3px 5px', fontSize: '14px', textAlign: 'left' }}><b>Quotation ID</b></td>
-                        <td colSpan="2" style={{ padding: '3px 10px', fontSize: '14px', textAlign: 'left' }}>{serviceInfo.quotation_id}</td>
-                    </tr>
+            <div id={`pdf${serviceInfo.quotation_id}`} >
+                <div className='flex flex-column gap-2'>
+                    <div>
+                        <div ><b>Quotation ID</b></div>
+                        <div >{serviceInfo.quotation_id}</div>
+                    </div>
                     {serviceInfo.ask_scope_quote && (
-                        <tr>
-                            <td colSpan="2" style={{ padding: '3px 5px', fontSize: '14px', textAlign: 'left' }}><b>Ask Scope ID</b></td>
-                            <td colSpan="2" style={{ padding: '3px 10px', fontSize: '14px', textAlign: 'left' }}>{serviceInfo.ask_scope_quote}</td>
-                        </tr>
+                        <div>
+                            <div ><b>Ask Scope ID</b></div>
+                            <div >{serviceInfo.ask_scope_quote}</div>
+                        </div>
                     )}
 
-                    <tr className="hide">
-                        <td colSpan="4" height="15" style={{ fontSize: '12px', lineHeight: '15px' }}>&nbsp;</td>
-                    </tr>
+                    
 
                     {serviceInfo.quote_heading && (
-                        <tr>
-                            <td colSpan="2" style={{ padding: '3px 5px', fontSize: '14px', textAlign: 'left' }}><b>Quote Heading</b></td>
-                            <td colSpan="2" style={{ padding: '3px 10px', fontSize: '14px', textAlign: 'left' }}>{serviceInfo.quote_heading}</td>
-                        </tr>
+                        <div>
+                            <div ><b>Quote Heading</b></div>
+                            <div >{serviceInfo.quote_heading}</div>
+                        </div>
                     )}
 
-                    <tr>
-                        <td colSpan="2" style={{ padding: '3px 5px', fontSize: '14px', textAlign: 'left' }}><b>Service Name</b></td>
-                        <td colSpan="2" style={{ padding: '3px 10px', fontSize: '14px', textAlign: 'left' }}>{serviceInfo.quote_service_name}</td>
-                    </tr>
-                    <tr className="hide">
-                        <td colSpan="4" height="15" style={{ fontSize: '12px', lineHeight: '15px' }}>&nbsp;</td>
-                    </tr>
+                    <div>
+                        <div ><b>Service Name</b></div>
+                        <div >{serviceInfo.quote_service_name}</div>
+                    </div>
+                    
 
-                    <tr>
-                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Discount Value</b></td>
-                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                    <div>
+                        <div ><b>Discount Value</b></div>
+                        <div >
                             {Array.isArray(Object.keys(discount_type)) && Array.isArray(Object.keys(discount_value)) ? (
                                 Object.keys(discount_value).map(key => {
                                     const is_recommended = (recommendedPlan == key.charAt(0).toUpperCase() + key.slice(1))
@@ -505,16 +503,14 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                             ) : (
                                 <>{serviceInfo.discount_value}{serviceInfo.discount_type == 1 ? "%" : ""}</>
                             )}
-                        </td>
-                    </tr>
-                    <tr className="hide">
-                        <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                    </tr>
+                        </div>
+                    </div>
+                    
 
                     {/* Total Amount */}
-                    <tr>
-                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Total Amount</b></td>
-                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                    <div>
+                        <div ><b>Total Amount</b></div>
+                        <div >
                             <span id={`show_sr_amount_div${serviceInfo.id}`} style={{ display: showEditServiceAmount ? 'none' : 'block' }}>
                                 {Array.isArray(Object.keys(currency_type)) && Array.isArray(Object.keys(total_price)) ? (
                                     Object.keys(currency_type).map(key => {
@@ -553,16 +549,14 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     value="Save"
                                 />
                             </span>
-                        </td>
-                    </tr>
-                    <tr className="hide">
-                        <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                    </tr>
+                        </div>
+                    </div>
+                    
 
                     {/* Coupon Code */}
-                    <tr>
-                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Coupon Code</b></td>
-                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                    <div>
+                        <div ><b>Coupon Code</b></div>
+                        <div >
                             {Array.isArray(Object.keys(coupon_code)) ? (
                                 Object.keys(coupon_code).map(key => {
                                     const is_recommended = (recommendedPlan == key.charAt(0).toUpperCase() + key.slice(1))
@@ -578,16 +572,14 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                             ) : (
                                 <>{serviceInfo.coupon_code || "No Coupon Applied"}</>
                             )}
-                        </td>
-                    </tr>
-                    <tr className="hide">
-                        <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                    </tr>
+                        </div>
+                    </div>
+                    
 
                     {/* Additional Remarks */}
-                    <tr>
-                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Plan Details</b></td>
-                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                    <div>
+                        <div ><b>Plan Details</b></div>
+                        <div >
                             {typeof order_summary == 'object' && order_summary != null ? (
                                 Object.keys(order_summary).map(key => (
                                     <div key={key}>
@@ -597,8 +589,8 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                             ) : (
                                 <>{serviceInfo.order_summary}</>
                             )}
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                     {(() => {
                         try {
                             const plans = JSON.parse(serviceInfo.select_plan || '[]');
@@ -607,14 +599,14 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                 const content = serviceInfo[`additional_order_summary_${planKey}`];
 
                                 return content ? (
-                                    <tr key={plan}>
-                                        <td colSpan="2" style={{ padding: '5px 5px' }}>
+                                    <div key={plan}>
+                                        <div >
                                             <strong>{plan} Additional Remarks</strong>
-                                        </td>
-                                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                                        </div>
+                                        <div >
                                             <div dangerouslySetInnerHTML={{ __html: content }} />
-                                        </td>
-                                    </tr>
+                                        </div>
+                                    </div>
                                 ) : null;
                             });
                         } catch (e) {
@@ -624,52 +616,46 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                     })()}
 
 
-                    <tr className="hide">
-                        <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                    </tr>
+                    
 
                     {/* Template File */}
                     {serviceInfo.file_permission == 'Yes' && uploadFileArr.file_title_name && uploadFileArr.upload_file && (
                         <>
-                            <tr>
-                                <td colSpan="2" style={{ padding: '5px 5px' }}><b>Template File</b></td>
-                                <td colSpan="2" style={{ padding: '5px 15px' }}>
+                            <div>
+                                <div ><b>Template File</b></div>
+                                <div >
                                     <a href={`${SITEURL}public/UploadFolder/${uploadFileArr.upload_file}`} download className="label label-default bg-gray-400 rounded px-1 py-0.5 bg-gray-400 rounded px-1 py-0.5">
                                         {uploadFileArr.file_title_name} <i className="fa fa-download text-light" aria-hidden="true"></i>
                                     </a>
-                                </td>
-                            </tr>
-                            <tr className="hide">
-                                <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                            </tr>
+                                </div>
+                            </div>
+                            
                         </>
                     )}
 
                     {/* CRM Uploaded File */}
                     {Array.isArray(extraFile) && extraFile.length > 0 && (
                         <>
-                            <tr>
-                                <td colSpan="2" style={{ padding: '5px 5px' }}><b>CRM Uploaded File</b></td>
-                                <td colSpan="2" style={{ padding: '5px 15px' }}>
+                            <div>
+                                <div ><b>CRM Uploaded File</b></div>
+                                <div >
                                     {extraFile.map((file, index) => (
                                         <a key={index} href={`${SITEURL}public/UploadFolder/${file.file_path}`} download className="label label-default bg-gray-400 rounded px-1 py-0.5">
                                             {file.filename} <i className="fa fa-download text-light" aria-hidden="true"></i>
                                         </a>
                                     ))}
-                                </td>
-                            </tr>
-                            <tr className="hide">
-                                <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                            </tr>
+                                </div>
+                            </div>
+                            
                         </>
                     )}
 
                     {/* Payment URL */}
                     {serviceInfo.payment_website != "Other" && serviceInfo.status > 2 && (
                         <>
-                            <tr>
-                                <td colSpan="2" style={{ padding: '5px 5px' }}><b>Payment Url</b></td>
-                                <td colSpan="2" style={{ padding: '5px 15px' }}>
+                            <div>
+                                <div ><b>Payment Url</b></div>
+                                <div >
                                     {serviceInfo.disableUrl == 'Yes' ? (
                                         <strike>{`${SITEURL}checkout?id=${btoa(serviceInfo.id)}`}</strike>
                                     ) : (
@@ -703,20 +689,18 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                         }
                                         return null;
                                     })()}
-                                </td>
-                            </tr>
-                            <tr className="hide">
-                                <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                            </tr>
+                                </div>
+                            </div>
+                            
                         </>
                     )}
 
                     {/* Expiry Date */}
                     {serviceInfo.expiry_date && (
                         <>
-                            <tr>
-                                <td colSpan="2" style={{ padding: '5px 5px' }}><b>Expiry Date</b></td>
-                                <td colSpan="2" style={{ padding: '5px 15px' }}>
+                            <div>
+                                <div ><b>Expiry Date</b></div>
+                                <div >
                                     <span id={`show_expdate_div${serviceInfo.id}`} style={{ display: showEditExpiryDate ? 'none' : 'block' }}>
                                         {formatDate(serviceInfo.expiry_date)}
                                         {sessionStorage.getItem("user_type") == 'user' && (
@@ -744,62 +728,56 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                             value="Save"
                                         />
                                     </span>
-                                </td>
-                            </tr>
-                            <tr className="hide">
-                                <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                            </tr>
+                                </div>
+                            </div>
+                            
                         </>
                     )}
 
                     {/* Online Payment */}
-                    <tr>
-                        <td colSpan="2" style={{ padding: '5px 5px' }}><b>Online Payment</b></td>
-                        <td colSpan="2" style={{ padding: '5px 15px' }}>
+                    <div>
+                        <div ><b>Online Payment</b></div>
+                        <div >
                             {serviceInfo.notSendOnlinePayment == 1 ? "No" : "Yes"}
-                        </td>
-                    </tr>
-                    <tr className="hide">
-                        <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                    </tr>
+                        </div>
+                    </div>
+                    
 
                     {/* Payment Details */}
                     {serviceInfo.notSendOnlinePayment == 1 && (
                         <>
-                            <tr>
-                                <td colSpan="2" style={{ padding: '5px 15px' }}><b>Payment Details</b></td>
-                                <td colSpan="2" style={{ padding: '5px 15px' }}>
+                            <div>
+                                <div ><b>Payment Details</b></div>
+                                <div >
                                     {serviceInfo.payment_details}
-                                </td>
-                            </tr>
-                            <tr className="hide">
-                                <td colSpan="4" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                            </tr>
+                                </div>
+                            </div>
+                            
                         </>
                     )}
 
                     {/* Milestone Details Header */}
-                    <tr>
-                        <td colSpan="2" style={{ padding: '5px 15px' }}><b>Milestone Details</b></td>
+                    <div>
+                        <div ><b>Milestone Details</b></div>
                         {sessionStorage.getItem("user_type") == 'user' && (
-                            <td colSpan="2" style={{ padding: '5px 15px' }}>
+                            <div >
                                 <span className="btn btn-primary btn-sm" onClick={() => handleAddMilestone(serviceInfo.id)}>
                                     {showMilestoneForm ? "Hide Milestone Form" : "Add Milestone"}
                                 </span>
-                            </td>
+                            </div>
                         )}
                         {sessionStorage.getItem("user_type") == 'user' && serviceInfo.status == 4 && (
-                            <td colSpan="2" id={`sendRemindBtn${serviceInfo.id}`}>
+                            <div id={`sendRemindBtn${serviceInfo.id}`}>
                                 <div className="btn btn-primary btn-sm" onClick={() => handleSendReminderToClient(serviceInfo.id, serviceInfo.ref_id)}>
                                     Send Reminder to client
                                 </div>
-                            </td>
+                            </div>
                         )}
-                    </tr>
+                    </div>
                     {showMilestoneForm && (
                         <>
-                            <tr>
-                                <td colSpan={4} className="p-2">
+                            <div>
+                                <div colSpan={4} className="p-2">
                                     <input
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         name="milestone_name"
@@ -811,9 +789,9 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     {errors.milestoneName && (
                                         <span className="text-sm text-red-500">{errors.milestoneName}</span>
                                     )}
-                                </td>
+                                </div>
 
-                                <td className="p-2" colSpan={1}>
+                                <div className="p-2" colSpan={1}>
                                     <input
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         name="milestone_price"
@@ -826,11 +804,11 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     {errors.milestonePrice && (
                                         <span className="text-sm text-red-500">{errors.milestonePrice}</span>
                                     )}
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
 
-                            <tr>
-                                <td className="p-2" colSpan={4}>
+                            <div>
+                                <div className="p-2" colSpan={4}>
                                     <select
                                         className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         name="plan_type"
@@ -846,27 +824,24 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     {errors.planType && (
                                         <span className="text-sm text-red-500">{errors.planType}</span>
                                     )}
-                                </td>
+                                </div>
 
-                                <td className="p-2">
+                                <div className="p-2">
                                     <button
                                         className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 text-sm"
                                         onClick={handleSaveMilestone}
                                     >
                                         Save
                                     </button>
-                                </td>
-                            </tr>
+                                </div>
+                            </div>
                         </>
                     )}
 
-                    <tr className="hide">
-                        <td colSpan="6" height="25" style={{ fontSize: '25px', lineHeight: '25px' }}>&nbsp;</td>
-                    </tr>
-
+                    
                     {/* Milestone Table */}
-                    <tr>
-                        <td colSpan="6" style={{ padding: '5px 15px' }}>
+                    <div>
+                        <div>
                             <table width="100%" border="0" cellSpacing="1" cellPadding="1">
                                 <thead>
                                     <tr>
@@ -1004,34 +979,38 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                                 </tr>
                                                             )}
                                                             <tr>
-                                                                <td colSpan="2" style={{ padding: "5px" }}>
-                                                                    Status:{" "} {console.log("milestone status is", milestone.status)}
-                                                                    {sessionStorage.getItem("user_type") == "user" && milestone.status == 0 ? (
-                                                                        <select
-                                                                            style={{ width: "90px" }}
-                                                                            onChange={(e) => ChangeMilestoneStatus(milestone.id, e.target.value)}
-                                                                            disabled={(milestone.status == 1 || serviceInfo.status < 4) && queryInfo.update_status != 5}
-                                                                        >
-                                                                            <option value="1" selected={milestone.status == 1}>Paid</option>
-                                                                            <option value="0" selected={milestone.status == 0}>Pending</option>
-                                                                        </select>
-                                                                    ) : (
-                                                                        <span
-                                                                            className={
-                                                                                milestone.status == 1
-                                                                                    ? "label label-warning bg-yellow-600 text-white rounded px-1 py-0.5"
+                                                                <td colSpan="5" style={{ padding: "5px" }} className='py-3 '>
+                                                                    <div className='d-flex justify-end items-center gap-2'>
+                                                                        Status:{" "} {console.log("milestone status is", milestone.status)}
+                                                                        {sessionStorage.getItem("user_type") == "user" && milestone.status == 0 ? (
+                                                                            <select
+                                                                                style={{ width: "90px" }}
+                                                                                onChange={(e) => ChangeMilestoneStatus(milestone.id, e.target.value)}
+                                                                                disabled={(milestone.status == 1 || serviceInfo.status < 4) && queryInfo.update_status != 5}
+                                                                            >
+                                                                                <option value="1" selected={milestone.status == 1}>Paid</option>
+                                                                                <option value="0" selected={milestone.status == 0}>Pending</option>
+                                                                            </select>
+                                                                        ) : (
+                                                                            <div>
+                                                                                <span
+                                                                                className={
+                                                                                    milestone.status == 1
+                                                                                        ? "badge bg-warning"
+                                                                                        : milestone.status == 2
+                                                                                            ? "badge bg-success"
+                                                                                            : "badge bg-danger"
+                                                                                }
+                                                                            >
+                                                                                {milestone.status == 1
+                                                                                    ? "Paid"
                                                                                     : milestone.status == 2
-                                                                                        ? "label label-success text-white bg-green-600 rounded px-1 py-0.5"
-                                                                                        : "label label-warning bg-yellow-600 text-white rounded px-1 py-0.5"
-                                                                            }
-                                                                        >
-                                                                            {milestone.status == 1
-                                                                                ? "Paid"
-                                                                                : milestone.status == 2
-                                                                                    ? "Confirmed"
-                                                                                    : "Pending"}
-                                                                        </span>
-                                                                    )}
+                                                                                        ? "Confirmed"
+                                                                                        : "Pending"}
+                                                                            </span>
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
                                                                 </td>
                                                             </tr>
                                                             {milestone.status == 2 && (
@@ -1217,10 +1196,10 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     )}
                                 </tbody>
                             </table>
-                        </td>
-                    </tr >
-                </tbody >
-            </table >
+                        </div>
+                    </div >
+                </div >
+            </div >
         </div >
     );
 }

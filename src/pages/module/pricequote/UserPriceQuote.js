@@ -93,15 +93,18 @@ const UserPriceQuote = ({ refId, after }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`overflow-hidden bg-white rounded-lg shadow-md ${isExpanded ? "fixed inset-0 w-full h-full p-6 z-40" : "relative py-4 px-1"
+                className={`overflow-hidden bg-white  ${isExpanded ? "fixed inset-0 w-full h-full z-40" : "relative "
                     }`}
             >
-                <button
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="absolute top-2 right-2 bg-blue-50 text-blue-800 p-1 rounded-md shadow-md z-50"
-                >
-                    {isExpanded ? <Minimize size={18} /> : <Expand size={18} />}
-                </button>
+                <div className='d-flex justify-end mb-2'>
+                    <button
+                        onClick={() => setIsExpanded(!isExpanded)}
+                        className="bg-blue-50 text-blue-800 p-1 rounded-md  z-50 "
+                    >
+                        {isExpanded ? <Minimize size={18} className='${isExpanded ? "fixed inset-0 w-full h-full z-40" : "relative "
+                    }'/> : <Expand size={18} />}
+                    </button>
+                </div>
                 {loading ? (
                     <>
                         <div className="flex justify-center items-center h-screen">
@@ -109,6 +112,8 @@ const UserPriceQuote = ({ refId, after }) => {
                         </div>
                     </>
                 ) : (
+                    
+                    <div className='bg-light p-3 relative overflow-x-hidden custom-scrollbar h-full'>
                     <div className='overflow-x-hidden custom-scrollbar h-full'>
                         {(quoteData && quoteData.length == 0 && queryInfo ) ? (
                             sessionStorage.getItem("user_type") == "user" ? 
@@ -150,9 +155,9 @@ const UserPriceQuote = ({ refId, after }) => {
                                                                     const isRecommended = service.recommended_plan === key.charAt(0).toUpperCase() + key.slice(1);
 
                                                                     return (
-                                                                        <div key={index} className="flex items-center flex-col">
-                                                                            <strong className="mr-1 flex items-center">{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {currency} {price}
-                                                                            {isRecommended && <span className="ml-2 bg-green-200 text-green-700 px-1 rounded">Recommended</span>}
+                                                                        <div key={index} className="flex items-start flex-col">
+                                                                            <strong className="mr-1 flex items-start">{key.charAt(0).toUpperCase() + key.slice(1)}:</strong> {currency} {price}
+                                                                            {isRecommended && <span className="bg-green-200 text-green-700 px-1 rounded">Recommended</span>}
                                                                         </div>
                                                                     );
                                                                 });
@@ -218,6 +223,7 @@ const UserPriceQuote = ({ refId, after }) => {
                         }
                         {addFormOpen && queryInfo && <AddQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} onClose={()=>{setAddFormOpen(false)}} after={fetchQuoteData} />}
                         {editFormOpen && queryInfo && <EditQuoteForm QueryInfo={queryInfo} serviceData={serviceData} mileStoneDetails={mileStoneDetails} expandStatus={isExpanded} closable={true} selectedServiceId={selectedServiceId} onClose={()=>{setEditFormOpen(false)}} after={fetchQuoteData} />}
+                    </div>
                     </div>
                 )}
             </motion.div>

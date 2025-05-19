@@ -104,30 +104,32 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
     }
 
     return (
-        <div className="px-4">
+        <div className="flex flex-column gap-3">
             {/* File upload form */}
-            <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-2">Upload File</h3>
+            <div className="bg-light p-3 relative">
+            <div className="">
+                <h3 className="text-md font-semibold mb-2 text-gray-800">Upload File</h3>
                 <form onSubmit={handleFileUpload} className="space-y-2">
                     <div className="flex items-center space-x-4 dashboardinputs">
                         <input
                             type="file"
                             onChange={handleFileChange}
-                            className="border border-gray-300 rounded"
+                            className="form-control form-control-sm"
                         />
                         <button
                             type="submit"
                             disabled={uploading}
-                            className="bg-blue-500 text-white py-1 px-2 rounded flex items-center"
+                            className="btn btn-primary btn-sm flex items-center"
                         >
                             {uploading ? "Uploading..." : "Upload"}
                         </button>
                     </div>
                 </form>
             </div>
-
+            </div>
+            <div className="bg-light p-3 relative">
             {/* Attached files list */}
-            <h2 className="text-md font-semibold mb-6 text-gray-800">Attached Files</h2>
+            <h2 className="text-md font-semibold mb-2 text-gray-800">Attached Files</h2>
             {attachedFiles.length === 0 ? (
                 <p className='text-center bg-blue-100 px-2 py-2 flex items-center justify-center'>No files attached.</p>
             ) : (
@@ -154,6 +156,7 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
                     ))}
                 </ul>
             )}
+            </div>
             
         </div>
     );

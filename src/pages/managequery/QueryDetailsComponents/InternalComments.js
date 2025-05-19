@@ -33,7 +33,7 @@ const InternalComments = ({ internalCommentsData }) => {
             {internalCommentsData.map((comment) => (
                 <div
                     key={comment.id}
-                    className="p-4 bg-gray-100 rounded-lg shadow-sm border border-gray-300 relative"
+                    className="bg-light p-3"
                 >
                     <div className="flex items-center justify-between">
                         {comment.FromName && (
@@ -47,11 +47,12 @@ const InternalComments = ({ internalCommentsData }) => {
                                 </span>
                             </p>
                         )}
-                        <p className="flex items-center">
-                            <span className="font-medium "><History className="text-orange-400" size={18} /></span>{" "}
-                            {formatDate(comment.date)}
-                        </p>
+                        
                     </div>
+                    <p className="flex items-center justify-end">
+                        <span className="font-medium "><History className="text-orange-400" size={18} /></span>{" "}
+                        {formatDate(comment.date)}
+                    </p>
 
                     {comment.comments && (
                         <p className="mt-2 text-gray-700">

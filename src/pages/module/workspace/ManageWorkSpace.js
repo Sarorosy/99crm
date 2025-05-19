@@ -9,7 +9,7 @@ import moment from 'moment';
 import 'select2/dist/css/select2.css';
 import 'select2';
 import CustomLoader from '../../../components/CustomLoader';
-import { RefreshCcw, FilterIcon, X } from 'lucide-react';
+import { RefreshCcw, FilterIcon, X, Trash2, ArrowRight, ChevronDown, ChevronRight, PlusIcon } from 'lucide-react';
 import { AnimatePresence, motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { ConfirmationModal } from '../../../components/ConfirmationModal';
@@ -325,8 +325,10 @@ const ManageWorkSpace = () => {
     /////////////////////////////////////////////
 
     return (
-        <div className="container bg-white w-full add">
-            <h1 className='text-md font-bold ml-1' >WorkSpace</h1>
+        <div className="bg-white w-full add">
+            <div className='py-2'>
+                <h1 className='text-md font-bold ml-1 ' >WorkSpace</h1>
+            </div>
 
             {/* Filter Section */}
             <div className="flex items-center space-x-2 my-2 bg-gray-50 p-2 rounded">
@@ -399,12 +401,12 @@ const ManageWorkSpace = () => {
                     {(sessionStorage.getItem('user_type') == "admin" || sessionStorage.getItem('user_type') == "Data Manager") && (
 
                         <div className='bg-white flex items-center justify-end my-2 p-2 rounded'>
-                            <button onClick={() => setIsAddQueryModalOpen(true)} className="add-btn bg-orange-500 text-white px-2 py-0.5 rounded hover:bg-orange-600 mr-2 flex items-center text-sm tenpx" style={{ fontSize: "12px !important" }}>
-                                Add Query
+                            <button onClick={() => setIsAddQueryModalOpen(true)} className="btn btn-warning btn-sm mr-2 flex items-center" style={{ fontSize: "12px !important" }}>
+                                Add Query <PlusIcon size={13} className='ms-1' />
                             </button>
                             {sessionStorage.getItem('user_type') == "admin" && (
                                 <button onClick={() => setIsModalOpen(true)} className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 mr-2 flex items-center">
-                                    Delete
+                                    <Trash2 className="" size={12} />
                                 </button>
                             )}
                         </div>

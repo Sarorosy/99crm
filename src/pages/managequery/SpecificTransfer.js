@@ -103,61 +103,62 @@ const SpecificTransfer = ({selectedQuery, after, onClose}) => {
     return (
         <div className="row">
             <div className="col-md-12">
-                <div className="card shadow p-3">
+                <div className="card bg-light p-3 mb-3">
                     <h5 className="text-primary fw-bold mb-3">Transfer Specific</h5>
-                    <table className="table table-bordered table-striped text-center specific_transfer">
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <select value={crmType} onChange={handleCrmDropdown} id="specific_crmtype" className="form-select">
+                    <div className=" specific_transfer">
+                        <div className="qhpage ">
+                            <div className="row gap-y-3">
+                                <div class="col-3">
+                                    <select value={crmType} onChange={handleCrmDropdown} id="specific_crmtype" className="form-select form-select-sm">
                                         <option value="">Select CRM Type</option>
                                         <option value="crmuser">CRM User</option>
                                         <option value="opsuser">OPS User</option>
                                     </select>
-                                </td>
-                                <td>
-                                    <select id="specific_assign_user_id" className="form-select" value={selectedUser} onChange={handleUserDropdown}>
+                                </div>
+                                <div class="col-3">
+                                    <select id="specific_assign_user_id" className="form-select form-select-sm" value={selectedUser} onChange={handleUserDropdown}>
                                         <option value="">Select User</option>
                                         {users.map((user, index) => (
                                             <option key={index} value={user.id}>{user.name}</option>
                                         ))}
                                     </select>
-                                </td>
-                                <td>
-                                    <select id="specific_profile_id" className="form-select" value={selectedProfile} onChange={(e) => setSelectedProfile(e.target.value)}>
+                                </div>
+                                <div class="col-3">
+                                    <select id="specific_profile_id" className="form-select form-select-sm" value={selectedProfile} onChange={(e) => setSelectedProfile(e.target.value)}>
                                         <option value="">Select Profile</option>
                                         {profiles.map((profile, index) => (
                                             <option key={index} value={profile.id}>{profile.profile_name}</option>
                                         ))}
                                     </select>
-                                </td>
-                                <td>
-                                    <select id="reasons" className="form-select" value={reason} onChange={(e) => setReason(e.target.value)}>
+                                </div>
+                                <div class="col-3">
+                                    <select id="reasons" className="form-select form-select-sm" value={reason} onChange={(e) => setReason(e.target.value)}>
                                         <option value="">Select Reasons</option>
                                         <option value="CRM is absent">CRM is absent</option>
                                         <option value="Client not interested marked by CRM">Client not interested marked by CRM</option>
                                         <option value="Contact Not Made marked by CRM">Contact Not Made marked by CRM</option>
                                         <option value="CRM Unable to Convert">CRM Unable to Convert</option>
                                     </select>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="col-11">
+                                    <div>
+                                        <textarea
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                            id="specific_comment"
+                                            className="form-control form-control-sm"
+                                            placeholder="Enter Comments"
+                                            rows="2"
+                                        ></textarea>
+                                    </div>
+                                </div>
+                                <div class="col flex align-items-end justify-end">
                                     <button onClick={handleSubmit} className="btn btn-primary btn-sm fw-bold">Transfer</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td colSpan="5">
-                                    <textarea
-                                        value={comment}
-                                        onChange={(e) => setComment(e.target.value)}
-                                        id="specific_comment"
-                                        className="form-control"
-                                        placeholder="Enter Comments"
-                                        rows="3"
-                                    ></textarea>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

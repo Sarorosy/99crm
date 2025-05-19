@@ -269,7 +269,7 @@ const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
         >
             <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                 {/* Header */}
-                <div className="flex px-5 items-center justify-between theme py-3 rounded-t-lg">
+                <div className="flex px-3 items-center justify-between theme py-3 rounded-t-lg">
                     <h2 className="text-lg font-semibold">Query Details</h2>
                     <div className='flex items-center'>
                         <div className="flex items-center mr-4 bg-blue-50 rounded-full px-2 py-1 text-blue-600 border hover:border-blue-100 hover:bg-transparent hover:text-green-600">
@@ -284,7 +284,7 @@ const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
                                 Escalation Mark
                             </label>
                         </div>
-                        <div className='mr-5' style={{ fontSize: "12px" }}>
+                        <div className='mr-2' style={{ fontSize: "12px" }}>
 
                             {tatScore && (
                                 tatScore.total_score !== null && tatScore.total_minute !== null ? (
@@ -301,7 +301,7 @@ const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
                                                         Average Score: {tatScore.total_score}
                                                     </p>
                                                     {queryInfo.showBellicon == 1 && (
-                                                        <Bell className='text-red-600 mx-3 bg-red-200  rounded-full p-1' size={17} />
+                                                        <Bell className='text-red-600 mx-3 bg-red-200  rounded-full p-1' size={25} />
                                                     )}
                                                 </div>
                                             );
@@ -322,7 +322,7 @@ const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
                 </div>
 
                 <div className='row'>
-                    <div className=" mt-4 col-md-5 ">
+                    <div className="col-md-6  mt-4">
                         <div className="flex mx-2">
                             {/* Tab buttons */}
                             <button
@@ -377,7 +377,7 @@ const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
 
 
                         </div>
-                        <div className="px-1 py-6">
+                        <div className="p-3">
                             <TabContent />
                         </div>
                     </div>

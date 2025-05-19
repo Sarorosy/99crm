@@ -27,10 +27,10 @@ const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOp
     };
 
     return (
-        <div className="col-md-7 connectedSortable bg-white rounded shadow-md" id="rightColomnDiv">
+        <div className="col-md-6 connectedSortable bg-white rounded shadow-md" id="rightColomnDiv">
             {/* Right Section */}
-            <div className="box box-primary direct-chat direct-chat-primary">
-                <div className="flex justify-between items-center px-3 py-3 border-b">
+            <div className="box box-primary direct-chat direct-chat-primary p-2 pe-3">
+                <div className="flex justify-between items-center px-0 py-3 border-b">
                     <h3 className="text-lg font-semibold">
                         Comments
                     </h3>

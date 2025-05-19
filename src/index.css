@@ -1293,3 +1293,11 @@ table.dataTable>thead>tr>th, table.dataTable>thead>tr>td {
   padding: 10px 6px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
 }
+
+.w-30{
+  width: 30%;
+}
+
+.f-11 {
+    font-size: 11px;
+}

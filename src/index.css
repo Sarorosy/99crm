@@ -1134,7 +1134,7 @@ span.product-description {
 
 .open-tasks-container ul{
   background-color: #fff;
-  padding: 3px;
+  /* padding: 3px; */
 }
 
 .open-tasks-container {
@@ -1225,10 +1225,10 @@ select{
   accent-color: #006c81;
 }
 .Advanced-set-bg {
-  font-size: 15px;
+  /* font-size: 15px; */
   text-transform: uppercase;
   line-height: 1;
-  text-align: center;
+  /* text-align: center; */
   padding: 5px; /* Adjust padding as needed */
   border: 4px solid transparent;
   border-image: linear-gradient(90deg, rgba(186,148,62,1) 0%, rgba(236,172,32,1) 20%, rgba(186,148,62,1) 39%, rgba(249,244,180,1) 50%, rgba(186,148,62,1) 60%, rgba(236,172,32,1) 80%, rgba(186,148,62,1) 100%);
@@ -1237,10 +1237,10 @@ select{
   background-color: #fff8d8;
 }
 .Standard-set-bg {
-  font-size: 15px;
+  /* font-size: 15px; */
   text-transform: uppercase;
   line-height: 1;
-  text-align: center;
+  /* text-align: center; */
   padding: 5px;
   border: 4px solid transparent;
   border-image: linear-gradient(90deg, rgba(192,192,192,1) 0%, rgba(211,211,211,1) 20%, rgba(192,192,192,1) 39%, rgba(245,245,245,1) 50%, rgba(192,192,192,1) 60%, rgba(211,211,211,1) 80%, rgba(192,192,192,1) 100%);
@@ -1250,10 +1250,10 @@ select{
 }
 
 .Basic-set-bg {
-  font-size: 15px;
+  /* font-size: 15px; */
   text-transform: uppercase;
   line-height: 1;
-  text-align: center;
+  /* text-align: center; */
   padding: 5px;
   border: 4px solid transparent;
   border-image: linear-gradient(90deg, rgb(62, 171, 186) 0%, rgb(32, 195, 236) 20%, rgb(62, 140, 186) 39%, rgb(180, 249, 243) 50%, rgb(62, 171, 186) 60%, rgb(32, 205, 236) 80%, rgb(62, 161, 186) 100%);
@@ -1298,6 +1298,57 @@ table.dataTable>thead>tr>th, table.dataTable>thead>tr>td {
   width: 30%;
 }
 
+.f-9 {
+    font-size: 9px;
+}
+.f-10 {
+    font-size: 10px;
+}
 .f-11 {
     font-size: 11px;
+}
+.f-12 {
+    font-size: 12px;
+}
+.f-13 {
+    font-size: 13px;
+}
+
+.list-border-end-none .border-b:last-child {
+    border: none;
+}
+.open-tasks-container .itemborder  {
+    margin: 5px;
+}
+
+.bg-none {
+    background-color: unset !important;
+}
+.react-datepicker-wrapper {
+    display: block !important;
+}
+.quill {
+    background: #fff;
+}
+
+.select2-container .select2-selection--multiple{
+    min-height: 28px !important;
+    padding-bottom: 0px !important;
+}
+
+.select2-container .select2-search--inline .select2-search__field{
+  height: 20px !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__clear{
+  margin-top: 0px !important;
+}
+.select2-container--default .select2-selection--multiple {
+    border: 1px solid #dee2e6 !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+  margin-top: 3px;
+}
+
+.word-nowrap {
+    white-space: nowrap;
 }

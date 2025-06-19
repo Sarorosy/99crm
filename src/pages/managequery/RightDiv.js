@@ -27,11 +27,12 @@ const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOp
     };
 
     return (
-        <div className="col-md-6 connectedSortable bg-white rounded shadow-md" id="rightColomnDiv">
+        <div className="col-md-6 connectedSortable rounded ps-0" id="rightColomnDiv">
             {/* Right Section */}
-            <div className="box box-primary direct-chat direct-chat-primary p-2 pe-3">
-                <div className="flex justify-between items-center px-0 py-3 border-b">
-                    <h3 className="text-lg font-semibold">
+            <div className="direct-chat direct-chat-primary w-100">
+                {!commentsDivVisible ? (
+                <div className="flex justify-between items-center border-b p-2 bg-gray-200">
+                    <h3 className="text-md font-semibold">
                         Comments
                     </h3>
 
@@ -63,16 +64,17 @@ const RightDiv = ({ queryInfo, tempateInfo, commentInfo, whatsappOptions, callOp
                         </button>
                     </div>
                 </div>
+                ) : null}
 
                 {/* Conditional Rendering for WhatsappChatArea, EmailDiv, and CommentDiv */}
                 {!commentsDivVisible && (
                     <>
                         {activeTab === "whatsapp" ? (
-                            <div className="box-body my-2">
+                            <div className="m-2">
                                 <WhatsappChatArea company_id={queryInfo.company_id} refId={queryInfo.assign_id} />
                             </div>
                         ) : (
-                            <div className="box-body emailBodyArea">
+                            <div className="emailBodyArea">
                                 <EmailDiv queryInfo={queryInfo} templateInfo={tempateInfo} commentInfo={commentInfo} whatsappOptions={whatsappOptions} callOptions={callOptions} after={after} onClose={onClose} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket}/>
                             </div>
                         )}

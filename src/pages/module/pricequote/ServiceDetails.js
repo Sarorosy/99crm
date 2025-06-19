@@ -1,4 +1,4 @@
-import { Trash2 } from 'lucide-react';
+import { Download, Trash2, X } from 'lucide-react';
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { getSocket } from '../../../Socket';
@@ -443,18 +443,23 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
     const SITEURL = 'https://99crm.phdconsulting.in/';
 
     return (
-        <div className='bg-white border p-3 rounded my-3'>
-            <div className='flex justify-end'>
-                <button onClick={() => handlePrintDiv(serviceInfo.quotation_id)} className='btn btn-info btn-sm'>
-                    <i className="fa fa-download f-11"></i>
-                </button>
-            </div>
-            <div style={{ marginRight: '25px' }} className="pull-right" id={`loadDuplicateBtnDiv${serviceInfo.id}`}>
-                {sessionStorage.getItem("user_type") == 'user' && (
-                    <button onClick={() => createDuplicateQuote(serviceInfo.id)} className="btn btn-info btn-sm">
-                        Create Duplicate Quote
+        <div className='bg-white border p-2 rounded mt-2 f-13'>
+            <div className='flex justify-between gap-2'>
+                <div className='text-sm fw-bold'>Service Details</div>
+                <div className='flex gap-2'>
+                <div className=''>
+                    <button onClick={() => handlePrintDiv(serviceInfo.quotation_id)} className='btn btn-info btn-sm px-1'>
+                        <Download size={14} />
                     </button>
-                )}
+                </div>
+                <div className="" id={`loadDuplicateBtnDiv${serviceInfo.id}`}>
+                    {sessionStorage.getItem("user_type") == 'user' && (
+                        <button onClick={() => createDuplicateQuote(serviceInfo.id)} className="btn btn-info btn-sm f-10">
+                            Create Duplicate Quote
+                        </button>
+                    )}
+                </div>
+                </div>
             </div>
             <div id={`pdf${serviceInfo.quotation_id}`} >
                 <div className='flex flex-column gap-2'>
@@ -534,7 +539,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
 
                             <span id={`edit_sr_amount_div${serviceInfo.id}`} style={{ display: showEditServiceAmount ? 'block' : 'none' }}>
                                 <input
-                                    className="form-control1"
+                                    className="form-control form-control-sm f-12"
                                     style={{ width: '100px' }}
                                     type="text"
                                     name={`edit_service_amount${serviceInfo.id}`}
@@ -706,27 +711,31 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                         {sessionStorage.getItem("user_type") == 'user' && (
                                             <span
                                                 onClick={() => handleChangeExpiryDate()}
-                                                style={{ fontSize: '15px', marginLeft: '10px', cursor: 'pointer' }}
-                                                className="fa fa-edit"
+                                                style={{ fontSize: '13px', marginLeft: '10px', cursor: 'pointer' }}
+                                                className="fa fa-edit hover:text-yellow-300"
                                             ></span>
                                         )}
                                     </span>
 
                                     <span id={`edit_expdate_div${serviceInfo.id}`} style={{ display: showEditExpiryDate ? 'block' : 'none' }}>
-                                        <input
-                                            type="date"
-                                            className="form-control datepicker edit_expiry_date"
-                                            name={`edit_expiry_date${serviceInfo.id}`}
-                                            id={`edit_expiry_date${serviceInfo.id}`}
-                                            value={editExpiryDate}
-                                            onChange={(e) => setEditExpiryDate(e.target.value)}
-                                        />
-                                        <input
-                                            className="btn btn-info btn-xs pull-right"
-                                            type="button"
-                                            onClick={() => handleSaveExpiryDate()}
-                                            value="Save"
-                                        />
+                                        <div className='flex gap-2 items-center'>
+                                            <input
+                                                type="date"
+                                                className="form-control form-control-sm f-12 datepicker edit_expiry_date"
+                                                name={`edit_expiry_date${serviceInfo.id}`}
+                                                id={`edit_expiry_date${serviceInfo.id}`}
+                                                value={editExpiryDate}
+                                                onChange={(e) => setEditExpiryDate(e.target.value)}
+                                            />
+                                            <div className='text-end'>
+                                                <input
+                                                    className="btn btn-info btn-sm f-11 py-0.5 px-1"
+                                                    type="button"
+                                                    onClick={() => handleSaveExpiryDate()}
+                                                    value="Save"
+                                                />
+                                            </div>
+                                        </div>
                                     </span>
                                 </div>
                             </div>
@@ -757,29 +766,32 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                     )}
 
                     {/* Milestone Details Header */}
-                    <div>
+                    <div className='flex justify-between items-center gap-3'>
                         <div ><b>Milestone Details</b></div>
-                        {sessionStorage.getItem("user_type") == 'user' && (
-                            <div >
-                                <span className="btn btn-primary btn-sm" onClick={() => handleAddMilestone(serviceInfo.id)}>
-                                    {showMilestoneForm ? "Hide Milestone Form" : "Add Milestone"}
-                                </span>
-                            </div>
-                        )}
-                        {sessionStorage.getItem("user_type") == 'user' && serviceInfo.status == 4 && (
-                            <div id={`sendRemindBtn${serviceInfo.id}`}>
-                                <div className="btn btn-primary btn-sm" onClick={() => handleSendReminderToClient(serviceInfo.id, serviceInfo.ref_id)}>
-                                    Send Reminder to client
+                        <div className='flex items-center gap-2'>
+                            {sessionStorage.getItem("user_type") == 'user' && (
+                                <div >
+                                    <span className="btn btn-primary btn-sm" onClick={() => handleAddMilestone(serviceInfo.id)}>
+                                        {showMilestoneForm ? "Hide Milestone Form" : "Add Milestone"}
+                                    </span>
                                 </div>
-                            </div>
-                        )}
+                            )}
+                            {sessionStorage.getItem("user_type") == 'user' && serviceInfo.status == 4 && (
+                                <div id={`sendRemindBtn${serviceInfo.id}`}>
+                                    <div className="btn btn-primary btn-sm" onClick={() => handleSendReminderToClient(serviceInfo.id, serviceInfo.ref_id)}>
+                                        Send Reminder to client
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                     {showMilestoneForm && (
                         <>
-                            <div>
-                                <div colSpan={4} className="p-2">
+                        <div className='bg-light p-2 border rounded'>
+                            <div className='flex gap-2'>
+                                <div colSpan={4} className="w-100">
                                     <input
-                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="form-control form-control-sm f-12"
                                         name="milestone_name"
                                         id={`milestone_name${serviceInfo.id}`}
                                         value={milestoneName}
@@ -791,9 +803,9 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     )}
                                 </div>
 
-                                <div className="p-2" colSpan={1}>
+                                <div className="w-100" colSpan={1}>
                                     <input
-                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="form-control form-control-sm f-12"
                                         name="milestone_price"
                                         id={`milestone_price${serviceInfo.id}`}
                                         value={milestonePrice}
@@ -807,10 +819,10 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                 </div>
                             </div>
 
-                            <div>
-                                <div className="p-2" colSpan={4}>
+                            <div className='flex gap-2 mt-2'>
+                                <div className="w-100" colSpan={4}>
                                     <select
-                                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                        className="form-select form-select-sm f-12"
                                         name="plan_type"
                                         id={`plan_type${serviceInfo.id}`}
                                         value={planType}
@@ -826,15 +838,16 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     )}
                                 </div>
 
-                                <div className="p-2">
+                                <div className="w-100 text-end">
                                     <button
-                                        className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300 text-sm"
+                                        className="btn btn-primary btn-sm "
                                         onClick={handleSaveMilestone}
                                     >
                                         Save
                                     </button>
                                 </div>
                             </div>
+                        </div>
                         </>
                     )}
 
@@ -909,33 +922,35 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                                         {sessionStorage.getItem("user_type") == "user" && milestone.status != 1 && (
                                                                             <span
                                                                                 onClick={() => handleChangeMilestoneAmount(milestone.id)}
-                                                                                style={{ fontSize: "15px", marginLeft: "5px", cursor: "pointer" }}
+                                                                                style={{ fontSize: "13px", marginLeft: "5px", cursor: "pointer" }}
                                                                                 className="fa fa-edit"
                                                                             ></span>
                                                                         )}
                                                                     </span>
 
                                                                     <span id={`edit_ml_amount_div${milestone.id}`} style={{ display: milestonesToEdit[milestone.id]?.showEdit ? "block" : "none" }}>
-                                                                        <input
-                                                                            className="form-control1"
-                                                                            style={{ width: "100px" }}
-                                                                            type="text"
-                                                                            name={`edit_milestone_amount${milestone.id}`}
-                                                                            id={`edit_milestone_amount${milestone.id}`}
-                                                                            value={milestonesToEdit[milestone.id]?.amount || milestone.milestone_price}
-                                                                            onChange={(e) =>
-                                                                                setMilestonesToEdit((prev) => ({
-                                                                                    ...prev,
-                                                                                    [milestone.id]: { ...prev[milestone.id], amount: e.target.value },
-                                                                                }))
-                                                                            }
-                                                                        />
-                                                                        <input
-                                                                            className="btn btn-info btn-xs"
-                                                                            type="button"
-                                                                            onClick={() => handleSaveMilestoneAmount(milestone.id, milestone.service_id)}
-                                                                            value="Save"
-                                                                        />
+                                                                        <div className='flex gap-1'>
+                                                                            <input
+                                                                                className="form-control form-control-sm f-12"
+                                                                                style={{ width: "100px" }}
+                                                                                type="text"
+                                                                                name={`edit_milestone_amount${milestone.id}`}
+                                                                                id={`edit_milestone_amount${milestone.id}`}
+                                                                                value={milestonesToEdit[milestone.id]?.amount || milestone.milestone_price}
+                                                                                onChange={(e) =>
+                                                                                    setMilestonesToEdit((prev) => ({
+                                                                                        ...prev,
+                                                                                        [milestone.id]: { ...prev[milestone.id], amount: e.target.value },
+                                                                                    }))
+                                                                                }
+                                                                            />
+                                                                            <input
+                                                                                className="btn btn-info btn-sm f-11"
+                                                                                type="button"
+                                                                                onClick={() => handleSaveMilestoneAmount(milestone.id, milestone.service_id)}
+                                                                                value="Save"
+                                                                            />
+                                                                        </div>
                                                                     </span>
                                                                 </td>
                                                                 <td style={{ padding: "8px", border: "1px solid #eee" }}>{discountedPrice}</td>
@@ -943,7 +958,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                                     <td style={{ padding: "8px", border: "1px solid #eee" }}>
                                                                         {(milestone.status == 0 || milestone.status == 4) && (
                                                                             <button className='hover:bg-red-200 rounded-full p-1' type="button" onClick={() => handleDeleteMilestone(milestone.id, milestone.service_id)}>
-                                                                                <Trash2 size={18} className='text-red-500' />
+                                                                                <Trash2 size={15} className='text-red-500' />
                                                                             </button>
                                                                         )}
                                                                     </td>
@@ -979,12 +994,14 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                                 </tr>
                                                             )}
                                                             <tr>
-                                                                <td colSpan="5" style={{ padding: "5px" }} className='py-3 '>
+                                                                 <td colSpan="4" ></td>
+                                                                <td colSpan="2" style={{ padding: "5px" }} className='py-3 '>
                                                                     <div className='d-flex justify-end items-center gap-2'>
                                                                         Status:{" "} {console.log("milestone status is", milestone.status)}
                                                                         {sessionStorage.getItem("user_type") == "user" && milestone.status == 0 ? (
                                                                             <select
-                                                                                style={{ width: "90px" }}
+                                                                                className='form-select form-select-sm f-12'
+                                                                                
                                                                                 onChange={(e) => ChangeMilestoneStatus(milestone.id, e.target.value)}
                                                                                 disabled={(milestone.status == 1 || serviceInfo.status < 4) && queryInfo.update_status != 5}
                                                                             >
@@ -1024,7 +1041,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                                         </td>
                                                                     </tr>
                                                                     <tr className="hide">
-                                                                        <td colSpan="5" height="25" style={{ fontSize: "25px", lineHeight: "25px" }}>
+                                                                        <td colSpan="6" height="25" style={{ fontSize: "25px", lineHeight: "25px" }}>
                                                                             &nbsp;
                                                                         </td>
                                                                     </tr>
@@ -1070,7 +1087,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                             {subMilestoneData && subMilestoneData.parameters && subMilestoneData.parameters.length > 0 && (
                                                                 <React.Fragment key={index}>
                                                                     <tr>
-                                                                        <td colSpan="5">
+                                                                        <td colSpan="6">
                                                                             <table width="100%" className="table">
                                                                                 <thead>
                                                                                     <tr style={{ backgroundColor: "#eee" }}>
@@ -1119,7 +1136,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                                     </button>
                                                 ) : sessionStorage.getItem("user_type") == "user" ? (
                                                     <button
-                                                        className="bg-gray-300 border border-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded-md"
+                                                        className="btn btn-dark btn-sm f-11"
                                                     //onClick={() => EditAndAddServicePrice(serviceInfo.id)}
                                                     >
                                                         Edit & Save
@@ -1129,7 +1146,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                             <td align="right" colSpan="3" id={`adminApproveQuote${serviceInfo.id}`}>
                                                 {sessionStorage.getItem("accessQuoteApproval") == "Yes" && (
                                                     <button
-                                                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
+                                                        className="btn btn-warning btn-sm "
                                                         onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
                                                     >
                                                         Approve
@@ -1142,7 +1159,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                         <tr>
                                             <td colSpan="3">
                                                 <button
-                                                    className="bg-gray-300 border border-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded-md"
+                                                    className="btn btn-dark btn-sm f-11"
                                                     onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
                                                 >
                                                     Edit & Save
@@ -1151,7 +1168,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                             <td align="right" colSpan="3" id={`adminApproveQuote${serviceInfo.id}`}>
                                                 {sessionStorage.getItem("accessQuoteApproval") != "Yes" && (
                                                     <button
-                                                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
+                                                        className="btn btn-warning btn-sm "
                                                         onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
                                                     >
                                                         Approve
@@ -1162,23 +1179,24 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                     )}
                                     {serviceInfo.status == 2 && sessionStorage.getItem("user_type") == "user" && (
                                         <tr>
-                                            <td colSpan="3">
+                                            <td colSpan="6" className='text-end'>
                                                 <button
-                                                    className="bg-gray-300 border border-gray-400 hover:bg-gray-300 text-black px-4 py-2 rounded-md"
+                                                    className="btn btn-dark btn-sm f-11"
                                                     onClick={() => EditAndAddServicePrice(serviceInfo.id, serviceInfo.ref_id)}
                                                 >
                                                     Edit & Save
                                                 </button>
-                                            </td>
-                                            <td align="right" colSpan="3" id={`adminApproveQuote${serviceInfo.id}`}>
-                                                {sessionStorage.getItem("accessQuoteApproval") != "Yes" && (
-                                                    <button
-                                                        className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
-                                                        onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
-                                                    >
-                                                        Approve
-                                                    </button>
-                                                )}
+                                            
+                                                <div id={`adminApproveQuote${serviceInfo.id}`}>
+                                                    {sessionStorage.getItem("accessQuoteApproval") != "Yes" && (
+                                                        <button
+                                                            className="btn btn-warning btn-sm "
+                                                            onClick={() => priceQuoteAdminApproved(serviceInfo.id, serviceInfo.ref_id)}
+                                                        >
+                                                            Approve
+                                                        </button>
+                                                    )}
+                                                </div>
                                             </td>
                                         </tr>
                                     )}
@@ -1186,7 +1204,7 @@ const ServiceDetails = ({ serviceId, queryInfo, onClose, serviceInfo, serviceMil
                                         <tr>
                                             <td align="right" colSpan="6" id={`crmSendClientQuote${serviceInfo.id}`}>
                                                 <button
-                                                    className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md"
+                                                    className="btn btn-warning btn-sm "
                                                     onClick={() => priceQuoteCrmSendClient(serviceInfo.id, serviceInfo.ref_id)}
                                                 >
                                                     Send to Client

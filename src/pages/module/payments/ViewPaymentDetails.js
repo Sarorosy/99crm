@@ -49,25 +49,25 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
             initial={{ opacity: 0, x: 500 }} 
             animate={{ opacity: 1, x: 0 }} 
             exit={{ opacity: 0, x: 500 }} 
-            className="fixed top-0 right-0 h-full w-2/3 bg-gray-50 shadow-2xl z-50 overflow-y-auto"
+            className="fixed top-0 right-0 h-full w-1/3 bg-gray-50 shadow-2xl z-50 overflow-y-auto p-2"
         >
-            <div className="bg-white rounded-lg shadow-lg m-6">
-                <div className="flex px-6 items-center justify-between bg-gradient-to-r from-[#0A5EB0] to-[#0A47B0] text-white py-2 rounded-t-lg">
-                    <h2 className="text-xl font-semibold tracking-wide">Payment Details</h2>
+            <div className="rounded-lg bg-white border overflow-hidden">
+                <div className="flex px-3 py-2.5 items-center justify-between theme rounded-t-lg">
+                    <h2 className="text-md font-semibold">Payment Details</h2>
                     <button
                         onClick={onClose}
-                        className="text-white p-1 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200"
+                        className="btn btn-danger btn-sm px-1"
                     >
-                        <X size={20} />
+                        <X size={12} />
                     </button>
                 </div>
                 
-                <div className="p-6">
-                    <div className="grid grid-cols-2 gap-2">
+                <div className="py-3 px-3 ">
+                    <div className="grid grid-cols-2 gap-2 f-13">
                         {/* Payment Information Cards */}
-                        <div className="col-span-2 bg-blue-50 rounded-lg p-4 border border-blue-100">
-                            <p className="text-lg font-medium text-blue-800 mb-3">Client Information</p>
-                            <div className="grid grid-cols-2 gap-1">
+                        <div className="col-span-2 bg-blue-50 rounded-lg p-2 border border-blue-100">
+                            <p className="text-sm font-medium text-blue-800 mb-2">Client Information</p>
+                            <div className="grid grid-cols-1 gap-1">
                                 <p className="flex items-center"><span className="font-medium text-gray-700 min-w-32">Client Type:</span> 
                                     <span className="text-gray-600 ml-2">{paymentDetails.client_type}</span>
                                 </p>
@@ -85,9 +85,9 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
                             </div>
                         </div>
 
-                        <div className="col-span-2 bg-green-50 rounded-lg p-4 border border-green-100">
-                            <p className="text-lg font-medium text-green-800 mb-3">Service Details</p>
-                            <div className="grid grid-cols-2 gap-1">
+                        <div className="col-span-2 bg-green-50 rounded-lg p-2 border border-green-100">
+                            <p className="text-sm font-medium text-green-800 mb-2">Service Details</p>
+                            <div className="grid grid-cols-1 gap-1">
                                 <p className="flex items-center"><span className="font-medium text-gray-700 min-w-32">Service Name:</span>
                                     <span className="text-gray-600 ml-2">{paymentDetails.service_name}</span>
                                 </p>
@@ -109,9 +109,9 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
                             </div>
                         </div>
 
-                        <div className="col-span-2 bg-purple-50 rounded-lg p-4 border border-purple-100">
-                            <p className="text-lg font-medium text-purple-800 mb-3">Payment Information</p>
-                            <div className="grid grid-cols-2 gap-1">
+                        <div className="col-span-2 bg-purple-50 rounded-lg p-2 border border-purple-100">
+                            <p className="text-sm font-medium text-purple-800 mb-2">Payment Information</p>
+                            <div className="grid grid-cols-1 gap-1">
                                 <p className="flex items-center"><span className="font-medium text-gray-700 min-w-32">Amount:</span>
                                     <span className="text-gray-600 ml-2">{paymentDetails.currency} {paymentDetails.amount}</span>
                                 </p>
@@ -140,10 +140,10 @@ const ViewPaymentDetails = ({ paymentDetails, onClose , finalFunction}) => {
                                     </p>
                                 )}
                                 <p className="flex items-center"><span className="font-medium text-gray-700 min-w-32">Status:</span>
-                                    <span className={`ml-2 px-3 py-1 rounded-full text-sm font-medium ${
-                                        paymentDetails.status === 1 ? 'bg-gray-200 text-gray-700' :
-                                        paymentDetails.status === 2 ? 'bg-yellow-200 text-yellow-700' :
-                                        paymentDetails.status === 3 ? 'bg-green-200 text-green-700' :
+                                    <span className={`badge text-dark ${
+                                        paymentDetails.status === 1 ? 'bg-gray-200' :
+                                        paymentDetails.status === 2 ? 'bg-yellow-200' :
+                                        paymentDetails.status === 3 ? 'bg-green-200' :
                                         'bg-red-200 text-red-700'
                                     }`}>
                                         {paymentDetails.status === 1 ? 'Pending' :

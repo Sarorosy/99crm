@@ -630,11 +630,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
     };
 
     return (
-        <div className='flex flex-col space-y-2 p-1 border'>
+        <div className='flex flex-col space-y-2 p-1 border mt-2'>
             {closable && (
-                <div className="flex justify-end items-center space-x-2">
-                    <button className='bg-red-600 text-white p-1 rounded-full w-7 flex items-center justify-center ' onClick={onClose}>
-                        <X size={18} />
+                <div className="flex justify-between items-center bg-gray-100 p-2">
+                    <div class="fw-bold">Add Price Quote</div>
+                    <button className='btn btn-danger btn-sm px-1' onClick={onClose}>
+                        <X size={13} />
                     </button>
                 </div>
             )}
@@ -646,15 +647,15 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                 <div className="box-body">
                     <QueryInfoTab QueryInfo={QueryInfo} expandStatus={expandStatus} />
 
-                    <div className={`grid gap-4 ${expandStatus ? "grid-cols-3" : "grid-cols-1"} mt-2 text-sm bg-blue-50 py-3 px-3 rounded`}>
+                    <div className={`grid gap-2 f-13 ${expandStatus ? "grid-cols-3" : "grid-cols-1"} mt-2  bg-blue-50 p-2 rounded`}>
                         {/* Quote Heading */}
-                        <div className="flex items-center justify-between space-y-1">
-                            <label className="text-gray-900 font-semibold text-sm">Quote Heading</label>
+                        <div className="flex items-center justify-between ">
+                            <label className="text-gray-900 font-semibold  w-1/3">Quote Heading</label>
                             <input
                                 type="text"
                                 id="quote_heading"
                                 name="quote_heading"
-                                className="border border-gray-300  w-64 rounded-lg px-3 py-1 outline-none text-sm"
+                                className="form-control form-control-sm f-12 w-2/3 "
                                 placeholder="Enter Quote Heading"
                                 value={formData.quote_heading}
                                 onChange={handleChange}
@@ -662,13 +663,13 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                             <span id="quote_headingError" className="text-red-500 text-xs"></span>
                         </div>
 
-                        <div className="flex items-center justify-between space-y-1">
-                            <label className="text-gray-900 font-semibold text-sm">Ask Scope ID</label>
+                        <div className="flex items-center justify-between ">
+                            <label className="text-gray-900 font-semibold  w-1/3">Ask Scope ID</label>
                             <input
                                 type="text"
                                 id="ask_scope_quote"
                                 name="ask_scope_quote"
-                                className="border border-gray-300  w-64 rounded-lg px-3 py-1 outline-none text-sm"
+                                className="form-control form-control-sm f-12 w-2/3 "
                                 placeholder="Enter AskForScope Id"
                                 value={formData.ask_scope_quote}
                                 onChange={handleChange}
@@ -676,12 +677,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                             <span id="ask_scope_quoteError" className="text-red-500 text-xs"></span>
                         </div>
                         {/* Service Selection */}
-                        <div className="flex items-center justify-between space-y-1">
-                            <label className="text-gray-900 font-semibold text-sm">Service</label>
+                        <div className="flex items-center justify-between">
+                            <label className="text-gray-900 font-semibold  w-1/3">Service</label>
                             <select
                                 name="quote_service_id"
                                 id="quote_service_id"
-                                className="border border-gray-300 w-64 rounded-lg px-3 py-1 outline-none text-sm"
+                                className="form-select form-select-sm f-12 w-2/3 "
                                 value={formData.quote_service_id}
                                 onChange={handleChange}
                             >
@@ -696,11 +697,11 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                         </div>
 
                         {/* Select Plan */}
-                        <div className="flex items-center justify-between space-y-1">
-                            <label className="text-gray-900 font-semibold text-sm">Select Plan</label>
-                            <div className="flex flex-col space-y-2">
+                        <div className="flex items-center justify-between ">
+                            <label className="text-gray-900 font-semibold w-1/3">Select Plan</label>
+                            <div className="flex gap-3 w-2/3 ">
                                 {["Basic", "Standard", "Advanced"].map((plan) => (
-                                    <label key={plan} className="flex items-center space-x-2 text-sm text-gray-700">
+                                    <label key={plan} className="flex items-center space-x-2  text-gray-700">
                                         <input
                                             type="checkbox"
                                             name="select_plan"
@@ -718,16 +719,16 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                     </div>
 
                     {formData.select_plan && formData.select_plan.length > 0 && (
-                        <div className="flex flex-col space-y-2 bg-blue-50 py-3 px-3 rounded mt-2">
-                            <label className="text-gray-700 font-medium text-sm">Recommended Plan</label>
-                            <div className="flex space-x-4">
+                        <div className="flex bg-blue-50 p-2 rounded mt-2 f-13">
+                            <label className="text-gray-900 font-semibold  w-1/3">Recommended Plan</label>
+                            <div className="flex space-x-2 w-2/3 ">
                                 {["Basic", "Standard", "Advanced"].map((plan) => {
                                     const isDisabled = !formData.select_plan.includes(plan); // Disable if not in select_plan
 
                                     return (
                                         <label
                                             key={plan}
-                                            className={`flex items-center font-semibold space-x-2 text-sm text-gray-900 ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                                            className={`flex items-center  gap-2 text-gray-900 ${isDisabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                                                 }`}
                                         >
                                             <input
@@ -758,7 +759,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                         </div>
                     )}
 
-                    <div className={`grid gap-2 ${expandStatus ? 'grid-cols-3' : 'grid-cols-1'} mt-2 `}>
+                    <div className={`grid gap-2 f-13 ${expandStatus ? 'grid-cols-3' : 'grid-cols-1'} mt-2 `}>
                         {["Basic", "Standard", "Advanced"].map((plan) => (
                             <div
                                 key={plan}
@@ -770,17 +771,17 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 }}
 
                             >
-                                <label className="text-lg font-semibold text-gray-800 ">
+                                <label className="text-lg font-semibold text-gray-800 mb-2">
                                     {plan.charAt(0).toUpperCase() + plan.slice(1)}
                                 </label>
 
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                <div className="mb-3">
+                                    <label className="block mb-2 font-medium text-gray-700">
                                         Total Price ({plan})
                                     </label>
                                     <div className="flex space-x-3">
                                         <select
-                                            className="w-1/3 p-2 border rounded-md "
+                                            className="w-1/3 form-select form-select-sm f-12 "
                                             name={`currency_type_${plan}`}
                                             value={formData[`currency_type_${plan.toLowerCase()}`]}
                                             onChange={(e) => {
@@ -805,7 +806,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                 )}
                                         </select>
                                         <input
-                                            className="w-2/3 p-2 border rounded-md "
+                                            className="w-2/3 form-control form-control-sm f-12 "
                                             name={`total_price_${plan}`}
                                             placeholder={`Enter Total Price for ${plan.charAt(0).toUpperCase() + plan.slice(1)}`}
                                             value={totalPrices[plan] || ""}
@@ -814,13 +815,13 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     </div>
                                 </div>
 
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-700">
+                                <div className="mb-3">
+                                    <label className="block mb-2 font-medium text-gray-700">
                                         No of Milestones {plan.charAt(0).toUpperCase() + plan.slice(1)}
                                     </label>
                                     <select
                                         name={`no_of_milestone_${plan}`}
-                                        className="w-full p-2 border rounded-md "
+                                        className="w-full form-select form-select-sm f-12 "
                                         onClick={() => { console.log(selectedMilestones[plan]) }}
                                         value={milestone[plan.toLowerCase()]?.count || ""}
                                         onChange={(e) => handleMilestoneChange(plan.toLowerCase(), parseInt(e.target.value))}
@@ -836,28 +837,30 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
 
                                 {milestone[plan.toLowerCase()] &&
                                     Array.from({ length: milestone[plan.toLowerCase()].count }).map((_, milestoneIndex) => (
-                                        <div key={milestone.id} className="mb-4 border rounded-md p-3 bg-gray-100">
-                                            {/* Milestone Name */}
-                                            <input
-                                                className="form-control w-full mb-2 p-1 border rounded-md"
-                                                name={`milestone_name_${plan}[]`}
-                                                id={`milestone_name_${plan}_${milestone.id}`}
-                                                placeholder={`Milestone Name `}
-                                                value={milestone[plan.toLowerCase()].milestone_name[milestoneIndex]}
-                                                onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_name", e.target.value)}
+                                        <div key={milestone.id} className="mb-3 border rounded-md p-2 bg-gray-100">
+                                            <div className='flex gap-2'>
+                                                {/* Milestone Name */}
+                                                <input
+                                                    className="form-control form-control-sm f-12 mb-2 w-50"
+                                                    name={`milestone_name_${plan}[]`}
+                                                    id={`milestone_name_${plan}_${milestone.id}`}
+                                                    placeholder={`Milestone Name `}
+                                                    value={milestone[plan.toLowerCase()].milestone_name[milestoneIndex]}
+                                                    onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_name", e.target.value)}
 
-                                                required
-                                            />
+                                                    required
+                                                />
 
-                                            {/* Milestone Price */}
-                                            <input
-                                                className="form-control w-full mb-2 p-1 border rounded-md"
-                                                name={`milestone_price_${plan}[]`}
-                                                id={`milestone_price_${plan}_${milestone.id}`}
-                                                placeholder="Milestone Price"
-                                                value={milestone[plan.toLowerCase()].milestone_price[milestoneIndex]}
-                                                onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_price", e.target.value)}
-                                            />
+                                                {/* Milestone Price */}
+                                                <input
+                                                    className="form-control form-control-sm f-12 mb-2 w-50"
+                                                    name={`milestone_price_${plan}[]`}
+                                                    id={`milestone_price_${plan}_${milestone.id}`}
+                                                    placeholder="Milestone Price"
+                                                    value={milestone[plan.toLowerCase()].milestone_price[milestoneIndex]}
+                                                    onChange={(e) => handleMilestoneInputChange(plan, milestoneIndex, "milestone_price", e.target.value)}
+                                                />
+                                            </div>
 
                                             {/* Parameters Table */}
                                             <table className="w-full border bg-white rounded-md">
@@ -877,8 +880,9 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                     <td className="p-2 border">
                                                                         <textarea
                                                                             name={`submilestone_${plan}[subMilestoneData][${milestone.id}][parameters][]`}
-                                                                            className="form-control w-full p-1"
+                                                                            className="form-control form-control-sm f-12"
                                                                             defaultValue={parameter || ""}
+                                                                            rows="1"
                                                                             onChange={(e) => handleParameterChange(plan, milestoneIndex, paramIndex, 'parameters', e.target.value)}
                                                                         />
                                                                     </td>
@@ -886,7 +890,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                         <input
                                                                             type="text"
                                                                             name={`submilestone_${plan}[subMilestoneData][${milestone.id}][no_of_words][]`}
-                                                                            className="form-control w-full p-1"
+                                                                            className="form-control form-control-sm f-12"
                                                                             defaultValue={milestone[plan.toLowerCase()].submilestoneData[milestoneIndex]?.no_of_words?.[paramIndex] || ""}
                                                                             onChange={(e) => handleParameterChange(plan, milestoneIndex, paramIndex, 'no_of_words', e.target.value)}
                                                                         />
@@ -895,15 +899,15 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                         <input
                                                                             type="text"
                                                                             name={`submilestone_${plan}[subMilestoneData][${milestone.id}][time_frame][]`}
-                                                                            className="form-control w-full p-1"
+                                                                            className="form-control form-control-sm f-12"
                                                                             defaultValue={milestone[plan.toLowerCase()].submilestoneData[milestoneIndex]?.time_frame?.[paramIndex] || ""}
                                                                             onChange={(e) => handleParameterChange(plan, milestoneIndex, paramIndex, 'time_frame', e.target.value)}
                                                                         />
                                                                     </td>
-                                                                    <td className="p-2 border">
+                                                                    <td className="p-2 border  text-center">
                                                                         {paramIndex != 0 ? (
                                                                             <button className="btn btn-danger btn-sm" onClick={() => handleRemoveParameter(plan, milestoneIndex, paramIndex)}>
-                                                                                <CircleMinus size={18} className="text-white" />
+                                                                                <CircleMinus size={15} className="text-white" />
                                                                             </button>
                                                                         ) : (
                                                                             <button
@@ -911,7 +915,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                                 className="btn btn-info btn-sm"
                                                                                 onClick={() => handleAddParameter(plan, milestoneIndex)}
                                                                             >
-                                                                                <CirclePlus size={18} className="text-white" />
+                                                                                <CirclePlus size={15} className="text-white" />
                                                                             </button>
                                                                         )}
                                                                     </td>
@@ -922,8 +926,9 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                 <td className="p-2 border">
                                                                     <textarea
                                                                         name={`submilestone_${plan}[subMilestoneData][${milestone.id}][parameters][]`}
-                                                                        className="form-control w-full p-1"
+                                                                        className="form-control form-control-sm f-12"
                                                                         defaultValue=""
+                                                                        rows="1"
                                                                         onChange={(e) => handleParameterChange(plan, milestoneIndex, 0, 'parameters', e.target.value)}
                                                                     />
                                                                 </td>
@@ -931,7 +936,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                     <input
                                                                         type="text"
                                                                         name={`submilestone_${plan}[subMilestoneData][${milestone.id}][no_of_words][]`}
-                                                                        className="form-control w-full p-1"
+                                                                        className="form-control form-control-sm f-12"
                                                                         defaultValue=""
                                                                         onChange={(e) => handleParameterChange(plan, milestoneIndex, 0, 'no_of_words', e.target.value)}
                                                                     />
@@ -940,19 +945,20 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                                                     <input
                                                                         type="text"
                                                                         name={`submilestone_${plan}[subMilestoneData][${milestone.id}][time_frame][]`}
-                                                                        className="form-control w-full p-1"
+                                                                        className="form-control form-control-sm f-12"
+                                                                        
                                                                         defaultValue=""
                                                                         onChange={(e) => handleParameterChange(plan, milestoneIndex, 0, 'time_frame', e.target.value)}
                                                                     />
                                                                 </td>
-                                                                <td className="p-2 border">
+                                                                <td className="p-2 border text-center">
                                                                     <button
                                                                         type='button'
                                                                         className="btn btn-info btn-sm"
                                                                         onClick={() => handleAddParameter(plan, milestoneIndex)}
                                                                     //onClick={() => addMoreSubMilestone(plan.toLowerCase(), milestone.id)}
                                                                     >
-                                                                        <CirclePlus size={18} className="text-white" />
+                                                                        <CirclePlus size={15} className="text-white" />
                                                                     </button>
                                                                 </td>
                                                             </tr>
@@ -967,23 +973,23 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     ))
                                 }
 
-                                <div className="mb-4" id={`${plan}_remark_div`}>
-                                    <label className="text-left block text-sm font-medium text-gray-700">
+                                <div className="mb-3" id={`${plan}_remark_div`}>
+                                    <label className="text-left block text-sm font-medium text-gray-700 mb-1">
                                         {plan.charAt(0).toUpperCase() + plan.slice(1)} Plan Details
                                     </label>
                                     <textarea
                                         name={`order_summary_${plan}`}
-                                        className="w-full p-2 border rounded-md cursor-not-allowed"
+                                        className="form-control form-control-sm f-12 cursor-not-allowed"
                                         readOnly
                                         value={additionalRemarks[plan]} // Controlled Component
                                         onChange={(e) => handleRemarkChange(plan, e.target.value)}
-                                        rows={12}
+                                        rows={8}
                                     ></textarea>
 
                                 </div >
                                 {plan.toLowerCase().includes("basic") && (
-                                    <div className="mb-4 bg-white" id={`${plan}_remark_div`}>
-                                        <label className="text-left block text-sm font-medium text-gray-700">
+                                    <div className="mb-3" id={`${plan}_remark_div`}>
+                                        <label className="text-left block text-sm font-medium text-gray-700 mb-1">
                                             {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
                                         </label>
                                         <ReactQuill
@@ -1005,8 +1011,8 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 )}
 
                                 {plan.toLowerCase().includes("standard") && (
-                                    <div className="mb-4 bg-white" id={`${plan}_remark_div`}>
-                                        <label className="text-left block text-sm font-medium text-gray-700">
+                                    <div className="mb-3 " id={`${plan}_remark_div`}>
+                                        <label className="text-left block text-sm font-medium text-gray-700 mb-1">
                                             {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
                                         </label>
                                         <ReactQuill
@@ -1028,8 +1034,8 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                 )}
 
                                 {plan.toLowerCase().includes("advanced") && (
-                                    <div className="mb-4 bg-white" id={`${plan}_remark_div`}>
-                                        <label className="text-left block text-sm font-medium text-gray-700">
+                                    <div className="mb-3 " id={`${plan}_remark_div`}>
+                                        <label className="text-left block text-sm font-medium text-gray-700 mb-1">
                                             {plan.charAt(0).toUpperCase() + plan.slice(1)} Additional Remarks
                                         </label>
                                         <ReactQuill
@@ -1050,12 +1056,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     </div>
                                 )}
 
-                                <div className="flex items-end justify-between space-x-1 mb-4">
+                                <div className="flex items-end justify-between space-x-1 mb-3">
                                     <div className="w-50">
-                                        <label className="text-left block text-sm font-medium text-gray-700">{plan} Discount Type</label>
+                                        <label className="text-left block text-sm font-medium text-gray-700 mb-1">{plan} Discount Type</label>
                                         <select
                                             name={`discount_type_${plan.toLowerCase()}`}
-                                            className="w-full p-2 border rounded-md"
+                                            className="form-select form-select-sm f-12"
                                             value={discountType[plan]}
                                             onChange={(e) => handleDiscountTypeChange(plan, e.target.value)}
                                         >
@@ -1071,7 +1077,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                             <input
                                                 type="text"
                                                 name={`discount_value_${plan.toLowerCase()}`}
-                                                className="w-full p-2 border rounded-md"
+                                                className="form-control form-control-sm f-12"
                                                 placeholder="Discount Value"
                                                 value={discountValue[plan]}
                                                 onChange={(e) => handleDiscountValueChange(plan, e.target.value)}
@@ -1080,12 +1086,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                                     )}
                                 </div>
                                 {["1", "2"].includes(discountType[plan]) && (
-                                    <div className="mb-4">
-                                        <label className="text-left block text-sm font-medium text-gray-700">Coupon Code ({plan})</label>
+                                    <div className="mb-3">
+                                        <label className="text-left block text-sm font-medium text-gray-700 mb-1">Coupon Code ({plan})</label>
                                         <input
                                             type="text"
                                             name={`coupon_code_${plan.toLowerCase()}`}
-                                            className="w-full p-2 border rounded-md"
+                                            className="form-control form-control-sm f-12"
                                             placeholder="Please Enter Coupon Code"
                                             value={couponCode[plan]}
                                             onChange={(e) => handleCouponCodeChange(plan, e.target.value)}
@@ -1096,29 +1102,34 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
                         ))}
                     </div>
 
-                    <div className="bg-blue-50 p-6 rounded-lg shadow-md max-w-lg mx-auto">
+                    <div className="bg-blue-50 p-2 rounded-lg f-13 grid gap-2 f-13 grid-cols-1">
 
 
                         {/* Expiry Date */}
-                        <div className="mb-4">
-                            <label className="block text-gray-600 font-medium mb-1">Expiry Date</label>
-                            <DatePicker
+                        <div className="flex justify-between ">
+                            <label className="text-gray-900 font-semibold w-1/3">Expiry Date</label>
+                            <div className='w-2/3 '>
+                                <DatePicker
                                 selected={formData.expiry_date}
                                 onChange={handleDateChange}
                                 dateFormat="MM/dd/yyyy"
                                 minDate={new Date()}
-                                className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300"
+                                className="form-select form-select-sm f-12 "
                                 placeholderText="Select Expiry Date"
                             />
+                            </div>
                         </div>
 
                         {/* Checkbox - Do Not Send for Online Payment */}
-                        <div className="mb-4 flex items-center">
+                        <div className="flex items-center">
+                            <div className=' w-1/3'>
+
+                            </div>
                             <input
                                 type="checkbox"
                                 name="notSendOnlinePayment"
                                 id="notSendOnlinePayment"
-                                className="mr-2 w-4 h-4 accent-blue-500"
+                                className="rounded border-gray-300 text-blue-500 me-2"
                                 checked={formData.notSendOnlinePayment === 1}
                                 onChange={handleNotPaymentCheckboxChange}
                             />
@@ -1129,12 +1140,12 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
 
                         {/* Payment Details (If checkbox is checked) */}
                         {formData.notSendOnlinePayment === 1 && (
-                            <div className="mb-4">
-                                <label className="block text-gray-600 font-medium mb-1">Payment Details</label>
+                            <div className="flex mt-2">
+                                <label className="text-gray-900 font-semibold  w-1/3">Payment Details</label>
                                 <textarea
                                     name="payment_details"
                                     id="payment_details"
-                                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-300"
+                                    className="form-control form-control-sm w-2/3 f-12"
                                     value={formData.payment_details}
                                     onChange={handleChange}
                                     rows="3"
@@ -1148,7 +1159,7 @@ const AddQuoteForm = ({ QueryInfo, serviceData, expandStatus, closable, onClose,
 
                     <div className="form-group mt-2">
                         <div className="col-sm-12 flex justify-end">
-                            <button type="submit" className="btn btn-primary" >Submit</button>
+                            <button type="submit" className="btn btn-primary btn-sm" >Submit</button>
                         </div>
                     </div>
                 </div>

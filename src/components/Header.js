@@ -352,14 +352,14 @@ const Header = () => {
 
         {/* User Session Info */}
 
-        <div className="relative z-50 flex space-x-2 navpop">
+        <div className="relative z-50 flex space-x-4 ">
           {(userType != "Data Manager") && (
             <button
               onClick={() => {
                 setShowNoti(false)
                 setShowFiles(!showFiles)
               }}
-              className="text-white relative p-2 ">
+              className="text-white relative px-2 py-1">
               <File size={16} />
               <span className="absolute -top-1 -right-1 bg-red-500 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center noti
@@ -375,8 +375,8 @@ const Header = () => {
                 setShowFiles(false)
                 setShowNoti(!showNoti)
               }}
-              className="text-white relative p-2 ">
-              <Bell size={17} />
+              className="text-white relative px-2 py-1">
+              <Bell size={16} />
               <span className="absolute -top-1 -right-1 bg-blue-600 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center rounded-circle
                   shadow-lg">
@@ -401,8 +401,8 @@ const Header = () => {
 
           {/* Floating Attached Files Panel */}
           {showFiles && (
-            <div className="absolute top-12 right-24 w-64 bg-white shadow-lg rounded-lg p-3 z-50">
-              <h3 className="text-sm font-semibold">You have {notifications.totalAttacheFile} file received.</h3>
+            <div className="absolute top-10 right-24 w-64 bg-white shadow-lg rounded-lg p-2 z-50">
+              <h3 className="font-semibold">You have {notifications.totalAttacheFile} file received.</h3>
               <ul className="mt-2">
                 {notifications.attachedFilesarray.map((file, index) => (
                   <li key={index} className="border-b py-2 text-sm">
@@ -416,8 +416,8 @@ const Header = () => {
           {(userType == "admin" || userType == "sub-admin" || userType == "user") && (
             <button
               onClick={() => { navigate('client-mail') }}
-              className="text-white relative p-2 ">
-              <Mail size={17} />
+              className="text-white relative px-2 py-1">
+              <Mail size={16} />
               <span className="absolute -top-1 -right-1 bg-emerald-500 text-white fssx 
                   w-5 h-5 rounded-full flex items-center justify-center
                   shadow-lg font-semibold min-w-[20px] rounded-circle">
@@ -428,25 +428,25 @@ const Header = () => {
 
           <button
             onClick={toggleUserMenu}
-            className="px-2 py-1 rounded-full transition-all duration-200
+            className="px-1 py-0 rounded-full transition-all duration-200
                       theme1 text-green-600 
                       hover:text-blue-800 font-medium
-                      flex items-center gap-2
+                      flex items-center gap-1
                       hover:shadow-md hover:-translate-y-[1px]
                       active:scale-95 active:shadow-sm
                       focus:outline-none focus:ring-blue-500/60
-                      border border-blue-200/50"
+                      border border-blue-200/50 f-13"
           >
-            <CircleUserRound size={20} className="transition-transform" />
+            <CircleUserRound size={16} className="transition-transform" />
             <span className="truncate max-w-[120px]">{userName}</span>
-            <ChevronDown size={16} className="ml-1 opacity-80 transition-transform" />
+            <ChevronDown size={16} className="opacity-80 transition-transform" />
           </button>
           {userMenuOpen && (
-            <div className="absolute top-8 -right-8 bg-white text-black shadow-md mt-3 border p-2 w-52">
+            <div className="absolute top-8 right-0 bg-white text-black shadow-md border p-2 w-52">
               {/* <button onClick={() => handleNavigation('/changepassword')} className="block rounded px-4 py-2 w-full dropdownmenu">Change Password</button> */}
               <button
                 onClick={handleLogout}
-                className="block w-full px-4 py-2 text-left hover:bg-red-400 rounded hover:text-white dropdownmenu"
+                className="btn btn-light btn-sm f-13 block w-100"
               >
                 Sign Out
               </button>

@@ -72,23 +72,28 @@ const CommentForm = ({ queryInfo, onClose , status, after}) => {
     
 
     return (
-        <div className="relative max-w-2xl bg-white p-6 rounded-lg shadow-lg mx-auto mt-3">
-            {/* Close Button */}
-            <button
-                onClick={onClose}
-                className="absolute top-2 right-2 text-white bg-red-600 hover:bg-red-500 p-1 rounded-full transition"
-            >
-                <X size={10} />
-            </button>
+        <div className="relative  bg-gray-100 p-2 rounded-lg border mt-3 f-13">
+            <div className="flex justify-between mb-2">
+                <div className="fw-bold text-md">
+                    Add Comments
+                </div>
+                {/* Close Button */}
+                <button
+                    onClick={onClose}
+                    className="btn btn-danger btn-sm px-1"
+                >
+                    <X size={12} />
+                </button>
+            </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col">
 
-                <div className="mb-4 w-2/3">
+                <div className="mb-2">
                     <label className="block text-gray-700 font-medium">Comments</label>
                     <textarea
                         name="comments"
                         id="comments"
-                        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="form-control form-control-sm f-13"
                         style={{ height: "100px" }}
                         placeholder="Write a comment..."
                         value={comments}
@@ -96,53 +101,56 @@ const CommentForm = ({ queryInfo, onClose , status, after}) => {
                     />
                 </div>
 
-                {/* Checkboxes */}
-                <div className="mb-4 w-1/3 flex items-center justify-center flex-col">
-                    <label className="flex items-center space-x-2">
-                        <input
-                            type="checkbox"
-                            name="shift_to_lead"
-                            value="1"
-                            checked={shiftToLead}
-                            onChange={(e) => setShiftToLead(e.target.checked)}
-                            className="h-4 w-4 text-blue-500 border-gray-300 rounded"
-                        />
-                        <span className="text-gray-700">Shift To Lead</span>
-                    </label>
-                    <label className="flex items-center space-x-2 mt-2">
-                        <input
-                            type="checkbox"
-                            name="shift_to_open"
-                            value="1"
-                            checked={shiftToOpen}
-                            onChange={(e) => setShiftToOpen(e.target.checked)}
-                            className="h-4 w-4 text-blue-500 border-gray-300 rounded"
-                        />
-                        <span className="text-gray-700">Shift To Open</span>
-                    </label>
+                <div className="flex justify-between items-end">
+                    {/* Checkboxes */}
+                    <div className="flex gap-3">
+                        <label className="flex items-center space-x-2">
+                            <input
+                                type="checkbox"
+                                name="shift_to_lead"
+                                value="1"
+                                checked={shiftToLead}
+                                onChange={(e) => setShiftToLead(e.target.checked)}
+                                className="h-3 w-3 text-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="text-gray-700">Shift To Lead</span>
+                        </label>
+                        <label className="flex items-center space-x-2">
+                            <input
+                                type="checkbox"
+                                name="shift_to_open"
+                                value="1"
+                                checked={shiftToOpen}
+                                onChange={(e) => setShiftToOpen(e.target.checked)}
+                                className="h-3 w-3 text-blue-500 border-gray-300 rounded"
+                            />
+                            <span className="text-gray-700">Shift To Open</span>
+                        </label>
+                    </div>
+                    {/* Submit Button */}
+                    <div className="flex justify-end">
+                        {!isSubmitting ? (
+                            <button
+                                onClick={handleSubmit}
+                                type="button"
+                                className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 rounded-md transition"
+                            >
+                                Submit
+                            </button>
+                        ) : (
+                            <button
+                                disabled
+                                className="bg-gray-400 text-white font-medium py-2 px-4 rounded-md cursor-not-allowed"
+                            >
+                                Please Wait...
+                            </button>
+                        )}
+                    </div>
                 </div>
 
             </div>
 
-            {/* Submit Button */}
-            <div className="flex justify-end">
-                {!isSubmitting ? (
-                    <button
-                        onClick={handleSubmit}
-                        type="button"
-                        className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-2 rounded-md transition"
-                    >
-                        Submit
-                    </button>
-                ) : (
-                    <button
-                        disabled
-                        className="bg-gray-400 text-white font-medium py-2 px-4 rounded-md cursor-not-allowed"
-                    >
-                        Please Wait...
-                    </button>
-                )}
-            </div>
+            
         </div>
     );
 };

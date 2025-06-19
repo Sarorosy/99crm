@@ -175,23 +175,23 @@ const AddPayment = ({ onClose, finalFunction }) => {
             initial={{ opacity: 0, }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed top-0 right-0 h-full w-full bg-gray-50 shadow-2xl z-50 overflow-y-auto"
+            className="fixed top-0 right-0 h-full w-full bg-gray-50 z-50 overflow-y-scroll p-2"
         >
-            <div className="bg-white rounded-lg shadow-lg m-6">
-                <div className="flex px-6 items-center justify-between bg-gradient-to-r from-[#0A5EB0] to-[#0A47B0] text-white py-2 rounded-t-lg">
-                    <h2 className="text-xl font-semibold tracking-wide">Add Payment</h2>
+            <div className="rounded-lg bg-white border overflow-hidden">
+                <div className="flex px-3 py-2.5 items-center justify-between theme rounded-t-lg">
+                    <h2 className="text-md font-semibold">Add Payment</h2>
                     <button
                         onClick={onClose}
-                        className="text-white p-1 rounded-full bg-red-500 hover:bg-red-600 transition-all duration-200"
+                        className="btn btn-danger btn-sm px-1"
                     >
-                        <X size={20} />
+                        <X size={12} />
                     </button>
                 </div>
-                <form onSubmit={handleSubmit} className="p-4 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <form onSubmit={handleSubmit} className="py-3 px-3 grid grid-cols-1 md:grid-cols-4 gap-4 f-13">
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Client Type *</label>
+                        <label className="font-medium text-gray-700">Client Type <span className="text-danger">*</span></label>
                         <select name="clientType" value={formData.clientType} onChange={handleChange}
-                            className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                            className="form-select form-select-sm f-12">
                             <option value="">Select Client Type</option>
                             <option value="New Client">New Client</option>
                             <option value="Existing Client">Existing Client</option>
@@ -200,55 +200,55 @@ const AddPayment = ({ onClose, finalFunction }) => {
 
                     {formData.clientType === "Existing Client" && (
                         <div className="space-y-1">
-                            <label className="text-sm font-medium text-gray-700">Ref Id *</label>
+                            <label className="font-medium text-gray-700">Ref Id <span className="text-danger">*</span></label>
                             <input type="number" name="refId" value={formData.refId} onChange={handleChange}
-                                className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 number-only" />
+                                className="form-control form-control-sm f-12 number-only" />
                         </div>
                     )}
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Quotation Id *</label>
+                        <label className="font-medium text-gray-700">Quotation Id <span className="text-danger">*</span></label>
                         <input type="text" name="quotationId" value={formData.quotationId} onChange={handleChange}
-                            className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                            className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Client Name *</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Client Name <span className="text-danger">*</span></label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Client Email *</label>
-                        <input type="email" name="email" value={formData.email} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Client Email <span className="text-danger">*</span></label>
+                        <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Service Name *</label>
-                        <input type="text" name="serviceName" value={formData.serviceName} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Service Name <span className="text-danger">*</span></label>
+                        <input type="text" name="serviceName" value={formData.serviceName} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Upload File</label>
+                        <label className="font-medium text-gray-700">Upload File</label>
                         <input
                             type="file"
                             name="upload_file"
                             onChange={handleChange}
-                            className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 p-1.5"
+                            className="form-control form-control-sm f-12 p-1.5"
                         />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Client Address *</label>
-                        <input type="text" name="clientAddress" value={formData.clientAddress} onChange={handleChange} className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Client Address <span className="text-danger">*</span></label>
+                        <input type="text" name="clientAddress" value={formData.clientAddress} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Pin Code *</label>
-                        <input type="number" name="pincode" value={formData.pincode} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 number-only" />
+                        <label className="font-medium text-gray-700">Pin Code <span className="text-danger">*</span></label>
+                        <input type="number" name="pincode" value={formData.pincode} onChange={handleChange} className="form-control form-control-sm f-12 number-only" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Currency *</label>
-                        <select name="currency" value={formData.currency} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <label className="font-medium text-gray-700">Currency <span className="text-danger">*</span></label>
+                        <select name="currency" value={formData.currency} onChange={handleChange} className="form-select form-select-sm f-12">
                             <option value="">Select Currency</option>
                             <option value="USD">USD</option>
                             <option value="INR">INR</option>
@@ -263,23 +263,23 @@ const AddPayment = ({ onClose, finalFunction }) => {
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Amount *</label>
-                        <input type="number" name="amount" value={formData.amount} onChange={handleChange} className="px-1 py-0.5 number-only w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Amount <span className="text-danger">*</span></label>
+                        <input type="number" name="amount" value={formData.amount} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Deal Amount *</label>
-                        <input type="number" name="dealAmount" value={formData.dealAmount} onChange={handleChange} className="px-1 py-0.5 number-only w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Deal Amount <span className="text-danger">*</span></label>
+                        <input type="number" name="dealAmount" value={formData.dealAmount} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Payment Terms *</label>
-                        <input type="text" name="terms" value={formData.terms} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Payment Terms <span className="text-danger">*</span></label>
+                        <input type="text" name="terms" value={formData.terms} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
                     <div className="space-y-1">
-                        <label className="text-sm font-medium text-gray-700">Payment Mode *</label>
-                        <select name="mode" value={formData.mode} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                        <label className="font-medium text-gray-700">Payment Mode <span className="text-danger">*</span></label>
+                        <select name="mode" value={formData.mode} onChange={handleChange} className="form-select form-select-sm f-12">
                             <option value="">Select Mode</option>
                             <option value="Bank">Bank</option>
                             <option value="Online">Online</option>
@@ -288,41 +288,41 @@ const AddPayment = ({ onClose, finalFunction }) => {
 
                     {formData.mode === "Bank" && (
                         <>
-                            <div className="space-y-1 md:col-span-2">
-                                <label className="text-sm font-medium text-gray-700">Bank Name *</label>
+                            <div className="space-y-1">
+                                <label className="font-medium text-gray-700">Bank Name <span className="text-danger">*</span></label>
                                 <input type="text" name="bankName" value={formData.bankName} onChange={handleChange}
-                                    className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                    className="form-control form-control-sm f-12" />
                             </div>
-                            <div className="space-y-1 md:col-span-2">
-                                <label className="text-sm font-medium text-gray-700">Bank Account *</label>
+                            <div className="space-y-1">
+                                <label className="font-medium text-gray-700">Bank Account <span className="text-danger">*</span></label>
                                 <input type="text" name="bankAccount" value={formData.bankAccount} onChange={handleChange}
-                                    className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                    className="form-control form-control-sm f-12" />
                             </div>
                         </>
                     )}
 
                     {formData.mode === "Online" && (
-                        <div className="space-y-1 md:col-span-4">
-                            <label className="text-sm font-medium text-gray-700">Payment Url *</label>
+                        <div className="space-y-1">
+                            <label className="font-medium text-gray-700">Payment Url <span className="text-danger">*</span></label>
                             <input type="text" name="paymentUrl" value={formData.paymentUrl} onChange={handleChange}
-                                className="px-1 py-0.5 w-full border rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                                className="form-control form-control-sm f-12" />
                         </div>
                     )}
 
                     <div className="space-y-1 ">
-                        <label className="text-sm font-medium text-gray-700">Payment Date *</label>
-                        <input type="date" name="paymentDate" max={new Date().toISOString().split("T")[0]} value={formData.paymentDate} onChange={handleChange} className="px-1 py-0.5 w-full border  rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500" />
+                        <label className="font-medium text-gray-700">Payment Date <span className="text-danger">*</span></label>
+                        <input type="date" name="paymentDate" max={new Date().toISOString().split("T")[0]} value={formData.paymentDate} onChange={handleChange} className="form-control form-control-sm f-12" />
                     </div>
 
-                    <div className="md:col-span-4 flex items-center space-x-2">
+                    <div className="md:col-span-2 flex items-center space-x-2">
                         <input type="checkbox" id="includeSubscriptionPrice" name="includeSubscriptionPrice"
                             checked={formData.includeSubscriptionPrice}
                             onChange={handleChange}
                             className="px-1 py-0.5 rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
-                        <label htmlFor="includeSubscriptionPrice" className="text-sm font-medium text-gray-700">Subscription Amount Included</label>
+                        <label htmlFor="includeSubscriptionPrice" className="font-medium text-gray-700">Subscription Amount Included</label>
                     </div>
 
-                    <div className="md:col-span-4 flex justify-end">
+                    <div className="md:col-span-2 flex justify-end">
                         <button type="submit"
                             className="w-36 bg-blue-600 text-white py-1 px-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200">
                             Submit

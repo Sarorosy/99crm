@@ -909,37 +909,40 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
                             />
                         </div>
 
-                        <div className="col-sm-4">
-                            <div className="form-group" style={{ marginTop: "23px", display: !formData.hold_query ? "flex" : "none", alignItems: "center" }}>
-                                <input
-                                    type="checkbox"
-                                    name="generic_query"
-                                    id="generic_query"
-                                    checked={formData.generic_query}
-                                    onChange={(e) => {
-                                        setFormData({
-                                            ...formData,
-                                            generic_query: e.target.checked
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="generic_query" style={{ marginLeft: "8px", marginTop: "0" }}> Generic Query</label>
-                            </div>
+                        <div className="col-sm-4 ">
+                            <label htmlFor="city">Choose Query</label>
+                            <div className="flex gap-3">
+                                <div className="form-group" style={{display: !formData.hold_query ? "flex" : "none", alignItems: "center" }}>
+                                    <input
+                                        type="checkbox"
+                                        name="generic_query"
+                                        id="generic_query"
+                                        checked={formData.generic_query}
+                                        onChange={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                generic_query: e.target.checked
+                                            });
+                                        }}
+                                    />
+                                    <label htmlFor="generic_query" style={{ marginLeft: "8px", marginTop: "0" }}> Generic Query</label>
+                                </div>
 
-                            <div className="form-group" style={{ marginTop: "23px", display: !formData.generic_query ? "flex" : "none", alignItems: "center" }}>
-                                <input
-                                    type="checkbox"
-                                    name="hold_query"
-                                    id="hold_query"
-                                    checked={formData.hold_query}
-                                    onChange={(e) => {
-                                        setFormData({
-                                            ...formData,
-                                            hold_query: e.target.checked
-                                        });
-                                    }}
-                                />
-                                <label htmlFor="hold_query" style={{ marginLeft: "8px", marginTop: "0" }}>Hold Query</label>
+                                <div className="form-group" style={{ display: !formData.generic_query ? "flex" : "none", alignItems: "center" }}>
+                                    <input
+                                        type="checkbox"
+                                        name="hold_query"
+                                        id="hold_query"
+                                        checked={formData.hold_query}
+                                        onChange={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                hold_query: e.target.checked
+                                            });
+                                        }}
+                                    />
+                                    <label htmlFor="hold_query" style={{ marginLeft: "8px", marginTop: "0" }}>Hold Query</label>
+                                </div>
                             </div>
                         </div>
 
@@ -1084,10 +1087,11 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
                             </select>
                         </div>
 
-                        <div className="col-sm-4 flex items-center flex-col" style={{ marginTop: "24px" }}>
+                        <div className="col-sm-4 ">
+                            <label htmlFor="academic_level">Choose File</label>
                             {fileInputs.map((input, index) => (
-                                <div className="row flex items-center mb-1" key={input.id} >
-                                    <div className="col-md-11">
+                                <div className="flex items-center mb-1 w-100 gap-2" key={input.id} >
+                                    <div className="w-100">
                                         <input
                                             type="file"
                                             className="form-control"
@@ -1096,17 +1100,17 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
                                             onChange={(e) => handleFileChange(e, index)}
                                         />
                                     </div>
-                                    <div className="col-md-1">
+                                    <div className="">
                                         {index === 0 ? (
                                             <i
-                                                style={{ fontSize: "14px", cursor: "pointer", color: "green", marginLeft: "-15px" }}
-                                                className="fa fa-plus-circle"
+                                                // style={{ fontSize: "14px", cursor: "pointer", color: "green", }}
+                                                className="fa fa-plus-circle btn btn-success btn-sm f-11 py-2"
                                                 onClick={handleAddFileInput}
                                             ></i>
                                         ) : (
                                             <i
-                                                style={{ fontSize: "14px", cursor: "pointer", color: "red", marginLeft: "-15px" }}
-                                                className="fa fa-minus-circle"
+                                                // style={{ fontSize: "14px", cursor: "pointer", color: "red",  }}
+                                                className="fa fa-minus-circle btn btn-danger btn-sm f-11 py-2"
                                                 onClick={() => handleRemoveFileInput(index)}
                                             ></i>
                                         )}

@@ -29,13 +29,14 @@ const InternalComments = ({ internalCommentsData }) => {
     };
 
     return (
-        <div className="space-y-4 relative">
+        <div className="space-y-4 relative mt-1 p-2">
             {internalCommentsData.map((comment) => (
                 <div
                     key={comment.id}
-                    className="bg-light p-3"
+                    className="bg-white p-2 f-12 shadow-sm"
                 >
                     <div className="flex items-center justify-between">
+                        <div className="flex items-center justify-between">
                         {comment.FromName && (
                             <p className="text-sm text-gray-600">
                                 <span className="font-medium">From: </span>
@@ -47,17 +48,30 @@ const InternalComments = ({ internalCommentsData }) => {
                                 </span>
                             </p>
                         )}
+                        {comment.comments && (
+                            <p className="text-gray-700">
+                                <span className="font-medium">Comments:</span> 
+                                
+                            </p>
+                        )}
                         
                     </div>
                     <p className="flex items-center justify-end">
-                        <span className="font-medium "><History className="text-orange-400" size={18} /></span>{" "}
-                        {formatDate(comment.date)}
+                        <span className="font-medium "><History className="text-orange-400 me-1" size={14} /></span>{" "}
+                        <span 
+                            className="tooltip text-black  f-11"
+                            style={{ opacity: "1" }}
+                            title={new Date(comment.date * 1000).toLocaleString()}
+                        >
+                            {formatDate(comment.date)}
+                        </span>
                     </p>
+                    </div>
 
                     {comment.comments && (
                         <p className="mt-2 text-gray-700">
-                            <span className="font-medium">Comments:</span> 
-                            <div className="bg-yellow-200 text-yellow-600 px-4 py-1 rounded">
+                            {/* <span className="font-medium">Comments:</span>  */}
+                            <div className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">
                                 <div dangerouslySetInnerHTML={{ __html: comment.comments }} />
                             </div>
                         </p>
@@ -71,7 +85,7 @@ const InternalComments = ({ internalCommentsData }) => {
                             />
                         </div>
                     )}
-                    {comment.date && (
+                    {/* {comment.date && (
                         <div className="mt-2 text-gray-600 flex justify-between items-center">
                             <span
                                 className="tooltip"
@@ -80,7 +94,7 @@ const InternalComments = ({ internalCommentsData }) => {
                                 {formatDate(comment.date)}
                             </span>
                         </div>
-                    )}
+                    )} */}
                     {comment.call_message != "" && (
                         <div className="mt-2 text-gray-700">
                             <span className="font-medium">Call Message:</span>
@@ -102,12 +116,12 @@ const InternalComments = ({ internalCommentsData }) => {
 
                     {/* Floating Details Box */}
                     {activeComment === comment.id && (
-                        <div className="absolute bg-white border border-gray-300 p-4 rounded-lg shadow-lg top-0 left-0 z-10">
+                        <div className="absolute bg-white border border-gray-300 p-2 rounded-lg shadow-lg top-0 left-0 z-10">
                             <button
-                                className="mt-2 px-2 py-1 text-white bg-red-500 rounded-full hover:bg-red-600 float-right"
+                                className="mt-0 px-1 py-1 text-white bg-red-500 rounded-full hover:bg-red-600 float-right"
                                 onClick={() => setActiveComment(null)}
                             >
-                                <X size={18} />
+                                <X size={14} />
                             </button>
                             <p>
                                 <span className="font-medium">From:</span> {comment.FromName} {"<"}

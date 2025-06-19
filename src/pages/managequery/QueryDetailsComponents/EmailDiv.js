@@ -697,7 +697,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
 
 
   return (
-    <div className='px-3 py-2 bg-light'>
+    <div className=''>
+    <div className='border bg-white p-2'>
       <form name="viewDetailsForm" id="viewDetailsForm" method="post" style={{ width: '100%' }}>
         <input type="hidden" name="in_time" value={queryInfo.open_date} />
         <input type="hidden" name="assign_id" value={queryInfo.assign_id} />
@@ -705,7 +706,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
         <input type="hidden" name="old_status" value={queryInfo.update_status} />
 
         {userType !== 'Data Manager' && (
-          <div className="flex flex-row items-start justify-content-between gap-4 qhpage my-2">
+          <div className="flex flex-row items-start justify-content-between gap-4 mb-3">
             {/* Left Side - Label */}
             <div className="flex items-center gap-2">
               <label className="text-sm font-medium text-gray-900 mb-0">Status</label>
@@ -713,7 +714,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
               <select
                 name="update_status1"
                 id="update_status1"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                className="form-select form-select-sm f-11"
                 value={status}
                 onChange={handleStatusChange}
               >
@@ -733,10 +734,10 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
             </div>
 
             {/* Right Side - Select and Additional Elements */}
-            <div className="col-md-3 space-y-2">
+            <div className="space-y-2">
               
 
-              <div className='flex items-center justify-end space-x-3 my-2'>
+              <div className='flex items-center justify-end space-x-3'>
                 {showRemainderDiv && (
                   <div id="remainder_div" className="mt-2">
                     <input
@@ -779,9 +780,9 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
             {userType !== 'Data Manager' && queryInfo.email_id && (
               <>
                 <div>
-                  <div className=" bg-white p-2 py-1 rounded-lg  border border-gray-200 qhpage">
+                  <div className=" bg-white p-2 py-1 rounded-lg  border border-gray-200 f-13">
                     <div className="checkbox">
-                      <label className='flex items-center space-x-3 mb-0'>
+                      <label className='flex items-center space-x-2 mb-0'>
                         {queryInfo.update_status == '1' ? (
                           <input
                             type="checkbox"
@@ -809,7 +810,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                         <div className='col-md-4 dashboardinput'>
                           <select
                             onChange={(e) => handleTemplateChange(e.target.value)}
-                            className="block w-full px-2 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+                            className="form-select form-select-sm f-12"
                           >
                             <option value="" disabled selected>
                               {templateInfo && templateInfo.length > 0 ? 'Choose Template' : 'Mail Template'}
@@ -835,59 +836,59 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               <div className='w-1/2'>
                                 <div className="mb-3">
                                   <label className="block font-semibold">From:</label>
-                                  <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.website_email} />
+                                  <input type="text" className="form-control form-control-sm f-12" value={queryInfo.website_email} />
                                 </div>
                               </div>
 
                               <div className='w-1/2'>
                                 <div className="mb-3" disabled>
                                   <label className="block font-semibold">To:</label>
-                                  <input type="text" className="w-full border rounded px-3 py-2" value={queryInfo.email_id} readOnly disabled />
+                                  <input type="text" className="form-control form-control-sm f-12" value={queryInfo.email_id} readOnly disabled />
                                 </div>
                               </div>
                             </div>
 
-                            <div className="flex gap-4 mb-4">
+                            <div className="flex gap-2 mb-3">
                               <button type="button" className="bg-blue-500 text-white px-2 py-1 rounded" onClick={handleCcClick}>CC</button>
                               <button type="button" className="bg-blue-500 text-white px-2 py-1 rounded" onClick={handleBccClick}>BCC</button>
                             </div>
 
                             {showccField && (
-                              <div className="mb-4">
+                              <div className="mb-3">
                                 <label className="block font-semibold">CC:</label>
-                                <input type="text" className="w-full border rounded px-3 py-2" value={cc} onChange={(e) => setCc(e.target.value)} />
+                                <input type="text" className="form-control form-control-sm f-12" value={cc} onChange={(e) => setCc(e.target.value)} />
                               </div>
                             )}
 
                             {showbccField && (
-                              <div className="mb-4">
+                              <div className="mb-3">
                                 <label className="block font-semibold">BCC:</label>
-                                <input type="text" className="w-full border rounded px-3 py-2" value={bcc} onChange={(e) => setBcc(e.target.value)} />
+                                <input type="text" className="form-control form-control-sm f-12" value={bcc} onChange={(e) => setBcc(e.target.value)} />
                               </div>
                             )}
 
-                            <div className="mb-4">
+                            <div className="mb-3">
                               <label className="block font-semibold">Subject:</label>
-                              <input type="text" className="w-full border rounded px-3 py-2" value={subject} onChange={(e) => setSubject(e.target.value)} />
+                              <input type="text" className="form-control form-control-sm f-12" value={subject} onChange={(e) => setSubject(e.target.value)} />
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-3">
                               <label className="block font-semibold">Email Body:</label>
                               <ReactQuill theme="snow" value={emailBody} onChange={setEmailBody} className="bg-white" />
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-3">
                               <label className="block font-semibold">Attachments:</label>
                               {commentsFile.map((file, index) => (
                                 <div key={index} className="flex items-center gap-2 mb-2">
                                   <input
                                     type="file"
-                                    className="w-full border rounded px-1 py-1"
+                                    className="form-control form-control-sm f-12"
                                     onChange={(e) => handleFileChange(index, e.target.files[0])}
                                   />
                                   <button
                                     type="button"
-                                    className="text-danger"
+                                    className="btn btn-danger btn-sm px-1"
                                     onClick={() => handleRemoveFile(index)}
                                   >
                                     <Minus size={12} />
@@ -903,7 +904,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               </button>
                             </div>
 
-                            <div className="mb-4">
+                            <div className="mb-3">
                               <label className="block font-semibold">Email Signature:</label>
                               <ReactQuill theme="snow" value={emailSignature} onChange={setEmailSignature} className="bg-white" />
                             </div>
@@ -934,8 +935,8 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                               </div>
 
                               {sendType === 'later' && (
-                                <div className="w-1/2 flex dashboardinput">
-                                  <label className="block font-semibold" style={{ fontSize: "11px" }}>Schedule Date and Time:</label>
+                                <div className="w-1/2 flex dashboardinput items-center gap-2">
+                                  <label className="block" style={{ fontSize: "12px", whiteSpace:"nowrap" }}>Schedule Date and Time:</label>
                                   <Flatpickr
                                     value={sendLaterDate}
                                     onChange={([date]) => setSendLaterDate(date)}
@@ -944,7 +945,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                                       dateFormat: "Y-m-d H:i",
                                       minDate: "today",
                                     }}
-                                    className="w-full px-3 py-2 border rounded"
+                                    className="form-control form-control-sm f-12"
                                   />
                                 </div>
                               )}
@@ -1250,11 +1251,11 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                 </div>
 
 
-                <div className='flex items-center justify-between '>
+                <div className='flex items-center justify-between mt-2'>
                   <button
                     type='button'
                     onClick={() => setCommentsTabVisible(!commentsTabVisible)}
-                    className="bg-blue-500 hover:bg-blue-600 text-white my-3 font-medium py-1 px-2 rounded-md shadow-md transition duration-300"
+                    className="bg-blue-500 hover:bg-blue-600 text-white  font-medium py-1 px-2 rounded-md shadow-md transition duration-300"
                   >
                     Add Comments
                   </button>
@@ -1262,7 +1263,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
                   <button
                     type='button'
                     onClick={() => handleSubmitButtonClick(queryInfo, queryInfo.arrTags ?? [], remainderDate)}
-                    className="bg-orange-500 hover:bg-orange-600 text-white my-3 fssx py-1 px-2 rounded shadow-md transition duration-300"
+                    className="bg-orange-500 hover:bg-orange-600 text-white  fssx py-1 px-2 rounded shadow-md transition duration-300"
                   >
                     Submit
                   </button>
@@ -1274,10 +1275,12 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
           </div>
         )}
 
-        <HistoryComponent queryInfo={queryInfo} />
+        
 
       </form>
-
+        
+    </div>
+    <HistoryComponent queryInfo={queryInfo} />
     </div>
   );
 };

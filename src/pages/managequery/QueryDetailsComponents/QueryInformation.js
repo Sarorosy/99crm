@@ -273,8 +273,8 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
 
 
     return (
-        <div className="query-info-container bg-light p-3 rounded-lg relative">
-            <div className="query-detail space-y-4">
+        <div className="query-info-container p-3 rounded-lg relative">
+            <div className="query-detail space-y-4 ">
                 {[
                     { label: "Ref. No.", value: queryInfo.assign_id, editable: false },
                     { label: "Referred By", value: queryInfo.referred_by, editable: false },
@@ -385,7 +385,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                                     }}
                                     title='Earlier Activity History'
                                 >
-                                    <Hourglass className='ml-2' size={14} />
+                                    <Hourglass className='ml-1' size={12} />
                                 </button>
                             )}
                         </div>
@@ -426,7 +426,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                 ))}
 
 
-                {queryInfo.ifCampTag && queryInfo.ifCampTag == 1 && (
+                {(queryInfo.ifCampTag && queryInfo.ifCampTag == 1) ?(
                     <div className="flex justify-start">
                         <div className='w-1/2 text-left'>
                             <strong>Camp Tag</strong>
@@ -435,7 +435,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                             <div className='bg-green-100 px-1 py-1 rounded'>Yes</div>
                         </div>
                     </div>
-                )}
+                ) : null}
                 {/* Tags */}
                 <div className="flex justify-between">
                     <div className='w-1/2 text-left'>
@@ -522,7 +522,7 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                 </div>
 
                 {/* Remarks */}
-                {queryInfo.remarks && (
+                {queryInfo.remarks ? (
                     <div className="flex justify-between">
                         <div className='w-1/2 text-left'>
                             <strong>Remarks</strong>
@@ -531,16 +531,16 @@ const QueryInformation = ({ refId, queryInfo, queryFiles, loading, allPriority, 
                             <span>{queryInfo.remarks}</span>
                         </div>
                     </div>
-                )}
+                ) : null}
 
                 {/* Flagmark */}
-                {queryInfo.flag_mark === 'on' && (
+                {queryInfo.flag_mark === 'on' ? (
                     <div className="flex justify-between">
                         <div className='w-1/2 text-left'>
                             <strong>Flagmark</strong> </div>
                         <div className='w-1/2 text-left'><img src={flagImage} alt="Flag" className="w-8 h-8" /> </div>
                     </div>
-                )}
+                ) : null}
 
                 {/* Files */}
                 <div className="flex justify-between">

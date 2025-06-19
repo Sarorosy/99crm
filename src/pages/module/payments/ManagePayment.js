@@ -183,15 +183,15 @@ const ManagePayment = () => {
             render: (data) => {
                 let statusLabel = '';
                 if (data === 1) {
-                    statusLabel = '<span class="inline-block px-1  bg-gray-700 text-white rounded-full px-2">Pending</span>';
+                    statusLabel = '<span class="bg-gray-700 badge">Pending</span>';
                 } else if (data === 2) {
-                    statusLabel = '<span class="inline-block px-1  bg-yellow-700 text-white rounded-full px-2 elevenpx">On Hold</span>';
+                    statusLabel = '<span class="bg-yellow-700 badge elevenpx">On Hold</span>';
                 } else if (data === 3) {
-                    statusLabel = '<span class="inline-block px-1  bg-green-700 text-white rounded-full px-2">Confirm</span>';
+                    statusLabel = '<span class="bg-green-700 badge">Confirm</span>';
                 } else if (data === 4) {
-                    statusLabel = '<span class="inline-block px-1  bg-red-700 text-white rounded-full px-2">Reject</span>';
+                    statusLabel = '<span class="bg-red-700 badge">Reject</span>';
                 } else {
-                    statusLabel = '<span class="inline-block px-1  bg-gray-700 text-white rounded-full px-2">NA</span>';
+                    statusLabel = '<span class="bg-gray-700 badge">NA</span>';
                 }
                 return `<div class="flex justify-center" style="font-size: 12px;">${statusLabel}</div>`;
             },
@@ -216,24 +216,26 @@ const ManagePayment = () => {
 
     return (
         <div>
-            <div className="my-3 flex mx-auto rep">
-                <div className='col-md-7 flex items-center'>
+            <div className="bg-gray-100 rounded-lg px-2 py-2 mb-2 flex justify-between mx-auto">
+                <div className='flex items-center'>
                     <h1 className="text-md font-bold">Payments &nbsp;</h1>
-                    <div className="w-1/4">
+                </div>
+                <div className='flex items-center justify-end gap-2'>
+                    <div className="">
                         <input
                             id="filterDate"
                             type="text"
-                            className="form-control"
+                            className="form-control form-control-sm f-12"
                             placeholder="From Date - To Date"
                             value={filterDate}
                             readOnly
                         />
                     </div>
-                    <div className="w-1/4 ml-2">
+                    <div className="">
                         <select
                             name="status_filter"
                             id="status_filter"
-                            className="px-1 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 "
+                            className="form-select form-select-sm f-12"
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
                         >
@@ -245,29 +247,31 @@ const ManagePayment = () => {
                         </select>
                     </div>
 
-                </div>
-                <div className='ml-3 flex items-center justify-end'>
-
-
+                    <div>
                     <button
                         onClick={handleRefresh}
-                        className="bg-gray-200 text-gray-500 py-1 px-2 rounded hover:bg-gray-300"
+                        className="btn btn-light btn-sm f-10 px-1"
                     >
-                        <RefreshCw size={15} />
+                        <RefreshCw size={14} />
                     </button>
+                    </div>
+                    <div>
                     <button
                         onClick={fetchReports}
-                        className="bg-green-500  px-1 py-0.5 ml-3 text-white rounded hover:bg-green-600 thirteenpx"
+                        className="btn btn-primary btn-sm f-10"
                     >
                         Apply
                     </button>
+                    </div>
                     {sessionStorage.getItem('user_type') === 'user' && (
+                        <div>
                         <button
                             onClick={handleAddPayment}
-                            className="bg-orange-500  px-1 py-0.5 ml-3 text-white rounded hover:bg-orange-600 thirteenpx"
+                            className="btn btn-success btn-sm f-10"
                         >
                             Add Payment
                         </button>
+                        </div>
                     )}
 
 

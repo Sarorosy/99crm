@@ -549,11 +549,11 @@ const Dashboard = () => {
     return (
         <div className="py-1">
             {/* Filter Section */}
-            <div className="bg-gray-50 rounded-lg px-2 py-2 mb-6">
+            <div className="bg-gray-100 rounded-lg px-2 py-2 mb-2">
                 <div className="flex justify-between items-center">
-                    <h2 className="font-semibold ml-2 my-1 text-xl mt-0 flex items-center">Dashboard <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={14} className="" /></button></h2>
+                    <h2 className="font-semibold text-md flex items-center gap-2">Dashboard <button className="btn btn-primary btn-sm px-1" onClick={() => setShowFilter(!showFilter)}><FilterIcon size={12} className="" /></button></h2>
 
-                    <div className="flex items-center mb-1">
+                    <div className="flex items-center">
                         <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowConversationSummary(!showConversationSummary)}>
                             Show Conversion Summary
                         </button>
@@ -561,7 +561,7 @@ const Dashboard = () => {
                             Show Average Claimed Queries
                         </button>
                        
-                            <button className="bg-[#139cbb] text-[#02313a] rounded px-2 py-1 ml-3 fssx" onClick={() => setShowReconnectQueries(!showReconnectQueries)}>
+                            <button className="bg-[#139cbb] text-white rounded px-2 py-1 ml-3 fssx" onClick={() => setShowReconnectQueries(!showReconnectQueries)}>
                                 Reconnect Queries
                             </button>
                         
@@ -572,15 +572,15 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleSearch} className="dashboardinput" style={{ display: showFilter ? 'block' : 'none' }}>
+                <form onSubmit={handleSearch} className="mt-2 p-2 border bg-white rounded" style={{ display: showFilter ? 'block' : 'none' }}>
                     {/* Flex container for form fields */}
                     <div className="flex gap-2">
 
-                        <div className="spwdashboardinput col-span-1">
+                        <div className="">
                             <input
                                 id="filterDate"
                                 type="text"
-                                className="form-control w-full sm:w-auto py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 "
+                                className="form-control form-control-sm f-12"
                                 placeholder="From Date - To Date"
                                 value={filterDate}
                                 readOnly
@@ -588,12 +588,12 @@ const Dashboard = () => {
                         </div>
 
                         {/* Team Dropdown */}
-                        <div className="spwdashboardinput col-span-1" style={{ display: (sessionStorage.getItem("user_type") != "user" && sessionStorage.getItem("user_type") != "Operations Manager") ? 'block' : 'none' }}>
+                        <div className="" style={{ display: (sessionStorage.getItem("user_type") != "user" && sessionStorage.getItem("user_type") != "Operations Manager") ? 'block' : 'none' }}>
                             <select
                                 value={teamId}
                                 ref={teamsRef}
                                 onChange={(e) => setTeamId(e.target.value)}
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="form-select form-select-sm f-12"
                             >
                                 <option value="">Select Team</option>
                                 {teams.map((team) => (
@@ -605,11 +605,11 @@ const Dashboard = () => {
                         </div>
 
                         {/* User Dropdown */}
-                        <div className="flex-1 col-span-1 col-md-3" style={{ display: (sessionStorage.getItem("user_type") != "user" && sessionStorage.getItem("user_type") != "Operations Manager") ? 'block' : 'none' }}>
+                        <div className="flex-1" style={{ display: (sessionStorage.getItem("user_type") != "user" && sessionStorage.getItem("user_type") != "Operations Manager") ? 'block' : 'none' }}>
                             <select
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
-                                className="w-full border border-gray-300  dashboardselect focus:outline-none focus:ring-2 "
+                                className="form-select form-select-sm f-12 "
                             >
                                 <option value="">Select User</option>
                                 {users.map((user) => (
@@ -621,33 +621,33 @@ const Dashboard = () => {
                         </div>
 
                         {/* Ref ID */}
-                        <div className="spwdashboardinput">
+                        <div className="">
                             <input
                                 type="text"
                                 value={refId}
                                 onChange={(e) => setRefId(e.target.value)}
                                 placeholder="Enter Ref ID"
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="form-control form-control-sm f-12"
                             />
                         </div>
 
                         {/* Keywords */}
-                        <div className="flex-1  col-span-1 col-md-3">
+                        <div className="flex-1">
                             <input
                                 type="text"
                                 value={keywords}
                                 onChange={(e) => setKeywords(e.target.value)}
                                 placeholder="Enter keywords"
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="form-control form-control-sm f-12"
                             />
                         </div>
 
                         {/* Website Dropdown */}
-                        <div className="flex-1  col-span-1 col-md-3">
+                        <div className="flex-1">
                             <select
                                 value={website}
                                 onChange={(e) => setWebsite(e.target.value)}
-                                className="w-full border border-gray-300 dashboardselect focus:outline-none focus:ring-2 "
+                                className="form-select form-select-sm f-12"
                             >
                                 <option value="">Select Website</option>
                                 {websites.map((site) => (
@@ -659,7 +659,7 @@ const Dashboard = () => {
                         </div>
 
                         {/* Tags Multi-select */}
-                        <div className="flex-1  col-span-1 col-md-3">
+                        <div className="flex-1">
                             <select
                                 multiple
                                 value={selectedTags}
@@ -671,7 +671,7 @@ const Dashboard = () => {
                                     );
                                     setSelectedTags(selectedOptions);
                                 }}
-                                className="w-full border border-gray-300 rounded-lg px-2 py-1 focus:outline-none focus:ring-2 "
+                                className="form-select form-select-sm f-12"
                             >
                                 <option value="">Select Tags</option>
                                 {tags.map((tag) => (
@@ -681,17 +681,18 @@ const Dashboard = () => {
                                 ))}
                             </select>
                         </div>
+                        <div className="">
+                            <button
+                                type="button"
+                                onClick={fetchDashboardQueries}
+                                className="btn btn-primary btn-sm f-11 flex gap-1 items-center"
+                            >
+                                <Search size={14} className="" /> Search
+                            </button>
+                        </div>
+                        {/* Search Button */}
                     </div>
-                    <div className="col-md-12 spdbut">
-                        <button
-                            type="button"
-                            onClick={fetchDashboardQueries}
-                            className="btn btn-primary text-white rounded-md  flex items-center py-1 px-2 "
-                        >
-                            <Search size={14} className="mr-2" /> Search
-                        </button>
-                    </div>
-                    {/* Search Button */}
+                    
 
                 </form>
 
@@ -720,7 +721,7 @@ const Dashboard = () => {
                         ))}
                     </div>
                     :
-                    <p className="text-gray-500 text-center mx-auto">No Queries Found</p>
+                    <p className="text-danger bg-red-100 f-12 py-2 px-3 rounded mb-1 fw-bold">No Queries Found</p>
                 )}
             </AnimatePresence>
 

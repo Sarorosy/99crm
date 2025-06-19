@@ -993,7 +993,7 @@ const UserQuery = () => {
                 if (!tagNames) return '<div style="text-align: left;">-</div>';
 
                 const tagSpans = tagNames.split(', ').map(tag =>
-                    `<span style="border:1px solid #282828;background-color:rgb(231, 239, 255); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block; ">${tag}</span>`
+                    `<span style="border:1px solid #282828;background-color:rgb(231, 239, 255); padding: 2px 6px; border-radius: 4px; font-size: 10px; margin-right: 4px; display: inline-block; margin-bottom: 5px; white-space: nowrap;">${tag}</span>`
                 ).join('');
 
                 return `<div style="text-align: left;">${tagSpans}</div>`;
@@ -1445,9 +1445,9 @@ const UserQuery = () => {
 
     return (
         <div>
-            <div className='bg-white pb-2 rounded mb-2'>
-                <div className="flex justify-between flex-col mx-auto qhpage ">
-                    <div className='flex flex-col w-full justify-start  py-2'>
+            <div className='bg-gray-100 rounded-lg px-2 py-2 mb-2 flex justify-between mx-auto'>
+                <div className="w-100">
+                    <div className='w-100'>
                         
                         {(sessionStorage.user_type === 'admin' || sessionStorage.user_type === 'Data Manager') && (
                             <div className="row">
@@ -1468,7 +1468,7 @@ const UserQuery = () => {
                             </div>
 
                         )}
-                        <div className='flex w-full justify-start  py-2'>
+                        <div className='flex w-full justify-between '>
                             <h1 className="text-md font-bold flex items-center" >Query History</h1>
                             <button className="bg-[#cfe1e5] text-[#02313a] rounded px-2 py-1 ml-3" onClick={() => setShowFilter(!showFilter)}>
                                 <FilterIcon size={14} className="" /></button>
@@ -1476,7 +1476,7 @@ const UserQuery = () => {
 
                     </div>
                     <div style={{ display: showFilter ? "block" : "none" }}>
-                        <div class="bg-light p-3 mb-3 card "> 
+                        <div class="mt-2 p-2 border bg-white rounded "> 
                             <div className="row gap-y-2" id="filterDiv" >
                                 {/* Team Selection */}
                                 {userType != "user" && userType != "Operations Manager" && (
@@ -1484,7 +1484,7 @@ const UserQuery = () => {
                                     <select
                                         name="search_team_id"
                                         id="search_team_id"
-                                        className="form-select select2 form-select-sm"
+                                        className="form-select form-select-sm f-12 select2"
                                         onChange={handleSearchTeamIdChange}
                                         value={searchTeamId}
                                     >
@@ -1503,7 +1503,7 @@ const UserQuery = () => {
                                 <input
                                     id="filterDate"
                                     type="text"
-                                    className="form-control form-control-sm "
+                                    className="form-control form-control-sm f-12 "
                                     placeholder="From Date - To Date"
                                     value={filterDate}
                                     readOnly
@@ -1515,7 +1515,7 @@ const UserQuery = () => {
                                     type="text"
                                     name="search_keywords"
                                     id="search_keywords"
-                                    className="form-control form-control-sm"
+                                    className="form-control form-control-sm f-12"
                                     placeholder="Enter Keywords Name or Email or Phone"
                                     value={searchKeywords}
                                     onChange={(e) => setSearchKeywords(e.target.value)}
@@ -1526,7 +1526,7 @@ const UserQuery = () => {
                                 <input
                                     type="text"
                                     name="ref_id"
-                                    className="form-control form-control-sm"
+                                    className="form-control form-control-sm f-12"
                                     placeholder="Enter Ref. Id"
                                     value={refId}
                                     onChange={(e) => setRefId(e.target.value)}
@@ -1538,7 +1538,7 @@ const UserQuery = () => {
                                 <select
                                     name="update_status"
                                     id="update_status"
-                                    className="form-select form-select-sm"
+                                    className="form-select form-select-sm f-12"
                                     value={updateStatus}
                                     onChange={(e) => setUpdateStatus(e.target.value)}
                                 >
@@ -1557,7 +1557,7 @@ const UserQuery = () => {
                                 <select
                                     name="icon_filter"
                                     id="icon_filter"
-                                    className="form-select form-select-sm"
+                                    className="form-select form-select-sm f-12"
                                     value={iconFilter}
                                     onChange={(e) => setIconFilter(e.target.value)}
                                 >
@@ -1574,7 +1574,7 @@ const UserQuery = () => {
                                     <select
                                         name="transfer_type"
                                         id="transfer_type"
-                                        className="form-select form-select-sm"
+                                        className="form-select form-select-sm f-12"
                                         value={transferType}
                                         onChange={(e) => setTransferType(e.target.value)}
                                     >
@@ -1592,7 +1592,7 @@ const UserQuery = () => {
                                 <select
                                     name="user_id"
                                     id="user_id"
-                                    className="form-select select2 form-control-sm"
+                                    className="form-select form-select-sm f-12 select2"
                                     value={selectedUser}
                                     onChange={(e) => setSelectedUser(e.target.value)}
                                 >
@@ -1612,7 +1612,7 @@ const UserQuery = () => {
                                 <select
                                     name="callWhatsapp"
                                     id="callWhatsapp"
-                                    className="form-select select2 form-select-sm"
+                                    className="form-select form-select-sm f-12 select2"
                                     value={callWhatsapp}
                                     onChange={(e) => setSelectedCallWhatsapp(e.target.value)}
                                 >
@@ -1626,7 +1626,7 @@ const UserQuery = () => {
                                 {callWhatsapp && callWhatsapp === "Call" && (
                                     <div className='col-2'>
                                     <select
-                                        className="form-select form-select-sm"
+                                        className="form-select form-select-sm f-12"
                                         onChange={(e) => setUpdateStatus(e.target.value)}
                                         value={updateStatus}
                                     >
@@ -1657,7 +1657,7 @@ const UserQuery = () => {
                                 {callWhatsapp && callWhatsapp === "Whatsapp" && (
                                     <div className='col-2'>
                                     <select
-                                        className="form-select form-select-sm"
+                                        className="form-select form-select-sm f-12"
                                         onChange={(e) => setSelectedTags(e.target.value)}
                                         value={selectedTags}
                                     >
@@ -1688,7 +1688,7 @@ const UserQuery = () => {
                                 <select
                                     name="state"
                                     id="state"
-                                    className=" form-select select2 form-select-sm"
+                                    className=" form-select form-select-sm f-12 select2"
                                     value={selectedState}
                                     onChange={handleStateChange}
                                 >
@@ -1706,7 +1706,7 @@ const UserQuery = () => {
                                     <select
                                         name="city"
                                         id="city"
-                                        className="form-select select2 form-select-sm"
+                                        className="form-select form-select-sm f-12 select2"
                                     >
                                         <option value="">Select City</option>
                                         {cities.map((city) => (
@@ -1723,7 +1723,7 @@ const UserQuery = () => {
                                 <select
                                     name="website"
                                     id="websiteselect"
-                                    className="form-select select2 form-select-sm"
+                                    className="form-select form-select-sm f-12 select2"
                                     multiple
                                     value={selectedWebsites}
                                     // onChange={(e) =>
@@ -1745,7 +1745,7 @@ const UserQuery = () => {
                                 <select
                                     name="tags"
                                     id="tagsselectt"
-                                    className="form-select select2 form-select-sm"
+                                    className="form-select form-select-sm f-12 select2"
                                     multiple
                                     value={selectedTags}
 
@@ -1760,20 +1760,24 @@ const UserQuery = () => {
                                 </select>
                                 </div>
                                 
-                                <div className='col flex justify-content-end gap-2'>
+                                <div className='col flex justify-end gap-2 items-center'>
+                                    <div>
                                     <button
                                         onClick={fetchQueries}
-                                        className="bg-blue-400 text-white py-1 px-2 rounded flex items-center"
-                                    >
-                                        <SearchIcon className="mr-2" size={12} />
+                                        className="btn btn-primary btn-sm flex items-center gap-1"
+                                        >
+                                        <SearchIcon className="" size={12} />
                                         Search
                                     </button>
+                                    </div>
+                                    <div>
                                     <button
                                         onClick={resetFilters}
-                                        className="btn btn-successs text-white py-1 px-2 rounded flex items-center"
+                                        className="btn btn-success btn-sm flex items-center"
                                     >
                                         Reset Filters
                                     </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

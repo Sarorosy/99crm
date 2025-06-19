@@ -311,13 +311,13 @@ const ClientMailPage = () => {
 
 
     return (
-        <div className="p-3 bg-white min-h-screen row">
+        <div className="p-3 bg-white row">
 
 
 
 
             {/* Profile Emails Dropdown */}
-            <div className={`mb-8 flex items-center justify-between ${detailsOpen ? 'col-md-12' : 'col-md-12'}`}>
+            <div className={`mb-4 flex items-center justify-between bg-gray-50 rounded-lg px-2 py-2 mb-6`}>
                 <div className="flex items-center justify-between">
                 <h1 className="text-md font-bold text-green-600">Client Mail Page</h1>
                 <div className="flex-1 min-w-[150px] mx-3 mailinput">
@@ -377,6 +377,7 @@ const ClientMailPage = () => {
             {isLoading ? (
                 <EmailLoader />
             ) : (
+                <div className="bg-white p-3 shadow-xl border-t-2 border-green-400 rounded mx-auto">
                 <div className={detailsOpen ? 'col-md-8' : 'col-md-12'}>
                     
                     <div style={{ overflowX: 'auto', maxWidth: '100%' }}>
@@ -405,6 +406,7 @@ const ClientMailPage = () => {
                             }}
                         />
                     </div>
+                </div>
                 </div>
 
             )}

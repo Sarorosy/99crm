@@ -131,7 +131,7 @@ const MailDetailsTab = ({ mailid, onClose }) => {
                                 </div>
                             </div>
                         ) : (
-                            <p className=" mt-5 alert alert-warning flex items-center text-center">No attachments Found <Frown size={18}/></p>
+                            <p className=" mt-5 alert alert-warning flex items-center text-center p-2">No attachments Found <Frown size={18}/></p>
                         )}
                     </div>
                 )}

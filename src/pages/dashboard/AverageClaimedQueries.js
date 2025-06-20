@@ -40,7 +40,7 @@ const AverageClaimedQueries = ({ websiteId , onClose}) => {
   return (
     <div className="col-md-12">
       {loading ? (
-        <table className="w-3/5 mx-auto my-3 bg-white shadow-md rounded-lg overflow-hidden text-sm animate-pulse">
+        <table className="w-100 mx-auto my-3 bg-white shadow-md rounded-lg overflow-hidden text-sm animate-pulse">
           <thead>
             <tr className="bg-blue-50/50">
               <th colSpan="3" className="px-4 py-2">
@@ -57,10 +57,10 @@ const AverageClaimedQueries = ({ websiteId , onClose}) => {
           </tbody>
         </table>
       ) : (
-        <table className="w-3/5 mx-auto my-3 bg-white shadow-md rounded-lg overflow-hidden text-sm">
+        <table className="w-100 mx-auto my-3 bg-white shadow-md rounded-lg overflow-hidden text-sm">
           <thead>
             <tr className="bg-blue-50">
-              <th colSpan={QueryUsers.length !== 0 ? 3 : 2} className="px-4 py-2">
+              <th colSpan={QueryUsers.length !== 0 ? 3 : 2} className="px-3 py-2">
                 <div className="flex justify-between items-center">
                   <div>
                     Box Queries Received Total : {QueryUsers.length}

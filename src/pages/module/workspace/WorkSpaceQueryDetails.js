@@ -268,21 +268,21 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
                     </div>
                 ) : (
-                    <div className="p-6 overflow-y-scroll h-full">
-                        <div className='flex items-center justify-between'>
+                    <div className="p-2 overflow-y-scroll h-full">
+                        <div className='flex px-3 py-2.5 items-center justify-between theme rounded-t-lg'>
                             <h2 className="text-lg font-bold">WorkSpace Query Details</h2>
                             <button
                                 onClick={onClose}
-                                className='bg-red-500 text-white px-2 py-1 rounded-md shadow-sm hover:bg-red-600 transition-colors'
+                                className='btn btn-danger btn-sm px-1'
                             >
-                                <X size={15} />
+                                <X size={13} />
                             </button>
                         </div>
-                        <div className='mt-4 space-y-2 text-sm'>
+                        <div className='p-3 space-y-2  border f-13'>
                             {queryInfo?.name && (
                                 <div className="flex">
                                     <div className="w-5/12"><label>Name</label></div>
-                                    <div className="w-1/12"></div>
+                                    <div className="w-1/12">:</div>
                                     <div className="w-6/12">{queryInfo.name}</div>
                                 </div>
                             )}
@@ -290,7 +290,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                             {queryInfo?.email_id && (
                                 <div className="flex">
                                     <div className="w-5/12"><label>Email</label></div>
-                                    <div className="w-1/12"></div>
+                                    <div className="w-1/12">:</div>
                                     <div className="w-6/12">
                                         <div id="Showemail_idDiv">
                                             <span id="Getemail_id">{queryInfo.email_id}</span>
@@ -303,7 +303,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                             {queryInfo?.phone && (
                                 <div className="flex">
                                     <div className="w-5/12"><label>Contact No.</label></div>
-                                    <div className="w-1/12"></div>
+                                    <div className="w-1/12">:</div>
                                     <div className="w-6/12">{queryInfo.phone}</div>
                                 </div>
                             )}
@@ -311,7 +311,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                             {queryInfo?.website && (
                                 <div className="flex">
                                     <div className="w-5/12"><label>Website</label></div>
-                                    <div className="w-1/12"></div>
+                                    <div className="w-1/12">:</div>
                                     <div className="w-6/12">
                                         {queryInfo.website === "others" ? queryInfo.other_website : queryInfo.website}
                                     </div>
@@ -321,7 +321,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                             {queryInfo?.duplicate && (
                                 <div className="flex">
                                     <div className="w-5/12"><label>Duplicate</label></div>
-                                    <div className="w-1/12"></div>
+                                    <div className="w-1/12">:</div>
                                     <div className="w-6/12">
                                         <span className="bg-red-500 text-white px-2 py-1 rounded-md">{queryInfo.duplicate}</span>
                                     </div>
@@ -331,7 +331,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                             {queryInfo?.sourceoflead && (
                                 <div className="flex">
                                     <div className="w-5/12"><label>Source of Lead</label></div>
-                                    <div className="w-1/12"></div>
+                                    <div className="w-1/12">:</div>
                                     <div className="w-6/12 text-xsm elevenpx">
                                         {getSourceOfLeadLabel(queryInfo.sourceoflead)}
                                     </div>
@@ -341,7 +341,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
                                 <div>
                                     <div className="flex">
                                         <div className="w-5/12"><label>Generic Query</label></div>
-                                        <div className="w-1/12"></div>
+                                        <div className="w-1/12">:</div>
                                         <div className="w-6/12 text-xsm elevenpx">
                                             <span className={`px-2 py-1 text-xsm rounded-md bg-yellow-500 text-white`}>
                                                 {queryInfo.generic_query}
@@ -392,7 +392,7 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
 
                             <div className="flex">
                                 <div className="w-5/12"><label>Created Date</label></div>
-                                <div className="w-1/12"></div>
+                                <div className="w-1/12">:</div>
                                 <div className="w-6/12">
                                     {queryInfo?.created_on && new Date(queryInfo.created_on * 1000).toLocaleString()}
                                 </div>

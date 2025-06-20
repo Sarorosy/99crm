@@ -104,11 +104,11 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
     }
 
     return (
-        <div className="flex flex-column gap-3">
+        <div className="flex flex-column mt-3">
             {/* File upload form */}
-            <div className="bg-light p-3 relative">
+            <div className="bg-light p-2 relative">
             <div className="">
-                <h3 className="text-md font-semibold mb-2 text-gray-800">Upload File</h3>
+                <h3 className="f-13 font-semibold mb-2 text-gray-800">Upload File</h3>
                 <form onSubmit={handleFileUpload} className="space-y-2">
                     <div className="flex items-center space-x-4 dashboardinputs">
                         <input
@@ -127,28 +127,28 @@ const ShowAttachedFiles = ({ refId, crmId }) => {
                 </form>
             </div>
             </div>
-            <div className="bg-light p-3 relative">
+            <div className="bg-light p-2 relative">
             {/* Attached files list */}
-            <h2 className="text-md font-semibold mb-2 text-gray-800">Attached Files</h2>
+            <h2 className="f-13 font-semibold mb-2 text-gray-800">Attached Files</h2>
             {attachedFiles.length === 0 ? (
                 <p className='text-center bg-blue-100 px-2 py-2 flex items-center justify-center'>No files attached.</p>
             ) : (
-                <ul className="space-y-4">
+                <ul className="space-y-4 bg-none">
                     {attachedFiles.map((file, index) => (
-                        <li key={index} className="bg-white px-2 py-2 rounded-lg shadow-md border border-gray-200">
+                        <li key={index} className="bg-white px-2 py-2 rounded-lg shadow-sm border border-gray-200">
                             <div className="flex items-center justify-between">
                                 <a
                                     href={file.files_url}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-blue-600 hover:text-blue-800 font-medium text-md"
+                                    className="text-blue-600 hover:text-blue-800 font-medium text-md f-12"
                                 >
                                     {file.files}
                                 </a>
                                 <span className="text-xs text-gray-400">{file.files_date}</span>
                             </div>
-                            <div className="mt-2 text-sm text-gray-600">
-                                <p>
+                            <div className="mt-2 text-sm text-gray-600 f-12">
+                                <p className="f-12">
                                     <strong>Uploaded By:</strong> {file.uploaded_by}
                                 </p>
                             </div>

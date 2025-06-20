@@ -99,8 +99,8 @@ const HistoryComponent = ({ queryInfo }) => {
 
     return (
         <>
-        <div className="mx-auto mt-2 border-top pt-3">
-            <div className="flex space-x-4">
+        <div className="mt-3 px-2 rounded">
+            <div className="flex space-x-4 mb-3">
                 <button
                     onClick={fetchCallHistory}
                     type="button"
@@ -125,30 +125,48 @@ const HistoryComponent = ({ queryInfo }) => {
             )}
             {/* Toggle History Visibility */}
             {showHistory && !loading && (
-                <div>
+                <div className="">
 
-                    <button
-                        onClick={() => setShowHistory(false)}
-                        className="bg-red-500 text-white p-1 rounded-full float-right hover:bg-red-600 transition mb-4"
-                    >
-                        <X size={12} />
-                    </button>
+                    
 
 
                     {callHistoryData.length > 0 && (
-                        <div>
-                            <h3 className="text-lg font-semibold my-2">Call History</h3>
-                            {renderHistoryTable(callHistoryData, "call")}
+                        <div className="bg-gray-100 border p-2 rounded">
+                            <div className="flex justify-between mb-2 px-2">
+                                <h3 className="text-sm font-semibold">Call History</h3>
+                                <button
+                                    onClick={() => setShowHistory(false)}
+                                    className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
+                                >
+                                    <X size={12} />
+                                </button>
+                            </div>
+                            <div>
+                                {renderHistoryTable(callHistoryData, "call")}
+                            </div>
                         </div>
                     )}
 
                     {/* WhatsApp History Table */}
                     {whatsappHistoryData.length > 0 && (
-                        <div className="mt-6">
-                            <h3 className="text-lg font-semibold mb-2">WhatsApp History</h3>
-                            {renderHistoryTable(whatsappHistoryData, "whatsapp")}
+                        <div className="bg-gray-100 border p-2 rounded">
+                            <div className="flex justify-between mb-2 px-2">
+                                <h3 className="text-sm font-semibold">WhatsApp History</h3>
+                                <button
+                                    onClick={() => setShowHistory(false)}
+                                    className="bg-red-500 text-white p-1 rounded-full hover:bg-red-600 transition"
+                                >
+                                    <X size={12} />
+                                </button>
+                                
+                            </div>
+                            <div>
+                                {renderHistoryTable(whatsappHistoryData, "whatsapp")}
+                            </div>
                         </div>
                     )}
+
+                    
 
 
                 </div>

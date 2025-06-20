@@ -118,21 +118,21 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
 
 
     return (
-        <div className="bg-light p-3 relative col-md-12 mt-3">
+        <div className="relative">
             
 
-            <div className='flex justify-content-between align-items-end border-bottom pb-2 mb-2'>
-                <h2 className="text-lg font-semibold">Previous Comments</h2>
+            <div className='flex justify-between items-center border-b p-2 bg-gray-200'>
+                <h2 className="text-md font-semibold">Previous Comments</h2>
                 <button
                     onClick={onClose}
-                    className="btn btn-danger btn-sm"
+                    className="btn btn-danger btn-sm px-1"
                 >
-                    <X size={13} />
+                    <X size={12} />
                 </button>
             </div>
-            <div className="row">
+            <div className="flex justify-between p-2">
                 {/* Archive Tabs Section */}
-                <div className="col-md-10 mb-2">
+                <div className="">
                     {archiveData.length > 0 && (
                         <ul className=" space-x-1 flex">
                             {archiveData.map((data) => (
@@ -140,7 +140,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                                     <button
                                         style={{ color: "#444", borderRadius: "0" }}
                                         data-toggle="tab"
-                                        className='btn btn-warning btn-sm my-2'
+                                        className='btn btn-warning btn-sm'
                                         onClick={() => getArchiveComments(data.archive_no)}
                                     >
                                         Archive {data.archive_no}
@@ -152,14 +152,13 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                 </div>
 
                 {/* Save Archive Button Section saveCommentsArchive(assignId)*/}
-                <div className="col-md-2">
+                <div className="">
                     {userType === "user" && Array.isArray(unArchiveData) && unArchiveData.length > 0 && (
                         <button
                             style={{
                                 margin: "0px",
                                 padding: "2px",
                                 fontSize: "11px",
-                                float: "right",
                             }}
                             type="button"
                             className="btn btn-primary btn-sm"
@@ -170,48 +169,57 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                     )}
                 </div>
             </div>
-            <div className='h-[500px] overflow-y-scroll'>
+            <div className='max-h-[600px] overflow-y-auto p-2 flex flex-col gap-2 list-border-end-none border'>
                 {commentData.length > 0 ? (
                     commentData.map((comment) => (
-                        <div key={comment.id} className="border-b p-3 mb-4 bg-white rounded-md relative "
+                        <div key={comment.id} className="border-b p-2  relative me-1 f-13"
 
                         >
-                            <div className="flex items-start space-x-4 mb-4">
-                                <div className="w-10 h-10 bg-orange-400 rounded-full flex items-center justify-center text-white font-semibold">
-                                    {comment.comments_sent_type == "user" ? getProfilePicInitials(comment.name) : getProfilePicInitials(comment.FromName)}
+                            <div className="flex items-start space-x-3">
+                                <div>
+                                    <div className="w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center text-white font-semibold">
+                                        {comment.comments_sent_type == "user" ? getProfilePicInitials(comment.name) : getProfilePicInitials(comment.FromName)}
+                                    </div>
+                                </div>
+                                <div className='w-full'>
+                                <div className='flex justify-between w-full'>
+                                    <div>
+                                        <h6 className="font-semibold" >{comment.subject}</h6>
+                                        <p
+                                            onClick={() => comment.comments_sent_type === "user" && handleAdminClick(comment.id)}// Add onClick handler for the admin name
+                                            className=" text-blue-500 cursor-pointer"
+                                        >
+                                            {comment.comments_sent_type == "user" ? comment.name : "From: " + comment.FromName}
+                                        </p>
+                                    </div>
+                                    <div className=" f-11 text-gray-500">
+                                        {moment.unix(comment.date).fromNow()}
+                                        {comment.track_status.trim() != "" && (
+                                            <span className='text-green-600 font-semibold ml-5 tenpx'>{comment.track_status}</span>
+                                        )}
+                                    </div>
                                 </div>
                                 <div>
-                                    <h6 className="font-semibold" style={{ fontSize: "16px" }}>{comment.subject}</h6>
-                                    <p
-                                        onClick={() => comment.comments_sent_type === "user" && handleAdminClick(comment.id)}// Add onClick handler for the admin name
-                                        className="text-sm text-blue-500 cursor-pointer mt-1"
-                                    >
-                                        {comment.comments_sent_type == "user" ? comment.name : "From: " + comment.FromName}
-                                    </p>
-                                </div>
-                                <div className="flex justify-end text-sm text-gray-500 items-center w-50">
-                                    {moment.unix(comment.date).fromNow()}
-                                    {comment.track_status.trim() != "" && (
-                                        <span className='text-green-600 font-semibold ml-5 tenpx'>{comment.track_status}</span>
+                                    {
+                                        comment.email_body && (
+                                            <div
+                                                className="px-2 pb-2"
+                                                dangerouslySetInnerHTML={{ __html: comment.email_body }}
+                                            />
+                                        )
+                                    }
+
+                                    {comment.comments && (
+                                        <div
+                                            className=""
+                                            dangerouslySetInnerHTML={{ __html: comment.comments }}
+                                        />
                                     )}
+                                </div>
                                 </div>
                             </div>
 
-                            {
-                                comment.email_body && (
-                                    <div
-                                        className="mt-2 px-2"
-                                        dangerouslySetInnerHTML={{ __html: comment.email_body }}
-                                    />
-                                )
-                            }
-
-                            {comment.comments && (
-                                <div
-                                    className="mt-4"
-                                    dangerouslySetInnerHTML={{ __html: comment.comments }}
-                                />
-                            )}
+                            
 
 
                             {visibleCommentId == comment.id && (
@@ -231,7 +239,7 @@ const CommentDiv = ({ commentInfo, onClose, assignId }) => {
                         </div>
                     ))
                 ) : (
-                    <p className={`alert ${loading ? 'alert-warning' : 'alert-danger'} mt-4 text-center`}>{loadingMessage}</p>
+                    <p className={`alert ${loading ? 'alert-warning' : 'alert-danger'}  text-center p-2 f-13 mb-0`}>{loadingMessage}</p>
                 )}
             </div>
         </div>

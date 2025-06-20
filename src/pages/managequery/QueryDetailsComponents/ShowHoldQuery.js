@@ -136,21 +136,21 @@ const ShowHoldQuery = ({ queryInfo, finalFunction }) => {
     
     return (
         <div className="bg-light p-3" id="activityHistoryArea">
-            <div className="border-b pb-2 mb-3">
-                <h2 className="text-lg font-semibold text-black-800">Assign Hold Query</h2>
-            </div>
+            {/* <div className="border-b pb-2 mb-2">
+                <h2 className="font-bold text-md font-semibold text-black-800">Assign Hold Query</h2>
+            </div> */}
 
-            <div className="space-y-2">
+            <div className="space-y-1">
                 <div>
-                    <h4 className="font-bold text-black-900 mb-3 text-md">Query Details</h4>
-                    <div className="text-sm text-gray-700 flex flex-column gap-2">
-                        <p><span className="font-semibold">Reference Id :</span> {queryInfo.assign_id}</p>
-                        <p><span className="font-semibold">Name :</span> {queryInfo.name}</p>
-                        <p><span className="font-semibold">Email :</span> {queryInfo.email_id}</p>
-                        <p><span className="font-semibold">Phone :</span> {queryInfo.phone}</p>
-                        <p><span className="font-semibold">Company Name :</span> {queryInfo.company_name}</p>
-                        <p><span className="font-semibold">Website ID :</span> {queryInfo.website_name}</p>
-                        <p><span className="font-semibold">Service Name :</span> {queryInfo.service_name}</p>
+                    <h4 className=" text-black-900 mb-2 text-md fw-bold">Assign Hold Query</h4>
+                    <div className="f-12 text-gray-700 grid grid-cols-2 gap-2">
+                        <p className="flex flex-col"><span className="font-semibold">Reference Id :</span> {queryInfo.assign_id}</p>
+                        <p className="flex flex-col"><span className="font-semibold">Name :</span> {queryInfo.name}</p>
+                        <p className="flex flex-col"><span className="font-semibold">Email :</span> {queryInfo.email_id}</p>
+                        <p className="flex flex-col"><span className="font-semibold">Phone :</span> {queryInfo.phone}</p>
+                        <p className="flex flex-col"><span className="font-semibold">Company Name :</span> {queryInfo.company_name}</p>
+                        <p className="flex flex-col"><span className="font-semibold">Website ID :</span> {queryInfo.website_name}</p>
+                        <p className="flex flex-col"><span className="font-semibold">Service Name :</span> {queryInfo.service_name}</p>
 
                         {queryInfo.hold_query == 3 && queryInfo.hold_user && (
                             <>
@@ -198,7 +198,7 @@ const ShowHoldQuery = ({ queryInfo, finalFunction }) => {
                 <div className="flex justify-end space-x-4 pt-4">
                     <button
                         type="button"
-                        className={`btn btn-sm text-[#006c81] ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#cfe1e5]  border border-[#006c81]"
+                        className={`btn btn-sm  f-11 ${loading ? "cursor-not-allowed disabled " : "btn-primary"
                             }`}
                         onClick={handleAssign}
                         disabled={loading}

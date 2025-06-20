@@ -480,20 +480,20 @@ const RemainderQuery = () => {
     }
 
     return (
-        <div>
-            <div className="my-3 flex justify-between flex-col mx-auto">
-                <div className='flex w-full justify-between px-2'>
-                    <h1 className="text-md font-bold">Reminder Query</h1>
+        <div className=''>
+            <div className="bg-gray-100 rounded-lg px-2 py-2 mb-2 flex justify-between items-center gap-10 mx-auto">
+                <div className='flex justify-between px-2'>
+                    <h1 className="text-md font-bold word-nowrap">Reminder Query</h1>
                 </div>
                 <div
-                    className="flex items-center space-x-2 my-4 bg-white p-2 rounded gap-2 px-2 pt-2 qhpage"
+                    className="flex items-center gap-2 w-100"
                     id="filterDiv"
                 >
                     {/* Date Range Picker */}
                     <input
                         id="filterDate"
                         type="text"
-                        className="form-control py-2 w-2/3 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-control form-control-sm f-12"
                         placeholder="From Date - To Date"
                         value={filterDate}
                         readOnly
@@ -504,7 +504,7 @@ const RemainderQuery = () => {
                         type="text"
                         name="search_keywords"
                         id="search_keywords"
-                        className="form-control w-2/3 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-control form-control-sm f-12"
                         placeholder="Enter Keywords Name or Email or Phone"
                         value={searchKeywords}
                         onChange={(e) => setSearchKeywords(e.target.value)}
@@ -514,7 +514,7 @@ const RemainderQuery = () => {
                     <select
                         name="search_type"
                         id="search_type"
-                        className="w-2/3 form-select py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-select form-select-sm f-12"
                         value={searchType}
                         onChange={(e) => setSearchType(e.target.value)}
                     >
@@ -533,7 +533,7 @@ const RemainderQuery = () => {
                     <select
                         name="website"
                         id="website"
-                        className="form-control w-2/3 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-select form-select-sm f-12"
                         
                         value={selectedWebsites}
                         ref={websiteRef}
@@ -550,7 +550,7 @@ const RemainderQuery = () => {
                     <select
                         name="users"
                         id="users"
-                        className=" w-1/2 select2 py-2 px-4 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="form-select form-select-sm f-12 select2 "
                         value={selectedTags}
                         ref={userRef}
                     >
@@ -563,20 +563,21 @@ const RemainderQuery = () => {
                     </select>
 
                     {/* Action Buttons */}
-                    <div className="flex gap-1">
-                        <button
-                            onClick={handleSubmit}
-                            className="bg-blue-400 text-white py-1 px-2 rounded-md hover:bg-blue-600 mr-2 flex items-center"
-                        >
-                            <SearchIcon className="mr-2" size={14} />
-                            Search
-                        </button>
+                    <div className="flex gap-2">
                         <button
                             onClick={resetFilters}
-                            className="text-gray-500 py-1 px-1 rounded hover:bg-gray-300"
+                            className="btn btn-light btn-sm px-1"
                         >
                             <RefreshCw size={15} />
                         </button>
+                        <button
+                            onClick={handleSubmit}
+                            className="btn btn-primary btn-sm f-11 flex items-center gap-2"
+                        >
+                            <SearchIcon className="" size={14} />
+                            Search
+                        </button>
+                        
                         
                     </div>
                 </div>

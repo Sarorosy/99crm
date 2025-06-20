@@ -42,9 +42,9 @@ const ClientNotInterested = ({ queries, loading , fetchDashboardQueriesForSocket
     }
 
     return (
-        <div className="open-tasks-container mt-2" style={{ padding: '20px 8px', border: '0px solid #ddd', borderRadius: '6px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#e9dfff', maxWidth: '350px' }}>
-            <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#02313a', marginBottom: '15px' }}>Client Not Interested <span className='text-green-600 bg-transparent rouneded-full px-1 py-1'>({queries && queries.length})</span></h1>
-            <ul className=" custom-scrollbar box-height h-96 overflow-y-scroll" id="sortable3">
+        <div className="open-tasks-container mt-2" style={{ padding: '15px 8px', border: '0px solid #ddd', borderRadius: '6px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', backgroundColor: '#e9dfff', maxWidth: '350px' }}>
+            <h1 style={{ fontSize: '16px', fontWeight: 'bold', color: '#02313a', marginBottom: '10px' }}>Client Not Interested <span className='text-green-600 bg-transparent rouneded-full px-1 py-1'>({queries && queries.length})</span></h1>
+            <ul className=" custom-scrollbar box-height h-96 overflow-y-auto" id="sortable3">
                 {loading ? <SkeletonLoader /> : queries.map((task) => (
                     <li
                         key={task.assign_id}

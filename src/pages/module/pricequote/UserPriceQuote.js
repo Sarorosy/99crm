@@ -93,16 +93,17 @@ const UserPriceQuote = ({ refId, after }) => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, ease: "easeInOut" }}
-                className={`overflow-hidden bg-white  ${isExpanded ? "fixed inset-0 w-full h-full z-40" : "relative "
+                className={`overflow-hidden   ${isExpanded ? "fixed inset-0 w-full h-full z-40" : "relative "
                     }`}
             >
-                <div className='d-flex justify-end mb-2'>
+                <div className='d-flex justify-between mt-2'>
+                    <div className='fw-bold'>Generate price</div>
                     <button
                         onClick={() => setIsExpanded(!isExpanded)}
-                        className="bg-blue-50 text-blue-800 p-1 rounded-md  z-50 "
+                        className="bg-blue-100 text-blue-800 p-1 rounded-md  z-50 "
                     >
-                        {isExpanded ? <Minimize size={18} className='${isExpanded ? "fixed inset-0 w-full h-full z-40" : "relative "
-                    }'/> : <Expand size={18} />}
+                        {isExpanded ? <Minimize size={15} className='${isExpanded ? "fixed inset-0 w-full h-full z-40" : "relative "
+                    }'/> : <Expand size={15} />}
                     </button>
                 </div>
                 {loading ? (
@@ -113,14 +114,14 @@ const UserPriceQuote = ({ refId, after }) => {
                     </>
                 ) : (
                     
-                    <div className='bg-light p-3 relative overflow-x-hidden custom-scrollbar h-full'>
+                    <div className='relative overflow-x-hidden custom-scrollbar h-full'>
                     <div className='overflow-x-hidden custom-scrollbar h-full'>
                         {(quoteData && quoteData.length == 0 && queryInfo ) ? (
                             sessionStorage.getItem("user_type") == "user" ? 
                             <AddQuoteForm QueryInfo={queryInfo} serviceData={serviceData} expandStatus={isExpanded} closeable={false} after={fetchQuoteData} />
-                            : <p className='text-red-500'>No Price Quote Found</p>
+                            : <p className='text-red-500 f-13 p-2 bg-red-100 mt-2 hover:bg-red-100'>No Price Quote Found</p>
                         ) : (
-                            <div className="overflow-x-auto ">
+                            <div className="overflow-x-auto mt-2">
                                 <table className="w-full border-collapse border border-gray-200 text-[11px] shadow-md">
                                     <thead>
                                         <tr className="bg-gray-100 text-gray-700">
@@ -172,15 +173,15 @@ const UserPriceQuote = ({ refId, after }) => {
                                                     </td>
                                                     <td className="border border-gray-300 px-1 py-2">
                                                         {service.status === 1 ? (
-                                                            <span className="text-white rounded-sm  px-1 py-0.5 bg-orange-600">Draft</span>
+                                                            <span className="badge bg-orange-600">Draft</span>
                                                         ) : service.status === 2 ? (
-                                                            <span className="text-white rounded-sm  px-1 py-0.5 bg-red-600">Approval Awaiting</span>
+                                                            <span className="badge bg-red-600">Approval Awaiting</span>
                                                         ) : service.status === 3 ? (
-                                                            <span className="text-white rounded-sm  px-1 py-0.5 bg-yellow-600">Approved</span>
+                                                            <span className="badge bg-yellow-600">Approved</span>
                                                         ) : service.status === 4 ? (
-                                                            <span className="text-white rounded-sm  px-1 py-0.5 bg-green-600">Published</span>
+                                                            <span className="badge bg-green-600">Published</span>
                                                         ) : service.status === 5 ? (
-                                                            <span className="text-white rounded-sm  px-1 py-0.5 bg-green-700 font-semibold">Paid</span>
+                                                            <span className="badge bg-green-700 font-semibold">Paid</span>
                                                         ) : null}
                                                     </td>
                                                     {sessionStorage.getItem('user_type') === 'user' && (
@@ -206,8 +207,8 @@ const UserPriceQuote = ({ refId, after }) => {
                                 </table>
 
                                 <div className='w-full flex items-center justify-end'>
-                                    {!addFormOpen && sessionStorage.getItem('user_type') == 'user' && (
-                                        <button className='bg-yellow-500 text-white px-2 py-1 rounded-sm mt-2' onClick={() => setAddFormOpen(true)}>
+                                    {!addFormOpen && !editFormOpen && sessionStorage.getItem('user_type') == 'user' && (
+                                        <button className='btn btn-warning btn-sm mt-2' onClick={() => setAddFormOpen(true)}>
                                             + Add New
                                         </button>
                                     )}

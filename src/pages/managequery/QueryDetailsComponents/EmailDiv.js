@@ -602,7 +602,7 @@ const EmailDiv = ({ queryInfo, templateInfo, commentInfo, whatsappOptions, callO
     formData.append("update_status1", status);
     formData.append("remainder_date", remainderDate);
     formData.append("mail_from_email", queryInfo.website_email);
-    formData.append("mail_to", queryInfo.email_id);
+    formData.append("mail_to", "web.dev.6@redmarkediting.com"); //queryInfo.email_id
     formData.append("email_cc", cc);
     formData.append("email_bcc", bcc);
     formData.append("mail_subject", subject);

@@ -41,6 +41,9 @@ import PaymentMilestones from './pages/module/pricequote/PaymentMilestones';
 import MilestonePayments from './pages/module/pricequote/MilestonePayments';
 import HoldQuery from './pages/managequery/HoldQuery';
 import ManageDailyWorkStatus from './pages/module/user/ManageDailyWorkStatus';
+import OpenQuery from './pages/managequery/openquery/OpenQuery';
+import StrikeRate from './pages/module/masterdata/strikerate/StrikeRate';
+import ManageStrikeRate from './pages/module/masterdata/strikerate/ManageStrikeRate';
 
 const App = () => {
 
@@ -113,6 +116,9 @@ const App = () => {
 
           <Route path="/queryhistory" element={<UserQuery />} />
           <Route path="/holdquery" element={<HoldQuery />} />
+          <Route path="/openquery" element={<OpenQuery />} />
+          <Route path="/strikerate" element={<StrikeRate />} />
+          <Route path="/managestrikerate" element={<ManageStrikeRate />} />
           <Route path="/addquery" element={<AddQuery />} />
           <Route path="/addboxquery" element={<AddBoxQuery />} />
           <Route path="/import-query" element={<ImportQuery />} />

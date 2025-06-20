@@ -241,8 +241,10 @@ const Header = () => {
 
                           <button onClick={() => handleNavigation('/dead-query')} className="block px-4 py-2  w-full dropdownmenu">Dead Query</button>
                           {userType == "admin" && (
+                            <>
+                            <button onClick={() => handleNavigation('/openquery')} className="block px-4 py-2  w-full dropdownmenu">Open Query</button>
                             <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu ">Data Specific Query</button>
-
+                            </>
                           )}
 
 
@@ -298,9 +300,17 @@ const Header = () => {
                             </button>
                           )}
                           {(userType == "admin" || userType == "sub-admin") && (
+                            <>
                             <button onClick={() => handleNavigation('/daily-work-status')} className="block px-4 py-2  w-full dropdownmenu">
                               Daily Work Status
                             </button>
+                            <button onClick={() => handleNavigation('/strikerate')} className="block px-4 py-2  w-full dropdownmenu">
+                              CRM Strike Rate
+                            </button>
+                             <button onClick={() => handleNavigation('/managestrikerate')} className="block px-4 py-2  w-full dropdownmenu">
+                              Manage Strike Rate
+                            </button>
+                            </>
                           )}
 
                           {(userType == "admin" || userType == "sub-admin") && (

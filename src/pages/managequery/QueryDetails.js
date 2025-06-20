@@ -144,23 +144,26 @@ const QueryDetails = ({ refId, onClose, fetchDashboardQueriesForSocket }) => {
         }
     };
 
-    useEffect(() => {
-        socket.on('query_status_updated_emit', (data) => {
-            console.log("Socket data received:", data);
-            if (refId == data.query_id) {
-                fetchQueryDetailsForSocket();
-            }
-        });
+    
 
-        return () => {
-            socket.off('query_status_updated_emit');  // Clean up on component unmount
+    useEffect(() => {
+        const handleSocketDataa = async (data) => {
+    
+          if (refId == data.query_id) {
+            await fetchQueryDetailsForSocket(); // Await the async function
+          }
         };
-    }, []);
+    
+        socket.on("query_status_updated_emit", handleSocketDataa);
+    
+        return () => {
+          socket.off("query_status_updated_emit", handleSocketDataa); // Clean up properly
+        };
+      }, []);
 
     useEffect(() => {
         socket.on('query_edited_emit', (data) => {
          console.log("Socket data received for query_edited_emit: data :", data );
-         console.log("Socket data received for query_edited_emit: refId :", refId );
             if (refId == data.query_id) {
                 fetchQueryDetailsForSocket();
             }

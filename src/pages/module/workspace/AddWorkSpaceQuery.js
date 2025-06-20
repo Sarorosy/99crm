@@ -10,8 +10,9 @@ import { motion } from 'framer-motion';
 import { X } from "lucide-react";
 import axios from 'axios';
 import { getSocket } from "../../../Socket";
+import DirectQueryDetails from "./DirectQueryDetails";
 
-const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
+const AddWorkSpaceQuery = ({ onClose , finalFunction, assignId}) => {
 
     const socket = getSocket();
     const entryType = sessionStorage.getItem('category') || '';
@@ -96,6 +97,7 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
         assignType: "",
         assign_user : "",
         sourceoflead : "",
+        directqueryid: assignId || "",
     });
 
     const [countries, setCountries] = useState([]);
@@ -175,7 +177,12 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
         }
         setFormData({ ...formData, assign_user: selectedAsssignUser });
         fetchUserProfiles(selectedAsssignUser);
+        if(formData.assignType =="crmuser"){
+        getUserStrikeRate(selectedAsssignUser);
+        }
     }
+
+    
 
     const fetchUserProfiles = async (selectedUser) => {
         const response = await axios.post('https://99crm.phdconsulting.in/zend/api/getuserprofiles', {
@@ -188,6 +195,84 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
             console.error('Error fetching users:', response.data.message);
         }
     }
+
+    const getUserStrikeRate = async (selectedUser) => {
+    try {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/api/getcrmstrikerate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: selectedUser
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.status) {
+            const sr = parseFloat(data.strike_rate);
+          const assignedToday = parseInt(data.assigned_today);
+
+            const rules = data.rules;
+            let message = '';
+            let matchedRule = null;
+
+            for (let i = 0; i < rules.length; i++) {
+                const rule = rules[i];
+                const min = parseFloat(rule.min_strike_rate);
+                const max = parseFloat(rule.max_strike_rate);
+                const isLastRule = i === rules.length - 1;
+
+                if ((sr >= min && sr < max) || (isLastRule && sr === max)) {
+                    matchedRule = rule;
+                    break;
+                }
+            }
+
+            if (matchedRule) {
+                const limit = matchedRule.query_limit;
+                if (limit === null) {
+                    message = `Strike Rate: ${sr}%. No limit on queries for this user.`;
+                } else if (assignedToday >= limit) {
+                    message = `Strike Rate: ${sr}%. User has reached max ${limit} queries today.`;
+
+                 
+                    setFormData(prev => ({
+                        ...prev,
+                        assign_user: ''
+                    }));
+                } else {
+                    message = `Strike Rate: ${sr}%. User can be assigned ${limit - assignedToday} more queries today.`;
+                }
+            } else {
+                message = `No matching strike rate rule found for Strike Rate: ${sr}%.`;
+
+            
+                setFormData(prev => ({
+                    ...prev,
+                    assign_user: ''
+                }));
+            }
+
+            toast(message);
+        } else {
+            toast.error('Error fetching strike rate data.');
+            setFormData(prev => ({
+                ...prev,
+                assign_user: ''
+            }));
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        toast.error('Fetch error:', error);
+        setFormData(prev => ({
+            ...prev,
+            assign_user: ''
+        }));
+    }
+};
+
 
     useEffect(() => {
         // Initialize select2 for Select Location
@@ -658,6 +743,7 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
             user_id : sessionStorage.getItem('id'),
             user_name : sessionStorage.getItem('name'),
             username : sessionStorage.getItem('username'),
+            directqueryid: formData.directqueryid || "",
         };
 
         // Append all specified fields
@@ -1184,6 +1270,7 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
                         )}
 
                         <div className="flex justify-end mt-3">
+                           
                             <button
                                 type="submit"
                                 onClick={handleSubmit}
@@ -1194,6 +1281,10 @@ const AddWorkSpaceQuery = ({ onClose , finalFunction}) => {
                         </div>
                     </div>
                 </form>
+
+                {assignId && assignId != '' && assignId != 'undefined' && assignId != 'null' && (
+                   <DirectQueryDetails assignId={assignId} />
+                )}
             </div>
 
         </motion.div>

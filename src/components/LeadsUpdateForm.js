@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import one from '../assets/1.png';
@@ -9,9 +9,40 @@ import toast from 'react-hot-toast';
 const LeadsUpdateForm = ({finalFunction}) => {
     const [selectedOption, setSelectedOption] = useState(null);
     const [submitting, setSubmitting] = useState(false);
+    const [strikeRate,setStrikeRate]=useState(null);
 
     const handleCheckboxChange = (value) => {
         setSelectedOption(value);
+    };
+
+    useEffect(()=>{
+        const userId = sessionStorage.getItem('id');
+        getUserStrikeRate(userId);
+    },[]);
+
+    const getUserStrikeRate=async(userId)=>{
+        try{
+            const response=await fetch('https://99crm.phdconsulting.in/zend/api/getcrmstrikerate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                }),
+            });
+            const data=await response.json();
+            if(data.status){
+                setStrikeRate(parseFloat(data.strike_rate));
+            }else{
+                toast.error(data.message || "Error fetching strike rate");
+            }
+            
+        }catch(error){
+            console.error('Error fetching strike rate:', error);
+            toast.error('Failed to fetch strike rate.');
+        }
+
     };
 
     const handleSubmit = async (e) => {
@@ -56,7 +87,7 @@ const LeadsUpdateForm = ({finalFunction}) => {
         }
     };
 
-    const options = [
+    const allOptions = [
         {
             value: '1',
             title: 'Max Fresh Enquiries',
@@ -76,6 +107,18 @@ const LeadsUpdateForm = ({finalFunction}) => {
             description: 'I have enough work at hand and would not require more leads',
         },
     ];
+    const filteredOptions = () => {
+        if (strikeRate === null) return [];
+
+        if (strikeRate <= 30) {
+            return allOptions.filter(opt => opt.value === '3');
+        } else if (strikeRate <= 60) {
+            return allOptions.filter(opt => opt.value === '2' || opt.value === '3');
+        } else {
+            return allOptions;
+        }
+    };
+
 
     return (
         <motion.div
@@ -93,8 +136,9 @@ const LeadsUpdateForm = ({finalFunction}) => {
                 className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-5xl mx-4"
             >
                 <form onSubmit={handleSubmit} className="container">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {options.map((option) => (
+                    <div className="d-flex flex-col items-center mb-6">
+                      {filteredOptions().map((option) => (
+                            
                             <label
                                 key={option.value}
                                 onClick={() => handleCheckboxChange(option.value)}

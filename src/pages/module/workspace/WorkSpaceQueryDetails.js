@@ -144,8 +144,76 @@ const WorkSpaceQueryDetails = ({ queryId, onClose, finalFunction }) => {
         } catch (error) {
             console.error("Error:", error);
         }
+        getUserStrikeRate(allocatedTo);
 
     };
+
+       const getUserStrikeRate = async (allocatedTo) => {
+    try {
+        const response = await fetch('https://99crm.phdconsulting.in/zend/api/getcrmstrikerate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user_id: allocatedTo
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.status) {
+            const sr = parseFloat(data.strike_rate);
+            const assignedToday = parseInt(data.assigned_today);
+            const userType = data.user_type;
+            const rules = data.rules;
+            let message = '';
+
+            if (userType === 'crmuser') {
+                let matchedRule = null;
+
+                for (let i = 0; i < rules.length; i++) {
+                    const rule = rules[i];
+                    const min = parseFloat(rule.min_strike_rate);
+                    const max = parseFloat(rule.max_strike_rate);
+                    const isLastRule = i === rules.length - 1;
+
+                    if ((sr >= min && sr < max) || (isLastRule && sr === max)) {
+                        matchedRule = rule;
+                        break;
+                    }
+                }
+
+                if (matchedRule) {
+                    const limit = matchedRule.query_limit;
+                    if (limit === null) {
+                        message = `Strike Rate: ${sr}%. No limit on queries for this user.`;
+                    } else if (assignedToday >= limit) {
+                        message = `Strike Rate: ${sr}%. User has reached max ${limit} queries today.`;
+
+                      setSelectedAllocatedTo('');
+                    } else {
+                        message = `Strike Rate: ${sr}%. User can be assigned ${limit - assignedToday} more queries today.`;
+                    }
+                } else {
+                    message = `No matching strike rate rule found for Strike Rate: ${sr}%.`;
+
+                    setSelectedAllocatedTo('');
+                }
+
+                toast(message);
+            }
+            // Not a crmuser – no message, no clearing
+        } else {
+            toast.error('Error fetching strike rate data.');
+            setSelectedAllocatedTo('');
+        }
+    } catch (error) {
+        console.error('Fetch error:', error);
+        toast.error('Fetch error');
+       setSelectedAllocatedTo('');
+    }
+};
 
     const handleMarkAsDuplicate = async (queryId) => {
         try {

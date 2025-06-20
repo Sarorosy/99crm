@@ -25,6 +25,7 @@ import AverageClaimedQueries from "./AverageClaimedQueries";
 import TodaysTasks from "./TodayTasks";
 import SpecificTransferredQueries from "./SpecificTransferredQueries";
 import { getSocket } from "../../Socket";
+import TransferredOpenTasks from "./TransferredOpenTasks";
 
 const Dashboard = () => {
 
@@ -54,6 +55,7 @@ const Dashboard = () => {
     const tagsRef = useRef(null);
 
     const [openTasks, setOpenTasks] = useState([]);
+    const[transferredOpenTasks,setTransferredOpenTasks]=useState([]);
     const [leads, setLeads] = useState([]);
     const [fileAttachedUnread, setFileAttachedUnread] = useState([]);
     const [leadsData, setLeadsData] = useState([]);
@@ -145,6 +147,7 @@ const Dashboard = () => {
 
             const {
                 openTask,
+                transferredOpenTasks,
                 leads,
                 fileAttachedUnread,
                 LeadsData,
@@ -171,6 +174,7 @@ const Dashboard = () => {
 
             // Set fetched data into states
             setOpenTasks(openTask || []);
+             setTransferredOpenTasks(transferredOpenTasks || []);
             setLeads(leads || []);
             setFileAttachedUnread(fileAttachedUnread || []);
             setLeadsData(LeadsData || []);
@@ -228,6 +232,7 @@ const Dashboard = () => {
 
             const {
                 openTask,
+                transferredOpenTasks,
                 leads,
                 fileAttachedUnread,
                 LeadsData,
@@ -254,6 +259,7 @@ const Dashboard = () => {
 
             // Set fetched data into states
             setOpenTasks(openTask || []);
+            setTransferredOpenTasks(transferredOpenTasks || []);
             setLeads(leads || []);
             setFileAttachedUnread(fileAttachedUnread || []);
             setLeadsData(LeadsData || []);
@@ -733,10 +739,11 @@ const Dashboard = () => {
                 )}
 
                 <OpenTasks queries={openTasks} loading={loading}  fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket}/>
+                <TransferredOpenTasks queries={transferredOpenTasks} loading={loading}  fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 <LeadIn queries={leadsData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 <BucketList queries={delayData} loading={loading}  fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket}/>
                 <ContactMade queries={contactMadeData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
-                <div className="mb-2 w-full "></div>
+                
                 <Quoted queries={quotedData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 <Converted queries={convertedData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />
                 <ClientNotInterested queries={notInterestedData} loading={loading} fetchDashboardQueriesForSocket={fetchDashboardQueriesForSocket} />

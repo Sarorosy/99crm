@@ -44,6 +44,7 @@ import ManageDailyWorkStatus from './pages/module/user/ManageDailyWorkStatus';
 import OpenQuery from './pages/managequery/openquery/OpenQuery';
 import StrikeRate from './pages/module/masterdata/strikerate/StrikeRate';
 import ManageStrikeRate from './pages/module/masterdata/strikerate/ManageStrikeRate';
+import DirectQuery from './pages/managequery/DirectQuery';
 
 const App = () => {
 
@@ -119,6 +120,7 @@ const App = () => {
           <Route path="/openquery" element={<OpenQuery />} />
           <Route path="/strikerate" element={<StrikeRate />} />
           <Route path="/managestrikerate" element={<ManageStrikeRate />} />
+          <Route path="/directquery" element={<DirectQuery />} />
           <Route path="/addquery" element={<AddQuery />} />
           <Route path="/addboxquery" element={<AddBoxQuery />} />
           <Route path="/import-query" element={<ImportQuery />} />

@@ -244,6 +244,13 @@ const Header = () => {
                             <>
                             <button onClick={() => handleNavigation('/openquery')} className="block px-4 py-2  w-full dropdownmenu">Open Query</button>
                             <button onClick={() => handleNavigation('/userdataspecificquery')} className="block px-4 py-2  w-full dropdownmenu ">Data Specific Query</button>
+                            
+                            </>
+                          )}
+
+                          { (userType == "admin" || userType =="Data Manager") && (
+                            <>
+                            <button onClick={() => handleNavigation('/directquery')} className="block px-4 py-2  w-full dropdownmenu">Direct Query</button>
                             </>
                           )}
 
